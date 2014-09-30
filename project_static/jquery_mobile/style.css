@@ -1,0 +1,9 @@
+/* style sheet	*/
+/*
+.ui-icon-myicon:after {
+	background-image: url("{{STATIC_URL}}jquery_mobile/images/stethoscope.svg");
+}*/
+/* Fallback */
+.ui-nosvg .ui-icon-myicon:after {
+	background-image: url("{{STATIC_URL}}jquery_mobile/images/stethoscope.png");
+}

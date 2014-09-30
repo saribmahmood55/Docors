@@ -1,0 +1,75 @@
+<!DOCTYPE html> 
+<html>
+<head>
+	<title>docors</title>
+	<link rel="shortcut icon" href="{{STATIC_URL}}jquery_mobile/stethoscope.ico" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="{{STATIC_URL}}jquery_mobile/jquery.mobile-1.4.4.min.css" />
+	<link rel="stylesheet" href="{{STATIC_URL}}jquery_mobile/style.css" />
+	<script src="{{STATIC_URL}}jquery_mobile/jquery-1.9.1.min.js"></script>
+	<script src="{{STATIC_URL}}jquery_mobile/jquery.mobile-1.4.4.min.js"></script>
+</head>
+
+<body>
+
+<div data-role="page">
+
+	<div data-role="header">
+		<h1 class="ui-icon-myicon">docors.&nbsp;
+			<img src="{{STATIC_URL}}jquery_mobile/images/icons-png/stethoscope.png" height="18" width="18" />
+		</h1>
+	</div><!-- /header -->
+
+	<div role="main" class="ui-content">
+		<label for="search-2">Search Specialist Doctors in your area.</label>
+		<input type="search" name="search-2" id="search-2" value="" placeholder="Doctor name or Speciality.." >
+			<label for="select-native-2">Specialist Category.</label>
+			<select name="select-native-2" id="select-native-2">
+				<option value="1">Allergy and Immunology</option>
+				<option value="2">Anesthesiology</option>
+				<option value="3">Heart (Cardiology)</option>
+				<option value="4">Skin (DermatologySkin)</option>
+				<option value="5">Diabetes (Endocrinology)</option>
+				<option value="6">Family Medicine</option>
+				<option value="7">Gastroenterology</option>
+				<option value="8">General Surgery</option>
+				<option value="9">Intestine Surgery (Colon and Rectal)</option>
+				<option value="10">Kidney (Nephrology)</option>
+				<option value="11">Neurology</option>
+				<option value="12">E.N.T (TO-RHINO-LARYNGOLOGY)</option>
+				<option value="13">Orthopaedic Surgery</option>
+				<option value="14">Gyne (Obstetrics and Gynecology)</option>
+				<option value="15">Operative Dentistry</option>
+				<option value="16">Eye (Ophthalmology)</option>
+				<option value="17">Child (Pediatric)</option>
+				<option value="18">Plastic Surgery</option>
+				<option value="19">Psychiatry</option>
+				<option value="20">Lungs (Pulmonology)</option>
+				<option value="21">Radiology</option>
+				<option value="22">Urology</option>
+			</select>
+				<label for="slider-2">Search a Specialist in KM radius.</label>
+				<input type="range" name="slider-2" id="slider-2" value="0" min="0" max="15" data-highlight="true">
+					<label for="select-native-2">Search a Doctor avalability by specific Day.</label>
+					<select name="select-native-2" id="select-native-2">
+						<option value="small">Monday</option>
+						<option value="small">Tuesday</option>
+						<option value="small">Wednesday</option>
+						<option value="small">Thursday</option>
+						<option value="small">Friday</option>
+						<option value="small">Saturday</option>
+						<option value="small">Sunday</option>
+					</select>
+						<form style="text-align: center;">
+							<!--button class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-search">Search</button-->
+							<input class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-search" type="button" data-inline="true" value="Search">
+						</form>
+	</div><!-- /content -->
+
+	<div data-role="footer">
+		<h4>&copy; all rights reserved-2014 &reg;</h4>
+	</div><!-- /footer -->
+</div><!-- /page -->
+</body>
+</html>
+
