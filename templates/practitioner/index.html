@@ -1,0 +1,71 @@
+<!DOCTYPE html> 
+<html>
+<head>
+	<title>docors</title>
+	<link rel="shortcut icon" href="{{STATIC_URL}}jquery_mobile/stethoscope.ico" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="{{STATIC_URL}}jquery_mobile/jquery.mobile-1.4.4.min.css" />
+	<link rel="stylesheet" href="{{STATIC_URL}}jquery_mobile/style.css" />
+	<script src="{{STATIC_URL}}jquery_mobile/jquery-1.9.1.min.js"></script>
+	<script src="{{STATIC_URL}}jquery_mobile/jquery.mobile-1.4.4.min.js"></script>
+</head>
+<body>
+<div data-role="page">
+	<div data-role="header">
+		<h1 class="ui-icon-myicon">docors.&nbsp;
+			<img src="{{STATIC_URL}}jquery_mobile/images/icons-png/stethoscope.png" height="18" width="18" />
+		</h1>
+	</div><!-- /header -->
+	<div role="main" class="ui-content">
+		<label for="search-2">Search Specialist Doctors in your area. {{STATIC_URL}}</label>
+		<input type="search" name="search-2" id="search-2" value="" placeholder="Doctor Name..." >
+			<label for="select-native-2">Specialist Category.</label>
+			<select name="select-native-2" id="select-native-2">
+				<option>Select Speciality</option>
+				<option>1</option>
+				<option>1</option>
+				<option>1</option>
+				<option>1</option>
+				<option>1</option>
+				<option>1</option>
+				<option>1</option>
+				<option>1</option>
+				<option>1</option>
+				<option>1</option>
+				<option>1</option>
+				<option>1</option>
+				<option>1</option>
+				<option>1</option>
+				<option>1</option>
+				<option>1</option>
+				<option>1</option>
+				<option>1</option>
+				<option>1</option>
+				<option>1</option>
+				<option>1</option>
+			</select>
+				<!--label for="slider-2">Search a Specialist in KM radius.</label>
+					<input type="range" name="slider-2" id="slider-2" value="0" min="0" max="15" data-highlight="true"-->
+						<label for="slider-2">Search a Specialist by no. of Years Experience.</label>
+							<input type="range" name="slider-2" id="slider-2" value="0" min="0" max="30" data-highlight="true">
+								<label for="select-native-2">Search a Doctor avalability on specific Day.</label>
+									<select name="select-native-2" id="select-native-2">
+										<option>Select Day</option>
+										<option value="Mon"></option>
+										<option value="Tue"></option>
+										<option value="Wed"></option>
+										<option value="Thu"></option>
+										<option value="Fri"></option>
+										<option value="Sat"></option>
+										<option value="Sun"></option>
+									</select>
+										<button href="#" style="width: 100px; height: 45px; color: #3eb249; margin: 0px auto;" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left">Search</button>
+	</div><!-- /content -->
+
+	<div data-role="footer">
+		<h4>&copy; all rights reserved-2014 &reg;</h4>
+	</div><!-- /footer -->
+</div><!-- /page -->
+</body>
+</html>
+
