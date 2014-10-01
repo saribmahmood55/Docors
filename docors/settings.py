@@ -1,12 +1,4 @@
-"""
-Django settings for docors project.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/1.7/topics/settings/
-
-For the full list of settings and their values, see
-https://docs.djangoproject.com/en/1.7/ref/settings/
-"""
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
@@ -57,7 +49,9 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
-
+TEMPLATE_CONTEXT_PROCESSORS += (
+    'django.core.context_processors.request',
+)
 ROOT_URLCONF = 'docors.urls'
 
 WSGI_APPLICATION = 'docors.wsgi.application'
@@ -89,20 +83,22 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
-
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../"))
+STATIC_ROOT = os.path.join(PROJECT_ROOT, "static/")
 STATIC_URL = '/static/'
 TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-
-    os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")), "templates"),
+    os.path.join(PROJECT_ROOT, "templates"),
 )
 
 STATICFILES_DIRS = (
-    # Put strings here, like "/home/html/static" or "C:/www/django/static".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-    
-    os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")), "project_static"),
+    os.path.join(PROJECT_ROOT, "project_static/"),
 )
+'''
+ PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../"))
+os.path.join(PROJECT_ROOT, "project_static/"),
+STATIC_ROOT = os.path.join(PROJECT_ROOT, "static/")
+STATIC_URL = '/site_media/static/'
+TEMPLATE_DIRS = (
+    os.path.join(PROJECT_ROOT, "templates"), 
+)
+'''

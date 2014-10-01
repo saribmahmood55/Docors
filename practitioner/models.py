@@ -12,20 +12,17 @@ class Specialization(models.Model):
 #Custom Managers
 class PractitionerManager(models.Manager):
     
-    def prac_name(self,prac_name):
+    def practitioner_name(self,prac_name):
         return super(PractitionerManager, self).filter(name__icontains=prac_name)
 
-    def prac_specialities(self,speciality):
+    def practitioner_speciality(self,speciality):
         return super(PractitionerManager, self).filter(specialities__name__icontains=speciality)
 
-    def prac_experience(self,name,experience):
-        return super(PractitionerManager, self).filter(name__icontains=name,experience__gte=experience)
-'''
-    def prac_day(self,day,speciality):
-        #prac_list = self.filter(specialities__name__icontains=speciality)
-        clininc_list = ClinicLocation.objects.filter(practitioners__name__icontains=speciality)
-        prac_list = exclude 
-'''
+    def practitioner_name_and_specialty(self,prac_name,speciality):
+        return super(PractitionerManager, self).filter(name__icontains=prac_name,specialities__name__icontains=speciality)
+
+    def practitioner_experienced(self,experience,speciality):
+        return super(PractitionerManager, self).filter(experience__gte=experience,specialities__name__icontains=speciality)
 
 
 class Practitioner(models.Model):
@@ -55,16 +52,15 @@ class City(models.Model):
 
 class ClinicLocationManager(models.Manager):
     
+    def clinic_detail(self, clinic_name):
+        clininc_detail = super(ClinicLocationManager, self).filter(name=clinic_name).distinct()
+        return clininc_detail
+
     def clinic_speciality(self,speciality,day):
-        clininc_list = super(ClinicLocationManager, self).filter(practitioners__specialities__name__icontains=speciality)
-        #cininc_day = super(ClinicLocationTimingManager, self).filter(day__icontains=day)
-        print len(clininc_day)
+        clininc_list = super(ClinicLocationManager, self).filter(practitioners__specialities__name__icontains=speciality,cliniclocationtiming__day__icontains=day).distinct()
         return clininc_list
-'''
-from practitioner.models import *
-clinic = ClinicLocation.cl_objects.clinic_speciality('child','mon')
-print len(clinic)
-'''
+
+
 class ClinicLocation(models.Model):
     practitioners = models.ManyToManyField(Practitioner)
     name = models.CharField(max_length=100,null=True)
@@ -78,7 +74,6 @@ class ClinicLocation(models.Model):
     lon = models.FloatField()
     # gis
     geo_objects = models.GeoManager()
-
     #Custom Managers
     objects = models.Manager()
     cl_objects = ClinicLocationManager()
@@ -90,11 +85,8 @@ class ClinicLocation(models.Model):
 class ClinicLocationTimingManager(models.Manager):
     def clininc_day(self,day):
         return super(ClinicLocationTimingManager, self).filter(day__icontains=day)
-        #return self.filter(day__icontains=day)
-'''
-from practitioner.models import ClinicLocationTiming
-doc = ClinicLocationTiming.ct_objects.clininc_day('mon')
-'''
+
+
 class ClinicLocationTiming(models.Model):
     DAY = (
         ('Mon', 'Monday'), ('Tue', 'Tuesday'), ('Wed', 'Wednesday'), ('Thu', 'Thursday'), ('Fri', 'Friday'),('Sat', 'Saturday'),('Sun', 'Sunday'),

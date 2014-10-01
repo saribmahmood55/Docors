@@ -21,7 +21,7 @@ router.register(r'users', UserViewSet)
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browseable API.
 urlpatterns = [
-    url(r'^mobile/', 'docors.views.home', name='home'),
+    url(r'^docor/', 'practitioner.views.docors', name='docors'),
     url(r'^admin/', include(admin.site.urls)),
     #url(r'^', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
