@@ -18,7 +18,7 @@ class PractitionerManager(models.Manager):
     def practitioner_speciality(self,speciality):
         return super(PractitionerManager, self).filter(specialities__name__icontains=speciality)
 
-    def practitioner_name_and_specialty(self,prac_name,speciality):
+    def practitioner_name_and_speciality(self,prac_name,speciality):
         return super(PractitionerManager, self).filter(name__icontains=prac_name,specialities__name__icontains=speciality)
 
     def practitioner_experienced(self,experience,speciality):
@@ -56,8 +56,8 @@ class ClinicLocationManager(models.Manager):
         clininc_detail = super(ClinicLocationManager, self).filter(name=clinic_name).distinct()
         return clininc_detail
 
-    def clinic_speciality(self,speciality,day):
-        clininc_list = super(ClinicLocationManager, self).filter(practitioners__specialities__name__icontains=speciality,cliniclocationtiming__day__icontains=day).distinct()
+    def clinic_speciality(self, speciality, day):
+        clininc_list = self.filter(practitioners__specialities__name=speciality,cliniclocationtiming__day=day).distinct()
         return clininc_list
 
 
@@ -84,7 +84,7 @@ class ClinicLocation(models.Model):
 
 class ClinicLocationTimingManager(models.Manager):
     def clininc_day(self,day):
-        return super(ClinicLocationTimingManager, self).filter(day__icontains=day)
+        return super(ClinicLocationTimingManager, self).filter(day=day)
 
 
 class ClinicLocationTiming(models.Model):

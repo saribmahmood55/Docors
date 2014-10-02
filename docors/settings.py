@@ -1,6 +1,5 @@
-from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
-
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+#from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
+from django.conf import global_settings
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -49,8 +48,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
-TEMPLATE_CONTEXT_PROCESSORS += (
-    'django.core.context_processors.request',
+TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
+    'django.core.context_processors.static',
 )
 ROOT_URLCONF = 'docors.urls'
 
@@ -73,6 +72,7 @@ DATABASES = {
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
+#TIME_ZONE = 'Asia/Karachi'
 
 USE_I18N = True
 
@@ -80,25 +80,20 @@ USE_L10N = True
 
 USE_TZ = True
 
+##STATICFILES_FINDERS = ("django.contrib.staticfiles.finders.FileSystemFinder",
+## "django.contrib.staticfiles.finders.AppDirectoriesFinder")
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
-PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../"))
-STATIC_ROOT = os.path.join(PROJECT_ROOT, "static/")
-STATIC_URL = '/static/'
-TEMPLATE_DIRS = (
-    os.path.join(PROJECT_ROOT, "templates"),
-)
+#PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../"))
 
-STATICFILES_DIRS = (
-    os.path.join(PROJECT_ROOT, "project_static/"),
-)
-'''
- PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../"))
-os.path.join(PROJECT_ROOT, "project_static/"),
-STATIC_ROOT = os.path.join(PROJECT_ROOT, "static/")
-STATIC_URL = '/site_media/static/'
+#STATIC_ROOT = os.path.join(PROJECT_ROOT, "static/")
+
+STATIC_URL = '/static/'
+
 TEMPLATE_DIRS = (
-    os.path.join(PROJECT_ROOT, "templates"), 
+    os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")), "templates"),
 )
-'''
+STATICFILES_DIRS = (
+    os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")), "project_static/"),
+)
