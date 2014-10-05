@@ -1,0 +1,40 @@
+<!DOCTYPE html> 
+<html>
+<head>
+	<title>docors | practitioners</title>
+	{% load staticfiles %}
+	<link rel="shortcut icon" href="{% static "jquery_mobile/stethoscope.ico" %}" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="{% static "jquery_mobile/jquery.mobile-1.4.4.min.css" %}" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="{% static "jquery_mobile/style.css" %}" rel="stylesheet" type="text/css" />
+	<script src="{% static "jquery_mobile/jquery-1.9.1.min.js" %}" type="text/javascript"></script>
+	<script src="{% static "jquery_mobile/jquery.mobile-1.4.4.min.js" %}" type="text/javascript"></script>
+	<script src="{% static "jquery_mobile/jquery.mobile-1.4.4.min.map" %}" type="text/javascript"></script>
+
+</head>
+<body>
+<div data-role="page">
+	<div data-role="header">
+		<h1 class="ui-icon-myicon"><a style="text-decoration: none; color: #333333;" href="http://localhost:8000/">docors.&nbsp;
+			<img src="{% static "jquery_mobile/images/icons-png/stethoscope.png" %}" height="18" width="18" /></a>
+		</h1>
+	</div>
+	<!--Content-->
+	<div data-role="collapsible" data-collapsed="false" data-collapsed-icon="carat-d" data-expanded-icon="carat-u">
+	<h1>Practitioners</h1>
+	<ul data-role="listview" data-inset="false">
+		{% for practitioner in practitioners %}
+		<li data-iconpos="right" data-expanded-icon="carat-r">
+			<a href="{% url 'practitioner' practitioner.slug %}" class="anchor-link" >
+			{{practitioner.name}}<br>&nbsp;&nbsp;{% for speciality in practitioner.specialities.all %} {{speciality.name}}
+					{% endfor %}</a>
+		</li>
+		{% endfor %}
+    </ul>
+	</div>
+	<div data-role="footer">
+		<h4>&copy; all rights reserved-2014 &reg;</h4>
+	</div>
+</div>
+</body>
+</html>
