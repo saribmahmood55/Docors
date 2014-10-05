@@ -10,25 +10,27 @@
 	<script src="{% static "jquery_mobile/jquery-1.9.1.min.js" %}" type="text/javascript"></script>
 	<script src="{% static "jquery_mobile/jquery.mobile-1.4.4.min.js" %}" type="text/javascript"></script>
 	<script src="{% static "jquery_mobile/jquery.mobile-1.4.4.min.map" %}" type="text/javascript"></script>
-	
 </head>
+
 <body>
 <div data-role="page">
 	<div data-role="header">
-		<h1 class="ui-icon-myicon">docors.&nbsp;
-			<img src="{% static "jquery_mobile/images/icons-png/stethoscope.png" %}" height="18" width="18" />
+		<h1 class="ui-icon-myicon"><a href="http://localhost:8000/" class="anchor-link" >docors.&nbsp;
+			<img src="{% static "jquery_mobile/images/icons-png/stethoscope.png" %}" height="18" width="18" /></a>
 		</h1>
-	</div><!-- /header -->
+	</div>
 	<div role="main" class="ui-content">
-		<label for="search-2">Search Specialist Doctors in your area. {{STATIC_URL}}</label>
-		<form action="practitioners/" method="post">
+		<label for="search-2">Search Specialist Doctors in your area.</label>
+		
+		<form action="/search/" method="POST">
+			
 			{% csrf_token %}
 			<input type="search" name="prac_name" id="search-2" value="" placeholder="Doctor Name..." >
 				<label for="select-native-2">Specialist Category.</label>
 				<select name="speciality" id="select-native-2">
 					<option>Select Speciality</option>
 					{% for speciality in specialities %}
-					<option>{{speciality.name}}</option>
+						<option>{{speciality.name}}</option>
 					{% endfor %}
 				</select>
 					<!--label for="slider-2">Search a Specialist in KM radius.</label>
@@ -38,21 +40,21 @@
 									<label for="select-native-2">Search a Doctor avalability on specific Day.</label>
 										<select name="day" id="select-native-3">
 											<option>Select Day</option>
-											<option>Monday</option>
-											<option>Tuesday</option>
-											<option>Wednesday</option>
-											<option>Thursday</option>
-											<option>Friday</option>
-											<option>Saturday</option>
-											<option>Sunday</option>
+											<option value="Mon">Monday</option>
+											<option value="Tue">Tuesday</option>
+											<option value="Wed">Wednesday</option>
+											<option value="Thu">Thursday</option>
+											<option value="Fri">Friday</option>
+											<option value="Sat">Saturday</option>
+											<option value="Sun">Sunday</option>
 										</select>
-											<button type="submit" style="width: 90px; height: 45px; color: #3eb249; margin: 0px auto;" class="ui-btn ui-shadow ui-corner-all">Search</button>
+											<button type="submit" style="width: 90px; height: 45px; color: #3eb249; margin: 0px auto;" 		class="ui-btn ui-shadow ui-corner-all">Search
+											</button>
 		</form>
 	</div>
 	<div style="margin: auto auto;" data-role="footer">
 		<h4>&copy; all rights reserved-2014 &reg;</h4>
-	</div><!-- /footer -->
-</div><!-- /page -->
+	</div>
+</div>
 </body>
 </html>
-

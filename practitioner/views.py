@@ -1,19 +1,22 @@
-from django.http import Http404
-from django.shortcuts import render_to_response
-from django.views.decorators.csrf import csrf_exempt
 from practitioner.models import Practitioner, Specialization, ClinicLocation, ClinicLocationTiming
+from django.http import Http404
+from django.http import HttpResponse
+from django.shortcuts import render_to_response
+from django.template import RequestContext
 
+
+#home page
 def index(request):
 	try:
 		specialities = Specialization.objects.order_by('name')
-	except ClinicLocation.DoesNotExist:
+	except Specialization.DoesNotExist:
 		raise Http404
-	return render_to_response('practitioner/index.html', {'specialities': specialities})
+	return render_to_response('practitioner/index.html', {'specialities': specialities}, context_instance=RequestContext(request) )
 
 
-@csrf_exempt
-def practitioners(request):
-	name, speciality, experience, day, practitioner_list = None, None, None, None, [] 
+#handle search request
+def search(request):
+	name, speciality, experience, day, practitioner_list, clinic_list = None, None, None, None, [], []
 	if request.method == "POST":
 		name = request.POST.get('prac_name', None)
 		speciality = request.POST.get('speciality', None)
@@ -39,51 +42,47 @@ def practitioners(request):
 			practitioner_list = Practitioner.prac_objects.practitioner_experienced(experience,speciality)
 			print 4
 		elif day != None and speciality != None:
-			try:
-				clinic_list = Clinic_List(speciality, day)
-				print len(clinic_list)
-			except ClinicLocation.DoesNotExist:
-				raise Http404	
-			return render_to_response('practitioner/clinic_list.html', {'clinics': clinic_list})
+			clinic_list = Clinic_List(speciality, day)
 	except Practitioner.DoesNotExist:
 		raise Http404
-	return render_to_response('practitioner/practitioner_list.html', {'practitioners': practitioner_list})
+	return render_to_response('practitioner/practitioners.html',
+		{'practitioners': practitioner_list, 'clinics': clinic_list}, 
+		context_instance=RequestContext(request))
 
 
-@csrf_exempt
-def practitioner_detail(request, practitioner_id):
+# single practitioner details
+def practitioner(request, slug):
 	try:
-		practitioner_detail = Practitioner.objects.get(pk=practitioner_id)
+		practitioner = Practitioner.prac_objects.practitioner_slug(slug)
 	except Practitioner.DoesNotExist:
 		raise Http404
-	return render_to_response('practitioner/practitioner_detail.html', {'one_practitioner': practitioner_detail})
+	return render_to_response('practitioner/practitioner.html', {'practitioner': practitioner}, context_instance=RequestContext(request))
 
 
+'''
 def Clinic_List(speciality, day):
 	clinic_list = ClinicLocation.cl_objects.clinic_speciality(speciality,day)
 	return clinic_list
+'''
 
-
-@csrf_exempt
 def Clinic_Detail(request):
 	try:
 		clinic_detail = ClinicLocation.cl_objects.clinic_detail(clinic_name)
 	except ClinicLocation.DoesNotExist:
 		raise Http404
-	return render_to_response('practitioner/clinic_detail.html', {'one_clinic': clinic_detail})
+	return render_to_response('practitioner/clinic_detail.html', {'one_clinic': clinic_detail}, context_instance=RequestContext(request))
 
 '''
+from practitioner.views import *
+practitioner_detail = Practitioner.prac_objects.practitioner_detail('Dr. Mohammad Anwar')
+print practitioner_detail[0].name
+
 from practitioner.views import *
 cl = Clinic_List('Pediatric (Child)','Monday')
 print len(cl)
 
-
 clinic_detail = ClinicLocation.cl_objects.clinic_detail('Dr. Mohammad Anwar Private Clininc')
 print clinic_detail
-
-
-
-@csrf_exempt
 def Clinic_List(day, speciality):
 	print "called"
 	try:

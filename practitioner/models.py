@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.gis.db import models
-
+from autoslug import AutoSlugField
 
 class Specialization(models.Model):
     name = models.CharField(max_length=100)
@@ -12,8 +12,11 @@ class Specialization(models.Model):
 #Custom Managers
 class PractitionerManager(models.Manager):
     
-    def practitioner_name(self,prac_name):
+    def practitioner_name(self, prac_name):
         return super(PractitionerManager, self).filter(name__icontains=prac_name)
+
+    def practitioner_slug(self, slug):
+        return super(PractitionerManager, self).filter(slug=slug)
 
     def practitioner_speciality(self,speciality):
         return super(PractitionerManager, self).filter(specialities__name__icontains=speciality)
@@ -31,6 +34,7 @@ class Practitioner(models.Model):
     achievements = models.TextField(null=True)
     experience = models.PositiveIntegerField(default=0, help_text="Number of years", null=True)
     specialities = models.ManyToManyField(Specialization)
+    slug = AutoSlugField(populate_from='name', unique = True)
 
     #Manager
     objects = models.Manager()
@@ -51,14 +55,14 @@ class City(models.Model):
 
 
 class ClinicLocationManager(models.Manager):
-    
+
     def clinic_detail(self, clinic_name):
-        clininc_detail = super(ClinicLocationManager, self).filter(name=clinic_name).distinct()
-        return clininc_detail
+        clinic_detail = super(ClinicLocationManager, self).filter(name=clinic_name).distinct()
+        return clinic_detail
 
     def clinic_speciality(self, speciality, day):
-        clininc_list = self.filter(practitioners__specialities__name=speciality,cliniclocationtiming__day=day).distinct()
-        return clininc_list
+        clinic_list = self.filter(practitioners__specialities__name=speciality,cliniclocationtiming__day=day).distinct()
+        return clinic_list
 
 
 class ClinicLocation(models.Model):
@@ -83,7 +87,7 @@ class ClinicLocation(models.Model):
 
 
 class ClinicLocationTimingManager(models.Manager):
-    def clininc_day(self,day):
+    def clinic_day(self,day):
         return super(ClinicLocationTimingManager, self).filter(day=day)
 
 
@@ -103,6 +107,14 @@ class ClinicLocationTiming(models.Model):
     start_time = models.CharField(max_length=5, choices=TIME, help_text="Select starting Time for Clininc.")
     end_time = models.CharField(max_length=5, choices=TIME, help_text="Select ending Time for Clininc.")
 
+    def __unicode__(self):
+        return self.day
+
     #Custom Managers
     objects = models.Manager()
     ct_objects = ClinicLocationTimingManager()
+'''
+from practitioner.models import *
+cl = ClinicLocationTiming.ct_objects.clinic_day('mon')
+cl = ClinicLocation.cl_objects.clinic_speciality('Pediatric (Child)','Mon')
+'''
