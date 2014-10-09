@@ -9,7 +9,7 @@ class Specialization(models.Model):
         return self.name
 
 
-#Custom Managers
+#Custom Manager
 class PractitionerManager(models.Manager):
     
     def practitioner_name(self, prac_name):
@@ -54,7 +54,12 @@ class City(models.Model):
         verbose_name_plural = "Cities"
 
 
+#Custom Manager
 class ClinicLocationManager(models.Manager):
+
+    def clinic_detail_slug(self, slug):
+        clinic_detail = super(ClinicLocationManager, self).get(practitioners__slug=slug)
+        return clinic_detail
 
     def clinic_detail(self, clinic_name):
         clinic_detail = super(ClinicLocationManager, self).filter(name=clinic_name).distinct()
@@ -86,9 +91,13 @@ class ClinicLocation(models.Model):
         return self.name
 
 
+#Custom Manager
 class ClinicLocationTimingManager(models.Manager):
-    def clinic_day(self,day):
+    def clinic_day(self, day):
         return super(ClinicLocationTimingManager, self).filter(day=day)
+
+    def clinic_details(self, slug):
+        return super(ClinicLocationTimingManager, self).filter(clinic_location__practitioners__slug=slug)
 
 
 class ClinicLocationTiming(models.Model):
@@ -115,6 +124,11 @@ class ClinicLocationTiming(models.Model):
     ct_objects = ClinicLocationTimingManager()
 '''
 from practitioner.models import *
+cl = ClinicLocationTiming.ct_objects.clinic_details('dr-mohammad-anwar')
+
+
 cl = ClinicLocationTiming.ct_objects.clinic_day('mon')
 cl = ClinicLocation.cl_objects.clinic_speciality('Pediatric (Child)','Mon')
+
+
 '''

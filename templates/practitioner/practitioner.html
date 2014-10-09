@@ -10,6 +10,23 @@
 	<script src="{% static "jquery_mobile/jquery-1.9.1.min.js" %}" type="text/javascript"></script>
 	<script src="{% static "jquery_mobile/jquery.mobile-1.4.4.min.js" %}" type="text/javascript"></script>
 	<script src="{% static "jquery_mobile/jquery.mobile-1.4.4.min.map" %}" type="text/javascript"></script>
+	<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=true"></script>
+	<script>
+	function initialize() {
+		var myLatlng = new google.maps.LatLng({{clinic.lat}},{{clinic.lon}});
+		var mapOptions = {
+			zoom: 15,
+			center: myLatlng
+		}
+	  var map = new google.maps.Map(document.getElementById('googleMap'), mapOptions);
+	  var marker = new google.maps.Marker({
+	      position: myLatlng,
+	      map: map,
+	      title: '{{clinic.name}}'
+	  });
+	}
+	google.maps.event.addDomListener(window, 'load', initialize);
+	</script>
 	
 </head>
 <body>
@@ -19,35 +36,49 @@
 			<img src="{% static "jquery_mobile/images/icons-png/stethoscope.png" %}" height="18" width="18" /></a>
 		</h1>
 	</div>
-	<table data-role="table" id="table-custom-2" class="ui-body-d ui-shadow table-stripe ui-responsive">
-		<thead>
-			<tr class="ui-bar-d">
-				<th>Practitioner Name:</th>
-				<th>Credentials:</th>
-				<th>Specialized In:</th>
-				<th>Experience (Years):</th>
-				<th>Achievements:</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for practitioner in practitioner %}
-			<tr>
-				<td>{{practitioner.name}}</td>
-				<td>{{practitioner.credentials}}</td>
-				<td>
-					{% for speciality in practitioner.specialities.all %} {{speciality.name}}
-					{% endfor %}
-				</td>
-				<td>{{practitioner.experience}}</td>
-				<td>{{practitioner.achievements}}</td>
-			</tr>
+	<div id='content'>
+	{% for practitioner in practitioner %}
+		<h2>{{practitioner.name}}</h2>
+		<h4>{{practitioner.credentials}}</h4>
+		<h3>Specialist: 
+			{% for speciality in practitioner.specialities.all %} {{speciality.name}}
 			{% endfor %}
-		</tbody>
-	</table>
+		</h3>
+		<h3>Experience: {{practitioner.experience}} Years.</h3>
+		<p>Achievements: {{practitioner.achievements}}</p>
+	{% endfor %}
+	<h3>Clinic Details:</h3>
+		<h2>{{clinic.name}}</h2>
+		<h3>Contact: {{clinic.contact_number}}</h3>
+		<h3>Appointment Only: {{clinic.appointments_only}}</h3>
+		<h3>Checkup Fee: {{clinic.checkup_fee}}rs.</h3>
+		<h3>Address: {{clinic.clinic_address}}, {{clinic.city.name}}</h3>
+		<p>Services: {{clinic.services_offered}}</p>
+	
+	<div id="googleMap" style="width: 450px;height: 300px; text-align: center;"></div>
+	<h3>Clinic Timings</h3>
+	<table data-role="table" id="table-custom-2" class="ui-body-d ui-shadow table-stripe ui-responsive" data-column-btn-theme="b" data-column-popup-theme="a">
+    <thead>
+    	<tr class="ui-bar-d">
+    		<th>Day</th>
+    		<th>Start Time</th>
+    		<th>End Time</th>
+    	</tr>
+    </thead>
+    <tbody>
+    	{% for ct in clinic_timing %}
+    	<tr>
+    		<td>{{ct.get_day_display}}</td>
+    		<td>{{ct.get_start_time_display}}</td>
+    		<td>{{ct.get_end_time_display}}</td>
+    	</tr>
+    	{% endfor %}
+    	</tbody>
+    </table>
+    </div>
 	<div data-role="footer">
 		<h4>&copy; all rights reserved-2014 &reg;</h4>
 	</div>
 </div>
 </body>
 </html>
-

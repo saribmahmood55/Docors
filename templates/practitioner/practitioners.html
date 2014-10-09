@@ -21,13 +21,13 @@
 	</div>
 	<!--Content-->
 	<div data-role="collapsible" data-collapsed="false" data-collapsed-icon="carat-d" data-expanded-icon="carat-u">
-	<h1>Practitioners</h1>
+	<h1>"{{search_specialty}}" in {{search_city}}</h1>
 	<ul data-role="listview" data-inset="false">
 		{% for practitioner in practitioners %}
 		<li data-iconpos="right" data-expanded-icon="carat-r">
 			<a href="{% url 'practitioner' practitioner.slug %}" class="anchor-link" >
-			{{practitioner.name}}<br>&nbsp;&nbsp;{% for speciality in practitioner.specialities.all %} {{speciality.name}}
-					{% endfor %}</a>
+				{{practitioner.name}}
+			</a>
 		</li>
 		{% endfor %}
     </ul>
@@ -38,3 +38,4 @@
 </div>
 </body>
 </html>
+<!--><br>&nbsp;&nbsp;{% for speciality in practitioner.specialities.all %} {{speciality.name}}{% endfor %}<-->

@@ -11,7 +11,7 @@ class PractitionerAdmin(admin.ModelAdmin):
         ('Speciality', {'fields': ['specialities'], 'classes': ['collapse']}),
 	]
 	#inlines = [ClinicLocationInline]
-	list_display = ['name','credentials','Specialist_in','experience','achievements']
+	list_display = ['name','slug','credentials','Specialist_in','experience','achievements']
 	search_fields = ['name']
 	
 	def Specialist_in(self, obj):
