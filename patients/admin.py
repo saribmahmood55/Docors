@@ -18,10 +18,10 @@ class PractitionerReviewAdmin(admin.ModelAdmin):
 	list_filter = ['review_date']
 
 	def Practitioner_Reviewed(self, obj):
-		return "\n".join([practitioner.name for practitioner in obj.practitioner.all()])
+		return "\n".join([practitioners.name for practitioners in obj.practitioners.all()])
 
 	def Reviewed_By(self, obj):
-		return "\n".join([patient.name for patient in obj.patient.all()])
+		return "\n".join([patients.name for patients in obj.patients.all()])
 
 admin.site.register(Patient, PatientAdmin)
 admin.site.register(PractitionerReview,PractitionerReviewAdmin)

@@ -15,7 +15,8 @@
 	function initialize() {
 		var myLatlng = new google.maps.LatLng({{clinic.lat}},{{clinic.lon}});
 		var mapOptions = {
-			zoom: 15,
+			center: new google.maps.LatLng({{clinic.lat}},{{clinic.lon}}),
+			zoom: 16,
 			center: myLatlng
 		}
 	  var map = new google.maps.Map(document.getElementById('googleMap'), mapOptions);
@@ -39,42 +40,41 @@
 	<div id='content'>
 	{% for practitioner in practitioner %}
 		<h2>{{practitioner.name}}</h2>
-		<h4>{{practitioner.credentials}}</h4>
-		<h3>Specialist: 
+		<p><strong>{{practitioner.credentials}}</strong><br>
+		<b>Specialist: 
 			{% for speciality in practitioner.specialities.all %} {{speciality.name}}
 			{% endfor %}
-		</h3>
-		<h3>Experience: {{practitioner.experience}} Years.</h3>
-		<p>Achievements: {{practitioner.achievements}}</p>
+		</b><br>Experience: {{practitioner.experience}} Years.<br>Achievements: {{practitioner.achievements}}</p>
 	{% endfor %}
 	<h3>Clinic Details:</h3>
-		<h2>{{clinic.name}}</h2>
-		<h3>Contact: {{clinic.contact_number}}</h3>
-		<h3>Appointment Only: {{clinic.appointments_only}}</h3>
-		<h3>Checkup Fee: {{clinic.checkup_fee}}rs.</h3>
-		<h3>Address: {{clinic.clinic_address}}, {{clinic.city.name}}</h3>
-		<p>Services: {{clinic.services_offered}}</p>
+		<p><strong>{{clinic.name}}</strong><br><b>Contact: <u>{{clinic.contact_number}}</u></b><br>
+		Appointment Only: <b>{{clinic.appointments_only}}</b><br>
+		Checkup Fee: <b>{{clinic.checkup_fee}}rs.</b><br>Address: {{clinic.clinic_address}}, <b>{{clinic.city.name}}</b><br>Services: {{clinic.services_offered}}</p>
 	
-	<div id="googleMap" style="width: 450px;height: 300px; text-align: center;"></div>
+	<div data-role="collapsible" data-collapsed="true" style="width: 350px;" data-collapsed-icon="carat-d" data-expanded-icon="carat-u">
+	<h4>Show on Map</h4>
+	<div id="googleMap" style="width: 330px;height: 350px;" ></div>
+	</div>
+	
 	<h3>Clinic Timings</h3>
-	<table data-role="table" id="table-custom-2" class="ui-body-d ui-shadow table-stripe ui-responsive" data-column-btn-theme="b" data-column-popup-theme="a">
-    <thead>
-    	<tr class="ui-bar-d">
-    		<th>Day</th>
-    		<th>Start Time</th>
-    		<th>End Time</th>
-    	</tr>
-    </thead>
-    <tbody>
-    	{% for ct in clinic_timing %}
+	<table>
+		<tr>
+			<th>Day</th><th>Starting</th><th>Closing</th>
+		</tr>
+		{% for ct in clinic_timing %}
     	<tr>
     		<td>{{ct.get_day_display}}</td>
     		<td>{{ct.get_start_time_display}}</td>
     		<td>{{ct.get_end_time_display}}</td>
     	</tr>
     	{% endfor %}
-    	</tbody>
     </table>
+
+	<h3>Practitioner Reviews</h3>
+	{% for pr in reviews %}
+	<p>Reviewed by: <b>{% for patient in pr.patients.all %} {{patient.name}} {% endfor %}</b><br>
+	"{{pr.review_text}}"<br>Submitted on: <i>{{pr.review_date}}</i>
+	</p>{% endfor %}
     </div>
 	<div data-role="footer">
 		<h4>&copy; all rights reserved-2014 &reg;</h4>

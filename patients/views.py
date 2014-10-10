@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from patients.models import *
+from django.http import Http404
+from django.http import HttpResponse
+from django.shortcuts import render_to_response
+from django.template import RequestContext
 
-# Create your views here.
+def sign_up(request):
+	

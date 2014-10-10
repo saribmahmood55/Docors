@@ -1,4 +1,5 @@
 from practitioner.models import *
+from patients.models import *
 from django.http import Http404
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
@@ -63,10 +64,11 @@ def practitioner(request, slug):
 		practitioner = Practitioner.prac_objects.practitioner_slug(slug)
 		clinic = ClinicLocation.cl_objects.clinic_detail_slug(slug)
 		clinic_timing = ClinicLocationTiming.ct_objects.clinic_details(slug)
+		reviews = PractitionerReview.pr_objects.practitioner_reviews(slug)
 	except Practitioner.DoesNotExist:
 		raise Http404
 	return render_to_response('practitioner/practitioner.html', 
-		{'practitioner': practitioner, 'clinic': clinic, 'clinic_timing': clinic_timing},
+		{'practitioner': practitioner, 'clinic': clinic, 'clinic_timing': clinic_timing, 'reviews': reviews},
 		context_instance=RequestContext(request))
 
 

@@ -97,7 +97,7 @@ class ClinicLocationTimingManager(models.Manager):
         return super(ClinicLocationTimingManager, self).filter(day=day)
 
     def clinic_details(self, slug):
-        return super(ClinicLocationTimingManager, self).filter(clinic_location__practitioners__slug=slug)
+        return super(ClinicLocationTimingManager, self).filter(clinic_location__practitioners__slug=slug).order_by('pk')
 
 
 class ClinicLocationTiming(models.Model):
