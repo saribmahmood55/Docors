@@ -1,10 +1,27 @@
 from django.contrib import admin
+#from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import User
 from patients.models import Patient, PractitionerReview
 from practitioner.models import Practitioner, Specialization
 
-
+'''
+class PatientInline(admin.StackedInline):
+	model = Patient
+	can_delete = False
+	verbose_name_plural = 'patients'
+'''
 class PatientAdmin(admin.ModelAdmin):
-	list_display = ['name','email','cell_number','gender','Interested_Specialities','Favourite_Practitioners']
+	#inlines = (PatientInline, )
+	list_display = ['patient_name','patient_user_name','email','cell_number','gender','Interested_Specialities','Favourite_Practitioners']
+
+	def patient_user_name(self, obj):
+		return obj.user.username
+	
+	def patient_name(self, obj):
+		return "%s %s" % (obj.user.first_name, obj.user.last_name)
+	
+	def email(self, obj):
+		return obj.user.email
 
 	def Interested_Specialities(self, obj):
 		return "\n".join([specialities.name for specialities in obj.interested_specialities.all()])
@@ -18,10 +35,14 @@ class PractitionerReviewAdmin(admin.ModelAdmin):
 	list_filter = ['review_date']
 
 	def Practitioner_Reviewed(self, obj):
-		return "\n".join([practitioners.name for practitioners in obj.practitioners.all()])
+		return obj.practitioner.name
 
 	def Reviewed_By(self, obj):
-		return "\n".join([patients.name for patients in obj.patients.all()])
+		return "%s %s" % (obj.patient.user.first_name, obj.patient.user.last_name)
 
+#admin.site.unregister(User)
 admin.site.register(Patient, PatientAdmin)
-admin.site.register(PractitionerReview,PractitionerReviewAdmin)
+admin.site.register(PractitionerReview, PractitionerReviewAdmin)
+
+#"\n".join([patient.name for patient in obj.patient.all()])
+#"\n".join([practitioner.name for practitioner in obj.practitioners.all()])

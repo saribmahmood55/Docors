@@ -46,7 +46,7 @@ def search(request):
 			practitioner_list = Practitioner.prac_objects.practitioner_name_and_speciality(name, speciality)
 		#specialty and experience
 		elif experience != None and speciality != None:
-			print 4
+			print experience
 			practitioner_list = Practitioner.prac_objects.practitioner_experienced(experience,speciality)
 		#specialty and day
 		elif day != None and speciality != None:

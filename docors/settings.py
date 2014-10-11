@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'practitioner',
     'patients',
     'rest_framework',
+    'world'
 )
 
 MIDDLEWARE_CLASSES = (

@@ -10,7 +10,7 @@
 	<script src="{% static "jquery_mobile/jquery-1.9.1.min.js" %}" type="text/javascript"></script>
 	<script src="{% static "jquery_mobile/jquery.mobile-1.4.4.min.js" %}" type="text/javascript"></script>
 	<script src="{% static "jquery_mobile/jquery.mobile-1.4.4.min.map" %}" type="text/javascript"></script>
-	<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=true"></script>
+	<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBvgO8fn_1Xxpe8IoT8t2kPBO0WCXFjTMM&sensor=true"></script>
 	<script>
 	function initialize() {
 		var myLatlng = new google.maps.LatLng({{clinic.lat}},{{clinic.lon}});
@@ -40,11 +40,11 @@
 	<div id='content'>
 	{% for practitioner in practitioner %}
 		<h2>{{practitioner.name}}</h2>
-		<p><strong>{{practitioner.credentials}}</strong><br>
-		<b>Specialist: 
-			{% for speciality in practitioner.specialities.all %} {{speciality.name}}
+		<p>{{practitioner.credentials}}<br>
+		Specialist: 
+			{% for speciality in practitioner.specialities.all %} <b>{{speciality.name}}</b><br>
 			{% endfor %}
-		</b><br>Experience: {{practitioner.experience}} Years.<br>Achievements: {{practitioner.achievements}}</p>
+		Experience: <strong>{{practitioner.experience}} Years.</strong><br>Achievements: {{practitioner.achievements}}</p>
 	{% endfor %}
 	<h3>Clinic Details:</h3>
 		<p><strong>{{clinic.name}}</strong><br><b>Contact: <u>{{clinic.contact_number}}</u></b><br>
@@ -72,8 +72,12 @@
 
 	<h3>Practitioner Reviews</h3>
 	{% for pr in reviews %}
-	<p>Reviewed by: <b>{% for patient in pr.patients.all %} {{patient.name}} {% endfor %}</b><br>
-	"{{pr.review_text}}"<br>Submitted on: <i>{{pr.review_date}}</i>
+	<p>"{{pr.review_text}}"<br><br>
+	Reviewed by: <b>{{pr.patient}}.&nbsp;&nbsp;</b>
+	<a style="text-decoration: none; color: #333333;" href="#">
+	<img src="{% static "jquery_mobile/images/thumb-up.png" %}" height="18" width="18" /></a> {{pr.up_votes}}&nbsp;&nbsp;|&nbsp;&nbsp;{{pr.down_votes}}<a style="text-decoration: none; color: #333333;" href="#" >
+	<img src="{% static "jquery_mobile/images/thumbs-down.png" %}" height="18" width="18" /></a><br>
+	Submitted on: <i>{{pr.review_date}}</i>
 	</p>{% endfor %}
     </div>
 	<div data-role="footer">
