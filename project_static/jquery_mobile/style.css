@@ -12,6 +12,23 @@ body{
 	color: #f5f5f1 !important;
 }
 #content{
-	text-align: left;
-	margin: 0% 2%;
+	text-align: none;	margin: 0% 2%;
+}
+#practitionerDetails{
+	float: left;
+}
+#clinicDetails{
+	width: 300px;	float: left;	margin: 10px;
+}
+#clinicTimingsDetails{
+	width: 300px;	float: left;	margin: 10px;
+}
+#practitionerReviews{
+	float: left;	margin: 0px;
+}
+#mapDetails{
+	width: 350px;
+}
+#googleMap{
+	width: 330px;	height: 350px;
 }

@@ -1,16 +1,15 @@
 from django.contrib import admin
-from practitioner.models import Practitioner, Specialization, ClinicLocation, ClinicLocationTiming, City
+from practitioner.models import *
 
 
 class PractitionerAdmin(admin.ModelAdmin):
 	fieldsets = [
 		('Doctor/Practitioner Name', {'fields': ['name']}),
-        ('Degrees/Credentials', {'fields': ['credentials'], 'classes': ['collapse']}),
-        ('Achievements', {'fields': ['achievements'], 'classes': ['collapse']}),
-        ('Experience', {'fields': ['experience'], 'classes': ['collapse']}),
-        ('Speciality', {'fields': ['specialities'], 'classes': ['collapse']}),
+        ('Degrees/Credentials', {'fields': ['credentials']}),
+        ('Achievements', {'fields': ['achievements']}),
+        ('Experience', {'fields': ['experience']}),
+        ('Speciality', {'fields': ['specialities']}),
 	]
-	#inlines = [ClinicLocationInline]
 	list_display = ['name','slug','credentials','Specialist_in','experience','achievements']
 	search_fields = ['name']
 	
@@ -40,10 +39,9 @@ class ClinicLocationAdmin(admin.ModelAdmin):
 
 
 class ClinicLocationTimingAdmin(admin.ModelAdmin):
-	list_display = ['clinic_location','day', 'start_time','end_time']
+	list_display = ['practitioner','clinic_location','day', 'start_time','end_time']
 	list_filter = ['day']
 	search_fields = ['day']
-	extra = 3
 
 
 class SpecializationAdmin(admin.ModelAdmin):

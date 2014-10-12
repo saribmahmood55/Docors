@@ -19,7 +19,7 @@
   </head>
   
   <body>
-    <div data-role="page">
+    <div data-role="page" id="basic">
       <div data-role="header">
 		<h1 class="ui-icon-myicon">
           <a href="http://localhost:8000/" class="anchor-link" >
@@ -30,61 +30,33 @@
   </div>
   <div role="main" class="ui-content">
         
-    <form action="/search/" method="POST">
-      {% csrf_token %}
-      <!--label for="search-2">
-Search Specialist Doctors in your area.
-</label>
-<input type="search" name="prac_name" id="search-2" value="" placeholder="Doctor Name..." -->
-          <label for="select-native-2">
-            Search Specialist Doctors in your area.
-          </label>
-          <select name="city" id="select-native-2">
-            <option>
-              Select City
-            </option>
-            {% for city in cities %}
-            <option>
-              {{city.name}}
-            </option>
-            {% endfor %}
-          </select>
-          <label for="select-native-2">
-            Specialist Category
-          </label>
-          <select name="speciality" id="select-native-2">
-            <option>
-              Select Speciality
-            </option>
-            {% for speciality in specialities %}
-            <option>
-              {{speciality.name}}
-            </option>
-            {% endfor %}
-          </select>
-          <!--label for="slider-2">
-Search a Specialist in KM radius.
-</label>
-<input type="range" name="slider-2" id="slider-2" value="0" min="0" max="15" data-highlight="true"-->
-          <label for="slider-2">
-            Select Experience in years.
-          </label>
-          <input type="range" name="experience" id="slider-2" value="0" min="0" max="30" data-highlight="true">
-          <!--label for="select-native-2">Search a Doctor avalability on specific Day.</label>
-          	<select name="day" id="select-native-3">
-	            <option>Select Day</option>
-	            <option value="Mon">Monday</option>
-	            <option value="Tue">Tuesday</option>
-	            <option value="Wed">Wednesday</option>
-	            <option value="Thu">Thursday</option>
-	            <option value="Fri">Friday</option>
-	            <option value="Sat">Saturday</option>
-	            <option value="Sun">Sunday</option>
-          	</select-->
-          <button type="submit" style="width: 90px; height: 45px; color: #3eb249; margin: 0px auto;" 		class="ui-btn ui-shadow ui-corner-all">
-            Search
-          </button>
-      </form>
+  <form action="/search/" method="POST">
+  {% csrf_token %}
+  <label for="select-native-2">Search Specialist Doctors in your area.</label>
+  <select name="city" id="select-native-2">
+  <option>Select City</option>
+  {% for city in cities %}
+  <option>{{city.name}}</option>
+  {% endfor %}
+  </select>
+
+  <label for="select-native-2">Specialist Category</label>
+  <select name="speciality" id="select-native-2">
+  <option>Select Speciality</option>
+  {% for speciality in specialities %}
+  <option>{{speciality.name}}</option>
+  {% endfor %}
+  </select>
+  <label for="slider-2">Select Experience in years.</label>
+  <input type="range" name="experience" id="slider-2" value="0" min="0" max="30" data-highlight="true">
+
+  <a class="anchor-link" style="float: left; margin-top: 20px;" href="#register">get listed</a>
+  <a class="anchor-link" style="float: right; margin-top: 20px;" href="#advance">Advance Search</a>
+  <button type="submit" style="width: 90px; height: 45px; color: #3eb249; margin: 0px auto;" class="ui-btn ui-shadow ui-corner-all">
+  Search</button>
+
+  </form>
+
   </div>
   <div style="margin: auto auto;" data-role="footer">
     <h4>
@@ -92,5 +64,186 @@ Search a Specialist in KM radius.
     </h4>
   </div>
   </div>
+
+  <!-- Page2 -->
+  <div data-role="page" id="advance" data-theme="a">
+        <div data-role="header">
+    <h1 class="ui-icon-myicon">
+          <a href="http://localhost:8000/" class="anchor-link" >
+            docors.&nbsp;
+      <img src="{% static "jquery_mobile/images/icons-png/stethoscope.png" %}" height="18" width="18" />
+          </a>
+      </h1>
+  </div>
+  <div role="main" class="ui-content">
+
+<form action="/search/" method="POST">
+{% csrf_token %}
+
+<label for="select-native-2">Search Specialist Doctors in your area.</label>
+<select name="city" id="select-native-2">
+<option>Select City</option>
+{% for city in cities %}
+<option>{{city.name}}</option>
+{% endfor %}
+</select>
+
+<label for="search-2">Search Specialist Doctors in your area.</label>
+<input type="search" name="prac_name" id="search-2" placeholder="Doctor Name..." />
+
+<label for="select-native-2">Specialist Category</label>
+<select name="speciality" id="select-native-2">
+<option>Select Speciality</option>
+{% for speciality in specialities %}
+<option>{{speciality.name}}</option>
+{% endfor %}
+</select>
+
+<label for="slider-2">Select Experience in years.</label>
+<input type="range" name="experience" id="slider-2" value="0" min="0" max="30" data-highlight="true">
+<label for="select-native-2">Search a Doctor avalability on specific Day.</label>
+<select name="day" id="select-native-3">
+<option>Select Day</option>
+<option value="Mon">Monday</option>
+<option value="Tue">Tuesday</option>
+<option value="Wed">Wednesday</option>
+<option value="Thu">Thursday</option>
+<option value="Fri">Friday</option>
+<option value="Sat">Saturday</option>
+<option value="Sun">Sunday</option>
+</select>
+<button type="submit" style="width: 90px; height: 45px; color: #3eb249; margin: 0px auto;" class="ui-btn ui-shadow ui-corner-all">
+Search
+</button>
+      </form>
+  </div>
+  <div style="margin: auto auto;" data-role="footer">
+    <h4>
+      &copy; all rights reserved-2014 &reg;
+    </h4>
+  </div>
+
+  </div>
+
+<!-- Page3 -->
+  <div data-role="page" id="register" data-theme="a">
+        <div data-role="header">
+    <h1 class="ui-icon-myicon">
+          <a href="http://localhost:8000/" class="anchor-link" >
+            docors.&nbsp;
+      <img src="{% static "jquery_mobile/images/icons-png/stethoscope.png" %}" height="18" width="18" />
+          </a>
+      </h1>
+  </div>
+  
+  <div role="main" class="ui-content">
+
+  <strong>Please provide the following details.<br></strong>
+  
+  <form action="/register/" method="POST">
+  {% csrf_token %}
+  
+  Practitioner Name: <input type="text" name="practitioner_name" id="text-basic" placeholder="Dr. Ali Raza" required>
+
+  <label for="email">email address: (it will not be published, online)</label>
+  <input type="email" name="email" id="email" required>
+
+  <label for="text-basic">Credentials.</label>
+  <input type="text" name="credentials" placeholder="MBBS, MD, DAB, MRCP, MCPS..." required>
+
+  <label for="textarea">Achievements.</label>
+  <textarea cols="40" rows="8" name="achievements" id="textarea" placeholder="Education, Research Work, Training & Achievements"></textarea>
+
+  <label for="text-basic">Experience in Years.</label>
+  <input type="text" name="experience" placeholder="20" required>
+
+  <label for="text-basic">Specialized In:</label>
+  <input type="text" name="speciality" placeholder="Pediatrics, Family Medicine" required>
+
+  <strong>Clinic details.<br></strong>
+  <label for="text-basic">Clinic/Hospital Name:</label>
+  <input type="text" name="clinicName" placeholder="Dr. Ali Raza" required>
+
+  <label for="text-basic">Adress:</label>
+  <input type="text" name="address" placeholder="Street Address" required>
+
+  <label for="text-basic">City:</label>
+  <input type="text" name="city" required>
+
+  <label for="text-basic">Contact Number:</label>
+  <input type="text" name="number" placeholder="03001234567, 04235000000" required>
+
+  <label for="text-basic">Checkup Fee:</label>
+  <input type="text" name="fee" placeholder="2000" required>
+
+  <label for="textarea">Services offered on that Clinic/Hospital:</label>
+  <textarea cols="40" rows="8" name="services" placeholder="Special Services" required></textarea>
+
+  <label for="text-basic">Appointments only ?</label>
+  <input type="text" name="appointment" placeholder="Yes or No if you allow Checkup on First Come First Serve Bases." required>
+
+  <label for="text-basic">Physical Latitude:</label>
+  <input type="text" name="latitude" placeholder="xx.yyyyyy" required>
+
+  <label for="text-basic">Physical Longitude:</label>
+  <input type="text" name="longitude" placeholder="xx.yyyyyy" required>
+
+  <strong>Clinic Timings<br></strong>
+
+  <label for="textarea">Clininc/Hospital Timings</label>
+  <textarea cols="40" rows="8" name="timing" placeholder="format: Monday 10:00am to 01:00pm" required></textarea>
+
+  <!-- Extra -->
+  <div data-role="collapsible" data-collapsed="true" data-collapsed-icon="carat-d" data-expanded-icon="carat-u">
+  <h4>Add another Clinic/Hospital Details for same Practitioner</h4>
+    <strong>Clinic details.<br></strong>
+  <label for="text-basic">Clinic/Hospital Name:</label>
+  <input type="text" name="clinicName2" placeholder="Dr. Ali Raza" >
+
+  <label for="text-basic">Adress:</label>
+  <input type="text" name="address2" placeholder="Street Address" >
+
+  <label for="text-basic">City:</label>
+  <input type="text" name="city2" >
+
+  <label for="text-basic">Contact Number:</label>
+  <input type="text" name="number2" placeholder="03001234567, 04235000000" >
+
+  <label for="text-basic">Checkup Fee:</label>
+  <input type="text" name="fee2" placeholder="2000" >
+
+  <label for="textarea">Services offered on that Clinic/Hospital:</label>
+  <textarea cols="40" rows="8" name="services2" placeholder="Special Services" ></textarea>
+
+  <label for="text-basic">Appointments only? (Yes or No.)</label>
+  <input type="text" name="appointment2" placeholder="No, if you allow Checkup on First Come First Serve Basis." >
+
+  <label for="text-basic">Physical Latitude:</label>
+  <input type="text" name="latitude1" placeholder="xx.yyyyyy" >
+
+  <label for="text-basic">Physical Longitude:</label>
+  <input type="text" name="longitude2" placeholder="xx.yyyyyy" >
+
+  <strong>Clinic Timings<br></strong>
+
+  <label for="textarea">Clininc/Hospital Timings</label>
+  <textarea cols="40" rows="8" name="timing2" placeholder="format: Monday 10:00am to 01:00pm" ></textarea>
+  </div>
+
+  <button type="submit" style="width: 90px; height: 45px; color: #3eb249; margin: 0px auto;" class="ui-btn ui-shadow ui-corner-all">
+  Submit</button>
+
+  </form>
+  </div>
+
+  <div style="margin: auto auto;" data-role="footer">
+    <h4>
+      &copy; all rights reserved-2014 &reg;
+    </h4>
+  </div>
+
+  </div>
   </body>
 </html>
+<!--label for="slider-2">Search a Specialist in KM radius.</label>
+<input type="range" name="slider-2" id="slider-2" value="0" min="0" max="15" data-highlight="true"-->

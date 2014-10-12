@@ -16,18 +16,22 @@ class PractitionerManager(models.Manager):
         return super(PractitionerManager, self).filter(name__icontains=prac_name)
 
     def practitioner_slug(self, slug):
-        return super(PractitionerManager, self).filter(slug=slug)
+        return super(PractitionerManager, self).get(slug=slug)
 
     def practitioner_speciality(self,speciality):
-        return super(PractitionerManager, self).filter(specialities__name__icontains=speciality)
+        return super(PractitionerManager, self).filter(specialities__name=speciality)
 
     def practitioner_name_and_speciality(self,prac_name,speciality):
-        return super(PractitionerManager, self).filter(name__icontains=prac_name,specialities__name__icontains=speciality)
+        return super(PractitionerManager, self).filter(name__icontains=prac_name, specialities__name=speciality)
 
-    def practitioner_experienced(self,experience,speciality):
-        return super(PractitionerManager, self).filter(experience__gte=experience,specialities__name__icontains=speciality)
+    def practitioner_experienced(self, experience, speciality):
+        return super(PractitionerManager, self).filter(experience__gte=experience, specialities__name=speciality)
 
+    #pending
+    def practitioner_city(self, city):
+        return super(PractitionerManager, self).filter(cliniclocation__city__name=city)
 
+#pl = Practitioner.prac_objects.practitioner_city('Lahore')
 class Practitioner(models.Model):
     name = models.CharField(max_length=100)
     credentials = models.TextField()
@@ -57,17 +61,12 @@ class City(models.Model):
 #Custom Manager
 class ClinicLocationManager(models.Manager):
 
-    def clinic_detail_slug(self, slug):
+    def clinic_details(self, slug):
         clinic_detail = super(ClinicLocationManager, self).get(practitioners__slug=slug)
         return clinic_detail
 
-    def clinic_detail(self, clinic_name):
-        clinic_detail = super(ClinicLocationManager, self).filter(name=clinic_name).distinct()
-        return clinic_detail
-
-    def clinic_speciality(self, speciality, day):
-        clinic_list = self.filter(practitioners__specialities__name=speciality,cliniclocationtiming__day=day).distinct()
-        return clinic_list
+    def clinic_detail_city(self, city):
+        clinic_detail = super(ClinicLocationManager, self).filter(city__name=city)
 
 
 class ClinicLocation(models.Model):
@@ -79,8 +78,8 @@ class ClinicLocation(models.Model):
     checkup_fee = models.PositiveIntegerField()
     services_offered = models.TextField(null=True, blank=True)
     appointments_only = models.BooleanField(default=True)
-    lat = models.FloatField()
-    lon = models.FloatField()
+    lat = models.FloatField(null=True, blank=True)
+    lon = models.FloatField(null=True, blank=True)
     # gis
     geo_objects = models.GeoManager()
     #Custom Managers
@@ -93,11 +92,12 @@ class ClinicLocation(models.Model):
 
 #Custom Manager
 class ClinicLocationTimingManager(models.Manager):
-    def clinic_day(self, day):
-        return super(ClinicLocationTimingManager, self).filter(day=day)
+    
+    def practitioner_day_specialty(self, specialty, day):
+        return super(ClinicLocationTimingManager, self).filter(practitioner__specialities__name=specialty, day=day).distinct()
 
-    def clinic_details(self, slug):
-        return super(ClinicLocationTimingManager, self).filter(clinic_location__practitioners__slug=slug).order_by('pk')
+    def clinic_timing_details(self, slug):
+        return super(ClinicLocationTimingManager, self).filter(practitioner__slug=slug).order_by('pk')
 
 
 class ClinicLocationTiming(models.Model):
@@ -111,24 +111,25 @@ class ClinicLocationTiming(models.Model):
         ('20', '08:00pm'),('20.5', '08:30pm'),('21', '09:00pm'),('21.5', '09:30pm'),('22', '10:00pm'),('22.5', '10:30pm'),('23', '11:00pm'),('23.5', '11:30pm'),
         ('0', '12:00am'),('0.5', '12:30am'), ('1', "01:00am"),('2', '02:00am'), ('2.5', "02:30am")
         )
+    practitioner = models.ForeignKey(Practitioner)
     clinic_location = models.ForeignKey(ClinicLocation)
     day = models.CharField(max_length=3, choices=DAY, help_text="Select Day.")
     start_time = models.CharField(max_length=5, choices=TIME, help_text="Select starting Time for Clininc.")
     end_time = models.CharField(max_length=5, choices=TIME, help_text="Select ending Time for Clininc.")
 
     def __unicode__(self):
-        return self.day
+        return self.practitioner.name
 
     #Custom Managers
     objects = models.Manager()
     ct_objects = ClinicLocationTimingManager()
 '''
 from practitioner.models import *
+pl = ClinicLocationTiming.ct_objects.practitioner_day_specialty('Gastroenterology','Mon')
+
 cl = ClinicLocationTiming.ct_objects.clinic_details('dr-mohammad-anwar')
 
 
 cl = ClinicLocationTiming.ct_objects.clinic_day('mon')
 cl = ClinicLocation.cl_objects.clinic_speciality('Pediatric (Child)','Mon')
-
-
 '''

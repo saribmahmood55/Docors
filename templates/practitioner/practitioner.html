@@ -16,7 +16,7 @@
 		var myLatlng = new google.maps.LatLng({{clinic.lat}},{{clinic.lon}});
 		var mapOptions = {
 			center: new google.maps.LatLng({{clinic.lat}},{{clinic.lon}}),
-			zoom: 16,
+			zoom: 14,
 			center: myLatlng
 		}
 	  var map = new google.maps.Map(document.getElementById('googleMap'), mapOptions);
@@ -38,39 +38,49 @@
 		</h1>
 	</div>
 	<div id='content'>
-	{% for practitioner in practitioner %}
-		<h2>{{practitioner.name}}</h2>
+	
+	<!-- Practitioner Details -->
+	<div id="practitionerDetails">
+		<h3>{{practitioner.name}}</h3>
 		<p>{{practitioner.credentials}}<br>
-		Specialist: 
-			{% for speciality in practitioner.specialities.all %} <b>{{speciality.name}}</b><br>
-			{% endfor %}
-		Experience: <strong>{{practitioner.experience}} Years.</strong><br>Achievements: {{practitioner.achievements}}</p>
-	{% endfor %}
-	<h3>Clinic Details:</h3>
-		<p><strong>{{clinic.name}}</strong><br><b>Contact: <u>{{clinic.contact_number}}</u></b><br>
-		Appointment Only: <b>{{clinic.appointments_only}}</b><br>
-		Checkup Fee: <b>{{clinic.checkup_fee}}rs.</b><br>Address: {{clinic.clinic_address}}, <b>{{clinic.city.name}}</b><br>Services: {{clinic.services_offered}}</p>
-	
-	<div data-role="collapsible" data-collapsed="true" style="width: 350px;" data-collapsed-icon="carat-d" data-expanded-icon="carat-u">
-	<h4>Show on Map</h4>
-	<div id="googleMap" style="width: 330px;height: 350px;" ></div>
+		Specialized in: {% for speciality in practitioner.specialities.all %} <b>{{speciality.name}}</b><br>{% endfor %}
+		Experience: <strong>{{practitioner.experience}} Years.</strong><br><br>
+		Achievements: {{practitioner.achievements}}</p>
 	</div>
-	
-	<h3>Clinic Timings</h3>
+
+	<!-- Clinic Details -->
+	<div id="clinicDetails">
+	<h3>Clinic Details.</h3>
+		<p><strong>{{clinic.name}}</strong><br><br>
+		<b>Contact: <u>{{clinic.contact_number}}</u></b><br><br>
+		Checkup Fee: <b>{{clinic.checkup_fee}}rs.</b><br><br>
+		Appointment Only: <b>{{clinic.appointments_only}}</b><br><br>
+		Address: {{clinic.clinic_address}}, <b>{{clinic.city.name}}</b><br><br>
+		Services: {{clinic.services_offered}}</p>
+	</div>
+
+	<!-- Clinic Timings Details -->
+	<div id="clinicTimingsDetails">
+	<h3>Clinic Timings.</h3>
 	<table>
 		<tr>
-			<th>Day</th><th>Starting</th><th>Closing</th>
+			<td><b>Day&nbsp;</b></td>
+			<td><b>Starting&nbsp;</b></td>
+			<td><b>Closing&nbsp;</b></td>
 		</tr>
 		{% for ct in clinic_timing %}
     	<tr>
-    		<td>{{ct.get_day_display}}</td>
-    		<td>{{ct.get_start_time_display}}</td>
-    		<td>{{ct.get_end_time_display}}</td>
+    		<td>{{ct.get_day_display}}&nbsp;</td>
+    		<td>{{ct.get_start_time_display}}&nbsp;</td>
+    		<td>{{ct.get_end_time_display}}&nbsp;</td>
     	</tr>
     	{% endfor %}
     </table>
+    </div>
 
-	<h3>Practitioner Reviews</h3>
+    <!-- Practitioner Reviews Details -->
+	<div id="practitionerReviews">
+	<h3>Practitioner Reviews.</h3>
 	{% for pr in reviews %}
 	<p>"{{pr.review_text}}"<br><br>
 	Reviewed by: <b>{{pr.patient}}.&nbsp;&nbsp;</b>
@@ -80,6 +90,15 @@
 	Submitted on: <i>{{pr.review_date}}</i>
 	</p>{% endfor %}
     </div>
+
+	<!-- Clinic-on-map Details -->
+	<div data-role="collapsible" data-collapsed="false" id="mapDetails" data-collapsed-icon="carat-d" data-expanded-icon="carat-u">
+	<h4>Show on Map</h4>
+	<div id="googleMap" ></div>
+	</div>
+
+    </div>
+    <!-- Footer Details -->
 	<div data-role="footer">
 		<h4>&copy; all rights reserved-2014 &reg;</h4>
 	</div>

@@ -16,6 +16,14 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+#GMAIL
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'docors2014@gmail.com'
+EMAIL_HOST_PASSWORD = 'mgjzbltehsmlclin'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+
 # REST_FRAMEWORK
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
