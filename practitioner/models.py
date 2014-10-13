@@ -94,10 +94,10 @@ class ClinicLocation(models.Model):
 class ClinicLocationTimingManager(models.Manager):
     
     def practitioner_day_specialty(self, specialty, day):
-        return super(ClinicLocationTimingManager, self).filter(practitioner__specialities__name=specialty, day=day).distinct()
+        return super(ClinicLocationTimingManager, self).filter(practitioner__specialities__name=specialty, day=day).distinct('practitioner')
 
     def clinic_timing_details(self, slug):
-        return super(ClinicLocationTimingManager, self).filter(practitioner__slug=slug).order_by('pk')
+        return super(ClinicLocationTimingManager, self).filter(practitioner__slug=slug).order_by('day')
 
 
 class ClinicLocationTiming(models.Model):

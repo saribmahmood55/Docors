@@ -2,6 +2,7 @@ from practitioner.models import *
 from patients.models import *
 from django.http import Http404
 from django.http import HttpResponse
+from django.shortcuts import render
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.mail import send_mail
@@ -19,13 +20,13 @@ def index(request):
 
 #handle search request
 def search(request):
-	city, name, speciality, experience, day, practitioner_list, clinic_list = None, None, None, None, None, [], []
-	if request.method == "POST":
-		city = request.POST.get('city', None)
-		name = request.POST.get('prac_name', None)
-		speciality = request.POST.get('speciality', None)
-		experience = request.POST.get('experience', None)
-		day = request.POST.get('day', None)
+	city, name, speciality, experience, day, practitioner_list, practitioner_list_day = None, None, None, None, None, [], []
+	if request.method == "GET":
+		city = request.GET.get('city', None)
+		name = request.GET.get('name', None)
+		speciality = request.GET.get('speciality', None)
+		experience = request.GET.get('experience', None)
+		day = request.GET.get('day', None)
 		
 		if city == "Select City":
 			city = None
@@ -35,30 +36,32 @@ def search(request):
 			speciality = None
 		if day == "Select Day":
 			day = None
-		if experience == 0:
-			experience = None
+
 	try:
 		#name
-		if name != None and speciality == None and experience == None and day == None:
+		if name != None:
 			practitioner_list = Practitioner.prac_objects.practitioner_name(name)
+			print 1
 		#speciality
-		elif speciality != None and name == None and experience == None:
+		elif speciality != None and experience == None:
 			practitioner_list = Practitioner.prac_objects.practitioner_speciality(speciality)
+			print 2
 		#name and speciality
-		elif name != None and speciality != None and day == None:
+		elif name != None and speciality:
 			practitioner_list = Practitioner.prac_objects.practitioner_name_and_speciality(name, speciality)
+			print 3
 		#speciality and experience
-		elif experience != None and speciality != None and day == None and name == None:
-			print experience
+		elif speciality != None and experience != 0 and day == None:
 			practitioner_list = Practitioner.prac_objects.practitioner_experienced(experience,speciality)
+			print 4
 		#day and speciality
-		elif day != None and speciality != None and name == None and experience == None:
-			practitioner_list = ClinicLocationTiming.ct_objects.practitioner_day_specialty(speciality,day)
+		elif speciality != None and day != None:
+			print 5
+			practitioner_list_day = ClinicLocationTiming.ct_objects.practitioner_day_specialty(speciality, day)
 	except Practitioner.DoesNotExist:
 		raise Http404
-	return render_to_response('practitioner/practitioners.html',
-		{'practitioners': practitioner_list, 'search_specialty': speciality, 'search_city': city, 'day': day},
-		context_instance=RequestContext(request))
+	return render(request, 'practitioner/practitioners.html', 
+		{'practitioners': practitioner_list, 'practitioner_list_day': practitioner_list_day})
 
 
 # single practitioner details
@@ -70,26 +73,15 @@ def practitioner(request, slug):
 		reviews = PractitionerReview.pr_objects.practitioner_reviews(slug)
 	except Practitioner.DoesNotExist:
 		raise Http404
-	return render_to_response('practitioner/practitioner.html', 
-		{'practitioner': practitioner, 'clinic': clinic, 'clinic_timing': clinic_timing, 'reviews': reviews},
-		context_instance=RequestContext(request))
-
-
-def Clinic_Detail(request):
-	try:
-		clinic_detail = ClinicLocation.cl_objects.clinic_detail(clinic_name)
-	except ClinicLocation.DoesNotExist:
-		raise Http404
-	return render_to_response('practitioner/clinic_detail.html', {'one_clinic': clinic_detail},context_instance=RequestContext(request))
+	return render(request, 'practitioner/practitioner.html', 
+		{'practitioner': practitioner, 'clinic': clinic, 'clinic_timing': clinic_timing, 'reviews': reviews})
 
 
 #send email
 def register(request):
 	email, practitioner_name = None, None
 	if request.method == "POST":
-		global practitioner_name
 		practitioner_name = request.POST.get('practitioner_name', None)
-		global email
 		email = request.POST.get('email', None)
 		credentials = request.POST.get('credentials', None)
 		achievements = request.POST.get('achievements', None)

@@ -2,7 +2,10 @@
 fonts: open sans, Lato, Ubuntu, Droid Serif
 */
 body{
-	font-family: Arial;
+	font-family: Lato;
+}
+p {
+	font-weight: normal;
 }
 .anchor-link {
 	text-decoration: none !important;
@@ -14,21 +17,41 @@ body{
 #content{
 	text-align: none;	margin: 0% 2%;
 }
+#search-btn{
+	width: 90px; height: 40px; color: #3eb249; margin: 0px auto; padding: 0px;
+}
 #practitionerDetails{
-	float: left;
+	float: none;
+	text-align: center;
 }
 #clinicDetails{
-	width: 300px;	float: left;	margin: 10px;
+	width: 325px;	float: left;	margin: 10px;
 }
 #clinicTimingsDetails{
-	width: 300px;	float: left;	margin: 10px;
+	width: 325px;	float: left;	margin: 10px;
 }
 #practitionerReviews{
-	float: left;	margin: 0px;
+	width: 325px;	float: left;	margin: 10px;
 }
 #mapDetails{
-	width: 350px;
+	width: 1200px;	margin: 0px auto;
 }
 #googleMap{
-	width: 330px;	height: 350px;
+	width: 1180px;	height: 350px;
+}
+/* Responsive for mobile devices */
+
+@media only screen and (max-width: 767px) {
+body{
+	font-family: Lato;
+}
+p {
+	font-weight: normal;
+}
+#mapDetails{
+	width: 330px;	margin: 0px auto;
+}
+#googleMap{
+	width: 310px;	height: 350px;
+}
 }

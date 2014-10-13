@@ -19,9 +19,8 @@
 			<img src="{% static "jquery_mobile/images/icons-png/stethoscope.png" %}" height="18" width="18" /></a>
 		</h1>
 	</div>
-	<!--Content-->
-	<div data-role="collapsible" data-collapsed="false" data-collapsed-icon="carat-d" data-expanded-icon="carat-u">
-	<h1>"{{search_specialty}}" in {{search_city}}</h1>
+	<center><h2>Search Results</h2></center>
+	{% if practitioners %}
 	<ul data-role="listview" data-inset="false">
 		{% for practitioner in practitioners %}
 		<li data-iconpos="right" data-expanded-icon="carat-r">
@@ -31,7 +30,17 @@
 		</li>
 		{% endfor %}
     </ul>
-	</div>
+	{% elif practitioner_list_day %}
+	<ul data-role="listview" data-inset="false">
+	{% for practitioner in practitioner_list_day %}
+	<li data-iconpos="right" data-expanded-icon="carat-r">
+		<a href="{% url 'practitioner' practitioner.practitioner.slug %}" class="anchor-link" >
+			{{practitioner.practitioner.name}}
+		</a>
+	</li>
+	{% endfor %}
+    </ul>
+	{% endif %}
 	<div data-role="footer">
 		<h4>&copy; all rights reserved-2014 &reg;</h4>
 	</div>

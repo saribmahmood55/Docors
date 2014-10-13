@@ -29,10 +29,11 @@
       </h1>
   </div>
   <div role="main" class="ui-content">
-        
-  <form action="/search/" method="POST">
-  {% csrf_token %}
-  <label for="select-native-2">Search Specialist Doctors in your area.</label>
+  
+  <center><h4>Find Specialist Doctors in your area.</h4></center>
+
+  <form action="/search/" method="GET">
+
   <select name="city" id="select-native-2">
   <option>Select City</option>
   {% for city in cities %}
@@ -40,22 +41,22 @@
   {% endfor %}
   </select>
 
-  <label for="select-native-2">Specialist Category</label>
+  <label for="specialty">Specialist Category</label>
   <select name="speciality" id="select-native-2">
   <option>Select Speciality</option>
   {% for speciality in specialities %}
   <option>{{speciality.name}}</option>
   {% endfor %}
   </select>
-  <label for="slider-2">Select Experience in years.</label>
+  <label for="experience">Select Experience in years.</label>
   <input type="range" name="experience" id="slider-2" value="0" min="0" max="30" data-highlight="true">
 
-  <a class="anchor-link" style="float: left; margin-top: 20px;" href="#register">get listed</a>
-  <a class="anchor-link" style="float: right; margin-top: 20px;" href="#advance">Advance Search</a>
-  <button type="submit" style="width: 90px; height: 45px; color: #3eb249; margin: 0px auto;" class="ui-btn ui-shadow ui-corner-all">
+  <button type="submit" id="search-btn" class="ui-btn ui-shadow ui-corner-all">
   Search</button>
 
   </form>
+  <a class="anchor-link" style="float: left; margin-top: 20px;" href="#register">get listed !</a>
+  <a class="anchor-link" style="float: right; margin-top: 20px;" href="#advance">advance search</a>
 
   </div>
   <div style="margin: auto auto;" data-role="footer">
@@ -65,7 +66,8 @@
   </div>
   </div>
 
-  <!-- Page2 -->
+  <!-- Advance Search -->
+
   <div data-role="page" id="advance" data-theme="a">
         <div data-role="header">
     <h1 class="ui-icon-myicon">
@@ -77,10 +79,9 @@
   </div>
   <div role="main" class="ui-content">
 
-<form action="/search/" method="POST">
-{% csrf_token %}
+<form action="/search/" method="GET">
 
-<label for="select-native-2">Search Specialist Doctors in your area.</label>
+<label for="city">Search Specialist Doctors in your area.</label>
 <select name="city" id="select-native-2">
 <option>Select City</option>
 {% for city in cities %}
@@ -88,10 +89,10 @@
 {% endfor %}
 </select>
 
-<label for="search-2">Search Specialist Doctors in your area.</label>
-<input type="search" name="prac_name" id="search-2" placeholder="Doctor Name..." />
+<label for="name">Search Specialist Doctors in your area.</label>
+<input type="search" name="name" id="search-2" placeholder="Doctor Name..." />
 
-<label for="select-native-2">Specialist Category</label>
+<label for="speciality">Specialist Category</label>
 <select name="speciality" id="select-native-2">
 <option>Select Speciality</option>
 {% for speciality in specialities %}
@@ -99,7 +100,7 @@
 {% endfor %}
 </select>
 
-<label for="slider-2">Select Experience in years.</label>
+<label for="experience">Select Experience in years.</label>
 <input type="range" name="experience" id="slider-2" value="0" min="0" max="30" data-highlight="true">
 <label for="select-native-2">Search a Doctor avalability on specific Day.</label>
 <select name="day" id="select-native-3">
@@ -125,7 +126,7 @@ Search
 
   </div>
 
-<!-- Page3 -->
+<!-- Registration -->
   <div data-role="page" id="register" data-theme="a">
         <div data-role="header">
     <h1 class="ui-icon-myicon">

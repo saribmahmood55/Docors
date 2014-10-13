@@ -15,7 +15,6 @@
 	function initialize() {
 		var myLatlng = new google.maps.LatLng({{clinic.lat}},{{clinic.lon}});
 		var mapOptions = {
-			center: new google.maps.LatLng({{clinic.lat}},{{clinic.lon}}),
 			zoom: 14,
 			center: myLatlng
 		}
@@ -44,12 +43,16 @@
 		<h3>{{practitioner.name}}</h3>
 		<p>{{practitioner.credentials}}<br>
 		Specialized in: {% for speciality in practitioner.specialities.all %} <b>{{speciality.name}}</b><br>{% endfor %}
-		Experience: <strong>{{practitioner.experience}} Years.</strong><br><br>
+		Experience: <strong>{{practitioner.experience}} years.</strong><br><br>
 		Achievements: {{practitioner.achievements}}</p>
 	</div>
 
+	<div class="ui-grid-b">
+
 	<!-- Clinic Details -->
-	<div id="clinicDetails">
+	<div class="ui-block-a" id="clinicDetails">
+	<div class="ui-bar ui-bar-a" >
+	
 	<h3>Clinic Details.</h3>
 		<p><strong>{{clinic.name}}</strong><br><br>
 		<b>Contact: <u>{{clinic.contact_number}}</u></b><br><br>
@@ -58,11 +61,15 @@
 		Address: {{clinic.clinic_address}}, <b>{{clinic.city.name}}</b><br><br>
 		Services: {{clinic.services_offered}}</p>
 	</div>
+	</div>
 
 	<!-- Clinic Timings Details -->
-	<div id="clinicTimingsDetails">
+	<div class="ui-block-b" id="clinicTimingsDetails">
+	<div class="ui-bar ui-bar-a">
+
 	<h3>Clinic Timings.</h3>
-	<table>
+	<table style="font-weight: normal;">
+		<tr>&nbsp;<br></tr>
 		<tr>
 			<td><b>Day&nbsp;</b></td>
 			<td><b>Starting&nbsp;</b></td>
@@ -77,9 +84,12 @@
     	{% endfor %}
     </table>
     </div>
+    </div>
 
     <!-- Practitioner Reviews Details -->
-	<div id="practitionerReviews">
+	<div class="ui-block-c" id="practitionerReviews">
+	<div class="ui-bar ui-bar-a">
+	
 	<h3>Practitioner Reviews.</h3>
 	{% for pr in reviews %}
 	<p>"{{pr.review_text}}"<br><br>
@@ -87,8 +97,13 @@
 	<a style="text-decoration: none; color: #333333;" href="#">
 	<img src="{% static "jquery_mobile/images/thumb-up.png" %}" height="18" width="18" /></a> {{pr.up_votes}}&nbsp;&nbsp;|&nbsp;&nbsp;{{pr.down_votes}}<a style="text-decoration: none; color: #333333;" href="#" >
 	<img src="{% static "jquery_mobile/images/thumbs-down.png" %}" height="18" width="18" /></a><br>
-	Submitted on: <i>{{pr.review_date}}</i>
-	</p>{% endfor %}
+	Submitted on: <i>{{pr.review_date}}</i><br>
+	<a class="anchor-link" style="float: right; margin-top: 20px;" href="#register">add review</a>
+	</p>
+	{% endfor %}
+    </div>
+    </div>
+
     </div>
 
 	<!-- Clinic-on-map Details -->
