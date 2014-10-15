@@ -12,7 +12,7 @@ p {
 	color: #000000 !important;
 }
 .anchor-link a:hover {
-	color: #f5f5f1 !important;
+	color: #ffffff !important;
 }
 #content{
 	text-align: none;	margin: 0% 2%;
@@ -34,7 +34,7 @@ p {
 	width: 325px;	float: left;	margin: 10px;
 }
 #mapDetails{
-	width: 1200px;	margin: 0px auto;
+	width: 1200px;	margin: 20px auto;
 }
 #googleMap{
 	width: 1180px;	height: 350px;

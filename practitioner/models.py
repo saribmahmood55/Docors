@@ -11,27 +11,11 @@ class Specialization(models.Model):
 
 #Custom Manager
 class PractitionerManager(models.Manager):
-    
-    def practitioner_name(self, prac_name):
-        return super(PractitionerManager, self).filter(name__icontains=prac_name)
 
     def practitioner_slug(self, slug):
         return super(PractitionerManager, self).get(slug=slug)
 
-    def practitioner_speciality(self,speciality):
-        return super(PractitionerManager, self).filter(specialities__name=speciality)
 
-    def practitioner_name_and_speciality(self,prac_name,speciality):
-        return super(PractitionerManager, self).filter(name__icontains=prac_name, specialities__name=speciality)
-
-    def practitioner_experienced(self, experience, speciality):
-        return super(PractitionerManager, self).filter(experience__gte=experience, specialities__name=speciality)
-
-    #pending
-    def practitioner_city(self, city):
-        return super(PractitionerManager, self).filter(cliniclocation__city__name=city)
-
-#pl = Practitioner.prac_objects.practitioner_city('Lahore')
 class Practitioner(models.Model):
     name = models.CharField(max_length=100)
     credentials = models.TextField()
@@ -61,12 +45,33 @@ class City(models.Model):
 #Custom Manager
 class ClinicLocationManager(models.Manager):
 
-    def clinic_details(self, slug):
+    def clinic_detail(self, slug):
         clinic_detail = super(ClinicLocationManager, self).get(practitioners__slug=slug)
         return clinic_detail
 
-    def clinic_detail_city(self, city):
-        clinic_detail = super(ClinicLocationManager, self).filter(city__name=city)
+
+    # Search request handling
+    def clinic_details(self, city, name, speciality, experience, day):
+        #filter city
+        clinic_list = super(ClinicLocationManager, self).filter(city__name=city)
+        #filter name
+        print name
+        if name != None and speciality == None:
+            clinic_list = clinic_list.filter(practitioners__name__icontains=name)
+        #filter Speciality
+        if speciality != None :
+            clinic_list = clinic_list.filter(practitioners__specialities__name=speciality)
+            #filter name
+            if name != None:
+                clinic_list = clinic_list.filter(practitioners__name__icontains=name)
+            #filter experienced
+            if experience >= 0:
+                clinic_list = clinic_list.filter(practitioners__experience__gte=experience)
+        #filter day
+        if day != None:
+            clinic_list = clinic_list.filter(cliniclocationtiming__day=day).distinct('practitioners')
+
+        return clinic_list
 
 
 class ClinicLocation(models.Model):
@@ -92,12 +97,9 @@ class ClinicLocation(models.Model):
 
 #Custom Manager
 class ClinicLocationTimingManager(models.Manager):
-    
-    def practitioner_day_specialty(self, specialty, day):
-        return super(ClinicLocationTimingManager, self).filter(practitioner__specialities__name=specialty, day=day).distinct('practitioner')
 
     def clinic_timing_details(self, slug):
-        return super(ClinicLocationTimingManager, self).filter(practitioner__slug=slug).order_by('day')
+        return super(ClinicLocationTimingManager, self).filter(practitioner__slug=slug).order_by('pk')
 
 
 class ClinicLocationTiming(models.Model):
@@ -124,6 +126,39 @@ class ClinicLocationTiming(models.Model):
     objects = models.Manager()
     ct_objects = ClinicLocationTimingManager()
 '''
+def clinic_detail_city(self, city):
+        clinic_detail = super(ClinicLocationManager, self).filter(city__name=city)
+        return clinic_detail
+
+
+    def clinic_detail_spec_city(self, speciality, city):
+        clinic_detail = super(ClinicLocationManager, self).filter(practitioners__specialities__name=speciality, city__name=city)
+        return clinic_detail
+
+    def clinic_detail_spec_city_exp(self, speciality, experience, city):
+        clinic_detail = super(ClinicLocationManager, self).filter(practitioners__specialities__name=speciality, 
+            practitioners__experience__gte=experience, city__name=city)
+        return clinic_detail
+    def practitioner_name(self, prac_name):
+        return super(PractitionerManager, self).filter(name__icontains=prac_name)
+
+    def practitioner_speciality(self,speciality):
+        return super(PractitionerManager, self).filter(specialities__name=speciality)
+
+    def practitioner_name_and_speciality(self,prac_name,speciality):
+        return super(PractitionerManager, self).filter(name__icontains=prac_name, specialities__name=speciality)
+
+    def practitioner_experienced(self, experience, speciality):
+        return super(PractitionerManager, self).filter(experience__gte=experience, specialities__name=speciality)
+
+    #pending
+    def practitioner_city(self, city):
+        return super(PractitionerManager, self).filter(cliniclocation__city__name=city)
+#def practitioner_day_specialty(self, specialty, day):
+    return super(ClinicLocationTimingManager, self).filter(practitioner__specialities__name=specialty, day=day).distinct('practitioner')
+#pl = Practitioner.prac_objects.practitioner_city('Lahore')
+
+
 from practitioner.models import *
 pl = ClinicLocationTiming.ct_objects.practitioner_day_specialty('Gastroenterology','Mon')
 
@@ -132,4 +167,15 @@ cl = ClinicLocationTiming.ct_objects.clinic_details('dr-mohammad-anwar')
 
 cl = ClinicLocationTiming.ct_objects.clinic_day('mon')
 cl = ClinicLocation.cl_objects.clinic_speciality('Pediatric (Child)','Mon')
+
+from practitioner.models import *
+cd = ClinicLocation.cl_objects.clinic_detail_city('Pediatrics (Child)','Lahore')
+
+from practitioner.models import *
+cd = ClinicLocation.cl_objects.clinic_detail_spec_city_exp('Pediatrics (Child)',20,'Lahore')
+
+cd = ClinicLocation.cl_objects.clinic_detail_city('Lahore')
+cd = ClinicLocation.cl_objects.clinic_detail_citys('Pediatrics (Child)','Lahore')
+cd = ClinicLocation.cl_objects.clinic_detail_spec_city_exp('Pediatrics (Child)','Lahore')
+
 '''

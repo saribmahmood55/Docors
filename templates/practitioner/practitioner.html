@@ -40,9 +40,11 @@
 	
 	<!-- Practitioner Details -->
 	<div id="practitionerDetails">
+		<a style="text-decoration: none; color: #333333; float: right" href="#">
+		<img src="{% static "jquery_mobile/images/favt_.png" %}" height="32" width="32" /></a>
 		<h3>{{practitioner.name}}</h3>
 		<p>{{practitioner.credentials}}<br>
-		Specialized in: {% for speciality in practitioner.specialities.all %} <b>{{speciality.name}}</b><br>{% endfor %}
+		Specialized in: {% for speciality in practitioner.specialities.all.iterator %} <b>{{speciality.name}}</b><br>{% endfor %}
 		Experience: <strong>{{practitioner.experience}} years.</strong><br><br>
 		Achievements: {{practitioner.achievements}}</p>
 	</div>
@@ -54,8 +56,8 @@
 	<div class="ui-bar ui-bar-a" >
 	
 	<h3>Clinic Details.</h3>
-		<p><strong>{{clinic.name}}</strong><br><br>
-		<b>Contact: <u>{{clinic.contact_number}}</u></b><br><br>
+		<p>{{clinic.name}}<br><br>
+		Contact: <b><u>{{clinic.contact_number}}</u></b><br><br>
 		Checkup Fee: <b>{{clinic.checkup_fee}}rs.</b><br><br>
 		Appointment Only: <b>{{clinic.appointments_only}}</b><br><br>
 		Address: {{clinic.clinic_address}}, <b>{{clinic.city.name}}</b><br><br>
@@ -75,7 +77,7 @@
 			<td><b>Starting&nbsp;</b></td>
 			<td><b>Closing&nbsp;</b></td>
 		</tr>
-		{% for ct in clinic_timing %}
+		{% for ct in clinic_timing.iterator %}
     	<tr>
     		<td>{{ct.get_day_display}}&nbsp;</td>
     		<td>{{ct.get_start_time_display}}&nbsp;</td>
@@ -89,18 +91,23 @@
     <!-- Practitioner Reviews Details -->
 	<div class="ui-block-c" id="practitionerReviews">
 	<div class="ui-bar ui-bar-a">
-	
 	<h3>Practitioner Reviews.</h3>
-	{% for pr in reviews %}
-	<p>"{{pr.review_text}}"<br><br>
+	{% if reviews.exists %}
+	<p>{% for pr in reviews.iterator %}
+	"{{pr.review_text}}"<br><br>
 	Reviewed by: <b>{{pr.patient}}.&nbsp;&nbsp;</b>
 	<a style="text-decoration: none; color: #333333;" href="#">
 	<img src="{% static "jquery_mobile/images/thumb-up.png" %}" height="18" width="18" /></a> {{pr.up_votes}}&nbsp;&nbsp;|&nbsp;&nbsp;{{pr.down_votes}}<a style="text-decoration: none; color: #333333;" href="#" >
 	<img src="{% static "jquery_mobile/images/thumbs-down.png" %}" height="18" width="18" /></a><br>
 	Submitted on: <i>{{pr.review_date}}</i><br>
 	<a class="anchor-link" style="float: right; margin-top: 20px;" href="#register">add review</a>
-	</p>
 	{% endfor %}
+	</p>
+	{% else %}
+    <p>No reviews, yet.<br>
+    <a class="anchor-link" style="float: right; margin-top: 20px;" href="#register">add review</a>
+    </p>
+	{% endif %}
     </div>
     </div>
 

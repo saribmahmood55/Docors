@@ -32,24 +32,24 @@
   
   <center><h4>Find Specialist Doctors in your area.</h4></center>
 
-  <form action="/search/" method="GET">
+  <form action="/q" method="GET">
 
+  <label for="city">City</label>
   <select name="city" id="select-native-2">
-  <option>Select City</option>
   {% for city in cities %}
-  <option>{{city.name}}</option>
+  <option selected="Lahore">{{city.name}}</option>
   {% endfor %}
   </select>
 
   <label for="specialty">Specialist Category</label>
-  <select name="speciality" id="select-native-2">
+  <select name="spec" id="select-native-2">
   <option>Select Speciality</option>
   {% for speciality in specialities %}
   <option>{{speciality.name}}</option>
   {% endfor %}
   </select>
   <label for="experience">Select Experience in years.</label>
-  <input type="range" name="experience" id="slider-2" value="0" min="0" max="30" data-highlight="true">
+  <input type="range" name="exp" id="slider-2" value="0" min="0" max="30" data-highlight="true">
 
   <button type="submit" id="search-btn" class="ui-btn ui-shadow ui-corner-all">
   Search</button>
@@ -79,29 +79,30 @@
   </div>
   <div role="main" class="ui-content">
 
-<form action="/search/" method="GET">
+<center><h4>advance search options.</h4></center>
 
-<label for="city">Search Specialist Doctors in your area.</label>
-<select name="city" id="select-native-2">
-<option>Select City</option>
-{% for city in cities %}
-<option>{{city.name}}</option>
-{% endfor %}
-</select>
+<form action="/q" method="GET">
+
+<label for="city">City</label>
+  <select name="city" id="select-native-2">
+  {% for city in cities %}
+  <option selected="Lahore">{{city.name}}</option>
+  {% endfor %}
+  </select>
 
 <label for="name">Search Specialist Doctors in your area.</label>
 <input type="search" name="name" id="search-2" placeholder="Doctor Name..." />
 
 <label for="speciality">Specialist Category</label>
-<select name="speciality" id="select-native-2">
-<option>Select Speciality</option>
+<select name="spec" id="select-native-2">
+<option >Select Speciality</option>
 {% for speciality in specialities %}
 <option>{{speciality.name}}</option>
 {% endfor %}
 </select>
 
 <label for="experience">Select Experience in years.</label>
-<input type="range" name="experience" id="slider-2" value="0" min="0" max="30" data-highlight="true">
+<input type="range" name="exp" id="slider-2" value="0" min="0" max="30" data-highlight="true">
 <label for="select-native-2">Search a Doctor avalability on specific Day.</label>
 <select name="day" id="select-native-3">
 <option>Select Day</option>
@@ -116,15 +117,16 @@
 <button type="submit" style="width: 90px; height: 45px; color: #3eb249; margin: 0px auto;" class="ui-btn ui-shadow ui-corner-all">
 Search
 </button>
-      </form>
-  </div>
-  <div style="margin: auto auto;" data-role="footer">
-    <h4>
-      &copy; all rights reserved-2014 &reg;
-    </h4>
-  </div>
+</form>
+</div>
 
-  </div>
+<div style="margin: auto auto;" data-role="footer">
+<h4>
+&copy; all rights reserved-2014 &reg;
+</h4>
+</div>
+
+</div>
 
 <!-- Registration -->
   <div data-role="page" id="register" data-theme="a">

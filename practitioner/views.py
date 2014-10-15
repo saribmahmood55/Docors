@@ -12,6 +12,7 @@ def index(request):
 	try:
 		specialities = Specialization.objects.order_by('name')
 		cities = City.objects.order_by('name')
+		print request.user
 	except Specialization.DoesNotExist:
 		raise Http404
 	return render_to_response('practitioner/index.html', 
@@ -19,56 +20,35 @@ def index(request):
 
 
 #handle search request
-def search(request):
-	city, name, speciality, experience, day, practitioner_list, practitioner_list_day = None, None, None, None, None, [], []
+def q(request):
+	print request.user
+	city, name, speciality, experience, day, prac_clinic_list = None, None, None, None, None, []
 	if request.method == "GET":
 		city = request.GET.get('city', None)
 		name = request.GET.get('name', None)
-		speciality = request.GET.get('speciality', None)
-		experience = request.GET.get('experience', None)
+		speciality = request.GET.get('spec', None)
+		experience = request.GET.get('exp', None)
 		day = request.GET.get('day', None)
-		
-		if city == "Select City":
-			city = None
-		if name == "":
-			name = None
 		if speciality == "Select Speciality":
 			speciality = None
 		if day == "Select Day":
 			day = None
 
 	try:
-		#name
-		if name != None:
-			practitioner_list = Practitioner.prac_objects.practitioner_name(name)
-			print 1
-		#speciality
-		elif speciality != None and experience == None:
-			practitioner_list = Practitioner.prac_objects.practitioner_speciality(speciality)
-			print 2
-		#name and speciality
-		elif name != None and speciality:
-			practitioner_list = Practitioner.prac_objects.practitioner_name_and_speciality(name, speciality)
-			print 3
-		#speciality and experience
-		elif speciality != None and experience != 0 and day == None:
-			practitioner_list = Practitioner.prac_objects.practitioner_experienced(experience,speciality)
-			print 4
-		#day and speciality
-		elif speciality != None and day != None:
-			print 5
-			practitioner_list_day = ClinicLocationTiming.ct_objects.practitioner_day_specialty(speciality, day)
-	except Practitioner.DoesNotExist:
+		#testing
+		prac_clinic_list = ClinicLocation.cl_objects.clinic_details(city, name, speciality, experience, day)
+		#print len(prac_clinic_list)
+	except ClinicLocation.DoesNotExist:
 		raise Http404
-	return render(request, 'practitioner/practitioners.html', 
-		{'practitioners': practitioner_list, 'practitioner_list_day': practitioner_list_day})
+	return render(request, 'practitioner/results.html', {'prac_clinic_list': prac_clinic_list})
 
 
 # single practitioner details
 def practitioner(request, slug):
+	print request.user
 	try:
 		practitioner = Practitioner.prac_objects.practitioner_slug(slug)
-		clinic = ClinicLocation.cl_objects.clinic_details(slug)
+		clinic = ClinicLocation.cl_objects.clinic_detail(slug)
 		clinic_timing = ClinicLocationTiming.ct_objects.clinic_timing_details(slug)
 		reviews = PractitionerReview.pr_objects.practitioner_reviews(slug)
 	except Practitioner.DoesNotExist:
@@ -132,4 +112,32 @@ print len(cl)
 
 clinic_detail = ClinicLocation.cl_objects.clinic_detail('Dr. Mohammad Anwar Private Clininc')
 print clinic_detail
+
+#case1
+if city and speciality:
+	prac_list_clinic = ClinicLocation.cl_objects.clinic_detail_spec_city(speciality, city)
+	#case2
+	if experience > 0:
+		prac_list_clinic = ClinicLocation.cl_objects.clinic_detail_spec_city_exp(speciality, city, experience)
+#name
+if name != None:
+	prac_list = Practitioner.prac_objects.practitioner_name(name)
+	print 1
+#speciality
+elif speciality != None and city and experience == None:
+	prac_list_clinic = ClinicLocation.cl_objects.clinic_detail_citys(speciality, city)
+	#prac_list = Practitioner.prac_objects.practitioner_speciality(speciality)
+	print 2
+#name and speciality
+elif name != None and speciality:
+	prac_list = Practitioner.prac_objects.practitioner_name_and_speciality(name, speciality)
+	print 3
+#speciality and experience
+elif speciality != None and experience != 0 and day == None:
+	prac_list = Practitioner.prac_objects.practitioner_experienced(experience,speciality)
+	print 4
+#day and speciality
+elif speciality != None and day != None:
+	print 5
+	prac_list_day = ClinicLocationTiming.ct_objects.practitioner_day_specialty(speciality, day)
 '''

@@ -16,6 +16,7 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+
 #GMAIL
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'docors2014@gmail.com'
@@ -33,20 +34,27 @@ REST_FRAMEWORK = {
     ]
 }
 # Application definition
-
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.sites',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'django.contrib.gis',
-    'practitioner',
-    'patients',
     'rest_framework',
-    'world'
+    'world',
+    'registration',
+    'practitioner',
+    'patients'
 )
+
+SITE_ID = 1
+
+#Registration
+ACCOUNT_ACTIVATION_DAYS = 7
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
