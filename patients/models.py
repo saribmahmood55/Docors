@@ -3,6 +3,12 @@ from django.contrib.auth.models import User
 from practitioner.models import Specialization, Practitioner
 
 
+#customManager
+class PatientManager(models.Manager):
+
+    def patient_details(self, user):
+        return super(PatientManager, self).get(user=user)
+
 class Patient(models.Model):
     GENDER_CHOICES = (
         ('M', 'Male'),
@@ -14,11 +20,14 @@ class Patient(models.Model):
 		('75', '75-79'), ('80', '80-84'), ('85', '85+'),
 	)
     user = models.OneToOneField(User)
-    cell_number = models.CharField(max_length=20, help_text="Please use the following format: 03215555555")
+    cell_number = models.CharField(max_length=20, help_text="Please use the following format: 03215555555",null=True, blank=True)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, help_text="Please select gender.", null=True, blank=True)
     age_group = models.CharField(max_length=2, choices=AGE_GROUPS, help_text="Please select appropriate age group." ,null=True, blank=True)
     interested_specialities = models.ManyToManyField(Specialization, null=True, blank=True)
     favt_practitioner = models.ManyToManyField(Practitioner, null=True, blank=True)
+
+    objects = models.Manager()
+    patients_objects = PatientManager()
 
     class Meta:
         verbose_name_plural = 'Patients'
@@ -39,6 +48,7 @@ class PractitionerReviewManager(models.Manager):
 class PractitionerReview(models.Model):
     practitioner = models.ForeignKey(Practitioner)
     patient = models.ForeignKey(Patient)
+    #post_as_anonymous = models.BooleanField(default=false)
     review_text = models.TextField()
     review_date = models.DateTimeField(auto_now_add=True)
     up_votes = models.PositiveIntegerField(default=0)

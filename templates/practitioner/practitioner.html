@@ -32,9 +32,13 @@
 <body>
 <div data-role="page">
 	<div data-role="header">
-		<h1 class="ui-icon-myicon"><a style="text-decoration: none; color: #333333;" href="http://localhost:8000/">docors.&nbsp;
-			<img src="{% static "jquery_mobile/images/icons-png/stethoscope.png" %}" height="18" width="18" /></a>
-		</h1>
+  		<h1 class="ui-icon-myicon">
+  			<a href="http://localhost:8000/" class="anchor-link" >docors.&nbsp;
+  			<img src="{% static "jquery_mobile/images/icons-png/stethoscope.png" %}" height="18" width="18" /></a>
+	 		{% if patient.is_authenticated %}
+	  			<a href="#" style: id="user" >{{patient.username}}</a>
+	  		{% endif %}
+  		</h1>
 	</div>
 	<div id='content'>
 	
@@ -93,20 +97,43 @@
 	<div class="ui-bar ui-bar-a">
 	<h3>Practitioner Reviews.</h3>
 	{% if reviews.exists %}
-	<p>{% for pr in reviews.iterator %}
-	"{{pr.review_text}}"<br><br>
-	Reviewed by: <b>{{pr.patient}}.&nbsp;&nbsp;</b>
-	<a style="text-decoration: none; color: #333333;" href="#">
-	<img src="{% static "jquery_mobile/images/thumb-up.png" %}" height="18" width="18" /></a> {{pr.up_votes}}&nbsp;&nbsp;|&nbsp;&nbsp;{{pr.down_votes}}<a style="text-decoration: none; color: #333333;" href="#" >
-	<img src="{% static "jquery_mobile/images/thumbs-down.png" %}" height="18" width="18" /></a><br>
+	{% for pr in reviews.iterator %}
+	<p>
+	"{{pr.review_text}}"<br>
+	
+	{% if patient.is_authenticated %}
+	<a href="#" class="anchor-link" >
+	<img src="{% static "jquery_mobile/images/thumb-up.png" %}" height="18" width="18" /></a>&nbsp;&nbsp;{{pr.up_votes}}
+	&nbsp;&nbsp;
+	<a href="#" class="anchor-link" >
+	<img src="{% static "jquery_mobile/images/thumbs-down.png" %}" height="18" width="18" /></a>&nbsp;&nbsp;{{pr.down_votes}}<br>
+
+	{% else %}
+	<center>agree: {{pr.up_votes}}&nbsp;&nbsp;|&nbsp;&nbsp;disagree: {{pr.down_votes}}</center><br>
+	{% endif %}
+	Reviewed by: <b>{{pr.patient}}.&nbsp;</b><br>
 	Submitted on: <i>{{pr.review_date}}</i><br>
-	<a class="anchor-link" style="float: right; margin-top: 20px;" href="#register">add review</a>
 	{% endfor %}
 	</p>
 	{% else %}
     <p>No reviews, yet.<br>
-    <a class="anchor-link" style="float: right; margin-top: 20px;" href="#register">add review</a>
-    </p>
+    {% endif %}
+
+    <!-- Post new Reviews-->
+    {% if patient.is_authenticated %}
+    <div id="reviewBox" data-role="collapsible" data-collapsed="true" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right"><h6>add review</h6>
+	<form action="/addReview/" method="POST">{% csrf_token %}
+  		<textarea cols="8" rows="8" name="review_text" required></textarea>
+  		<input type="hidden" name="slug" value="{{practitioner.slug}}" >
+  		<button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Post</button>
+  	</form>
+  	</div>
+
+    {% else %}
+    <p>
+    <!-- no user login	-->
+    <a href="http://localhost:8000/accounts/register/" class="anchor-link-right">add review</a>
+	</p>
 	{% endif %}
     </div>
     </div>
@@ -127,3 +154,10 @@
 </div>
 </body>
 </html>
+<!--li class="ui-field-contain">
+	<label for="anonymous">Post as Anonymous:</label>
+		<select name="anonymous" id="flip2" data-role="slider">
+			<option value="True">Yes</option>
+			<option value="False">No</option>
+		</select>
+</li-->

@@ -9,20 +9,24 @@ from django.core.mail import send_mail
 
 #home page
 def index(request):
+	user = request.user
+	if user.username == "AnonymousUser":
+		request.user = None
 	try:
 		specialities = Specialization.objects.order_by('name')
 		cities = City.objects.order_by('name')
-		print request.user
 	except Specialization.DoesNotExist:
 		raise Http404
-	return render_to_response('practitioner/index.html', 
-		{'specialities': specialities, 'cities': cities},context_instance=RequestContext(request))
+	return render(request, 'practitioner/index.html', 
+		{'specialities': specialities, 'cities': cities, 'patient': user},context_instance=RequestContext(request))
 
 
 #handle search request
 def q(request):
-	print request.user
-	city, name, speciality, experience, day, prac_clinic_list = None, None, None, None, None, []
+	user, city, name, speciality, experience, day, prac_clinic_list = None, None, None, None, None, None, []
+	user = request.user
+	if user.username == "AnonymousUser":
+		request.user = None
 	if request.method == "GET":
 		city = request.GET.get('city', None)
 		name = request.GET.get('name', None)
@@ -40,12 +44,15 @@ def q(request):
 		#print len(prac_clinic_list)
 	except ClinicLocation.DoesNotExist:
 		raise Http404
-	return render(request, 'practitioner/results.html', {'prac_clinic_list': prac_clinic_list})
+	return render(request, 'practitioner/results.html', {'prac_clinic_list': prac_clinic_list, 'patient': user})
 
 
 # single practitioner details
 def practitioner(request, slug):
-	print request.user
+	user = request.user
+	print user.pk
+	if user.username == "AnonymousUser":
+		request.user = None
 	try:
 		practitioner = Practitioner.prac_objects.practitioner_slug(slug)
 		clinic = ClinicLocation.cl_objects.clinic_detail(slug)
@@ -54,7 +61,7 @@ def practitioner(request, slug):
 	except Practitioner.DoesNotExist:
 		raise Http404
 	return render(request, 'practitioner/practitioner.html', 
-		{'practitioner': practitioner, 'clinic': clinic, 'clinic_timing': clinic_timing, 'reviews': reviews})
+		{'practitioner': practitioner, 'clinic': clinic, 'clinic_timing': clinic_timing, 'reviews': reviews, 'patient': user})
 
 
 #send email

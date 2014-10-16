@@ -19,15 +19,20 @@
   </head>
   
   <body>
-    <div data-role="page" id="basic">
-      <div data-role="header">
-		<h1 class="ui-icon-myicon">
-          <a href="http://localhost:8000/" class="anchor-link" >
-            docors.&nbsp;
-			<img src="{% static "jquery_mobile/images/icons-png/stethoscope.png" %}" height="18" width="18" />
-          </a>
+
+<div data-role="page" id="basic">
+  <div data-role="header">
+      <h1 class="ui-icon-myicon">
+        <a href="http://localhost:8000/" class="anchor-link" >docors.&nbsp;
+        <img src="{% static "jquery_mobile/images/icons-png/stethoscope.png" %}" height="18" width="18" /></a>
+            {% if patient.is_authenticated %}
+        <a href="{% url 'patient' %}" style: id="user" >{{patient.username}}</a>
+      {% else %}
+        <a href="http://localhost:8000/accounts/login/" style: class="anchor-link-right" >Login</a>
+        {% endif %}
       </h1>
   </div>
+
   <div role="main" class="ui-content">
   
   <center><h4>Find Specialist Doctors in your area.</h4></center>
@@ -36,7 +41,7 @@
 
   <label for="city">City</label>
   <select name="city" id="select-native-2">
-  {% for city in cities %}
+  {% for city in cities.iterator %}
   <option selected="Lahore">{{city.name}}</option>
   {% endfor %}
   </select>
@@ -44,7 +49,7 @@
   <label for="specialty">Specialist Category</label>
   <select name="spec" id="select-native-2">
   <option>Select Speciality</option>
-  {% for speciality in specialities %}
+  {% for speciality in specialities.iterator %}
   <option>{{speciality.name}}</option>
   {% endfor %}
   </select>
@@ -69,12 +74,15 @@
   <!-- Advance Search -->
 
   <div data-role="page" id="advance" data-theme="a">
-        <div data-role="header">
-    <h1 class="ui-icon-myicon">
-          <a href="http://localhost:8000/" class="anchor-link" >
-            docors.&nbsp;
-      <img src="{% static "jquery_mobile/images/icons-png/stethoscope.png" %}" height="18" width="18" />
-          </a>
+  <div data-role="header">
+      <h1 class="ui-icon-myicon">
+        <a href="http://localhost:8000/" class="anchor-link" >docors.&nbsp;
+        <img src="{% static "jquery_mobile/images/icons-png/stethoscope.png" %}" height="18" width="18" /></a>
+      {% if patient.is_authenticated %}
+        <a href="{% url 'patient' %}" style: id="user" >{{patient.username}}</a>
+      {% else %}
+        <a href="/accounts/login/" style: clss="anchor-link-right" >Login</a>
+        {% endif %}
       </h1>
   </div>
   <div role="main" class="ui-content">
@@ -85,7 +93,7 @@
 
 <label for="city">City</label>
   <select name="city" id="select-native-2">
-  {% for city in cities %}
+  {% for city in cities.iterator %}
   <option selected="Lahore">{{city.name}}</option>
   {% endfor %}
   </select>
@@ -96,7 +104,7 @@
 <label for="speciality">Specialist Category</label>
 <select name="spec" id="select-native-2">
 <option >Select Speciality</option>
-{% for speciality in specialities %}
+{% for speciality in specialities.iterator %}
 <option>{{speciality.name}}</option>
 {% endfor %}
 </select>
@@ -130,12 +138,15 @@ Search
 
 <!-- Registration -->
   <div data-role="page" id="register" data-theme="a">
-        <div data-role="header">
-    <h1 class="ui-icon-myicon">
-          <a href="http://localhost:8000/" class="anchor-link" >
-            docors.&nbsp;
-      <img src="{% static "jquery_mobile/images/icons-png/stethoscope.png" %}" height="18" width="18" />
-          </a>
+  <div data-role="header">
+      <h1 class="ui-icon-myicon">
+        <a href="http://localhost:8000/" class="anchor-link" >docors.&nbsp;
+        <img src="{% static "jquery_mobile/images/icons-png/stethoscope.png" %}" height="18" width="18" /></a>
+      {% if patient.is_authenticated %}
+        <a href="{% url 'patient' %}" style: id="user" >{{patient.username}}</a>
+      {% else %}
+        <a href="/accounts/login/" style: class="anchor-link-right" >Login</a>
+        {% endif %}
       </h1>
   </div>
   

@@ -1,0 +1,63 @@
+<!DOCTYPE html> 
+<html>
+<head>
+	<title>docors | patient details</title>
+	{% load staticfiles %}
+	<link rel="shortcut icon" href="{% static "jquery_mobile/stethoscope.ico" %}" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="{% static "jquery_mobile/jquery.mobile-1.4.4.min.css" %}" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="{% static "jquery_mobile/style.css" %}"rel="stylesheet" type="text/css" />
+	<script src="{% static "jquery_mobile/jquery-1.9.1.min.js" %}" type="text/javascript"></script>
+	<script src="{% static "jquery_mobile/jquery.mobile-1.4.4.min.js" %}" type="text/javascript"></script>
+	<script src="{% static "jquery_mobile/jquery.mobile-1.4.4.min.map" %}" type="text/javascript"></script>	
+
+</head>
+<body>
+<div data-role="page">
+	<div data-role="header">
+  		<h1 class="ui-icon-myicon">
+  			<a href="localhost:8000/" class="anchor-link" >docors.&nbsp;
+  			<img src="{% static "jquery_mobile/images/icons-png/stethoscope.png" %}" height="18" width="18" /></a>
+	 		{% if patient.is_authenticated %}
+	  			<a href="localhost:8000/accounts/logout/" style: id="user" >Logout</a>
+	  		{% endif %}
+  		</h1>
+	</div>
+	<div id='content'>
+	<div class="ui-block-b">
+	<div class="ui-bar ui-bar-a">
+
+	<center><h3>Patient Detail</h3></center>
+	<table style="font-weight: normal;">
+		<tr>
+			<td><b>User Name: {{patient.user.username}}</b></td>
+		</tr>
+		<tr>
+			<td><b>Email: {{patient.user.email}}</b></td>
+		</tr>
+		<tr>
+			<td><b>first name: {{patient.user.firstname}}</b></td>
+		</tr>
+		<tr>
+			<td><b>last Name: {{patient.user.lastname}}</b></td>
+		</tr>
+		<tr>
+			<td><b>Cell Number: {{patient.cell_number}}</b></td>
+		</tr>
+		<tr>
+			<td><b>Gender: {{patient.user.gender}}</b></td>
+		</tr>
+		<tr>
+			<td><b>Gender: {{patient.user.gender}}</b></td>
+		</tr>
+    </table>
+    </div>
+    </div>
+    </div>
+    <!-- Footer Details -->
+	<div data-role="footer">
+		<h4>&copy; all rights reserved-2014 &reg;</h4>
+	</div>
+</div>
+</body>
+</html>

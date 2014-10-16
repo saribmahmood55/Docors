@@ -7,6 +7,9 @@ body{
 p {
 	font-weight: normal;
 }
+#content{
+	text-align: none;	margin: 0% 2%;
+}
 .anchor-link {
 	text-decoration: none !important;
 	color: #000000 !important;
@@ -14,12 +17,18 @@ p {
 .anchor-link a:hover {
 	color: #ffffff !important;
 }
-#content{
-	text-align: none;	margin: 0% 2%;
-}
+#user { float:right; text-decoration: none; color: #000000; background-color: #fff;}
+.anchor-link-right {	float:right; text-decoration: none !important; color: #000000 !important; }
+.anchor-link-right a:hover { color: #ffffff; }
+#float-right{ float: right;}
+
+#reviewBox {width: 290px;}
+#reviewBox h6{width: 290px;}
+
 #search-btn{
 	width: 90px; height: 40px; color: #3eb249; margin: 0px auto; padding: 0px;
 }
+#post-review-btn{	width: 90px; height: 40px; color: #3eb249; float: right; padding: 0px; margin-top: 15px;}
 #practitionerDetails{
 	float: none;
 	text-align: center;
@@ -49,7 +58,7 @@ p {
 	font-weight: normal;
 }
 #mapDetails{
-	width: 330px;	margin: 0px auto;
+	width: 330px;	margin: 20px auto;
 }
 #googleMap{
 	width: 310px;	height: 350px;

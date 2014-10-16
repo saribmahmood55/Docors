@@ -16,6 +16,7 @@ class PractitionerManager(models.Manager):
         return super(PractitionerManager, self).get(slug=slug)
 
 
+
 class Practitioner(models.Model):
     name = models.CharField(max_length=100)
     credentials = models.TextField()
