@@ -1,9 +1,8 @@
 from patients.models import *
 from practitioner.models import *
 from django.http import Http404
-from django.http import HttpResponse
 from django.shortcuts import render
-from django.template import RequestContext
+
 
 def patient(request):
 	user = request.user
@@ -11,8 +10,35 @@ def patient(request):
 		patient = Patient.objects.get(user=user)
 	except Patient.DoesNotExist:
 		raise Http404
-	return render(request, 'patients/profile.html', 
-		{'patient': patient})
+	return render(request, 'patients/profile.html', {'patient': patient})
+
+
+def favourite(request):
+	user, slug = None, None
+	if request.method == "POST":
+		user = request.user
+		slug = request.POST.get('slug', None)
+		practitioner = Practitioner.prac_objects.practitioner_slug(slug)
+		print practitioner.name
+		#patient = Patient.patient_objects.patient_details(user)
+		Patient.objects.filter(user=user).update(cell_number='0000001')
+	try:
+		patient = Patient.objects.get(user=user)
+	except Patient.DoesNotExist:
+		raise Http404
+	return render(request, 'patients/profile.html', {'patient': patient})
+	
+'''
+	try:
+		clinic = ClinicLocation.cl_objects.clinic_detail(slug)
+		clinic_timing = ClinicLocationTiming.ct_objects.clinic_timing_details(slug)
+		reviews = PractitionerReview.pr_objects.practitioner_reviews(slug)
+	except Practitioner.DoesNotExist:
+		raise Http404
+	return render(request, 'practitioner/practitioner.html', 
+		{'practitioner': practitioner, 'clinic': clinic, 'clinic_timing': clinic_timing, 'reviews': reviews, 'patient': user})
+'''
+
 
 def up(request):
 	return 0
@@ -35,7 +61,6 @@ def addReview(request):
 	p.up_votes = 0
 	p.down_votes = 0
 	p.save()
-	slug = practitioner.slug
 	try:
 		clinic = ClinicLocation.cl_objects.clinic_detail(slug)
 		clinic_timing = ClinicLocationTiming.ct_objects.clinic_timing_details(slug)

@@ -27,7 +27,7 @@ class Patient(models.Model):
     favt_practitioner = models.ManyToManyField(Practitioner, null=True, blank=True)
 
     objects = models.Manager()
-    patients_objects = PatientManager()
+    patient_objects = PatientManager()
 
     class Meta:
         verbose_name_plural = 'Patients'

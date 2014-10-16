@@ -20,6 +20,7 @@ p {
 #user { float:right; text-decoration: none; color: #000000; background-color: #fff;}
 .anchor-link-right {	float:right; text-decoration: none !important; color: #000000 !important; }
 .anchor-link-right a:hover { color: #ffffff; }
+.loginSignup { margin: 30px auto;}
 #float-right{ float: right;}
 
 #reviewBox {width: 290px;}

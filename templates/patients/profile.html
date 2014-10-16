@@ -16,44 +16,49 @@
 <div data-role="page">
 	<div data-role="header">
   		<h1 class="ui-icon-myicon">
-  			<a href="localhost:8000/" class="anchor-link" >docors.&nbsp;
+  			<a href="http://localhost:8000/" class="anchor-link" >docors.&nbsp;
   			<img src="{% static "jquery_mobile/images/icons-png/stethoscope.png" %}" height="18" width="18" /></a>
-	 		{% if patient.is_authenticated %}
-	  			<a href="localhost:8000/accounts/logout/" style: id="user" >Logout</a>
+	 		{% if patient.user.is_authenticated %}
+	  			<a href="http://localhost:8000/accounts/logout/" style: id="user" >Logout</a>
 	  		{% endif %}
   		</h1>
 	</div>
+	<center>
 	<div id='content'>
+	<div style="margin: 25px 0px;" class="ui-grid-b">
 	<div class="ui-block-b">
 	<div class="ui-bar ui-bar-a">
 
 	<center><h3>Patient Detail</h3></center>
 	<table style="font-weight: normal;">
 		<tr>
-			<td><b>User Name: {{patient.user.username}}</b></td>
+			<td><b>username: </b>{{patient.user.username}}</td>
 		</tr>
 		<tr>
-			<td><b>Email: {{patient.user.email}}</b></td>
+			<td><b>email: </b>{{patient.user.email}}</td>
 		</tr>
 		<tr>
-			<td><b>first name: {{patient.user.firstname}}</b></td>
+			<td><b>first name: </b>{{patient.user.firstname}}</td>
 		</tr>
 		<tr>
-			<td><b>last Name: {{patient.user.lastname}}</b></td>
+			<td><b>last Name: </b>{{patient.user.lastname}}</td>
 		</tr>
 		<tr>
-			<td><b>Cell Number: {{patient.cell_number}}</b></td>
+			<td><b>Cell Number: </b>{{patient.cell_number}}</td>
 		</tr>
 		<tr>
-			<td><b>Gender: {{patient.user.gender}}</b></td>
+			<td><b>Gender: </b>{{patient.user.gender}}</td>
 		</tr>
 		<tr>
-			<td><b>Gender: {{patient.user.gender}}</b></td>
+			<td><b>Age-Group: </b>{{patient.user.age_group}}</td>
 		</tr>
     </table>
     </div>
     </div>
     </div>
+    </div>
+    </center>
+
     <!-- Footer Details -->
 	<div data-role="footer">
 		<h4>&copy; all rights reserved-2014 &reg;</h4>

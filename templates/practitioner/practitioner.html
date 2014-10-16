@@ -32,20 +32,24 @@
 <body>
 <div data-role="page">
 	<div data-role="header">
-  		<h1 class="ui-icon-myicon">
-  			<a href="http://localhost:8000/" class="anchor-link" >docors.&nbsp;
-  			<img src="{% static "jquery_mobile/images/icons-png/stethoscope.png" %}" height="18" width="18" /></a>
-	 		{% if patient.is_authenticated %}
-	  			<a href="#" style: id="user" >{{patient.username}}</a>
-	  		{% endif %}
-  		</h1>
-	</div>
+      <h1 class="ui-icon-myicon">
+        <a href="http://localhost:8000/" class="anchor-link" >docors.&nbsp;
+        <img src="{% static "jquery_mobile/images/icons-png/stethoscope.png" %}" height="18" width="18" /></a>
+      {% if patient.is_authenticated %}
+        <a href="{% url 'patient' %}" style: id="user" >{{patient.username}}</a>
+      {% else %}
+        <a href="/accounts/login/" style: class="anchor-link-right" >Login</a>
+        {% endif %}
+      </h1>
+  </div>
 	<div id='content'>
 	
 	<!-- Practitioner Details -->
 	<div id="practitionerDetails">
-		<a style="text-decoration: none; color: #333333; float: right" href="#">
-		<img src="{% static "jquery_mobile/images/favt_.png" %}" height="32" width="32" /></a>
+		<form action="/favourite/" method="POST">{% csrf_token %}
+			<input class="anchor-link-right" type="image" src="{% static "jquery_mobile/images/favt_.png" %}" height="32" width="32" >
+			<input type="hidden" name="slug" value="{{practitioner.slug}}" >
+		</form>
 		<h3>{{practitioner.name}}</h3>
 		<p>{{practitioner.credentials}}<br>
 		Specialized in: {% for speciality in practitioner.specialities.all.iterator %} <b>{{speciality.name}}</b><br>{% endfor %}
@@ -132,7 +136,7 @@
     {% else %}
     <p>
     <!-- no user login	-->
-    <a href="http://localhost:8000/accounts/register/" class="anchor-link-right">add review</a>
+    <a href="#loginSignup" class="anchor-link-right">add review</a>
 	</p>
 	{% endif %}
     </div>
@@ -152,6 +156,25 @@
 		<h4>&copy; all rights reserved-2014 &reg;</h4>
 	</div>
 </div>
+  <!-- Login SignUp -->
+
+  <div data-role="page" id="loginSignup" data-theme="a">
+  <div data-role="header">
+      <h1 class="ui-icon-myicon">
+        <a href="http://localhost:8000/" class="anchor-link" >docors.&nbsp;
+        <img src="{% static "jquery_mobile/images/icons-png/stethoscope.png" %}" height="18" width="18" /></a>
+      </h1>
+  </div>
+
+  <div role="main" class="ui-content">
+  	<center><a href="http://localhost:8000/accounts/login/" class="ui-btn ui-corner-all ui-shadow loginSignup">Login</a></center>
+  	<center><a href="http://localhost:8000/accounts/register/" class="ui-btn ui-corner-all ui-shadow loginSignup">Sign Up</a></center>
+  <div style="margin: auto auto;" data-role="footer">
+  	<h4>&copy; all rights reserved-2014 &reg;</h4>
+  </div>
+
+</div>
+
 </body>
 </html>
 <!--li class="ui-field-contain">

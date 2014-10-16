@@ -19,22 +19,30 @@
   			<a href="http://localhost:8000/" class="anchor-link" >docors.&nbsp;
   			<img src="{% static "jquery_mobile/images/icons-png/stethoscope.png" %}" height="18" width="18" /></a>
 	 		{% if patient.is_authenticated %}
-	  			<a href="#" style: id="user" >{{patient}}</a>
+	  			<a href="{% url 'patient' %}" style: id="user" >{{patient}}</a>
 	  		{% endif %}
   		</h1>
 	</div>
 	<center><h2>Search Results</h2></center>
 	{% if prac_clinic_list.exists %}
-	<ul data-role="listview" data-inset="false">
-		{% for practitioners in prac_clinic_list.iterator %}
-		<li data-iconpos="right" data-expanded-icon="carat-r">
-			{% for practitioner in practitioners.practitioners.all %} 
-			<a href="{% url 'practitioner' practitioner.slug %}" class="anchor-link" >
-				{{practitioner.name}} 
-			</a>
-			{% endfor %}
-		</li>
-		{% endfor %}
+
+	<ul style="margin-bottom: 30px;" data-role="listview" data-inset="true">
+    {% for practitioners in prac_clinic_list.iterator %}
+    {% for practitioner in practitioners.practitioners.all.iterator %}
+    <li>
+    <a href="{% url 'practitioner' practitioner.slug %}" class="anchor-link" >
+    <h2>{{practitioner.name}}</h2>
+    <p><strong>{{practitioner.credentials}}</strong></p>
+    <p>Specialized in: 
+    	{% for speciality in practitioner.specialities.all.iterator %}
+    	{{speciality.name}}
+    	{% endfor %}
+    </p>
+    </a>
+    </li>
+    {% endfor %}
+	{% endfor %}
+	</ul>
 	{% else %}
     <center><p><strong>Sorry, No results found. Search again.</strong></p></center>
 	{% endif %}
