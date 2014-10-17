@@ -1,15 +1,9 @@
 from django.contrib import admin
-#from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from patients.models import Patient, PractitionerReview
 from practitioner.models import Practitioner, Specialization
 
-'''
-class PatientInline(admin.StackedInline):
-	model = Patient
-	can_delete = False
-	verbose_name_plural = 'patients'
-'''
+
 class PatientAdmin(admin.ModelAdmin):
 	#inlines = (PatientInline, )
 	list_display = ['patient_name','patient_user_name','email','cell_number','gender','Interested_Specialities','Favourite_Practitioners']
@@ -31,7 +25,7 @@ class PatientAdmin(admin.ModelAdmin):
 
 
 class PractitionerReviewAdmin(admin.ModelAdmin):
-	list_display = ['review_text','Practitioner_Reviewed','Reviewed_By','review_date','up_votes','down_votes']
+	list_display = ['practitioner','patient','post_as_anonymous','review_text','Practitioner_Reviewed','Reviewed_By','review_date','up_votes','down_votes']
 	list_filter = ['review_date']
 
 	def Practitioner_Reviewed(self, obj):

@@ -8,7 +8,7 @@ from django.conf import settings
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('practitioner', '__first__'),
+        ('practitioner', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
@@ -33,6 +33,7 @@ class Migration(migrations.Migration):
             name='PractitionerReview',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('post_as_anonymous', models.BooleanField(default=False)),
                 ('review_text', models.TextField()),
                 ('review_date', models.DateTimeField(auto_now_add=True)),
                 ('up_votes', models.PositiveIntegerField(default=0)),
@@ -49,7 +50,7 @@ class Migration(migrations.Migration):
             name='ReviewStats',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('status', models.BooleanField(default=True)),
+                ('status', models.IntegerField()),
                 ('patient', models.ForeignKey(to='patients.Patient')),
                 ('review', models.ForeignKey(to='patients.PractitionerReview')),
             ],

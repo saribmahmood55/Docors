@@ -22,7 +22,7 @@ def index(request):
 
 #handle search request
 def q(request):
-	user, city, name, speciality, experience, day, prac_clinic_list = None, None, None, None, None, None, []
+	user, city, name, speciality, experience, day, practise = None, None, None, None, None, None, []
 	user = request.user
 	if user.username == "AnonymousUser":
 		request.user = None
@@ -39,11 +39,11 @@ def q(request):
 
 	try:
 		#testing
-		prac_clinic_list = ClinicLocation.cl_objects.clinic_details(city, name, speciality, experience, day)
+		practise = Practise.practise_objects.practise_details(city, name, speciality, experience, day)
 		#print len(prac_clinic_list)
-	except ClinicLocation.DoesNotExist:
+	except Practise.DoesNotExist:
 		raise Http404
-	return render(request, 'practitioner/results.html', {'prac_clinic_list': prac_clinic_list, 'patient': user})
+	return render(request, 'practitioner/results.html', {'practise': practise, 'patient': user})
 
 
 # single practitioner details
@@ -51,19 +51,19 @@ def practitioner(request, slug):
 	favt = None
 	user = request.user
 	if user.is_authenticated:
-		try:
-			patient = Patient.patient_objects.patient_details(user)
-			favourite = patient.favt_practitioner.all().filter(slug=slug)
-			if favourite:
-				favt = True
-			practitioner = Practitioner.prac_objects.practitioner_slug(slug)
-			clinic = ClinicLocation.cl_objects.clinic_detail(slug)
-			clinic_timing = ClinicLocationTiming.ct_objects.clinic_timing_details(slug)
-			reviews = PractitionerReview.pr_objects.practitioner_reviews(slug)
-		except Practitioner.DoesNotExist:
-			raise Http404
+		patient = Patient.patient_objects.patient_details(user)
+		favourite = patient.favt_practitioner.all().filter(slug=slug)
+		if favourite:
+			favt = True
+	try:
+		practitioner = Practitioner.prac_objects.practitioner_slug(slug)
+		practise = Practise.practise_objects.practise_detail(slug)
+		practise_timing = PractiseTiming.pt_objects.practise_timing_details(slug)
+		reviews = PractitionerReview.pr_objects.practitioner_reviews(slug)
+	except Practitioner.DoesNotExist:
+		raise Http404
 	return render(request, 'practitioner/practitioner.html', 
-		{'practitioner': practitioner, 'clinic': clinic, 'clinic_timing': clinic_timing, 'reviews': reviews, 'patient': user, 'favt': favt})
+		{'practitioner': practitioner, 'practise': practise, 'practise_timing': practise_timing, 'reviews': reviews, 'patient': user, 'favt': favt})
 
 
 #send email
@@ -109,44 +109,3 @@ def register(request):
 	#send email
 	send_mail(subject, body, email, [recepient])
 	return render_to_response('practitioner/success.html',{'email': email}, context_instance=RequestContext(request))
-
-'''
-from practitioner.views import *
-practitioner_detail = Practitioner.prac_objects.practitioner_detail('Dr. Mohammad Anwar')
-print practitioner_detail[0].name
-
-from practitioner.views import *
-cl = Clinic_List('Pediatric (Child)','Monday')
-print len(cl)
-
-clinic_detail = ClinicLocation.cl_objects.clinic_detail('Dr. Mohammad Anwar Private Clininc')
-print clinic_detail
-
-#case1
-if city and speciality:
-	prac_list_clinic = ClinicLocation.cl_objects.clinic_detail_spec_city(speciality, city)
-	#case2
-	if experience > 0:
-		prac_list_clinic = ClinicLocation.cl_objects.clinic_detail_spec_city_exp(speciality, city, experience)
-#name
-if name != None:
-	prac_list = Practitioner.prac_objects.practitioner_name(name)
-	print 1
-#speciality
-elif speciality != None and city and experience == None:
-	prac_list_clinic = ClinicLocation.cl_objects.clinic_detail_citys(speciality, city)
-	#prac_list = Practitioner.prac_objects.practitioner_speciality(speciality)
-	print 2
-#name and speciality
-elif name != None and speciality:
-	prac_list = Practitioner.prac_objects.practitioner_name_and_speciality(name, speciality)
-	print 3
-#speciality and experience
-elif speciality != None and experience != 0 and day == None:
-	prac_list = Practitioner.prac_objects.practitioner_experienced(experience,speciality)
-	print 4
-#day and speciality
-elif speciality != None and day != None:
-	print 5
-	prac_list_day = ClinicLocationTiming.ct_objects.practitioner_day_specialty(speciality, day)
-'''

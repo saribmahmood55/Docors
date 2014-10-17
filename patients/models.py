@@ -37,7 +37,8 @@ class Patient(models.Model):
         return "%s %s" % (self.user.first_name,self.user.last_name)
 
     def __str__(self):
-        return "%s %s" % (self.user.first_name,self.user.last_name)
+        return self.user.username
+        #"%s %s" % (self.user.first_name,self.user.last_name)
 
 
 #custom Manager
@@ -52,7 +53,7 @@ class PractitionerReviewManager(models.Manager):
 class PractitionerReview(models.Model):
     practitioner = models.ForeignKey(Practitioner)
     patient = models.ForeignKey(Patient)
-    #post_as_anonymous = models.BooleanField(default=false)
+    post_as_anonymous = models.BooleanField(default=False)
     review_text = models.TextField()
     review_date = models.DateTimeField(auto_now_add=True)
     up_votes = models.PositiveIntegerField(default=0)
@@ -70,9 +71,6 @@ class PractitionerReview(models.Model):
 class ReviewStats(models.Model):
     review = models.ForeignKey(PractitionerReview)
     patient = models.ForeignKey(Patient)
-    status = models.BooleanField(default=True)  #true for upvote, else downvote
+    status = models.IntegerField()  #0, -1 and +1
     def __str__(self):
         return self.status
-
-#name = models.CharField(max_length=50, help_text='Complete Name')
-#email = models.EmailField(max_length=70,blank=True, null= True, unique= True)

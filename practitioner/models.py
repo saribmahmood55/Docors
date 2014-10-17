@@ -8,6 +8,9 @@ class Specialization(models.Model):
     def __unicode__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = "Specialities"
+
 
 #Custom Manager
 class PractitionerManager(models.Manager):
@@ -21,6 +24,7 @@ class Practitioner(models.Model):
     credentials = models.TextField()
     achievements = models.TextField(null=True)
     experience = models.PositiveIntegerField(default=0, help_text="Number of years", null=True)
+    message = models.TextField(max_length=140,null=True, blank=True)
     specialities = models.ManyToManyField(Specialization)
     slug = AutoSlugField(populate_from='name', unique = True)
 
@@ -42,18 +46,37 @@ class City(models.Model):
         verbose_name_plural = "Cities"
 
 
-#Custom Manager
-class ClinicLocationManager(models.Manager):
+class PractiseLocation(models.Model):
+    name = models.CharField(max_length=50)
+    clinic_address = models.TextField()
+    city = models.ForeignKey(City)
+    lat = models.FloatField(null=True, blank=True)
+    lon = models.FloatField(null=True, blank=True)
 
-    def clinic_detail(self, slug):
-        clinic_detail = super(ClinicLocationManager, self).get(practitioners__slug=slug)
+    # gis
+    geo_objects = models.GeoManager()
+    #Custom Managers
+    objects = models.Manager()
+    
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = "Practise Locations"
+
+
+#Custom Manager
+class PractiseManager(models.Manager):
+
+    def practise_detail(self, slug):
+        clinic_detail = super(PractiseManager, self).filter(practitioner__slug=slug)
         return clinic_detail
 
 
     # Search request handling
-    def clinic_details(self, city, name, speciality, experience, day):
+    def practise_details(self, city, name, speciality, experience, day):
         #filter city
-        clinic_list = super(ClinicLocationManager, self).filter(city__name=city)
+        clinic_list = super(PractiseManager, self).filter(practise_location__city__name=city).distinct('practitioner')
         #filter name
         print name
         if name != None and speciality == None:
@@ -69,40 +92,35 @@ class ClinicLocationManager(models.Manager):
                 clinic_list = clinic_list.filter(practitioners__experience__gte=experience)
         #filter day
         if day != None:
-            clinic_list = clinic_list.filter(cliniclocationtiming__day=day).distinct('practitioners')
-
+            clinic_list = clinic_list.filter(practisetiming__day=day).distinct('practitioner')
         return clinic_list
 
 
-class ClinicLocation(models.Model):
-    practitioners = models.ManyToManyField(Practitioner)
-    name = models.CharField(max_length=100,null=True)
-    clinic_address = models.TextField()
-    city = models.ForeignKey(City)
+class Practise(models.Model):
+    practise_location = models.ForeignKey(PractiseLocation)
+    practitioner = models.ForeignKey(Practitioner)
     contact_number = models.CharField(max_length=100)
     checkup_fee = models.PositiveIntegerField()
-    services_offered = models.TextField(null=True, blank=True)
+    services = models.TextField(null=True, blank=True)
     appointments_only = models.BooleanField(default=True)
-    lat = models.FloatField(null=True, blank=True)
-    lon = models.FloatField(null=True, blank=True)
-    # gis
-    geo_objects = models.GeoManager()
-    #Custom Managers
-    objects = models.Manager()
-    cl_objects = ClinicLocationManager()
     
+    objects = models.Manager()
+    practise_objects = PractiseManager()
     def __unicode__(self):
-        return self.name
+        return self.practise_location.name
+
+    class Meta:
+        verbose_name_plural = "Practises"
 
 
 #Custom Manager
-class ClinicLocationTimingManager(models.Manager):
+class PractiseTimingManager(models.Manager):
 
-    def clinic_timing_details(self, slug):
-        return super(ClinicLocationTimingManager, self).filter(practitioner__slug=slug).order_by('pk')
+    def practise_timing_details(self, slug):
+        return super(PractiseTimingManager, self).filter(practitioner__slug=slug).order_by('pk')
 
 
-class ClinicLocationTiming(models.Model):
+class PractiseTiming(models.Model):
     DAY = (
         ('Mon', 'Monday'), ('Tue', 'Tuesday'), ('Wed', 'Wednesday'), ('Thu', 'Thursday'), ('Fri', 'Friday'),('Sat', 'Saturday'),('Sun', 'Sunday'),
         )
@@ -114,14 +132,17 @@ class ClinicLocationTiming(models.Model):
         ('0', '12:00am'),('0.5', '12:30am'), ('1', "01:00am"),('2', '02:00am'), ('2.5', "02:30am")
         )
     practitioner = models.ForeignKey(Practitioner)
-    clinic_location = models.ForeignKey(ClinicLocation)
+    practise_location = models.ForeignKey(PractiseLocation)
     day = models.CharField(max_length=3, choices=DAY, help_text="Select Day.")
     start_time = models.CharField(max_length=5, choices=TIME, help_text="Select starting Time for Clininc.")
     end_time = models.CharField(max_length=5, choices=TIME, help_text="Select ending Time for Clininc.")
 
+    #Custom Managers
+    objects = models.Manager()
+    pt_objects = PractiseTimingManager()
+
     def __unicode__(self):
         return self.practitioner.name
 
-    #Custom Managers
-    objects = models.Manager()
-    ct_objects = ClinicLocationTimingManager()
+    class Meta:
+        verbose_name_plural = "Practise Timings"

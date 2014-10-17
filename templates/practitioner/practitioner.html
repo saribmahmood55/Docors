@@ -13,7 +13,8 @@
 	<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBvgO8fn_1Xxpe8IoT8t2kPBO0WCXFjTMM&sensor=true"></script>
 	<script>
 	function initialize() {
-		var myLatlng = new google.maps.LatLng({{clinic.lat}},{{clinic.lon}});
+		{% for pract in practise.iterator %}
+		var myLatlng = new google.maps.LatLng({{pract.practise_location.lat}}, {{pract.practise_location.lon}});
 		var mapOptions = {
 			zoom: 14,
 			center: myLatlng
@@ -22,7 +23,8 @@
 	  var marker = new google.maps.Marker({
 	      position: myLatlng,
 	      map: map,
-	      title: '{{clinic.name}}'
+	      title: '{{pract.practise_location.name}}'
+	      {% endfor %}
 	  });
 	}
 	google.maps.event.addDomListener(window, 'load', initialize);
@@ -53,9 +55,6 @@
 		</form>
 		{% else %}
 		<img class="anchor-link-right" type="image" src="{% static "jquery_mobile/images/favt0.png" %}" height="32" width="32" />
-		<span class="caption simple-caption">  
-        <p>already favourite</p>  
-        </span>  
 		{% endif %}
 		<h3>{{practitioner.name}}</h3>
 		<p>{{practitioner.credentials}}<br>
@@ -65,20 +64,24 @@
 	</div>
 
 	<div class="ui-grid-b">
-
-	<!-- Clinic Details -->
+	
+	<!-- Practise-Location Details -->
+	{% if practise.exists %}
+	{% for pract in practise.iterator %}
 	<div class="ui-block-a" id="clinicDetails">
 	<div class="ui-bar ui-bar-a" >
 	
 	<h3>Clinic Details.</h3>
-		<p>{{clinic.name}}<br><br>
-		Contact: <b><u>{{clinic.contact_number}}</u></b><br><br>
-		Checkup Fee: <b>{{clinic.checkup_fee}}rs.</b><br><br>
-		Appointment Only: <b>{{clinic.appointments_only}}</b><br><br>
-		Address: {{clinic.clinic_address}}, <b>{{clinic.city.name}}</b><br><br>
-		Services: {{clinic.services_offered}}</p>
+		<p>{{pract.practise_location.name}}<br><br>
+		Contact: <b><u>{{pract.contact_number}}</u></b><br><br>
+		Checkup Fee: <b>{{pract.checkup_fee}}rs.</b><br><br>
+		Appointment Only: <b>{{pract.appointments_only}}</b><br><br>
+		Address: {{pract.practise_location.clinic_address}}, <b>{{pract.practise_location.city.name}}</b><br><br>
+		Services: {{pract.services}}</p>
 	</div>
 	</div>
+	{% endfor %}
+	{% endif %}
 
 	<!-- Clinic Timings Details -->
 	<div class="ui-block-b" id="clinicTimingsDetails">
@@ -92,7 +95,7 @@
 			<td><b>Starting&nbsp;</b></td>
 			<td><b>Closing&nbsp;</b></td>
 		</tr>
-		{% for ct in clinic_timing.iterator %}
+		{% for ct in practise_timing.iterator %}
     	<tr>
     		<td>{{ct.get_day_display}}&nbsp;</td>
     		<td>{{ct.get_start_time_display}}&nbsp;</td>

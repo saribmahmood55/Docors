@@ -8,38 +8,43 @@ class PractitionerAdmin(admin.ModelAdmin):
         ('Degrees/Credentials', {'fields': ['credentials']}),
         ('Achievements', {'fields': ['achievements']}),
         ('Experience', {'fields': ['experience']}),
+        ('Short Message', {'fields': ['message']}),
         ('Speciality', {'fields': ['specialities']}),
 	]
-	list_display = ['name','slug','credentials','Specialist_in','experience','achievements']
+	list_display = ['name','slug','credentials','Specialist_in','experience','message','achievements']
 	search_fields = ['name']
 	
 	def Specialist_in(self, obj):
 		return "\n".join([s.name for s in obj.specialities.all()])
 
 
-class ClinicLocationAdmin(admin.ModelAdmin):
+class PractiseLocationAdmin(admin.ModelAdmin):
 	fieldsets = [
-		('Select Practitioner', {'fields': ['practitioners']}),
-		('Enter Clinic/Hospital Name', {'fields': ['name']}),
-        ('Clininc Street Address', {'fields': ['clinic_address']}),
-        ('Select City', {'fields': ['city']}),
-        ('Appointments Number', {'fields': ['contact_number']}),
-        ('Checkup Fee', {'fields': ['checkup_fee']}),
-        ('Services Offered', {'fields': ['services_offered']}),
-        ('Appointments Only Yes/No', {'fields': ['appointments_only']}),
-        ('Clininc Physical latitude', {'fields': ['lat']}),
-        ('Clininc Physical latitude', {'fields': ['lon']}),
+		('Enter Name', {'fields': ['name']}),
+		('Enter Address', {'fields': ['clinic_address']}),
+		('Select City', {'fields': ['city']}),
+        ('Enter Physical latitude', {'fields': ['lat']}),
+        ('Enter Physical latitude', {'fields': ['lon']}),
 	]
-	list_display = ['Practitioner_Clininc','name','clinic_address','services_offered','contact_number','checkup_fee','appointments_only','lat','lon']
+	list_display = ['name','clinic_address','lat','lon']
 	search_fields = ['name']
 
 
-	def Practitioner_Clininc(self, obj):
-		return "\n".join([s.name for s in obj.practitioners.all()])
+class PractiseAdmin(admin.ModelAdmin):
+	fieldsets = [
+		('Select Practise Location', {'fields': ['practise_location']}),
+		('Select Practitioner', {'fields': ['practitioner']}),
+        ('Enter Appointment Numbers', {'fields': ['contact_number']}),
+        ('Enter Checkup Fees', {'fields': ['checkup_fee']}),
+        ('Services Offered', {'fields': ['services']}),
+        ('Appointments Only: Yes/No', {'fields': ['appointments_only']}),
+	]
+	list_display = ['practise_location','practitioner','contact_number','checkup_fee','services','appointments_only']
+	search_fields = ['practitioner']
 
 
-class ClinicLocationTimingAdmin(admin.ModelAdmin):
-	list_display = ['practitioner','clinic_location','day', 'start_time','end_time']
+class PractiseTimingAdmin(admin.ModelAdmin):
+	list_display = ['practitioner','practise_location','day', 'start_time','end_time']
 	list_filter = ['day']
 	search_fields = ['day']
 
@@ -57,7 +62,8 @@ class CityAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Practitioner, PractitionerAdmin)
-admin.site.register(ClinicLocationTiming, ClinicLocationTimingAdmin)
-admin.site.register(ClinicLocation,ClinicLocationAdmin)
-admin.site.register(Specialization, SpecializationAdmin)
 admin.site.register(City, CityAdmin)
+admin.site.register(PractiseLocation, PractiseLocationAdmin)
+admin.site.register(Practise, PractiseAdmin)
+admin.site.register(PractiseTiming, PractiseTimingAdmin)
+admin.site.register(Specialization, SpecializationAdmin)

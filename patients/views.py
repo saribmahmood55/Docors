@@ -71,10 +71,10 @@ def addReview(request):
 	p.down_votes = 0
 	p.save()
 	try:
-		clinic = ClinicLocation.cl_objects.clinic_detail(slug)
-		clinic_timing = ClinicLocationTiming.ct_objects.clinic_timing_details(slug)
+		practise = Practise.practise_objects.practise_detail(slug)
+		practise_timing = PractiseTiming.pt_objects.practise_timing_details(slug)
 		reviews = PractitionerReview.pr_objects.practitioner_reviews(slug)
 	except Practitioner.DoesNotExist:
 		raise Http404
 	return render(request, 'practitioner/practitioner.html', 
-		{'practitioner': practitioner, 'clinic': clinic, 'clinic_timing': clinic_timing, 'reviews': reviews, 'patient': user})
+		{'practitioner': practitioner, 'practise': clinic, 'practise_timing': practise_timing, 'reviews': reviews, 'patient': user})

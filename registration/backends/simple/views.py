@@ -24,7 +24,6 @@ class RegistrationView(BaseRegistrationView):
         # register new user as patient immediately
         p = Patient()
         p.user = new_user
-        p.cell_number = ''
         p.save()
         #
         login(request, new_user)
