@@ -1,68 +1,141 @@
 <!DOCTYPE html> 
 <html>
-<head>
-	<title>docors | patient details</title>
-	{% load staticfiles %}
-	<link rel="shortcut icon" href="{% static "jquery_mobile/stethoscope.ico" %}" />
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="{% static "jquery_mobile/jquery.mobile-1.4.4.min.css" %}" rel="stylesheet" type="text/css" />
-	<link rel="stylesheet" href="{% static "jquery_mobile/style.css" %}"rel="stylesheet" type="text/css" />
-	<script src="{% static "jquery_mobile/jquery-1.9.1.min.js" %}" type="text/javascript"></script>
-	<script src="{% static "jquery_mobile/jquery.mobile-1.4.4.min.js" %}" type="text/javascript"></script>
-	<script src="{% static "jquery_mobile/jquery.mobile-1.4.4.min.map" %}" type="text/javascript"></script>	
-
-</head>
-<body>
-<div data-role="page">
-	<div data-role="header">
-  		<h1 class="ui-icon-myicon">
-  			<a href="http://localhost:8000/" class="anchor-link" >docors.&nbsp;
-  			<img src="{% static "jquery_mobile/images/icons-png/stethoscope.png" %}" height="18" width="18" /></a>
-	 		{% if patient.user.is_authenticated %}
-	  			<a href="http://localhost:8000/accounts/logout/" style: id="user" >Logout</a>
-	  		{% endif %}
-  		</h1>
-	</div>
-	<center>
-	<div id='content'>
-	<div style="margin: 25px 0px;" class="ui-grid-b">
-	<div class="ui-block-b">
-	<div class="ui-bar ui-bar-a">
-
-	<center><h3>Patient Detail</h3></center>
-	<table style="font-weight: normal;">
-		<tr>
-			<td><b>username: </b>{{patient.user.username}}</td>
-		</tr>
-		<tr>
-			<td><b>email: </b>{{patient.user.email}}</td>
-		</tr>
-		<tr>
-			<td><b>first name: </b>{{patient.user.firstname}}</td>
-		</tr>
-		<tr>
-			<td><b>last Name: </b>{{patient.user.lastname}}</td>
-		</tr>
-		<tr>
-			<td><b>Cell Number: </b>{{patient.cell_number}}</td>
-		</tr>
-		<tr>
-			<td><b>Gender: </b>{{patient.user.gender}}</td>
-		</tr>
-		<tr>
-			<td><b>Age-Group: </b>{{patient.user.age_group}}</td>
-		</tr>
-    </table>
-    </div>
-    </div>
-    </div>
-    </div>
-    </center>
-
-    <!-- Footer Details -->
-	<div data-role="footer">
-		<h4>&copy; all rights reserved-2014 &reg;</h4>
-	</div>
-</div>
-</body>
+   <head>
+      <title>docors | patient details</title>
+      {% load staticfiles %}
+      <link rel="shortcut icon" href="{% static "jquery_mobile/stethoscope.ico" %}" />
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="{% static "jquery_mobile/jquery.mobile-1.4.4.min.css" %}" rel="stylesheet" type="text/css" />
+      <link rel="stylesheet" href="{% static "jquery_mobile/style.css" %}"rel="stylesheet" type="text/css" />
+      <script src="{% static "jquery_mobile/jquery-1.9.1.min.js" %}" type="text/javascript"></script>
+      <script src="{% static "jquery_mobile/jquery.mobile-1.4.4.min.js" %}" type="text/javascript"></script>
+      <script src="{% static "jquery_mobile/jquery.mobile-1.4.4.min.map" %}" type="text/javascript"></script>
+      <script src="{% static "jquery_mobile/jquery.jeditable.js" %}" type="text/javascript" charset="utf-8"></script>
+      <script type="text/javascript">
+      $(document).ready(function() {
+      	$('.edit').editable('/updatePatient/', {
+      		submitdata : { csrfmiddlewaretoken : "{{ csrf_token }}"},
+      		style: 'display: inline'
+      	});
+      });
+       </script>
+   </head>
+   <body>
+      <div data-role="page">
+         <div data-role="header">
+            <h1 class="ui-icon-myicon">
+               <a href="http://localhost:8000/" class="anchor-link" >docors.&nbsp;
+               <img src="{% static "jquery_mobile/images/icons-png/stethoscope.png" %}" height="18" width="18" /></a>
+               {% if patient.user.is_authenticated %}
+               <a href="http://localhost:8000/accounts/logout/" style: id="user" >Log Out</a>
+               {% endif %}
+            </h1>
+         </div>
+         <div id='content'>
+            <div class="ui-grid-b">
+               <div class="ui-block-a" id="patient-profile">
+                  <div class="ui-bar ui-bar-a">
+                     <!--Patient Profile -->
+                     <center>
+                        <h3><u>Patient Detail</u></h3>
+                     </center>
+                     <table>
+                        <tr>
+                           <td><b>username: </b>{{patient.user.username}}</td>
+                        </tr>
+                        <tr>
+                           <td><b>email: </b>{{patient.user.email}}</td>
+                        </tr>
+                        <tr>
+                           <td><b>first name: </b>{{patient.user.firstname}}</td>
+                        </tr>
+                        <tr>
+                           <td><b>last Name: </b>{{patient.user.lastname}}</td>
+                        </tr>
+                        <tr>
+                           <td><b>Cell Number: </b><strong class="edit" id="cell_number">{{patient.cell_number}}</strong></td>
+                        </tr>
+                        <tr>
+                           <td><b>Gender: </b>{{patient.user.gender}}</td>
+                        </tr>
+                        <tr>
+                           <td><b>Age-Group: </b>{{patient.user.age_group}}</td>
+                        </tr>
+                     </table>
+                  </div>
+               </div>
+               <!--patient reviews-->
+               <div class="ui-block-b" id="patient-reviews">
+                  <div class="ui-bar ui-bar-a">
+                     <center>
+                        <h3><u>Reviews List</u></h3>
+                     </center>
+                     {% if reviews.exists %}
+                     <table style="font-weight: normal;">
+                        <tr>
+                           <th>Practitioner</th>
+                           <th>Review</th>
+                           <th>Agree</th>
+                           <th>Disagree</th>
+                           <th>Submitted On</th>
+                        </tr>
+                        {% for pr in reviews.iterator %}
+                        <tr>
+                           <td>{{pr.practitioner.name}}</td>
+                           <td>
+                              <p>{{pr.review_text}}</p>
+                           </td>
+                           <td>{{pr.up_votes}}</td>
+                           <td>{{pr.down_votes}}</td>
+                           <td>{{pr.review_date}}</td>
+                        </tr>
+                        {% endfor %}
+                     </table>
+                     {% else %}
+                     <center>
+                        <p>No Reviews from you about any Practitioner :(</p>
+                     </center>
+                     {% endif %}
+                  </div>
+               </div>
+               <!--favourite Practitioner -->
+               <div class="ui-block-c" id="patient-favourite">
+                  <div class="ui-bar ui-bar-a">
+                     <center>
+                        <h3><u>Favourite Practitioners</u></h3>
+                     </center>
+                     {% if patient.favt_practitioner.all.exists %}
+                     <table style="font-weight: normal;">
+                        <tr>
+                           <th>Name</th>
+                           <th>Specialist</th>
+                        </tr>
+                        {% for practitioner in patient.favt_practitioner.all.iterator %}
+                        <tr>
+                           <td>{{practitioner.name}}&nbsp;&nbsp;</td>
+                           {% for speciality in practitioner.specialities.all.iterator %}
+                           <td>{{speciality.name}}</td>
+                           {% endfor %}
+                        </tr>
+                        {% endfor %}
+                     </table>
+                     {% elif error %}
+                     <center>
+                        <p>Practitioner already on favourite list. :(</p>
+                     </center>
+                     {% else %}
+                     <center>
+                        <p>No favourite Practitioner, yet. :(</p>
+                     </center>
+                     {% endif %}
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- Footer Details -->
+         <div data-role="footer">
+            <h4>&copy; all rights reserved-2014 &reg;</h4>
+         </div>
+      </div>
+   </body>
 </html>

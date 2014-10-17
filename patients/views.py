@@ -3,41 +3,50 @@ from practitioner.models import *
 from django.http import Http404
 from django.shortcuts import render
 
+#Patient.objects.filter(user=user).update(cell_number='0000001')
 
 def patient(request):
 	user = request.user
-	try:
-		patient = Patient.objects.get(user=user)
-	except Patient.DoesNotExist:
-		raise Http404
-	return render(request, 'patients/profile.html', {'patient': patient})
+	if user.is_authenticated:
+		try:
+			patient = Patient.patient_objects.patient_details(user)
+			reviews = PractitionerReview.pr_objects.patient_reviews(user) 
+		except Patient.DoesNotExist:
+			raise Http404
+	return render(request, 'patients/profile.html', {'patient': patient, 'reviews': reviews})
 
+
+def updatePatient(request):
+	user = request.user
+	if request.method == "POST":
+		field = request.POST.get('id')
+        value = request.POST.get('value')
+	if user.is_authenticated:
+		try:
+			Patient.objects.filter(user=user).update(cell_number=value)
+			patient = Patient.patient_objects.patient_details(user)
+			reviews = PractitionerReview.pr_objects.patient_reviews(user)
+		except Patient.DoesNotExist:
+			raise Http404
+	return render(request, 'patients/profile.html', {'patient': patient, 'reviews': reviews})
 
 def favourite(request):
-	user, slug = None, None
+	user, slug, error = None, None, None
+	user = request.user
 	if request.method == "POST":
-		user = request.user
 		slug = request.POST.get('slug', None)
-		practitioner = Practitioner.prac_objects.practitioner_slug(slug)
-		print practitioner.name
-		#patient = Patient.patient_objects.patient_details(user)
-		Patient.objects.filter(user=user).update(cell_number='0000001')
-	try:
-		patient = Patient.objects.get(user=user)
-	except Patient.DoesNotExist:
-		raise Http404
-	return render(request, 'patients/profile.html', {'patient': patient})
 	
-'''
-	try:
-		clinic = ClinicLocation.cl_objects.clinic_detail(slug)
-		clinic_timing = ClinicLocationTiming.ct_objects.clinic_timing_details(slug)
-		reviews = PractitionerReview.pr_objects.practitioner_reviews(slug)
-	except Practitioner.DoesNotExist:
-		raise Http404
-	return render(request, 'practitioner/practitioner.html', 
-		{'practitioner': practitioner, 'clinic': clinic, 'clinic_timing': clinic_timing, 'reviews': reviews, 'patient': user})
-'''
+	if user.is_authenticated:	
+		practitioner = Practitioner.prac_objects.practitioner_slug(slug)
+		patient = Patient.patient_objects.patient_details(user)
+		favourite = patient.favt_practitioner.all().filter(slug=slug)
+		if not favourite:
+			patient.favt_practitioner.add(practitioner)
+		else:
+			error = "Already favourited"
+	else:
+		error = "Not a registered user."
+	return render(request, 'patients/profile.html', {'patient': patient, 'error': error})
 
 
 def up(request):
@@ -53,7 +62,7 @@ def addReview(request):
 		reviewText = request.POST.get('review_text', None)
 		slug = request.POST.get('slug', None)
 	practitioner = Practitioner.prac_objects.practitioner_slug(slug)
-	patient = Patient.objects.get(user=user)
+	patient = Patient.patient_objects.patient_details(user=user)
 	p = PractitionerReview()
 	p.practitioner = practitioner
 	p.patient = patient

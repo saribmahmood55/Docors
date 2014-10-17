@@ -3,7 +3,6 @@ from patients.models import *
 from django.http import Http404
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.mail import send_mail
 
@@ -49,19 +48,22 @@ def q(request):
 
 # single practitioner details
 def practitioner(request, slug):
+	favt = None
 	user = request.user
-	print user.pk
-	if user.username == "AnonymousUser":
-		request.user = None
-	try:
-		practitioner = Practitioner.prac_objects.practitioner_slug(slug)
-		clinic = ClinicLocation.cl_objects.clinic_detail(slug)
-		clinic_timing = ClinicLocationTiming.ct_objects.clinic_timing_details(slug)
-		reviews = PractitionerReview.pr_objects.practitioner_reviews(slug)
-	except Practitioner.DoesNotExist:
-		raise Http404
+	if user.is_authenticated:
+		try:
+			patient = Patient.patient_objects.patient_details(user)
+			favourite = patient.favt_practitioner.all().filter(slug=slug)
+			if favourite:
+				favt = True
+			practitioner = Practitioner.prac_objects.practitioner_slug(slug)
+			clinic = ClinicLocation.cl_objects.clinic_detail(slug)
+			clinic_timing = ClinicLocationTiming.ct_objects.clinic_timing_details(slug)
+			reviews = PractitionerReview.pr_objects.practitioner_reviews(slug)
+		except Practitioner.DoesNotExist:
+			raise Http404
 	return render(request, 'practitioner/practitioner.html', 
-		{'practitioner': practitioner, 'clinic': clinic, 'clinic_timing': clinic_timing, 'reviews': reviews, 'patient': user})
+		{'practitioner': practitioner, 'clinic': clinic, 'clinic_timing': clinic_timing, 'reviews': reviews, 'patient': user, 'favt': favt})
 
 
 #send email

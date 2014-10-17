@@ -35,7 +35,6 @@ REST_FRAMEWORK = {
 }
 # Application definition
 INSTALLED_APPS = (
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.sites',
     'django.contrib.contenttypes',
@@ -44,17 +43,19 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'django.contrib.gis',
+    'registration',
     'rest_framework',
     'world',
-    'registration',
     'practitioner',
-    'patients'
+    'patients',
+    'django.contrib.admin'
 )
 
 SITE_ID = 1
 
 #Registration
 ACCOUNT_ACTIVATION_DAYS = 7
+REGISTRATION_OPEN = True
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',

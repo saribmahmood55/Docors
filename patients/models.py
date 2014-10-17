@@ -9,6 +9,7 @@ class PatientManager(models.Manager):
     def patient_details(self, user):
         return super(PatientManager, self).get(user=user)
 
+
 class Patient(models.Model):
     GENDER_CHOICES = (
         ('M', 'Male'),
@@ -44,6 +45,9 @@ class PractitionerReviewManager(models.Manager):
 
     def practitioner_reviews(self, slug):
         return super(PractitionerReviewManager, self).filter(practitioner__slug=slug).order_by('review_date')
+
+    def patient_reviews(self, user):
+        return super(PractitionerReviewManager, self).filter(patient__user=user).order_by('review_date')
 
 class PractitionerReview(models.Model):
     practitioner = models.ForeignKey(Practitioner)

@@ -31,7 +31,7 @@
     {% for practitioner in practitioners.practitioners.all.iterator %}
     <li>
     <a href="{% url 'practitioner' practitioner.slug %}" class="anchor-link" >
-    <h2>{{practitioner.name}}</h2>
+    <h1>{{practitioner.name}}</h1>
     <p><strong>{{practitioner.credentials}}</strong></p>
     <p>Specialized in: 
     	{% for speciality in practitioner.specialities.all.iterator %}

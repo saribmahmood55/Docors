@@ -5,6 +5,7 @@ from django.contrib.auth import login
 from registration import signals
 from registration.views import RegistrationView as BaseRegistrationView
 from registration.users import UserModel
+from patients.models import Patient
 
 
 class RegistrationView(BaseRegistrationView):
@@ -20,6 +21,12 @@ class RegistrationView(BaseRegistrationView):
         UserModel().objects.create_user(username, email, password)
 
         new_user = authenticate(username=username, password=password)
+        # register new user as patient immediately
+        p = Patient()
+        p.user = new_user
+        p.cell_number = ''
+        p.save()
+        #
         login(request, new_user)
         signals.user_registered.send(sender=self.__class__,
                                      user=new_user,
