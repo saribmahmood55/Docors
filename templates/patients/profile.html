@@ -25,11 +25,14 @@
          <div data-role="header">
             <h1 class="ui-icon-myicon">
                <a href="http://localhost:8000/" class="anchor-link" >docors.&nbsp;
-               <img src="{% static "jquery_mobile/images/icons-png/stethoscope.png" %}" height="18" width="18" /></a>
-               {% if patient.user.is_authenticated %}
-               <a href="http://localhost:8000/accounts/logout/" style: id="user" >Log Out</a>
-               {% endif %}
+               <img src="{% static "icons/stethoscope.png" %}" height="18" width="18" /></a>
             </h1>
+            <div id="head">
+      		{% if not patient.is_authenticated %}
+        	<a href="http://localhost:8000/accounts/logout" style: id="user" >Log Out.</a>
+      		{% endif %}
+      </div>
+
          </div>
          <div id='content'>
             <div class="ui-grid-b">
@@ -99,7 +102,7 @@
                   </div>
                </div>
                <!--favourite Practitioner -->
-               <div class="ui-block-c" id="patient-favourite">
+               <div class="ui-block-c" id="favourite-pracs">
                   <div class="ui-bar ui-bar-a">
                      <center>
                         <h3><u>Favourite Practitioners</u></h3>
@@ -130,6 +133,34 @@
                      {% endif %}
                   </div>
                </div>
+               <!--favourite Specialities -->
+               <div class="ui-block-c" id="favourite-spec">
+                  <div class="ui-bar ui-bar-a">
+                     <center>
+                        <h3><u>Interested Specialities</u></h3>
+                     </center>
+                     {% if patient.interested_specialities.all.exists %}
+                     <table style="font-weight: normal;">
+                        <tr>
+                           <th>Name</th>
+                        </tr>
+                        {% for spec in patient.interested_specialities.all.iterator %}
+                        <tr>
+                           <td>{{spec.name}}</td>
+                        </tr>
+                        {% endfor %}
+                     </table>
+                     {% elif error %}
+                     <center>
+                        <p>Practitioner already on favourite list. :(</p>
+                     </center>
+                     {% else %}
+                     <center>
+                        <p>No favourite Practitioner, yet. :(</p>
+                     </center>
+                     {% endif %}
+                  </div>
+                </div>
             </div>
          </div>
          <!-- Footer Details -->

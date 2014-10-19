@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.gis.db import models
+from django.db.models import Q
 from autoslug import AutoSlugField
 
 class Specialization(models.Model):
@@ -80,19 +81,19 @@ class PractiseManager(models.Manager):
         #filter name
         print name
         if name != None and speciality == None:
-            clinic_list = clinic_list.filter(practitioners__name__icontains=name)
+            clinic_list = clinic_list.filter(practitioner__name__icontains=name)
         #filter Speciality
         if speciality != None :
-            clinic_list = clinic_list.filter(practitioners__specialities__name=speciality)
+            clinic_list = clinic_list.filter(practitioner__specialities__name=speciality)
             #filter name
             if name != None:
-                clinic_list = clinic_list.filter(practitioners__name__icontains=name)
+                clinic_list = clinic_list.filter(practitioner__name__icontains=name)
             #filter experienced
             if experience >= 0:
-                clinic_list = clinic_list.filter(practitioners__experience__gte=experience)
+                clinic_list = clinic_list.filter(practitioner__experience__gte=experience)
         #filter day
         if day != None:
-            clinic_list = clinic_list.filter(practisetiming__day=day).distinct('practitioner')
+            clinic_list = clinic_list.filter(Q(practise_location__city__name=city)| Q(practitioner__specialities__name=speciality)).distinct('practitioner')
         return clinic_list
 
 

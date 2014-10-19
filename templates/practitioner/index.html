@@ -6,7 +6,7 @@
       docors
   </title>
   {% load staticfiles %}
-  <link rel="shortcut icon" href="{% static "jquery_mobile/stethoscope.ico" %}" />
+  <link rel="shortcut icon" href="{% static "jquery_mobile/images/icons/stethoscope.ico" %}" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="{% static "jquery_mobile/jquery.mobile-1.4.4.min.css" %}" rel="stylesheet" type="text/css" />
   <link rel="stylesheet" href="{% static "jquery_mobile/style.css" %}"rel="stylesheet" type="text/css" />
@@ -24,13 +24,15 @@
   <div data-role="header">
       <h1 class="ui-icon-myicon">
         <a href="http://localhost:8000/" class="anchor-link" >docors.&nbsp;
-        <img src="{% static "jquery_mobile/images/icons-png/stethoscope.png" %}" height="18" width="18" /></a>
-            {% if patient.is_authenticated %}
+        <img src="{% static "icons/stethoscope.png" %}" height="18" width="18" /></a>
+       </h1>
+      <div id="head">
+      {% if patient.is_authenticated %}
         <a href="{% url 'patient' %}" style: id="user" >{{patient.username}}</a>
       {% else %}
-        <a href="http://localhost:8000/accounts/login/" style: class="anchor-link-right" >Login</a>
-        {% endif %}
-      </h1>
+        <a href="/accounts/login/" style: class="anchor-link-right" >Login</a>
+      {% endif %}
+      </div>
   </div>
 
   <div role="main" class="ui-content">
@@ -72,20 +74,22 @@
   </div>
 
   <!-- Advance Search -->
-
-  <div data-role="page" id="advance" data-theme="a">
+<div data-role="page" id="advance" data-theme="a">
   <div data-role="header">
       <h1 class="ui-icon-myicon">
         <a href="http://localhost:8000/" class="anchor-link" >docors.&nbsp;
-        <img src="{% static "jquery_mobile/images/icons-png/stethoscope.png" %}" height="18" width="18" /></a>
+        <img src="{% static "icons/stethoscope.png" %}" height="18" width="18" /></a>
+       </h1>
+      <div id="head">
       {% if patient.is_authenticated %}
         <a href="{% url 'patient' %}" style: id="user" >{{patient.username}}</a>
       {% else %}
-        <a href="/accounts/login/" style: clss="anchor-link-right" >Login</a>
-        {% endif %}
-      </h1>
+        <a href="/accounts/login/" style: class="anchor-link-right" >Login</a>
+      {% endif %}
+      </div>
   </div>
-  <div role="main" class="ui-content">
+
+<div role="main" class="ui-content">
 
 <center><h4>advance search options.</h4></center>
 
@@ -144,13 +148,15 @@ Search
   <div data-role="header">
       <h1 class="ui-icon-myicon">
         <a href="http://localhost:8000/" class="anchor-link" >docors.&nbsp;
-        <img src="{% static "jquery_mobile/images/icons-png/stethoscope.png" %}" height="18" width="18" /></a>
+        <img src="{% static "icons/stethoscope.png" %}" height="18" width="18" /></a>
+       </h1>
+      <div id="head">
       {% if patient.is_authenticated %}
         <a href="{% url 'patient' %}" style: id="user" >{{patient.username}}</a>
       {% else %}
         <a href="/accounts/login/" style: class="anchor-link-right" >Login</a>
-        {% endif %}
-      </h1>
+      {% endif %}
+      </div>
   </div>
   
   <div role="main" class="ui-content">

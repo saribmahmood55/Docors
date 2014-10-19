@@ -51,10 +51,15 @@ def practitioner(request, slug):
 	favt = None
 	user = request.user
 	if user.is_authenticated:
-		patient = Patient.patient_objects.patient_details(user)
-		favourite = patient.favt_practitioner.all().filter(slug=slug)
-		if favourite:
-			favt = True
+		if user.username != "AnonymousUser":
+			patient = Patient.patient_objects.patient_details(user)
+			favourite = patient.favt_practitioner.all().filter(slug=slug)
+			if favourite:
+				favt = True
+		else:
+			user = None
+	else:
+		patient = None
 	try:
 		practitioner = Practitioner.prac_objects.practitioner_slug(slug)
 		practise = Practise.practise_objects.practise_detail(slug)
@@ -70,34 +75,35 @@ def practitioner(request, slug):
 def register(request):
 	email, practitioner_name = None, None
 	if request.method == "POST":
-		practitioner_name = request.POST.get('practitioner_name', None)
-		email = request.POST.get('email', None)
-		credentials = request.POST.get('credentials', None)
-		achievements = request.POST.get('achievements', None)
-		experience = request.POST.get('experience', None)
-		speciality = request.POST.get('speciality', None)
-		#Clinic Details 1
-		clinicName = request.POST.get('clinicName', None)
-		address = request.POST.get('address', None)
-		city = request.POST.get('city', None)
-		number = request.POST.get('number', None)
-		fee = request.POST.get('fee', None)
-		services = request.POST.get('services', None)
-		appointment = request.POST.get('appointment', None)
-		latitude = request.POST.get('longitude', None)
-		longitude = request.POST.get('latitude', None)
-		timing = request.POST.get('timing', None)
-		#clinic Details 2
-		clinicName2 = request.POST.get('clinicName2', None)
-		address2 = request.POST.get('address2', None)
-		city2 = request.POST.get('city2', None)
-		number2 = request.POST.get('number2', None)
-		fee2 = request.POST.get('fee2', None)
-		services2 = request.POST.get('services2', None)
-		appointment2 = request.POST.get('appointment2', None)
-		latitude2 = request.POST.get('longitude2', None)
-		longitude2 = request.POST.get('latitude2', None)
-		timing2 = request.POST.get('timing2', None)
+		if form.is_valid():
+			practitioner_name = request.POST.get('practitioner_name', None)
+			email = request.POST.get('email', None)
+			credentials = request.POST.get('credentials', None)
+			achievements = request.POST.get('achievements', None)
+			experience = request.POST.get('experience', None)
+			speciality = request.POST.get('speciality', None)
+			#Clinic Details 1
+			clinicName = request.POST.get('clinicName', None)
+			address = request.POST.get('address', None)
+			city = request.POST.get('city', None)
+			number = request.POST.get('number', None)
+			fee = request.POST.get('fee', None)
+			services = request.POST.get('services', None)
+			appointment = request.POST.get('appointment', None)
+			latitude = request.POST.get('longitude', None)
+			longitude = request.POST.get('latitude', None)
+			timing = request.POST.get('timing', None)
+			#clinic Details 2
+			clinicName2 = request.POST.get('clinicName2', None)
+			address2 = request.POST.get('address2', None)
+			city2 = request.POST.get('city2', None)
+			number2 = request.POST.get('number2', None)
+			fee2 = request.POST.get('fee2', None)
+			services2 = request.POST.get('services2', None)
+			appointment2 = request.POST.get('appointment2', None)
+			latitude2 = request.POST.get('longitude2', None)
+			longitude2 = request.POST.get('latitude2', None)
+			timing2 = request.POST.get('timing2', None)
 
 	##MAKE EMAIL##
 	recepient = 'docors2014@gmail.com'

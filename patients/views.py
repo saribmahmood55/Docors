@@ -28,6 +28,8 @@ def updatePatient(request):
 			reviews = PractitionerReview.pr_objects.patient_reviews(user)
 		except Patient.DoesNotExist:
 			raise Http404
+	else:
+		patient = None
 	return render(request, 'patients/profile.html', {'patient': patient, 'reviews': reviews})
 
 def favourite(request):
@@ -77,4 +79,4 @@ def addReview(request):
 	except Practitioner.DoesNotExist:
 		raise Http404
 	return render(request, 'practitioner/practitioner.html', 
-		{'practitioner': practitioner, 'practise': clinic, 'practise_timing': practise_timing, 'reviews': reviews, 'patient': user})
+		{'practitioner': practitioner, 'practise': practise, 'practise_timing': practise_timing, 'reviews': reviews, 'patient': user})
