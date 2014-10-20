@@ -14,20 +14,22 @@ p {	font-weight: normal; }
 .anchor-link-right {	float:right; text-decoration: none !important; color: #000000 !important; }
 .anchor-link-right a:hover { color: #ffffff; }
 .loginSignup { margin: 30px auto;}
-#float-right{ float: right;}
+.float-right{ float: right;}
+.float-left{ float: left;}
 
 #reviewBox {width: 290px;}
 #reviewBox h6{width: 290px;}
 
 #search-btn{	width: 90px; height: 40px; color: #3eb249; margin: 0px auto; padding: 0px;}
+#update-btn{	float: right; width: 90px; height: 40px; color: #3eb249; margin: 0px auto; padding: 0px;}
 #post-review-btn{	width: 90px; height: 40px; color: #3eb249; float: right; padding: 0px; margin-top: 15px;}
 #practitionerDetails{	float: none;	text-align: center;}
-#clinicDetails{	float: left; width: 325px;	margin: 10px;}
-#clinicTimingsDetails{	float: left; width: 325px;	margin: 10px;}
-#clinicTimingsDetails td { padding-right: 10px;}
-#practitionerReviews{ width: 325px; height: 300px;	margin: 10px; overflow-y:auto; }
-#mapDetails{	width: 1200px;	margin: 20px auto;}
-#googleMap{	width: 1180px;	height: 350px;}
+.clinicDetails{	float: left; width: 325px !important;	margin: 10px;}
+.clinicTimingsDetails{	float: left; width: 250px !important;	margin: 10px;}
+.clinicTimingsDetails td { padding-right: 10px;}
+.ui-block-a { clear: none;}
+
+.practitionerReviews{ float: left; width: 325px; height: 300px;	margin: 10px; overflow-y:auto; }
 
 .ui-grid-b { font-size: 15px;}
 #patient-profile{	width: 350px; float: left; margin: 10px;  font-weight: normal;}

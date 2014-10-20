@@ -44,6 +44,9 @@ class Patient(models.Model):
 #custom Manager
 class PractitionerReviewManager(models.Manager):
 
+    def review(self, review_ID):
+        return super(PractitionerReviewManager, self).get(pk=review_ID)
+    
     def practitioner_reviews(self, slug):
         return super(PractitionerReviewManager, self).filter(practitioner__slug=slug).order_by('review_date')
 
@@ -68,9 +71,17 @@ class PractitionerReview(models.Model):
     def __str__(self):
     	return self.review_text
 
+class ReviewStatsManager(models.Manager):
+    def review(slef, review_ID):
+        return super(ReviewStatsManager, self).get(review__pk=review_ID) 
+
 class ReviewStats(models.Model):
     review = models.ForeignKey(PractitionerReview)
     patient = models.ForeignKey(Patient)
     status = models.IntegerField()  #0, -1 and +1
+
+    objects = models.Manager()
+    prs_objects = ReviewStatsManager()
+
     def __str__(self):
         return self.status

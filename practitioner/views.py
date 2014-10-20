@@ -1,7 +1,6 @@
 from practitioner.models import *
 from patients.models import *
 from django.http import Http404
-from django.http import HttpResponse
 from django.shortcuts import render
 from django.template import RequestContext
 from django.core.mail import send_mail
@@ -48,18 +47,68 @@ def q(request):
 
 # single practitioner details
 def practitioner(request, slug):
-	favt = None
+	practitioner, favt, practise, practise_timing, reviews = None, None, None, None, None
 	user = request.user
 	if user.is_authenticated:
-		if user.username != "AnonymousUser":
+		if user.username == "AnonymousUser":
+			user = None
+	else:
+		user = None
+	if request.method == "GET":
+		if user:
 			patient = Patient.patient_objects.patient_details(user)
 			favourite = patient.favt_practitioner.all().filter(slug=slug)
+			print len(favourite)
 			if favourite:
 				favt = True
 		else:
-			user = None
-	else:
-		patient = None
+			patient = None
+		try:
+			practitioner = Practitioner.prac_objects.practitioner_slug(slug)
+			practise = Practise.practise_objects.practise_detail(slug)
+			practise_timing = PractiseTiming.pt_objects.practise_timing_details(slug)
+			reviews = PractitionerReview.pr_objects.practitioner_reviews(slug)
+		except Practitioner.DoesNotExist:
+			raise Http404
+	if request.method == "POST":
+		slug = slug
+		up = request.POST.get('up', 0)
+		down = request.POST.get('slug', 0)
+		favt_ = request.POST.get('favt', 0)
+		review_id = request.POST.get ('ID', 0)
+		#print "slug: %s , up: %s down: %s favt: %s ID: %S"  % (slug,up,down,favt_,review_id)
+		#favourite Practitioner
+		if favt_ == "1":
+			practitioner = Practitioner.prac_objects.practitioner_slug(slug)
+			patient = Patient.patient_objects.patient_details(user)
+			favourite = patient.favt_practitioner.all().filter(slug=slug)
+			print "0"
+			if not favourite:
+				patient.favt_practitioner.add(practitioner)			#update many to many field
+			else:
+				error = "Already favourited"
+		elif up == "1" and review_id:
+			patient = Patient.patient_objects.patient_details(user)
+			review = PractitionerReview.pr_objects.review(review_id)
+			reviewStat = ReviewStats()
+			reviewStat.review = review
+			reviewStat.patient = patient
+			reviewStat.status = 1
+			reviewStat.save()
+			review.up_votes += 1
+			review.save()
+			print "+1"
+		elif down == "-1" and review_id:
+			patient = Patient.patient_objects.patient_details(user)
+			review = PractitionerReview.pr_objects.review(review_id)
+			reviewStat = ReviewStats()
+			reviewStat.review = review
+			reviewStat.patient = patient
+			reviewStat.status = -1
+			reviewStat.save()
+			review.down_votes += 1
+			review.save()
+			print "+1"
 	try:
 		practitioner = Practitioner.prac_objects.practitioner_slug(slug)
 		practise = Practise.practise_objects.practise_detail(slug)
@@ -75,35 +124,34 @@ def practitioner(request, slug):
 def register(request):
 	email, practitioner_name = None, None
 	if request.method == "POST":
-		if form.is_valid():
-			practitioner_name = request.POST.get('practitioner_name', None)
-			email = request.POST.get('email', None)
-			credentials = request.POST.get('credentials', None)
-			achievements = request.POST.get('achievements', None)
-			experience = request.POST.get('experience', None)
-			speciality = request.POST.get('speciality', None)
-			#Clinic Details 1
-			clinicName = request.POST.get('clinicName', None)
-			address = request.POST.get('address', None)
-			city = request.POST.get('city', None)
-			number = request.POST.get('number', None)
-			fee = request.POST.get('fee', None)
-			services = request.POST.get('services', None)
-			appointment = request.POST.get('appointment', None)
-			latitude = request.POST.get('longitude', None)
-			longitude = request.POST.get('latitude', None)
-			timing = request.POST.get('timing', None)
-			#clinic Details 2
-			clinicName2 = request.POST.get('clinicName2', None)
-			address2 = request.POST.get('address2', None)
-			city2 = request.POST.get('city2', None)
-			number2 = request.POST.get('number2', None)
-			fee2 = request.POST.get('fee2', None)
-			services2 = request.POST.get('services2', None)
-			appointment2 = request.POST.get('appointment2', None)
-			latitude2 = request.POST.get('longitude2', None)
-			longitude2 = request.POST.get('latitude2', None)
-			timing2 = request.POST.get('timing2', None)
+		practitioner_name = request.POST.get('practitioner_name', None)
+		email = request.POST.get('email', None)
+		credentials = request.POST.get('credentials', None)
+		achievements = request.POST.get('achievements', None)
+		experience = request.POST.get('experience', None)
+		speciality = request.POST.get('speciality', None)
+		#Clinic Details 1
+		clinicName = request.POST.get('clinicName', None)
+		address = request.POST.get('address', None)
+		city = request.POST.get('city', None)
+		number = request.POST.get('number', None)
+		fee = request.POST.get('fee', None)
+		services = request.POST.get('services', None)
+		appointment = request.POST.get('appointment', None)
+		latitude = request.POST.get('longitude', None)
+		longitude = request.POST.get('latitude', None)
+		timing = request.POST.get('timing', None)
+		#clinic Details 2
+		clinicName2 = request.POST.get('clinicName2', None)
+		address2 = request.POST.get('address2', None)
+		city2 = request.POST.get('city2', None)
+		number2 = request.POST.get('number2', None)
+		fee2 = request.POST.get('fee2', None)
+		services2 = request.POST.get('services2', None)
+		appointment2 = request.POST.get('appointment2', None)
+		latitude2 = request.POST.get('longitude2', None)
+		longitude2 = request.POST.get('latitude2', None)
+		timing2 = request.POST.get('timing2', None)
 
 	##MAKE EMAIL##
 	recepient = 'docors2014@gmail.com'

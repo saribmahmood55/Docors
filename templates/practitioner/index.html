@@ -30,7 +30,8 @@
       {% if patient.is_authenticated %}
         <a href="{% url 'patient' %}" style: id="user" >{{patient.username}}</a>
       {% else %}
-        <a href="/accounts/login/" style: class="anchor-link-right" >Login</a>
+        <a href="/accounts/register/" style: class="anchor-link-right" >Sign Up</a>
+        <a href="/accounts/login/" style: class="anchor-link-right" >Login&nbsp;|&nbsp;</a>
       {% endif %}
       </div>
   </div>
@@ -39,7 +40,7 @@
   
   <center><h4>Find Specialist Doctors in your area.</h4></center>
 
-  <form action="/q" method="GET">
+  <form action="{% url 'q' %}" method="GET">
 
   <label for="city">City</label>
   <select name="city" id="select-native-2">
@@ -93,7 +94,7 @@
 
 <center><h4>advance search options.</h4></center>
 
-<form action="/q" method="GET">
+<form action="{% url 'q' %}" method="GET">
 
 <label for="city">City</label>
   <select name="city" id="select-native-2">
@@ -163,7 +164,7 @@ Search
 
   <strong>Please provide the following details.<br></strong>
   
-  <form action="/register/" method="POST">
+  <form action="{% url 'register' %}" method="POST">
   {% csrf_token %}
   
   Practitioner Name: <input type="text" name="practitioner_name" id="text-basic" placeholder="Dr. Ali Raza" required>

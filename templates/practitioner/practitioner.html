@@ -31,9 +31,9 @@
 				<!-- Practitioner Details -->
 				<div id="practitionerDetails">
 					{% if not favt %}
-					<form action="/favourite/" method="POST">{% csrf_token %}
+					<form action="{% url 'practitioner' practitioner.slug %}" method="POST">{% csrf_token %}
 						<input class="anchor-link-right" type="image" src="{% static "icons/favt_.png" %}" height="32" width="32">
-						<input type="hidden" name="slug" value="{{practitioner.slug}}">
+						<input type="hidden" name="favt" value="1">
 					</form>
 					{% else %}
 					<img class="anchor-link-right" type="image" title="Already favourited" src="{% static "icons/favt0.png" %}" height="32" width="32" />
@@ -50,136 +50,140 @@
 						<!-- Practise-Location Details -->
 						{% if practise.exists %}
 						{% for pract in practise.iterator %}
-						<div class="ui-block-a" id="clinicDetails">
+						<div class="ui-block-a clinicDetails">
 							<div class="ui-bar ui-bar-a" >
-
-								<center><h3>Clinic Details.</h3></center>
-								<table style="font-weight: normal;">
+							<center><h3>Clinic Details.</h3></center>
+								<table style="font-weight: normal; width: 100%">
 									<tr>
 										<td><center><b>{{pract.practise_location.name}}</b></center></td>
 									</tr>
 									<tr>
-											<td><b>Fee:&nbsp;{{pract.checkup_fee}}rs.</b></td>
-											</tr>
+										<td><b>Fee:&nbsp;{{pract.checkup_fee}}rs.</b></td>
+									</tr>
 									<tr>
 										<td><img src="{% static "icons/phone.png" %}" height="20" width="20" />
 											&nbsp;<b><u>{{pract.contact_number}}</u></b></td>
 										</tr>
+										<tr>
+											<td><img src="{% static "icons/app.png" %}" title="Appointment Required ?" height="20" width="20" />
+												<b>{% if pract.appointments_only %}&nbsp; Yes.{% else %}First Come First Serve.{% endif %}</b></td>
+											</tr>
 											<tr>
-												<td><img src="{% static "icons/app.png" %}" title="Appointment Required ?" height="20" width="20" />
-													<b>{% if pract.appointments_only %}&nbsp; Yes.{% else %}First Come First Serve.{% endif %}</b></td>
+												<td><img src="{% static "icons/address_.png" %}" height="22" width="18" />
+													&nbsp;{{pract.practise_location.clinic_address}}, <b>{{pract.practise_location.city.name}}</b></td>
 												</tr>
 												<tr>
-													<td><img src="{% static "icons/address_.png" %}" height="18" width="18" />
-														&nbsp;{{pract.practise_location.clinic_address}}, <b>{{pract.practise_location.city.name}}</b></td>
+													<td><img src="{% static "icons/stethoscope.png" %}" title="Services Offered." height="20" width="20" />
+														&nbsp;{{pract.services}}</td>
 													</tr>
 													<tr>
-														<td><img src="{% static "icons/stethoscope.png" %}" title="Services Offered." height="20" width="20" />
-															&nbsp;{{pract.services}}</td>
-														</tr>
-														<tr>
 														<td>
-														<div id="float-right"><a href="http://maps.google.com/maps?z=12&t=m&q={{pract.practise_location.lat}},{{pract.practise_location.lon}}" target="_blank" class="anchor-link"><img src="{% static "icons/map1.png" %}" title="Services Offered." height="24" width="24" /></a>
-														</div>
+														<div class="float-right"><a href="http://maps.google.com/maps?z=12&t=m&q={{pract.practise_location.lat}},{{pract.practise_location.lon}}" target="_blank" class="anchor-link"><img src="{% static "icons/map1.png" %}" title="Services Offered." height="24" width="24" /></a>
+															</div>
 														</td>
-														</tr>
-														</table>
-														</div>
-													</div>
+													</tr>
+												</table>
+											</div>
+										</div>
+										{% endfor %}
+										{% endif %}
+
+										<!-- Clinic Timings Details -->
+										{% if practise_timing.exists %}
+										<div class="ui-block-b clinicTimingsDetails">
+											<div class="ui-bar ui-bar-a">
+
+												<center><h3>Clinic Timings.</h3></center>
+												<table style="font-weight: normal;">
+													<tr>
+														<td><b>&nbsp;&nbsp;Day&nbsp;&nbsp;</b></td>
+														<td><b>&nbsp;Opens&nbsp;</b></td>
+														<td><b>&nbsp;Closes&nbsp;</b></td>
+													</tr>
+													{% for ct in practise_timing.iterator %}
+													<tr>
+														<td>{{ct.get_day_display}}&nbsp;</td>
+														<td>{{ct.get_start_time_display}}&nbsp;</td>
+														<td>{{ct.get_end_time_display}}&nbsp;</td>
+													</tr>
 													{% endfor %}
+												</table>
+											</div>
+										</div>
+										{% endif %}
+
+										<!-- Practitioner Reviews Details -->
+										{% if reviews.exists %}
+										<div class="ui-block-c practitionerReviews">
+											<div class="ui-bar ui-bar-a">
+												<center><h3>Practitioner Reviews.</h3></center>
+												{% for pr in reviews.iterator %}
+												<p>"{{pr.review_text}}"<br>
+													{% if patient.is_authenticated %}
+													Reviewed by: <b>{{pr.patient}}.</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+													<form action="{% url 'practitioner' practitioner.slug %}" method="POST">{% csrf_token %}
+														<input class="anchor-link-right" type="image" src="{% static "icons/thumb-up.png" %}" height="18" width="18" />
+														<input type="hidden" name="ID" value="{{pr.pk}}" />
+														<input type="hidden" name="up" value="1" />
+													</form>&nbsp;&nbsp;{{pr.up_votes}}&nbsp;&nbsp;
+													<form action="{% url 'practitioner' practitioner.slug %}" method="POST">{% csrf_token %}
+														<input class="anchor-link-right" type="image" src="{% static "icons/thumbs-down.png" %}" height="18" width="18">
+														<input type="hidden" name="ID" value="{{pr.pk}}">
+														<input type="hidden" name="down" value="-1">
+													</form>&nbsp;&nbsp;{{pr.down_votes}}
+													{% else %}
+													<center>agree: {{pr.up_votes}}&nbsp;&nbsp;|&nbsp;&nbsp;disagree: {{pr.down_votes}}<br></center>
 													{% endif %}
 
-													<!-- Clinic Timings Details -->
-													{% if practise_timing.exists %}
-													<div class="ui-block-b" id="clinicTimingsDetails">
-														<div class="ui-bar ui-bar-a">
-
-															<center><h3>Clinic Timings.</h3></center>
-															<table style="font-weight: normal;">
-																<tr>
-																	<td><b>&nbsp;&nbsp;Day&nbsp;&nbsp;</b></td>
-																	<td><b>&nbsp;Opens&nbsp;</b></td>
-																	<td><b>&nbsp;Closes&nbsp;</b></td>
-																</tr>
-																{% for ct in practise_timing.iterator %}
-																<tr>
-																	<td>{{ct.get_day_display}}&nbsp;</td>
-																	<td>{{ct.get_start_time_display}}&nbsp;</td>
-																	<td>{{ct.get_end_time_display}}&nbsp;</td>
-																</tr>
-																{% endfor %}
-															</table>
-														</div>
+													<br>Submitted on: <i>{{pr.review_date}}</i><br>
+													{% endfor %}
+													<!-- Post new Reviews-->
+													{% if patient.is_authenticated %}
+													<div id="reviewBox" data-role="collapsible" data-collapsed="true" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right"><h6>add review</h6>
+														<form action="/addReview/" method="POST">{% csrf_token %}
+															<textarea cols="8" rows="8" name="review_text" required></textarea>
+															<input type="hidden" name="slug" value="{{practitioner.slug}}" >
+															<button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Post</button>
+														</form>
 													</div>
-													{% endif %}
+												</p>
+												{% else %}
+												<!-- no user login	-->
+												<p><a href="#loginSignup" class="anchor-link-right">add review</a></p>
+												{% endif %}
+												{% else %}
+												<p>No reviews, yet.<br></p>
+												{% endif %}
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- Footer Details -->
+								<div data-role="footer">
+									<h4>&copy; all rights reserved-2014 &reg;</h4>
+								</div>
 
-													<!-- Practitioner Reviews Details -->
-													{% if reviews.exists %}
-													<div class="ui-block-c" id="practitionerReviews">
-														<div class="ui-bar ui-bar-a">
-															<center><h3>Practitioner Reviews.</h3></center>
-															{% for pr in reviews.iterator %}
-															<p>"{{pr.review_text}}"<br>
-																{% if patient.is_authenticated %}
-																Reviewed by: <b>{{pr.patient}}.</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-																<a href="#" class="anchor-link" >
-																	<img src="{% static "icons/thumb-up.png" %}" height="18" width="18" /></a>&nbsp;&nbsp;{{pr.up_votes}}
-																	&nbsp;&nbsp;
-																	<a href="#" class="anchor-link" >
-																		<img src="{% static "icons/thumbs-down.png" %}" height="18" width="18" /></a>&nbsp;&nbsp;{{pr.down_votes}}
-																		{% else %}
-																		<center>agree: {{pr.up_votes}}&nbsp;&nbsp;|&nbsp;&nbsp;disagree: {{pr.down_votes}}<br></center>
-																		{% endif %}
+							</div>
+							<!-- Login SignUp -->
+							<div data-role="page" id="loginSignup" data-theme="a">
+								<div data-role="header">
+									<h1 class="ui-icon-myicon">
+										<a href="http://localhost:8000/" class="anchor-link" >docors.&nbsp;
+											<img src="{% static "icons/stethoscope.png" %}" height="18" width="18" /></a>
+										</h1>
+									</div>
 
-																		<br>Submitted on: <i>{{pr.review_date}}</i><br>
-																		{% endfor %}
-																		<!-- Post new Reviews-->
-																		{% if patient.is_authenticated %}
-																		<div id="reviewBox" data-role="collapsible" data-collapsed="true" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right"><h6>add review</h6>
-																			<form action="/addReview/" method="POST">{% csrf_token %}
-																				<textarea cols="8" rows="8" name="review_text" required></textarea>
-																				<input type="hidden" name="slug" value="{{practitioner.slug}}" >
-																				<button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Post</button>
-																			</form>
-																		</div>
-																	</p>
-																	{% else %}
-																	<!-- no user login	-->
-																	<p><a href="#loginSignup" class="anchor-link-right">add review</a></p>
-																	{% endif %}
-																	{% else %}
-																	<p>No reviews, yet.<br></p>
-																	{% endif %}
-																</div>
-															</div>
-														</div>
-													</div>
-													<!-- Footer Details -->
-													<div data-role="footer">
-														<h4>&copy; all rights reserved-2014 &reg;</h4>
-													</div>
+									<div role="main" class="ui-content">
+										<center><a href="http://localhost:8000/accounts/login/" class="ui-btn ui-corner-all ui-shadow loginSignup">Login</a></center>
+										<center><a href="http://localhost:8000/accounts/register/" class="ui-btn ui-corner-all ui-shadow loginSignup">Sign Up</a></center>
+										<center><a href="http://localhost:8000/accounts/password/reset/" class="ui-btn ui-corner-all ui-shadow loginSignup">Forgot Password</a></center>
+										<!--footer-->
+										<div style="margin: auto auto;" data-role="footer">
+											<h4>&copy; all rights reserved-2014 &reg;</h4>
+										</div>
+									</div>
 
-												</div>
-												<!-- Login SignUp -->
-												<div data-role="page" id="loginSignup" data-theme="a">
-													<div data-role="header">
-														<h1 class="ui-icon-myicon">
-															<a href="http://localhost:8000/" class="anchor-link" >docors.&nbsp;
-																<img src="{% static "icons/stethoscope.png" %}" height="18" width="18" /></a>
-															</h1>
-														</div>
+								</div>
 
-														<div role="main" class="ui-content">
-															<center><a href="http://localhost:8000/accounts/login/" class="ui-btn ui-corner-all ui-shadow loginSignup">Login</a></center>
-															<center><a href="http://localhost:8000/accounts/register/" class="ui-btn ui-corner-all ui-shadow loginSignup">Sign Up</a></center>
-															<center><a href="http://localhost:8000/accounts/password/reset/" class="ui-btn ui-corner-all ui-shadow loginSignup">Forgot Password</a></center>
-															<!--footer-->
-															<div style="margin: auto auto;" data-role="footer">
-																<h4>&copy; all rights reserved-2014 &reg;</h4>
-															</div>
-														</div>
-
-													</div>
-
-												</body>
-												</html>
+							</body>
+							</html>

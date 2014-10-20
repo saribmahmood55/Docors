@@ -11,14 +11,6 @@
       <script src="{% static "jquery_mobile/jquery.mobile-1.4.4.min.js" %}" type="text/javascript"></script>
       <script src="{% static "jquery_mobile/jquery.mobile-1.4.4.min.map" %}" type="text/javascript"></script>
       <script src="{% static "jquery_mobile/jquery.jeditable.js" %}" type="text/javascript" charset="utf-8"></script>
-      <script type="text/javascript">
-      $(document).ready(function() {
-      	$('.edit').editable('/updatePatient/', {
-      		submitdata : { csrfmiddlewaretoken : "{{ csrf_token }}"},
-      		style: 'display: inline'
-      	});
-      });
-       </script>
    </head>
    <body>
       <div data-role="page">
@@ -42,29 +34,25 @@
                      <center>
                         <h3><u>Patient Detail</u></h3>
                      </center>
-                     <table>
-                        <tr>
-                           <td><b>username: </b>{{patient.user.username}}</td>
-                        </tr>
-                        <tr>
-                           <td><b>email: </b>{{patient.user.email}}</td>
-                        </tr>
-                        <tr>
-                           <td><b>first name: </b>{{patient.user.firstname}}</td>
-                        </tr>
-                        <tr>
-                           <td><b>last Name: </b>{{patient.user.lastname}}</td>
-                        </tr>
-                        <tr>
-                           <td><b>Cell Number: </b><strong class="edit" id="cell_number">{{patient.cell_number}}</strong></td>
-                        </tr>
-                        <tr>
-                           <td><b>Gender: </b>{{patient.user.gender}}</td>
-                        </tr>
-                        <tr>
-                           <td><b>Age-Group: </b>{{patient.user.age_group}}</td>
-                        </tr>
-                     </table>
+                     <p><b>username: </b>{{patient.user.username}}<br>
+                     <b>email: </b>{{patient.user.email}}
+                     {% if patient.user.get_full_name and patient.cell_number and patient.gender %}
+                     first name: <b>{{patient.user.first_name}}</b><br>last Name: <b>{{patient.user.last_name}}</b><br>
+                     Cell Number: {{patient.cell_number}}<br>Gender: {{patient.get_gender_display}}<br>
+                     Age-Group: {{patient.get_age_group_display}}</p>
+                     {% else %}
+                     <form action="{% url 'patient' %}" method="POST">{% csrf_token %}
+                     <p><b>First Name: </b><input type="text" name="fname" />
+                     <b>Last Name: </b><input type="text" name="lname" />
+                     <b>Cell Number: </b><input type="text" name="number" />
+                     <b>Gender: </b><select name="gender">
+                     <option value="M">Male</option>
+                     <option value="F">Female</option>
+                     </select>
+                     <input type="submit" value="Update" />
+                     </form>
+                     </p>
+                     {% endif %}
                   </div>
                </div>
                <!--patient reviews-->
@@ -78,19 +66,11 @@
                         <tr>
                            <th>Practitioner</th>
                            <th>Review</th>
-                           <th>Agree</th>
-                           <th>Disagree</th>
-                           <th>Submitted On</th>
                         </tr>
                         {% for pr in reviews.iterator %}
                         <tr>
-                           <td>{{pr.practitioner.name}}</td>
-                           <td>
-                              <p>{{pr.review_text}}</p>
-                           </td>
-                           <td>{{pr.up_votes}}</td>
-                           <td>{{pr.down_votes}}</td>
-                           <td>{{pr.review_date}}</td>
+                        	<td><b>* {{pr.practitioner.name}}&nbsp;&nbsp;</b></td>
+                        	<td><p>{{pr.review_text}}</p></td>
                         </tr>
                         {% endfor %}
                      </table>
@@ -115,7 +95,7 @@
                         </tr>
                         {% for practitioner in patient.favt_practitioner.all.iterator %}
                         <tr>
-                           <td>{{practitioner.name}}&nbsp;&nbsp;</td>
+                           <td>* {{practitioner.name}}&nbsp;&nbsp;</td>
                            {% for speciality in practitioner.specialities.all.iterator %}
                            <td>{{speciality.name}}</td>
                            {% endfor %}
@@ -146,7 +126,7 @@
                         </tr>
                         {% for spec in patient.interested_specialities.all.iterator %}
                         <tr>
-                           <td>{{spec.name}}</td>
+                           <td>* {{spec.name}}</td>
                         </tr>
                         {% endfor %}
                      </table>

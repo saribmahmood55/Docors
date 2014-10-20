@@ -1,12 +1,12 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
-from patients.models import Patient, PractitionerReview
+from patients.models import Patient, PractitionerReview, ReviewStats
 from practitioner.models import Practitioner, Specialization
 
 
 class PatientAdmin(admin.ModelAdmin):
 	#inlines = (PatientInline, )
-	list_display = ['patient_name','patient_user_name','email','cell_number','gender','Interested_Specialities','Favourite_Practitioners']
+	list_display = ['patient_name','patient_user_name','email','cell_number','gender','age_group','Interested_Specialities','Favourite_Practitioners']
 
 	def patient_user_name(self, obj):
 		return obj.user.username
@@ -25,7 +25,7 @@ class PatientAdmin(admin.ModelAdmin):
 
 
 class PractitionerReviewAdmin(admin.ModelAdmin):
-	list_display = ['practitioner','patient','post_as_anonymous','review_text','Practitioner_Reviewed','Reviewed_By','review_date','up_votes','down_votes']
+	list_display = ['practitioner','patient','post_as_anonymous','review_text','review_date','up_votes','down_votes']
 	list_filter = ['review_date']
 
 	def Practitioner_Reviewed(self, obj):
@@ -34,9 +34,15 @@ class PractitionerReviewAdmin(admin.ModelAdmin):
 	def Reviewed_By(self, obj):
 		return "%s %s" % (obj.patient.user.first_name, obj.patient.user.last_name)
 
+
+class ReviewStatsAdmin(admin.ModelAdmin):
+	list_display = ['patient','review','status']
+
+
 #admin.site.unregister(User)
 admin.site.register(Patient, PatientAdmin)
 admin.site.register(PractitionerReview, PractitionerReviewAdmin)
+admin.site.register(ReviewStats, ReviewStatsAdmin)
 
 #"\n".join([patient.name for patient in obj.patient.all()])
 #"\n".join([practitioner.name for practitioner in obj.practitioners.all()])
