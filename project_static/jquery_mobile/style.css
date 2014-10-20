@@ -29,7 +29,7 @@ p {	font-weight: normal; }
 .clinicTimingsDetails td { padding-right: 10px;}
 .ui-block-a { clear: none;}
 
-.practitionerReviews{ float: left; width: 325px; height: 300px;	margin: 10px; overflow-y:auto; }
+.practitionerReviews{width: 325px !important;; height: 300px !important;	margin: 10px; overflow-y:auto; }
 
 .ui-grid-b { font-size: 15px;}
 #patient-profile{	width: 350px; float: left; margin: 10px;  font-weight: normal;}

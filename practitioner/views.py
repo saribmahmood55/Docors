@@ -44,71 +44,101 @@ def q(request):
 		raise Http404
 	return render(request, 'practitioner/results.html', {'practise': practise, 'patient': user})
 
+#
+def upVote(user, review_id):
+	patient = Patient.patient_objects.patient_details(user)
+	if ReviewStats.objects.get(review__pk=review_id, user=user).exists():
+		ReviewStats.objects.get(review__pk=review_id).update(status=1)
+	else:
+		review = PractitionerReview.pr_objects.review(review_id)
+		reviewStat = ReviewStats()
+		reviewStat.review = review
+		reviewStat.patient = patient
+		reviewStat.status = 1
+		reviewStat.save()
+		review.up_votes += 1
+		review.save()
+		print "+1"
+#
+def favourite(user, favt, slug):
+	practitioner = Practitioner.prac_objects.practitioner_slug(slug)
+	patient = Patient.patient_objects.patient_details(user)
+	if not favt:
+		patient.favt_practitioner.add(practitioner)#update many to many field
+	else:
+		error = "Already favourited"
+#
+def downVote(user, review_id):
+	patient = Patient.patient_objects.patient_details(user)
+	if ReviewStats.objects.get(review__pk=review_id).exists():
+		ReviewStats.objects.get(review__pk=review_id).update(status=-1)
+	else:
+		review = PractitionerReview.pr_objects.review(review_id)
+		reviewStat = ReviewStats()
+		reviewStat.review = review
+		reviewStat.patient = patient
+		reviewStat.status = 1
+		reviewStat.save()
+		review.down_votes += 1
+		review.save()
+		print "+1"
+
+def newReview(user, slug, review_text):
+	practitioner = Practitioner.prac_objects.practitioner_slug(slug)
+	reviews = PractitionerReview.pr_objects.patient_reviews(user)
+	if reviews.exists:
+		print "one review only."
+	else:
+		patient = Patient.patient_objects.patient_details(user=user)
+		p = PractitionerReview()
+		p.practitioner = practitioner
+		p.patient = patient
+		p.review_text = reviewText
+		p.up_votes = 0
+		p.down_votes = 0
+		p.save()
+		print "new review"
 
 # single practitioner details
 def practitioner(request, slug):
-	practitioner, favt, practise, practise_timing, reviews = None, None, None, None, None
-	user = request.user
-	if user.is_authenticated:
-		if user.username == "AnonymousUser":
-			user = None
-	else:
-		user = None
+	practitioner, favt, practise, practise_timing, reviews, patient, user = None, None, None, None, None, None, None
 	if request.method == "GET":
-		if user:
+		if request.user.is_authenticated():
+			user = request.user
 			patient = Patient.patient_objects.patient_details(user)
 			favourite = patient.favt_practitioner.all().filter(slug=slug)
 			print len(favourite)
-			if favourite:
+			if favourite.exists():
 				favt = True
 		else:
 			patient = None
-		try:
-			practitioner = Practitioner.prac_objects.practitioner_slug(slug)
-			practise = Practise.practise_objects.practise_detail(slug)
-			practise_timing = PractiseTiming.pt_objects.practise_timing_details(slug)
-			reviews = PractitionerReview.pr_objects.practitioner_reviews(slug)
-		except Practitioner.DoesNotExist:
-			raise Http404
-	if request.method == "POST":
+			try:
+				practitioner = Practitioner.prac_objects.practitioner_slug(slug)
+				practise = Practise.practise_objects.practise_detail(slug)
+				practise_timing = PractiseTiming.pt_objects.practise_timing_details(slug)
+				reviews = PractitionerReview.pr_objects.practitioner_reviews(slug)
+			except Practitioner.DoesNotExist:
+				raise Http404
+		
+	if request.method == "POST" and request.user.is_authenticated():
+		user = request.user
 		slug = slug
-		up = request.POST.get('up', 0)
-		down = request.POST.get('slug', 0)
-		favt_ = request.POST.get('favt', 0)
+		up = request.POST.get('up', None)
+		down = request.POST.get('down', None)
+		favt_ = request.POST.get('favt', None)
 		review_id = request.POST.get ('ID', 0)
-		#print "slug: %s , up: %s down: %s favt: %s ID: %S"  % (slug,up,down,favt_,review_id)
-		#favourite Practitioner
-		if favt_ == "1":
-			practitioner = Practitioner.prac_objects.practitioner_slug(slug)
-			patient = Patient.patient_objects.patient_details(user)
-			favourite = patient.favt_practitioner.all().filter(slug=slug)
-			print "0"
-			if not favourite:
-				patient.favt_practitioner.add(practitioner)			#update many to many field
-			else:
-				error = "Already favourited"
-		elif up == "1" and review_id:
-			patient = Patient.patient_objects.patient_details(user)
-			review = PractitionerReview.pr_objects.review(review_id)
-			reviewStat = ReviewStats()
-			reviewStat.review = review
-			reviewStat.patient = patient
-			reviewStat.status = 1
-			reviewStat.save()
-			review.up_votes += 1
-			review.save()
-			print "+1"
-		elif down == "-1" and review_id:
-			patient = Patient.patient_objects.patient_details(user)
-			review = PractitionerReview.pr_objects.review(review_id)
-			reviewStat = ReviewStats()
-			reviewStat.review = review
-			reviewStat.patient = patient
-			reviewStat.status = -1
-			reviewStat.save()
-			review.down_votes += 1
-			review.save()
-			print "+1"
+		comment = request.POST.get('comment', None)
+		review_text = request.POST.get('review_text', None)
+		if favt_ == "favt":
+			favourite(user, favt, slug)
+		elif up == "up" and review_id:
+			upVote(user, review_id)
+		elif down == "down" and review_id:
+			downVote(user, review_id)
+		elif comment == "comment" and newReview:
+			newReview(user, slug, review_text)
+	else:
+		patient = None
 	try:
 		practitioner = Practitioner.prac_objects.practitioner_slug(slug)
 		practise = Practise.practise_objects.practise_detail(slug)
