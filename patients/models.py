@@ -81,13 +81,13 @@ class ReviewStatsManager(models.Manager):
 class ReviewStats(models.Model):
     review = models.ForeignKey(PractitionerReview)
     patient = models.ForeignKey(Patient)
-    status = models.IntegerField()  #0, -1 and +1
+    status = models.IntegerField(default=0)  #0, -1 and +1
 
     objects = models.Manager()
     prs_objects = ReviewStatsManager()
 
     def __str__(self):
-        return self.status
+        return self.review
 
     class Meta:
         verbose_name_plural = 'Reviews Status'

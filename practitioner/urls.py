@@ -3,7 +3,7 @@ from practitioner import views
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
-    url(r'^q', views.q, name='q'),
+    url(r'^practitoners', views.practitoners, name='practitoners'),
     url(r'^practitioner/(?P<slug>[a-z-]+)/$', views.practitioner, name='practitioner'),
-    url(r'^register', views.register, name='register'),
+    url(r'^registration', views.registration, name='registration'),
 )

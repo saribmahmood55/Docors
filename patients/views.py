@@ -7,6 +7,17 @@ from django.shortcuts import render
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 
+#
+def favourite(user,slug):
+	practitioner = Practitioner.prac_objects.practitioner_slug(slug)
+	patient = Patient.patient_objects.patient_details(user)
+	favourite_list = patient.favt_practitioner.all().filter(slug=slug)
+	if not favourite_list.exists():
+		patient.favt_practitioner.add(practitioner)#update many to many field
+		msg = "Practitioner has been bookmarked, Click on your profile to access directly."
+		print msg
+		#messages.add_message(request, messages.INFO, msg)
+
 def patient(request):
 	patient, reviews, specialities, user = None, None, None, None
 	if request.user.is_authenticated():
@@ -25,86 +36,119 @@ def patient(request):
 			patient = None
 	if request.method == 'POST':
 		if request.user.is_authenticated():
+			slug = request.POST.get('slug', None)
 			fname = request.POST.get('fname', None)
 			lname = request.POST.get('lname', None)
 			number = request.POST.get('number', 0)
 			#age = request.POST.get('age', None)
 			gender = request.POST.get('gender', None)
-			p = get_object_or_404(Patient, user=user)
-			p.user.first_name=fname
-			p.user.last_name=lname
-			p.user.save()
-			p.cell_number=number
-			p.gender=gender
-			p.save()
-			patient = Patient.patient_objects.patient_details(user)
-			print "Ok"
-			reviews = PractitionerReview.pr_objects.patient_reviews(user)
+			if slug:
+				user = request.user
+				favourite(user, slug)
+				return redirect(reverse('practitioner', kwargs={'slug':slug}))
+			else:
+				p = get_object_or_404(Patient, user=user)
+				p.user.first_name=fname
+				p.user.last_name=lname
+				p.user.save()
+				p.cell_number=number
+				p.gender=gender
+				p.save()
+				patient = Patient.patient_objects.patient_details(user)
+				print "Ok"
+				reviews = PractitionerReview.pr_objects.patient_reviews(user)
 		else:
 			patient = None
 	return render(request, 'patients/profile.html', {'patient': patient, 'reviews': reviews, 'specialities' : specialities})
 
+#
+#
+def newReview(user, slug, review_text):
+	patient = Patient.patient_objects.patient_details(user=user)
+	practitioner = Practitioner.prac_objects.practitioner_slug(slug)
+	pr, created = PractitionerReview.objects.get_or_create(patient=patient, practitioner=practitioner)
+	if not created:
+		msg = "You can only review a particular Practitioner once. :/"
+		#messages.add_message(request, messages.INFO, msg)
+		print msg
+	else:
+		pr.practitioner = practitioner
+		pr.patient = patient
+		pr.review_text = review_text
+		pr.up_votes = 0
+		pr.down_votes = 0
+		pr.save()
+		print "new review"
+
 
 def upVote(user, review_id):
-	review = ReviewStats.prs_objects.review(review_id,user)
-	if review.exists():
-		if review[0].status == 1:
+	patient = Patient.patient_objects.patient_details(user=user)
+	review = PractitionerReview.pr_objects.review(review_id)
+	rs, created = ReviewStats.objects.get_or_create(patient=patient, review=review)
+	if not created:
+		if rs.status == 1:
+			rs.save()
 			msg = "Review Up-Voted, already."
 			print msg
 			#messages.add_message(request, messages.INFO, msg)
 		else:
-			review_ = ReviewStats.objects.get(review__pk=review_id)
-			review_.status = 1
-			review_.save()
+			rs.status = 1
+			rs.save()
+			review.down_votes -= 1
+			review.up_votes += 1
+			review.save()
 			msg = "Review Up-Voted."
 			print msg
-			#messages.add_message(request, messages.INFO, msg)
 	else:
-		patient = Patient.patient_objects.patient_details(user)
-		review = PractitionerReview.pr_objects.review(review_id)
-		reviewStat = ReviewStats()
-		reviewStat.review = review
-		reviewStat.patient = patient
-		reviewStat.status = 1
-		reviewStat.save()
+		rs.status = 1
+		rs.save()
 		review.down_votes += 1
 		review.save()
-		msg = "Review Up-Voted."
+		msg = "new Review Up-Voted."
 		print msg
 		#messages.add_message(request, messages.INFO, msg)
 
-
+##
 def downVote(user, review_id):
-	review = ReviewStats.prs_objects.review(review_id,user)
-	if review.exists():
-		if review[0].status == -1:
-			msg = "Review Down-Voted, already."
+	patient = Patient.patient_objects.patient_details(user=user)
+	review = PractitionerReview.pr_objects.review(review_id)
+	rs, created = ReviewStats.objects.get_or_create(patient=patient, review=review)
+	if not created:
+		if rs.status == -1:
+			rs.save()
+			msg = "Review down-Voted, already."
 			print msg
 			#messages.add_message(request, messages.INFO, msg)
 		else:
-			review_ = ReviewStats.objects.get(review__pk=review_id)
-			review_.status = -1
-			review_.save()
-			msg = "Review Down-Voted."
+			rs.status = -1
+			rs.save()
+			review.up_votes -= 1
+			review.down_votes += 1
+			review.save()
+			msg = "Review down-Voted."
 			print msg
-			#messages.add_message(request, messages.INFO, msg)
 	else:
-		patient = Patient.patient_objects.patient_details(user)
-		review = PractitionerReview.pr_objects.review(review_id)
-		reviewStat = ReviewStats()
-		reviewStat.review = review
-		reviewStat.patient = patient
-		print review.review_text
-		reviewStat.status = 1
-		reviewStat.save()
+		rs.status = -1
+		rs.save()
 		review.down_votes += 1
 		review.save()
-		msg = "Review Down-Voted."
+		msg = "new Review down-Voted."
 		print msg
 		#messages.add_message(request, messages.INFO, msg)
 
+#zoo_animals['Rockhopper Penguin'] = 'Popaye'
+def addreview(request):
+	if request.method == "POST":
+		if request.user.is_authenticated():
+			user = request.user
+			slug = request.POST.get('slug', None)
+			review_text = request.POST.get('review_text', None)
+			if slug:
+				newReview(user, slug, review_text)
+	return redirect(reverse('practitioner', kwargs={'slug':slug}))
 
 def review(request, review_id):
+	slug = None
 	if request.method == "POST":
 		if request.user.is_authenticated():
 			user = request.user
@@ -112,12 +156,8 @@ def review(request, review_id):
 			slug = review.practitioner.slug
 			up = request.POST.get('up', None)
 			down = request.POST.get('down', None)
-			if up == "up":
+			if up == "up" and not down:
 				upVote(user, review_id)
-				print "up"
-			elif down == "down":
+			elif down == "down" and not up:
 				downVote(user, review_id)
-				print "down"
 	return redirect(reverse('practitioner', kwargs={'slug':slug}))
-#
-#	

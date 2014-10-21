@@ -2,7 +2,7 @@
 <html>
 <head>
 	{% load static from staticfiles %}
-	<title>docors | practitioner details</title>
+	<title>{{practitioner.name}}</title>
 	<link rel="shortcut icon" href="{% static "jquery_mobile/stethoscope.ico" %}">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="{% static "jquery_mobile/jquery.mobile-1.4.4.min.css" %}" rel="stylesheet" type="text/css">
@@ -22,97 +22,66 @@
 					{% if patient.is_authenticated %}
 					<a href="{% url 'patient' %}" id="user" >{{patient.username}}</a>
 					{% else %}
-					<a href="/accounts/login/" class="anchor-link-right" >Login</a>
+					<a href="/login/" class="anchor-link-right" >Login</a>
 					{% endif %}
 				</div>
 			</div>
 			<div role="main" class="ui-content">
 
-				<!-- Practitioner Details -->
-				<div id="practitionerDetails">
-					{% if not favt %}
-					<form id="favt" method="POST">{% csrf_token %}
-						<input class="anchor-link-right" type="image" src="{% static "icons/favt_.png" %}" height="32" width="32">
-						<input type="hidden" name="favt" value="favtourite">
-					</form>
-					{% else %}
-					<img class="anchor-link-right" title="Already favourited" src="{% static "icons/favt0.png" %}" height="32" width="32" />
-					{% endif %}
-					<h3>{{practitioner.name}}</h3>
-					<p>{{practitioner.credentials}}<br>
-						Specialized in: {% for speciality in practitioner.specialities.all.iterator %} <b>{{speciality.name}}</b><br>{% endfor %}
-						Experience: <strong>{{practitioner.experience}} years.</strong><br><br>
-						<b>Achievements: </b>{{practitioner.achievements}}</p>
-					</div>
+	<!-- Practitioner Details -->
+	<div id="practitionerDetails">
+		{% if not favt %}
+		<form action="{% url 'patient' %}" method="POST" class="inline_">{% csrf_token %}
+			<input class="anchor-link-right" type="image" src="{% static "icons/favt_.png" %}" height="32" width="32">
+			<input type="hidden" name="slug" value="{{practitioner.slug}}">
+			<input type="hidden" name="favt" value="{{favt}}">
+		</form>
+		{% else %}
+		<img class="anchor-link-right" title="Already favourited" src="{% static "icons/favt0.png" %}" height="32" width="32" />
+		{% endif %}
+		<h3>{{practitioner.name}}</h3>
+		<p>{{practitioner.credentials}}<br>
+			Specialized in: {% for speciality in practitioner.specialities.all.iterator %} <b>{{speciality.name}}</b><br>{% endfor %}
+			Experience: <strong>{{practitioner.experience}} years.</strong><br><br>
+			<b>Achievements: </b>{{practitioner.achievements}}</p>
+		</div>
+		<div class="ui-grid-b">
+		<!-- Practise-Location Details -->
+		{% if practise.exists %}
+		{% for pract in practise.iterator %}
+		<div class="ui-block-a clinicDetails">
+		<div class="ui-bar ui-bar-a" >
+		<center><h3>Clinic Details.</h3></center>
+		<p class="normalweight">
+		<center><b>{{pract.practise_location.name}}</b></center><br><b>Fee:&nbsp;{{pract.checkup_fee}}rs.</b><br>
+		<img src="{% static "icons/phone.png" %}" class="icon" height="20" width="20" /><b><u>{{pract.contact_number}}</u></b><br>
+		<img src="{% static "icons/app.png" %}" class="icon" title="Appointment Required ?" height="20" width="20" />
+		{% if pract.appointments_only %}<b>Yes.</b><br>{% else %}<b>First Come First Serve.</b><br>{% endif %}
+		<img src="{% static "icons/address_.png" %}" class="icon" height="22" width="18" />
+		{{pract.practise_location.clinic_address}},&nbsp;<b>{{pract.practise_location.city.name}}</b><br>
+		<img src="{% static "icons/stethoscope.png" %}" class="icon" title="Services Offered." height="20" width="20" />
+		{{pract.services}}<br>
+		<div class="float-right">
+			<a href="http://maps.google.com/maps?z=12&t=m&q={{pract.practise_location.lat}},{{pract.practise_location.lon}}" target="_blank" class="anchor-link">
+			<img src="{% static "icons/map1.png" %}" title="Services Offered." class="icon" height="24" width="24" /></a>
+		</div></p>
+		</div></div>
+		{% endfor %}
+		{% endif %}
 
-					<div class="ui-grid-b">
-
-						<!-- Practise-Location Details -->
-						{% if practise.exists %}
-						{% for pract in practise.iterator %}
-						<div class="ui-block-a clinicDetails">
-							<div class="ui-bar ui-bar-a" >
-								<center><h3>Clinic Details.</h3></center>
-								<table style="font-weight: normal; width: 100%">
-									<tr>
-										<td><center><b>{{pract.practise_location.name}}</b></center></td>
-									</tr>
-									<tr>
-										<td><b>Fee:&nbsp;{{pract.checkup_fee}}rs.</b></td>
-									</tr>
-									<tr>
-										<td><img src="{% static "icons/phone.png" %}" height="20" width="20" />
-											&nbsp;<b><u>{{pract.contact_number}}</u></b></td>
-										</tr>
-										<tr>
-											<td><img src="{% static "icons/app.png" %}" title="Appointment Required ?" height="20" width="20" />
-												<b>{% if pract.appointments_only %}&nbsp; Yes.{% else %}First Come First Serve.{% endif %}</b></td>
-											</tr>
-											<tr>
-												<td><img src="{% static "icons/address_.png" %}" height="22" width="18" />
-													&nbsp;{{pract.practise_location.clinic_address}}, <b>{{pract.practise_location.city.name}}</b></td>
-												</tr>
-												<tr>
-													<td><img src="{% static "icons/stethoscope.png" %}" title="Services Offered." height="20" width="20" />
-														&nbsp;{{pract.services}}</td>
-													</tr>
-													<tr>
-														<td>
-															<div class="float-right"><a href="http://maps.google.com/maps?z=12&t=m&q={{pract.practise_location.lat}},{{pract.practise_location.lon}}" target="_blank" class="anchor-link"><img src="{% static "icons/map1.png" %}" title="Services Offered." height="24" width="24" /></a>
-															</div>
-														</td>
-													</tr>
-												</table>
-											</div>
-										</div>
-										{% endfor %}
-										{% endif %}
-
-										<!-- Clinic Timings Details -->
-										{% if practise_timing.exists %}
-										<div class="ui-block-b clinicTimingsDetails">
-											<div class="ui-bar ui-bar-a">
-
-												<center><h3>Clinic Timings.</h3></center>
-												<table style="font-weight: normal;">
-													<tr>
-														<td><b>&nbsp;&nbsp;Day&nbsp;&nbsp;</b></td>
-														<td><b>&nbsp;Opens&nbsp;</b></td>
-														<td><b>&nbsp;Closes&nbsp;</b></td>
-													</tr>
-													{% for ct in practise_timing.iterator %}
-													<tr>
-														<td>{{ct.get_day_display}}&nbsp;</td>
-														<td>{{ct.get_start_time_display}}&nbsp;</td>
-														<td>{{ct.get_end_time_display}}&nbsp;</td>
-													</tr>
-													{% endfor %}
-												</table>
-											</div>
-										</div>
-										{% endif %}
-
-										<!-- Practitioner Reviews Details -->
+	<!-- Clinic Timings Details -->
+	{% if practise_timing.exists %}
+	<div class="ui-block-b clinicTimingsDetails">
+		<div class="ui-bar ui-bar-a">
+		<center><h3>Clinic Timings.</h3></center>
+			<p><b>&nbsp;&nbsp;Day&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Opens&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Closes</b>
+			{% for ct in practise_timing.iterator %}
+			{{ct.get_day_display}}&nbsp;&nbsp;{{ct.get_start_time_display}}&nbsp;&nbsp;{{ct.get_end_time_display}}
+			{% endfor %}</p>
+		</div>
+	</div>
+	{% endif %}
+	<!-- Practitioner Reviews Details -->
 	{% if reviews.exists %}
 	<div class="ui-block-c practitionerReviews">
 		<div class="ui-bar ui-bar-a">
@@ -121,13 +90,13 @@
 	{% if patient.is_authenticated %}
 	<p class="normalweight">
 	<b>{{pr.patient}}</b> say: '{{pr.review_text}}'<br>Submitted on: <i>{{pr.review_date}}</i>
-	<center><div>{{pr.up_votes}}&nbsp;&nbsp;&nbsp;
+	<center><div class="inline_">{{pr.up_votes}}&nbsp;&nbsp;&nbsp;
 	<form action="{% url 'review' pr.pk %}" class="inline_" method="POST">{% csrf_token %}
-		<input type="image" src="{% static "icons/thumb-up.png" %}" height="18" width="18" />
+		<input type="image" src="{% static "icons/up.png" %}" height="14" width="14" />
 		<input type="hidden" name="up" value="up">
 	</form>&nbsp;&nbsp;&nbsp;
 	<form action="{% url 'review' pr.pk %}" class="inline_" method="POST">{% csrf_token %}
-		<input type="image" src="{% static "icons/thumbs-down.png" %}" height="18" width="18" />
+		<input type="image" src="{% static "icons/down.png" %}" height="14" width="14" />
 		<input type="hidden" name="down" value="down">
 	</form>&nbsp;&nbsp;&nbsp;{{pr.down_votes}}<br></div></center></p>
 	{% else %}
@@ -139,9 +108,9 @@
 	<!-- Post new Reviews-->
 	{% if patient.is_authenticated %}
 	<div id="reviewBox" data-role="collapsible" data-collapsed="true" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right"><h6>add review</h6>
-	<form style="display: inline;" action="{% url 'practitioner' practitioner.slug %}" method="POST">{% csrf_token %}
+	<form action="{% url 'addreview' %}" method="POST" class="inline_">{% csrf_token %}
 	<textarea cols="8" rows="8" name="review_text" required></textarea>
-	<input type="hidden" name="comment" value="comment" >
+	<input type="hidden" name="slug" value="{{practitioner.slug}}" >
 	<button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Post</button>
 	</form>
 	</div>
@@ -171,9 +140,9 @@
 </div>
 
 <div role="main" class="ui-content">
-<center><a href="http://localhost:8000/accounts/login/" class="ui-btn ui-corner-all ui-shadow loginSignup">Login</a></center>
-<center><a href="http://localhost:8000/accounts/register/" class="ui-btn ui-corner-all ui-shadow loginSignup">Sign Up</a></center>
-<center><a href="http://localhost:8000/accounts/password/reset/" class="ui-btn ui-corner-all ui-shadow loginSignup">Forgot Password</a></center>
+<center><a href="/login/" class="ui-btn ui-corner-all ui-shadow loginSignup">Login</a></center>
+<center><a href="/register/" class="ui-btn ui-corner-all ui-shadow loginSignup">Sign Up</a></center>
+<center><a href="/password/reset/" class="ui-btn ui-corner-all ui-shadow loginSignup">Forgot Password</a></center>
 <!--footer-->
 <div style="margin: auto auto;" data-role="footer">
 <h4>&copy; all rights reserved-2014 &reg;</h4>

@@ -32,14 +32,14 @@ p {	font-weight: normal; }
 .practitionerReviews{width: 325px !important;; height: 300px !important;	margin: 10px; overflow-y:auto; }
 
 .ui-grid-b { font-size: 15px;}
+.icon{ padding-right: 10px;}
 #patient-profile{	width: 350px; float: left; margin: 10px;  font-weight: normal;}
 #patient-profile table{ font-weight: normal;}
 #patient-reviews{	width: 425px; float: left; margin: 10px;}
 #favourite-pracs{	width: 325px; float: left; margin: 10px;}
 #favourite-spec{	width: 325px; float: left; margin: 10px;}
-.up { display: inline; padding: 0px; margin: 0px;}
-.down { display: inline; padding: 0px; margin: 0px;}
-.normalweight { font-weight: normal;}
+.inline_ { display: inline; padding: 0px; margin: 0px;}
+.normalweight { font-weight: normal !important;}
 
 /* Responsive for mobile devices */
 
