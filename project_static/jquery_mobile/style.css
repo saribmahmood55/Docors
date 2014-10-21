@@ -37,6 +37,9 @@ p {	font-weight: normal; }
 #patient-reviews{	width: 425px; float: left; margin: 10px;}
 #favourite-pracs{	width: 325px; float: left; margin: 10px;}
 #favourite-spec{	width: 325px; float: left; margin: 10px;}
+.up { display: inline; padding: 0px; margin: 0px;}
+.down { display: inline; padding: 0px; margin: 0px;}
+.normalweight { font-weight: normal;}
 
 /* Responsive for mobile devices */
 

@@ -35,7 +35,7 @@
                         <h3><u>Patient Detail</u></h3>
                      </center>
                      <p><b>username: </b>{{patient.user.username}}<br>
-                     <b>email: </b>{{patient.user.email}}
+                     <b>email: </b>{{patient.user.email}}<br>
                      {% if patient.user.get_full_name and patient.cell_number and patient.gender %}
                      first name: <b>{{patient.user.first_name}}</b><br>last Name: <b>{{patient.user.last_name}}</b><br>
                      Cell Number: {{patient.cell_number}}<br>Gender: {{patient.get_gender_display}}<br>
@@ -70,7 +70,7 @@
                         {% for pr in reviews.iterator %}
                         <tr>
                         	<td><b>* {{pr.practitioner.name}}&nbsp;&nbsp;</b></td>
-                        	<td><p>{{pr.review_text}}</p></td>
+                        	<td><p>'{{pr.review_text}}'</p></td>
                         </tr>
                         {% endfor %}
                      </table>
@@ -139,6 +139,30 @@
                         <p>No favourite Practitioner, yet. :(</p>
                      </center>
                      {% endif %}
+                  </div>
+                </div>
+                <!--subscribe Specialities -->
+               <div class="ui-block-c" id="favourite-spec">
+                  <div class="ui-bar ui-bar-a">
+                     <center>
+                        <h3><u>Subscibe for Specialities</u></h3>
+                     </center>
+                     <table style="font-weight: normal;">
+                        <tr>
+                           <th style="margin-right: 25px;">Name</th>
+                        </tr>
+                        {% for spec in specialities.iterator %}
+                        <tr>
+                           <td>
+                              <form>
+                              <input type="checkbox" name="Subscribe" value="Bike">
+                              </form>
+                           </td>
+                           <td>{{spec.name}}</td>
+                        </tr>
+                        {% endfor %}
+                     </table>
+                     <p>Please Select the above categories to get specific updates about latest research and tips, weekly.</p>
                   </div>
                 </div>
             </div>

@@ -31,12 +31,12 @@
 				<!-- Practitioner Details -->
 				<div id="practitionerDetails">
 					{% if not favt %}
-					<form action="{% url 'practitioner' practitioner.slug %}" method="POST">{% csrf_token %}
+					<form id="favt" method="POST">{% csrf_token %}
 						<input class="anchor-link-right" type="image" src="{% static "icons/favt_.png" %}" height="32" width="32">
-						<input type="hidden" name="favt" value="favt">
+						<input type="hidden" name="favt" value="favtourite">
 					</form>
 					{% else %}
-					<img class="anchor-link-right" type="image" title="Already favourited" src="{% static "icons/favt0.png" %}" height="32" width="32" />
+					<img class="anchor-link-right" title="Already favourited" src="{% static "icons/favt0.png" %}" height="32" width="32" />
 					{% endif %}
 					<h3>{{practitioner.name}}</h3>
 					<p>{{practitioner.credentials}}<br>
@@ -113,76 +113,114 @@
 										{% endif %}
 
 										<!-- Practitioner Reviews Details -->
-										{% if reviews.exists %}
-										<div class="ui-block-c practitionerReviews">
-											<div class="ui-bar ui-bar-a">
-												<center><h3>Practitioner Reviews.</h3></center>
+	{% if reviews.exists %}
+	<div class="ui-block-c practitionerReviews">
+		<div class="ui-bar ui-bar-a">
+			<center><h3>Practitioner Reviews.</h3></center>
 	{% for pr in reviews.iterator %}
-	<div style="font-weight: normal;">{{pr.review_text}}<br>
 	{% if patient.is_authenticated %}
-	Reviewed by: <b>{{pr.patient}}.</b>
-	<br>{{pr.up_votes}}&nbsp;&nbsp;
-	<form action="{% url 'practitioner' practitioner.slug %}" method="POST" style="display: inline;">{% csrf_token %}
+	<p class="normalweight">
+	<b>{{pr.patient}}</b> say: '{{pr.review_text}}'<br>Submitted on: <i>{{pr.review_date}}</i>
+	<center><div>{{pr.up_votes}}&nbsp;&nbsp;&nbsp;
+	<form action="{% url 'review' pr.pk %}" class="inline_" method="POST">{% csrf_token %}
 		<input type="image" src="{% static "icons/thumb-up.png" %}" height="18" width="18" />
-		<input type="hidden" name="ID" value="{{pr.pk}}"/>
-		<input type="hidden" name="up" value="up"/>
-	</form>&nbsp;&nbsp;
-	<form action="{% url 'practitioner' practitioner.slug %}" method="POST" style="display: inline;">{% csrf_token %}
-		<input type="image" src="{% static "icons/thumbs-down.png" %}" height="18" width="18">
-		<input type="hidden" name="ID" value="{{pr.pk}}">
+		<input type="hidden" name="up" value="up">
+	</form>&nbsp;&nbsp;&nbsp;
+	<form action="{% url 'review' pr.pk %}" class="inline_" method="POST">{% csrf_token %}
+		<input type="image" src="{% static "icons/thumbs-down.png" %}" height="18" width="18" />
 		<input type="hidden" name="down" value="down">
-	</form>&nbsp;&nbsp;{{pr.down_votes}}</p></div>
-											{% else %}
-											<center>agree: {{pr.up_votes}}&nbsp;&nbsp;|&nbsp;&nbsp;disagree: {{pr.down_votes}}<br></center>
-											{% endif %}
-											<br>Submitted on: <i>{{pr.review_date}}</i>
-											{% endfor %}
-											<!-- Post new Reviews-->
-											{% if patient.is_authenticated %}
-											<div id="reviewBox" data-role="collapsible" data-collapsed="true" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right"><h6>add review</h6>
-												<form action="{% url 'practitioner' practitioner.slug %}" method="POST">{% csrf_token %}
-													<textarea cols="8" rows="8" name="review_text" required></textarea>
-													<input type="hidden" name="comment" value="comment" >
-													<button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Post</button>
-												</form>
-											</div>
-											{% else %}
-											<!-- no user login	-->
-											<p><a href="#loginSignup" class="anchor-link-right">add review</a></p>
-											{% endif %}
-											{% else %}
-											<p>No reviews, yet.<br></p>
-											{% endif %}
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- Footer Details -->
-							<div data-role="footer">
-								<h4>&copy; all rights reserved-2014 &reg;</h4>
-							</div>
+	</form>&nbsp;&nbsp;&nbsp;{{pr.down_votes}}<br></div></center></p>
+	{% else %}
+	<center><p class="normalweight"><b>{{pr.patient}}: </b>'{{pr.review_text}}'<br>
+	agree: {{pr.up_votes}}&nbsp;&nbsp;-&nbsp;&nbsp;disagree: {{pr.down_votes}}<br>
+	Submitted on: <i>{{pr.review_date}}</i></p></center>
+	{% endif %}
+	{% endfor %}
+	<!-- Post new Reviews-->
+	{% if patient.is_authenticated %}
+	<div id="reviewBox" data-role="collapsible" data-collapsed="true" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right"><h6>add review</h6>
+	<form style="display: inline;" action="{% url 'practitioner' practitioner.slug %}" method="POST">{% csrf_token %}
+	<textarea cols="8" rows="8" name="review_text" required></textarea>
+	<input type="hidden" name="comment" value="comment" >
+	<button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Post</button>
+	</form>
+	</div>
+	{% else %}
+	<!-- no user login	-->
+	<p><a href="#loginSignup" class="anchor-link-right">add review</a></p>
+	{% endif %}
+	{% else %}
+	<p>No reviews, yet.<br></p>
+	{% endif %}
+	</div>
+	</div>
+	</div>
+	</div>
+	<!-- Footer Details -->
+	<div data-role="footer">
+	<h4>&copy; all rights reserved-2014 &reg;</h4>
+	</div>
+	</div>
+<!-- Login SignUp -->
+<div data-role="page" id="loginSignup" data-theme="a">
+<div data-role="header">
+<h1 class="ui-icon-myicon">
+<a href="http://localhost:8000/" class="anchor-link" >docors.&nbsp;
+<img src="{% static "icons/stethoscope.png" %}" height="18" width="18" /></a>
+</h1>
+</div>
 
-						</div>
-						<!-- Login SignUp -->
-						<div data-role="page" id="loginSignup" data-theme="a">
-							<div data-role="header">
-								<h1 class="ui-icon-myicon">
-									<a href="http://localhost:8000/" class="anchor-link" >docors.&nbsp;
-										<img src="{% static "icons/stethoscope.png" %}" height="18" width="18" /></a>
-									</h1>
-								</div>
+<div role="main" class="ui-content">
+<center><a href="http://localhost:8000/accounts/login/" class="ui-btn ui-corner-all ui-shadow loginSignup">Login</a></center>
+<center><a href="http://localhost:8000/accounts/register/" class="ui-btn ui-corner-all ui-shadow loginSignup">Sign Up</a></center>
+<center><a href="http://localhost:8000/accounts/password/reset/" class="ui-btn ui-corner-all ui-shadow loginSignup">Forgot Password</a></center>
+<!--footer-->
+<div style="margin: auto auto;" data-role="footer">
+<h4>&copy; all rights reserved-2014 &reg;</h4>
+</div>
+</div>
 
-								<div role="main" class="ui-content">
-									<center><a href="http://localhost:8000/accounts/login/" class="ui-btn ui-corner-all ui-shadow loginSignup">Login</a></center>
-									<center><a href="http://localhost:8000/accounts/register/" class="ui-btn ui-corner-all ui-shadow loginSignup">Sign Up</a></center>
-									<center><a href="http://localhost:8000/accounts/password/reset/" class="ui-btn ui-corner-all ui-shadow loginSignup">Forgot Password</a></center>
-									<!--footer-->
-									<div style="margin: auto auto;" data-role="footer">
-										<h4>&copy; all rights reserved-2014 &reg;</h4>
-									</div>
-								</div>
+</div>
+<script type="text/javascript">
+/*
+	$(function () {
+		var favtImg = $('#favt');
+		console.log("Hello");
+		favtImg.submit(function (ev) {
+			$.ajax({type:"POST", url: "{% url 'practitioner' practitioner.slug %}",	data: { favt: "favourite",
+				csrfmiddlewaretoken: '{{ csrf_token }}',
+			},
+			dataType : 'json'
+		});
+			ev.preventDefault();
+		});
+	});
 
-							</div>
-
+	$(function () {
+		var favtImg = $('.up');
+		favtImg.submit(function (ev) {
+			var review_ID = $(".review_ID").val();
+			$.ajax({type:"POST", url: "{% url 'practitioner' practitioner.slug %}",	data: { up: "up", review_ID: review_ID,
+				csrfmiddlewaretoken: '{{ csrf_token }}',
+			},
+			dataType : 'json'
+		});
+			ev.preventDefault();
+		});
+	});
+	$(function () {
+			var favtImg = $('.down');
+			var review_ID = $(".review_ID").val();
+			favtImg.submit(function (ev) {
+				$.ajax({type:"POST", url: "{% url 'practitioner' practitioner.slug %}",	data: { down: "down", review_ID: review_ID, 
+					csrfmiddlewaretoken: '{{ csrf_token }}',
+				},
+				dataType : 'json'
+			});
+			ev.preventDefault();
+		});
+	});
+*/
+</script>
 						</body>
 						</html>

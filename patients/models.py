@@ -53,6 +53,9 @@ class PractitionerReviewManager(models.Manager):
     def patient_reviews(self, user):
         return super(PractitionerReviewManager, self).filter(patient__user=user).order_by('review_date')
 
+    def single_review(self, user, slug):
+        return super(PractitionerReviewManager, self).filter(patient__user=user, practitioner__slug=slug)
+
 class PractitionerReview(models.Model):
     practitioner = models.ForeignKey(Practitioner)
     patient = models.ForeignKey(Patient)
@@ -72,8 +75,8 @@ class PractitionerReview(models.Model):
     	return self.review_text
 
 class ReviewStatsManager(models.Manager):
-    def review(slef, review_ID):
-        return super(ReviewStatsManager, self).get(review__pk=review_ID) 
+    def review(self, review_ID, user):
+        return super(ReviewStatsManager, self).filter(review__pk=review_ID, patient__user=user) 
 
 class ReviewStats(models.Model):
     review = models.ForeignKey(PractitionerReview)
@@ -85,3 +88,6 @@ class ReviewStats(models.Model):
 
     def __str__(self):
         return self.status
+
+    class Meta:
+        verbose_name_plural = 'Reviews Status'
