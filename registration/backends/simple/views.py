@@ -27,9 +27,7 @@ class RegistrationView(BaseRegistrationView):
         p.save()
         #
         login(request, new_user)
-        signals.user_registered.send(sender=self.__class__,
-                                     user=new_user,
-                                     request=request)
+        signals.user_registered.send(sender=self.__class__,user=new_user,request=request)
         return new_user
 
     def registration_allowed(self, request):

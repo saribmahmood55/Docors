@@ -27,7 +27,6 @@ def index(request):
 #handle search request
 def practitoners(request):
 	data = {}
-	user, city, name, speciality, experience, day, practise = None, None, None, None, None, None, []
 	if request.user.is_authenticated():
 		data['user'] = request.user
 	else:
@@ -53,7 +52,7 @@ def practitoners(request):
 
 # single practitioner details
 def practitioner(request, slug):
-	practitioner, favt, practise, practise_timing, reviews, patient, user = None, None, None, None, None, None, None
+	practitioner, favt, practise, practise_timing, reviews, patient, user, pc = None, None, None, None, None, None, None, None
 	if request.user.is_authenticated():
 		user = request.user
 	else:
@@ -69,11 +68,13 @@ def practitioner(request, slug):
 		try:
 			practitioner = Practitioner.prac_objects.practitioner_slug(slug)
 			practise = Practise.practise_objects.practise_detail(slug)
+			pc = Practise.objects.filter(practitioner__slug=slug).count()
+			print pc
 			practise_timing = PractiseTiming.pt_objects.practise_timing_details(slug)
 			reviews = PractitionerReview.pr_objects.practitioner_reviews(slug)
 		except Practitioner.DoesNotExist:
 			raise Http404
-	return render_to_response('practitioner/practitioner.html',{'practitioner': practitioner, 'practise': practise, 'practise_timing': practise_timing, 'reviews': reviews, 'patient': user, 'favt': favt}, context_instance=RequestContext(request))
+	return render_to_response('practitioner/practitioner.html',{'practitioner': practitioner,'pc': pc, 'practise': practise, 'practise_timing': practise_timing, 'reviews': reviews, 'patient': user, 'favt': favt}, context_instance=RequestContext(request))
 
 
 #return render_to_response('practitioner/practitioner.html',{'practitioner': practitioner, 'practise': practise, 'practise_timing': practise_timing, 'reviews': reviews, 'patient': user, 'favt': favt}, context_instance=RequestContext(request))

@@ -4,7 +4,11 @@ fonts: open sans, Lato, Ubuntu, Droid Serif
 */
 body{font-family: open sans;}
 p {	font-weight: normal; }
-
+ul{ list-style-type: none;}
+ul li {list-style-type: none;}
+ul a {
+    list-style-type: none;
+}
 #content{	text-align: none;	margin: 0% 1%; }
 .ui-header .ui-title { margin: 0%;}
 #head { float: right; margin: -35px 20px 0px 0px;}

@@ -51,20 +51,22 @@
 		{% for pract in practise.iterator %}
 		<div class="ui-block-a clinicDetails">
 		<div class="ui-bar ui-bar-a" >
-		<center><h3>Clinic Details.</h3></center>
-		<p class="normalweight">
-		<center><b>{{pract.practise_location.name}}</b></center><br><b>Fee:&nbsp;{{pract.checkup_fee}}rs.</b><br>
-		<img src="{% static "icons/phone.png" %}" class="icon" height="20" width="20" /><b><u>{{pract.contact_number}}</u></b><br>
-		<img src="{% static "icons/app.png" %}" class="icon" title="Appointment Required ?" height="20" width="20" />
-		{% if pract.appointments_only %}<b>Yes.</b><br>{% else %}<b>First Come First Serve.</b><br>{% endif %}
-		<img src="{% static "icons/address_.png" %}" class="icon" height="22" width="18" />
-		{{pract.practise_location.clinic_address}},&nbsp;<b>{{pract.practise_location.city.name}}</b><br>
-		<img src="{% static "icons/stethoscope.png" %}" class="icon" title="Services Offered." height="20" width="20" />
-		{{pract.services}}<br>
-		<div class="float-right">
+		<ul class="normalweight">
+		<span><center><h3>Clinic Details.</h3></center></span>
+		<span><center>{{pract.practise_location.name}}</center></span>
+		<span>Fee:&nbsp;{{pract.checkup_fee}}rs.</span>
+		<li><img src="{% static "icons/phone.png" %}" class="icon" height="20" width="20" /></li>
+		<span>{{pract.contact_number}}</span>
+		<li><img src="{% static "icons/app.png" %}" class="icon" title="Appointment Required ?" height="20" width="20" /></li>
+		{% if pract.appointments_only %}<span>Yes.</span>{% else %}<span>First Come First Serve.</span>{% endif %}
+		<li><img src="{% static "icons/address_.png" %}" class="icon" height="22" width="18" /></li>
+		<span>{{pract.practise_location.clinic_address}}, <strong>{{pract.practise_location.city.name}}</strong></span>
+		<li><img src="{% static "icons/stethoscope.png" %}" class="icon" title="Services Offered." height="20" width="20" /></li>
+		<span>{{pract.services}}</span>
+		<li class="float-right">
 			<a href="http://maps.google.com/maps?z=12&t=m&q={{pract.practise_location.lat}},{{pract.practise_location.lon}}" target="_blank" class="anchor-link">
 			<img src="{% static "icons/map1.png" %}" title="Services Offered." class="icon" height="24" width="24" /></a>
-		</div></p>
+		</li></ul>
 		</div></div>
 		{% endfor %}
 		{% endif %}
@@ -93,10 +95,12 @@
 	<center><div id="votes" class="inline_">
 	<form action="{% url 'review' pr.pk %}" class="inline_ up" >
 		<input type="image" src="{% static "icons/up.png" %}" height="14" width="14" />
-	</form>&nbsp;&nbsp;&nbsp;<span class="up_votes">{{pr.up_votes}}</span>&nbsp;&nbsp;&nbsp;
+	</form>	&nbsp;&nbsp;&nbsp;
+	<span class="up_votes">{{pr.up_votes}}</span>&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;<span class="down_votes">{{pr.down_votes}}</span>
+	&nbsp;&nbsp;&nbsp;
 	<form action="{% url 'review' pr.pk %}" class="inline_ down">
 		<input type="image" src="{% static "icons/down.png" %}" height="14" width="14" />
-	</form>&nbsp;&nbsp;&nbsp;<span class="down_votes">{{pr.down_votes}}</span><br></div></center></p>
+	</form><br></div></center></p>
 	{% else %}
 	<center><p class="normalweight"><b>{{pr.patient}}: </b>'{{pr.review_text}}'<br>
 	agree: {{pr.up_votes}}&nbsp;&nbsp;-&nbsp;&nbsp;disagree: {{pr.down_votes}}<br>
@@ -168,11 +172,11 @@
 			$.ajax({type:"POST", url: $(this).attr('action'),context: this, data: { up: "up", csrfmiddlewaretoken: '{{ csrf_token }}'
 		},
 		success: function(data) {
-			//$(this).prev('.up_votes').text(data.up);
-			$(this).next('.up_votes').text(data.up);
-			$(this).next().nextUntil('span:not(.down_votes)').text(data.down)
-			//$(this).nextUntil("span").text(data.down);
-            },
+			var up = $(this).next('.up_votes').text(data.up);
+			down = up.next('.down_votes');
+			up.text(data.up)
+			down.text(data.down)
+			},
         error: function(data) {
         	console.log('Not Ok');
         },
@@ -188,12 +192,11 @@
 			$.ajax({type:"POST", url: $(this).attr('action'),context: this, data: { down: "down", csrfmiddlewaretoken: '{{ csrf_token }}'
 		},
 		success: function(data) {
-			//console.log($(this).next('.down_votes').text(data.down));
-			$(this).next('.down_votes').text(data.down);
-			var sel = $(this).prevUntil("." + up_votes).andSelf();
-			sel.text(data.up);
-			//$(this).prevUntil("span").text(data.up);
-            },
+			var down = $(this).prev('.down_votes');
+			var up = down.prev('.up_votes');
+			down.text(data.down)
+			up.text(data.up)
+			},
         error: function(data) {
                 console.log('not Ok');
         },
