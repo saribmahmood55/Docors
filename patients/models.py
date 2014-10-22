@@ -86,8 +86,5 @@ class ReviewStats(models.Model):
     objects = models.Manager()
     prs_objects = ReviewStatsManager()
 
-    def __str__(self):
-        return self.review
-
     class Meta:
         verbose_name_plural = 'Reviews Status'

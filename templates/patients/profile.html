@@ -20,13 +20,16 @@
                <img src="{% static "icons/stethoscope.png" %}" height="18" width="18" /></a>
             </h1>
             <div id="head">
-      		{% if not patient.is_authenticated %}
-        	<a href="/logout/" style: id="user" >Log Out.</a>
+      		{% if patient.is_authenticated %}
+        	   <a href="/logout/" style: id="user" >Log Out.</a>
+            {% else %}
+            <a href="/register/" style: id="user" >Sign Up</a>
       		{% endif %}
       </div>
 
          </div>
          <div id='content'>
+         {% if patient.is_authenticated %}
             <div class="ui-grid-b">
                <div class="ui-block-a" id="patient-profile">
                   <div class="ui-bar ui-bar-a">
@@ -165,6 +168,11 @@
                      <p>Please Select the above categories to get specific updates about latest research and tips, weekly.</p>
                   </div>
                 </div>
+                {% else %}
+                <center><a href="/login/" class="ui-btn ui-corner-all ui-shadow loginSignup">Login</a></center>
+               <center><a href="/register/" class="ui-btn ui-corner-all ui-shadow loginSignup">Sign Up</a></center>
+               <center><a href="/password/reset/" class="ui-btn ui-corner-all ui-shadow loginSignup">Forgot Password</a></center>
+                {% endif %}
             </div>
          </div>
          <!-- Footer Details -->

@@ -90,15 +90,13 @@
 	{% if patient.is_authenticated %}
 	<p class="normalweight">
 	<b>{{pr.patient}}</b> say: '{{pr.review_text}}'<br>Submitted on: <i>{{pr.review_date}}</i>
-	<center><div class="inline_">{{pr.up_votes}}&nbsp;&nbsp;&nbsp;
-	<form action="{% url 'review' pr.pk %}" class="inline_" method="POST">{% csrf_token %}
+	<center><div id="votes" class="inline_">
+	<form action="{% url 'review' pr.pk %}" class="inline_ up" >
 		<input type="image" src="{% static "icons/up.png" %}" height="14" width="14" />
-		<input type="hidden" name="up" value="up">
-	</form>&nbsp;&nbsp;&nbsp;
-	<form action="{% url 'review' pr.pk %}" class="inline_" method="POST">{% csrf_token %}
+	</form>&nbsp;&nbsp;&nbsp;<span class="up_votes">{{pr.up_votes}}</span>&nbsp;&nbsp;&nbsp;
+	<form action="{% url 'review' pr.pk %}" class="inline_ down">
 		<input type="image" src="{% static "icons/down.png" %}" height="14" width="14" />
-		<input type="hidden" name="down" value="down">
-	</form>&nbsp;&nbsp;&nbsp;{{pr.down_votes}}<br></div></center></p>
+	</form>&nbsp;&nbsp;&nbsp;<span class="down_votes">{{pr.down_votes}}</span><br></div></center></p>
 	{% else %}
 	<center><p class="normalweight"><b>{{pr.patient}}: </b>'{{pr.review_text}}'<br>
 	agree: {{pr.up_votes}}&nbsp;&nbsp;-&nbsp;&nbsp;disagree: {{pr.down_votes}}<br>
@@ -108,9 +106,9 @@
 	<!-- Post new Reviews-->
 	{% if patient.is_authenticated %}
 	<div id="reviewBox" data-role="collapsible" data-collapsed="true" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right"><h6>add review</h6>
-	<form action="{% url 'addreview' %}" method="POST" class="inline_">{% csrf_token %}
+	<form action="{% url 'review' %}" method="POST" class="inline_">{% csrf_token %}
 	<textarea cols="8" rows="8" name="review_text" required></textarea>
-	<input type="hidden" name="slug" value="{{practitioner.slug}}" >
+	<input type="hidden" name="slug" value="{{practitioner.slug}}" >{% csrf_token %}
 	<button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Post</button>
 	</form>
 	</div>
@@ -151,45 +149,59 @@
 
 </div>
 <script type="text/javascript">
-/*
+	var count = 0;
 	$(function () {
 		var favtImg = $('#favt');
-		console.log("Hello");
 		favtImg.submit(function (ev) {
-			$.ajax({type:"POST", url: "{% url 'practitioner' practitioner.slug %}",	data: { favt: "favourite",
-				csrfmiddlewaretoken: '{{ csrf_token }}',
-			},
-			dataType : 'json'
-		});
+			console.log('favt');
+			$.ajax({type:"POST", url: $(this).attr('action'), data: { favt: "favourite",
+		},
+		dataType : 'json'
+	});
 			ev.preventDefault();
 		});
 	});
-
+/* down vote */
 	$(function () {
-		var favtImg = $('.up');
-		favtImg.submit(function (ev) {
-			var review_ID = $(".review_ID").val();
-			$.ajax({type:"POST", url: "{% url 'practitioner' practitioner.slug %}",	data: { up: "up", review_ID: review_ID,
-				csrfmiddlewaretoken: '{{ csrf_token }}',
-			},
-			dataType : 'json'
-		});
+		var up = $('.up');
+		up.submit(function (ev) {
+			$.ajax({type:"POST", url: $(this).attr('action'),context: this, data: { up: "up", csrfmiddlewaretoken: '{{ csrf_token }}'
+		},
+		success: function(data) {
+			//$(this).prev('.up_votes').text(data.up);
+			$(this).next('.up_votes').text(data.up);
+			$(this).next().nextUntil('span:not(.down_votes)').text(data.down)
+			//$(this).nextUntil("span").text(data.down);
+            },
+        error: function(data) {
+        	console.log('Not Ok');
+        },
+		dataType : 'json',
+	});
 			ev.preventDefault();
 		});
 	});
+/* up vote */
 	$(function () {
-			var favtImg = $('.down');
-			var review_ID = $(".review_ID").val();
-			favtImg.submit(function (ev) {
-				$.ajax({type:"POST", url: "{% url 'practitioner' practitioner.slug %}",	data: { down: "down", review_ID: review_ID, 
-					csrfmiddlewaretoken: '{{ csrf_token }}',
-				},
-				dataType : 'json'
-			});
+		var down = $('.down');
+		down.submit(function (ev) {
+			$.ajax({type:"POST", url: $(this).attr('action'),context: this, data: { down: "down", csrfmiddlewaretoken: '{{ csrf_token }}'
+		},
+		success: function(data) {
+			//console.log($(this).next('.down_votes').text(data.down));
+			$(this).next('.down_votes').text(data.down);
+			var sel = $(this).prevUntil("." + up_votes).andSelf();
+			sel.text(data.up);
+			//$(this).prevUntil("span").text(data.up);
+            },
+        error: function(data) {
+                console.log('not Ok');
+        },
+		dataType : 'json'
+	});
 			ev.preventDefault();
 		});
 	});
-*/
 </script>
-						</body>
-						</html>
+</body>
+</html>

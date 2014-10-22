@@ -10,7 +10,7 @@ p {	font-weight: normal; }
 #head { float: right; margin: -35px 20px 0px 0px;}
 .anchor-link {	text-decoration: none !important;	color: #1B0A2A !important;}
 .anchor-link a:hover {	color: #ffffff; }
-#user { float:right; text-decoration: none; color: #000000; background-color: #F6CECE;}
+#user { float:right; text-decoration: none; color: #000000; background-color: #fffc00;}
 .anchor-link-right {	float:right; text-decoration: none !important; color: #000000 !important; }
 .anchor-link-right a:hover { color: #ffffff; }
 .loginSignup { margin: 30px auto;}
@@ -39,7 +39,7 @@ p {	font-weight: normal; }
 #favourite-pracs{	width: 325px; float: left; margin: 10px;}
 #favourite-spec{	width: 325px; float: left; margin: 10px;}
 .inline_ { display: inline; padding: 0px; margin: 0px;}
-.normalweight { font-weight: normal !important;}
+.normalweight { font-weight: normal;}
 
 /* Responsive for mobile devices */
 

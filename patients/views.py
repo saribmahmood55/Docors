@@ -1,11 +1,12 @@
 from patients.models import *
 from practitioner.models import *
 from django.shortcuts import get_object_or_404
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.contrib import messages
 from django.core.urlresolvers import reverse
+import json
 
 #
 def favourite(user,slug):
@@ -80,64 +81,68 @@ def newReview(user, slug, review_text):
 		pr.save()
 		print "new review"
 
-
-def upVote(user, review_id):
+##
+def Vote(user,review_id, what):
+	votes = {}
 	patient = Patient.patient_objects.patient_details(user=user)
 	review = PractitionerReview.pr_objects.review(review_id)
 	rs, created = ReviewStats.objects.get_or_create(patient=patient, review=review)
 	if not created:
-		if rs.status == 1:
-			rs.save()
-			msg = "Review Up-Voted, already."
-			print msg
-			#messages.add_message(request, messages.INFO, msg)
+		if what:
+			if rs.status == 1:
+				rs.save()
+				votes['up']=review.up_votes
+				votes['down']=review.down_votes
+				msg = "Review up-Voted, already."
+				print msg
+			else:
+				rs.status = 1
+				rs.save()
+				review.up_votes += 1
+				review.down_votes -= 1
+				votes['up']=review.up_votes
+				votes['down']=review.down_votes
+				review.save()
+				msg = "Review up-Voted."
+				print msg
 		else:
+			if rs.status == -1:
+				rs.save()
+				votes['up']=review.up_votes
+				votes['down']=review.down_votes
+				msg = "Review down-Voted, already."
+				print msg
+			else:
+				rs.status = -1
+				rs.save()
+				review.up_votes -= 1
+				review.down_votes += 1
+				votes['up']=review.up_votes
+				votes['down']=review.down_votes
+				review.save()
+				print "Review down-Voted."
+	else:
+		if what:
 			rs.status = 1
 			rs.save()
-			review.down_votes -= 1
 			review.up_votes += 1
+			votes['up']=review.up_votes
+			votes['down']=review.down_votes
 			review.save()
-			msg = "Review Up-Voted."
-			print msg
-	else:
-		rs.status = 1
-		rs.save()
-		review.down_votes += 1
-		review.save()
-		msg = "new Review Up-Voted."
-		print msg
-		#messages.add_message(request, messages.INFO, msg)
-
-##
-def downVote(user, review_id):
-	patient = Patient.patient_objects.patient_details(user=user)
-	review = PractitionerReview.pr_objects.review(review_id)
-	rs, created = ReviewStats.objects.get_or_create(patient=patient, review=review)
-	if not created:
-		if rs.status == -1:
-			rs.save()
-			msg = "Review down-Voted, already."
-			print msg
-			#messages.add_message(request, messages.INFO, msg)
+			print "new Review up-Voted."
 		else:
 			rs.status = -1
 			rs.save()
-			review.up_votes -= 1
 			review.down_votes += 1
+			votes['up']=review.up_votes
+			votes['down']=review.down_votes
 			review.save()
-			msg = "Review down-Voted."
-			print msg
-	else:
-		rs.status = -1
-		rs.save()
-		review.down_votes += 1
-		review.save()
-		msg = "new Review down-Voted."
-		print msg
-		#messages.add_message(request, messages.INFO, msg)
+			print "new Review down-Voted."
+	return votes
 
-#zoo_animals['Rockhopper Penguin'] = 'Popaye'
-def addreview(request):
+
+def addReview(request):
+	slug = None
 	if request.method == "POST":
 		if request.user.is_authenticated():
 			user = request.user
@@ -145,10 +150,11 @@ def addreview(request):
 			review_text = request.POST.get('review_text', None)
 			if slug:
 				newReview(user, slug, review_text)
-	return redirect(reverse('practitioner', kwargs={'slug':slug}))
+	return HttpResponseRedirect(reverse('practitioner', args=[slug]))
+
 
 def review(request, review_id):
-	slug = None
+	slug, votes = None, {}
 	if request.method == "POST":
 		if request.user.is_authenticated():
 			user = request.user
@@ -157,7 +163,11 @@ def review(request, review_id):
 			up = request.POST.get('up', None)
 			down = request.POST.get('down', None)
 			if up == "up" and not down:
-				upVote(user, review_id)
+				what = True
+				votes = Vote(user, review_id, what)
 			elif down == "down" and not up:
-				downVote(user, review_id)
-	return redirect(reverse('practitioner', kwargs={'slug':slug}))
+				what = False
+				votes = Vote(user, review_id, what)
+			if request.is_ajax():
+				return HttpResponse(json.dumps(votes), content_type="application/json")
+	return HttpResponseRedirect(reverse('practitioner', args=[slug]))
