@@ -45,7 +45,7 @@
   <label for="city">City</label>
   <select name="city" id="select-native-2">
   {% for city in data.cities.iterator %}
-  <option selected="Lahore">{{city.name}}</option>
+  <option selected="Lahore" value="{{city.slug}}">{{city.name}}</option>
   {% endfor %}
   </select>
 
@@ -53,7 +53,7 @@
   <select name="spec" id="select-native-2">
   <option>Select Speciality</option>
   {% for speciality in data.specialities.iterator %}
-  <option>{{speciality.name}}</option>
+  <option value={{speciality.slug}}>{{speciality.name}}</option>
   {% endfor %}
   </select>
   <label for="experience">Select Experience in years.</label>

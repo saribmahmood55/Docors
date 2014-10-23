@@ -147,10 +147,13 @@ def addReview(request):
 		if request.user.is_authenticated():
 			user = request.user
 			slug = request.POST.get('slug', None)
+			print slug
 			review_text = request.POST.get('review_text', None)
 			if slug:
 				newReview(user, slug, review_text)
-	return HttpResponseRedirect(reverse('practitioner', args=[slug]))
+	return redirect('practitioner', slug=slug)
+	#return HttpResponseRedirect(reverse('practitioner', kwargs={'slug': slug}))
+	#return HttpResponseRedirect(reverse('practitioner', args=[slug]))
 
 
 def review(request, review_id):

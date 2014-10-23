@@ -3,7 +3,7 @@
 <head>
 	<title>docors | practitioners</title>
 	{% load staticfiles %}
-	<link rel="shortcut icon" href="{% static "jquery_mobile/stethoscope.ico" %}" />
+	<link rel="shortcut icon" href="{% static "jquery_mobile/icons/stethoscope.ico" %}" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="{% static "jquery_mobile/jquery.mobile-1.4.4.min.css" %}" rel="stylesheet" type="text/css" />
 	<link rel="stylesheet" href="{% static "jquery_mobile/style.css" %}" rel="stylesheet" type="text/css" />
@@ -28,10 +28,10 @@
       </div>
 	</div>
 	<center><h2>Search Results</h2></center>
-	{% if data.practise.exists %}
+	{% if data.practise.practise_list.exists %}
 
 	<ul style="margin-bottom: 30px;" data-role="listview" data-inset="true">
-    {% for onePractitioner in data.practise.iterator %}
+    {% for onePractitioner in data.practise.practise_list.iterator %}
     <li>
     <a href="{% url 'practitioner' onePractitioner.practitioner.slug %}" class="anchor-link" >
     <h1>{{onePractitioner.practitioner.name}}</h1>
@@ -40,7 +40,8 @@
     	{% for speciality in onePractitioner.practitioner.specialities.all.iterator %}
     	{{speciality.name}}
     	{% endfor %}
-    </p><p class="ui-li-aside"><strong>{{data.pc}}</strong></p>
+    </p>
+    <p class="ui-li-aside">Clinic Details: <strong>{{data.practise.practise_count}}</strong></p>
     </a>
     </li>
     {% endfor %}

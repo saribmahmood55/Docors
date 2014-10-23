@@ -50,13 +50,13 @@ class PractiseTimingAdmin(admin.ModelAdmin):
 
 
 class SpecializationAdmin(admin.ModelAdmin):
-	list_display = ['name']
+	list_display = ['name','slug']
 	list_filter = ['name']
 	search_fields = ['name']
 
 
 class CityAdmin(admin.ModelAdmin):
-	list_display = ['name']
+	list_display = ['name','slug']
 	list_filter = ['name']
 	search_fields = ['name']
 

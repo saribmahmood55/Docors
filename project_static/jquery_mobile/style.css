@@ -20,6 +20,7 @@ ul a {
 .loginSignup { margin: 30px auto;}
 .float-right{ float: right;}
 .float-left{ float: left;}
+.textCentre { text-align: center;}
 
 #reviewBox {width: 290px;}
 #reviewBox h6{width: 290px;}

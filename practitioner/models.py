@@ -2,10 +2,13 @@ from django.db import models
 from django.contrib.gis.db import models
 from django.db.models import Q
 from autoslug import AutoSlugField
+from django.template.defaultfilters import slugify
 
 class Specialization(models.Model):
     name = models.CharField(max_length=100)
+    slug = AutoSlugField(populate_from='name', unique = True)
     
+
     def __unicode__(self):
         return self.name
 
@@ -39,6 +42,7 @@ class Practitioner(models.Model):
 
 class City(models.Model):
     name = models.CharField(max_length=50)
+    slug = AutoSlugField(populate_from='name', unique = True)
     
     def __unicode__(self):
         return self.name
@@ -73,28 +77,32 @@ class PractiseManager(models.Manager):
         clinic_detail = super(PractiseManager, self).filter(practitioner__slug=slug)
         return clinic_detail
 
+    def practise_count(self, slug):
+        return super(PractiseManager, self).filter(practitioner__slug=slug).count()
+    
 
     # Search request handling
     def practise_details(self, city, name, speciality, experience, day):
-        #filter city
-        clinic_list = super(PractiseManager, self).filter(practise_location__city__name=city).distinct('practitioner')
+        result = {}
+        query = super(PractiseManager, self).filter(practise_location__city__slug=city)
+        result['practise_count'] = query.count()
+        result['practise_list'] = query.distinct('practitioner')
         #filter name
-        print name
         if name != None and speciality == None:
-            clinic_list = clinic_list.filter(practitioner__name__icontains=name)
+            result['practise_list'] = result['practise_list'].filter(practitioner__name__icontains=name)
         #filter Speciality
         if speciality != None :
-            clinic_list = clinic_list.filter(practitioner__specialities__name=speciality)
+            result['practise_list'] = result['practise_list'].filter(practitioner__specialities__slug=speciality)
             #filter name
             if name != None:
-                clinic_list = clinic_list.filter(practitioner__name__icontains=name)
+                result['practise_list'] = result['practise_list'].filter(practitioner__name__icontains=name)
             #filter experienced
             if experience >= 0:
-                clinic_list = clinic_list.filter(practitioner__experience__gte=experience)
+                result['practise_list'] = result['practise_list'].filter(practitioner__experience__gte=experience)
         #filter day
         if day != None:
-            clinic_list = clinic_list.filter(Q(practise_location__city__name=city)| Q(practitioner__specialities__name=speciality)).distinct('practitioner')
-        return clinic_list
+            result['practise_list'] = result['practise_list'].filter(Q(practise_location__city__name=city)| Q(practitioner__specialities__slug=speciality)).distinct('practitioner')
+        return result
 
 
 class Practise(models.Model):

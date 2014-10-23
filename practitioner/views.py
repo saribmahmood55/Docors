@@ -1,12 +1,11 @@
 from practitioner.models import *
 from patients.models import *
 from django.http import Http404
-from django.http import HttpResponse
-from django.shortcuts import render
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.mail import send_mail
-from django.contrib import messages
+#from django.contrib import messages
+#import json
 
 #home page
 def index(request):
@@ -17,11 +16,12 @@ def index(request):
 		data['user'] = None
 	if request.method == "GET":
 		try:
-			data['specialities'] = Specialization.objects.order_by('name')
-			data['cities'] = City.objects.order_by('name')
+			data['specialities'] = Specialization.objects.order_by('slug')
+			data['cities'] = City.objects.order_by('slug')
 		except Specialization.DoesNotExist:
 			raise Http404
-	return render(request, 'practitioner/index.html', {'data': data},context_instance=RequestContext(request))
+	return render_to_response('practitioner/index.html', {'data': data}, context_instance=RequestContext(request))
+	#return HttpResponse(json.dumps(data), content_type="application/json")
 
 
 #handle search request
@@ -42,42 +42,40 @@ def practitoners(request):
 		if day == "Select Day":
 			day = None
 	try:
-		#testing
 		data['practise'] = Practise.practise_objects.practise_details(city, name, speciality, experience, day)
-		#print len(prac_clinic_list)
 	except Practise.DoesNotExist:
 		raise Http404
-	return render(request, 'practitioner/results.html', {'data': data})
+	return render_to_response('practitioner/results.html', {'data': data}, context_instance=RequestContext(request))
+	#return HttpResponse(json.dumps(data), content_type="application/json")
 
 
 # single practitioner details
 def practitioner(request, slug):
-	practitioner, favt, practise, practise_timing, reviews, patient, user, pc = None, None, None, None, None, None, None, None
+	data = {}
 	if request.user.is_authenticated():
-		user = request.user
+		data['user'] = request.user
 	else:
-		user = None
+		data['user'] = None
 	if request.method == "GET":
 		if request.user.is_authenticated():
-			patient = Patient.patient_objects.patient_details(user)
-			favourite_list = patient.favt_practitioner.all().filter(slug=slug)
-			if favourite_list.exists():
-				favt = True
+			data['patient'] = Patient.patient_objects.patient_details(data['user'])
+			favourite_practitioner = data['patient'].favt_practitioner.all().filter(slug=slug)
+			if favourite_practitioner.exists():
+				data['favourite'] = True
 		else:
-			patient = None
+			data['patient'] = None
 		try:
-			practitioner = Practitioner.prac_objects.practitioner_slug(slug)
-			practise = Practise.practise_objects.practise_detail(slug)
-			pc = Practise.objects.filter(practitioner__slug=slug).count()
-			print pc
-			practise_timing = PractiseTiming.pt_objects.practise_timing_details(slug)
-			reviews = PractitionerReview.pr_objects.practitioner_reviews(slug)
+			data['practitioner'] = Practitioner.prac_objects.practitioner_slug(slug)
+			data['practise'] = Practise.practise_objects.practise_detail(slug)
+			data['practise_count'] = Practise.practise_objects.practise_count(slug)
+			data['practise_timing'] = PractiseTiming.pt_objects.practise_timing_details(slug)
+			data['reviews'] = PractitionerReview.pr_objects.practitioner_reviews(slug)
 		except Practitioner.DoesNotExist:
 			raise Http404
-	return render_to_response('practitioner/practitioner.html',{'practitioner': practitioner,'pc': pc, 'practise': practise, 'practise_timing': practise_timing, 'reviews': reviews, 'patient': user, 'favt': favt}, context_instance=RequestContext(request))
+	return render_to_response('practitioner/practitioner.html', {'data': data}, context_instance=RequestContext(request))
+	#return HttpResponse(json.dumps(data), content_type="application/json")
 
 
-#return render_to_response('practitioner/practitioner.html',{'practitioner': practitioner, 'practise': practise, 'practise_timing': practise_timing, 'reviews': reviews, 'patient': user, 'favt': favt}, context_instance=RequestContext(request))
 #send email
 def registration(request):
 	email, practitioner_name = None, None
@@ -121,33 +119,3 @@ def registration(request):
 	#send email
 	send_mail(subject, body, email, [recepient])
 	return render_to_response('practitioner/success.html',{'email': email}, context_instance=RequestContext(request))
-
-'''
-	if request.method == "POST" and request.is_ajax():
-		if request.user.is_authenticated():
-			user = request.user
-			slug = slug
-			up = request.POST.get('up', None)
-			down = request.POST.get('down', None)
-			favt_ = request.POST.get('favt', None)
-			review_id = request.POST.get ('ID', 0)
-			comment = request.POST.get('comment', None)
-			review_text = request.POST.get('review_text', None)
-			if favt_ == "favourite":
-				favourite(user, favt, slug)
-			elif up == "up" and review_id:
-				upVote(user, review_id)
-			elif down == "down" and review_id:
-				downVote(user, review_id)
-			elif comment == "comment" and newReview:
-				newReview(user, slug, review_text)
-		else:
-			patient = None
-		try:
-			practitioner = Practitioner.prac_objects.practitioner_slug(slug)
-			practise = Practise.practise_objects.practise_detail(slug)
-			practise_timing = PractiseTiming.pt_objects.practise_timing_details(slug)
-			reviews = PractitionerReview.pr_objects.practitioner_reviews(slug)
-		except Practitioner.DoesNotExist:
-			raise Http404
-	'''
