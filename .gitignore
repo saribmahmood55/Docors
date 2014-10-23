@@ -52,4 +52,7 @@ docs/_build/
 
 # PyBuilder
 target/
+<<<<<<< HEAD
 *.pyc
+=======
+>>>>>>> 3f4c9f88bab407c0b6aadba69e1a536f6eed84a0
