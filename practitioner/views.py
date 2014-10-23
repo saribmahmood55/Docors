@@ -17,7 +17,7 @@ def index(request):
 	if request.method == "GET":
 		try:
 			data['specialities'] = Specialization.objects.order_by('slug')
-			data['cities'] = City.objects.order_by('slug')
+			data['cities'] = City.objects.order_by('pk')
 		except Specialization.DoesNotExist:
 			raise Http404
 	return render_to_response('practitioner/index.html', {'data': data}, context_instance=RequestContext(request))
@@ -68,6 +68,7 @@ def practitioner(request, slug):
 			data['practitioner'] = Practitioner.prac_objects.practitioner_slug(slug)
 			data['practise'] = Practise.practise_objects.practise_detail(slug)
 			data['practise_count'] = Practise.practise_objects.practise_count(slug)
+			print data['practise_count']
 			data['practise_timing'] = PractiseTiming.pt_objects.practise_timing_details(slug)
 			data['reviews'] = PractitionerReview.pr_objects.practitioner_reviews(slug)
 		except Practitioner.DoesNotExist:

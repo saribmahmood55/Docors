@@ -2,9 +2,6 @@
 
 <html>
   <head>
-	<title>
-      docors
-  </title>
   {% load staticfiles %}
   <link rel="shortcut icon" href="{% static "jquery_mobile/images/icons/stethoscope.ico" %}" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,12 +15,12 @@
   </script>
   </head>
   
-  <body>
-
-<div data-role="page" id="basic">
+<body>
+<div data-role="page" id="basic" data-title="doctorsinfo.pk">
   <div data-role="header">
-      <h1 class="ui-icon-myicon">
-        <a href="http://localhost:8000/" class="anchor-link" >docors.&nbsp;
+  <title>doctorsInfo.pk</title>
+      <h1>
+        <a href="http://localhost:8000/" class="anchor-link" >doctorsInfo.pk&nbsp;
         <img src="{% static "icons/stethoscope.png" %}" height="18" width="18" /></a>
        </h1>
       <div id="head">
@@ -36,22 +33,23 @@
       </div>
   </div>
 
-  <div role="main" class="ui-content">
+  <div role="main" class="ui-content container">
   
   <center><h4>Find Specialist Doctors in your area.</h4></center>
 
   <form action="{% url 'practitoners' %}" method="GET">
 
   <label for="city">City</label>
-  <select name="city" id="select-native-2">
+  <select name="city" required id="select-native-2">
+  <option value="">Select City.</option>
   {% for city in data.cities.iterator %}
-  <option selected="Lahore" value="{{city.slug}}">{{city.name}}</option>
+  <option value="{{city.slug}}">{{city.name}}</option>
   {% endfor %}
   </select>
 
   <label for="specialty">Specialist Category</label>
-  <select name="spec" id="select-native-2">
-  <option>Select Speciality</option>
+  <select name="spec" required id="select-native-2">
+  <option value="">Select Speciality</option>
   {% for speciality in data.specialities.iterator %}
   <option value={{speciality.slug}}>{{speciality.name}}</option>
   {% endfor %}
@@ -75,10 +73,10 @@
   </div>
 
   <!-- Advance Search -->
-<div data-role="page" id="advance" data-theme="a">
+<div data-role="page" id="advance" data-theme="a" data-title="doctorsinfo.pk | advance search">
   <div data-role="header">
-      <h1 class="ui-icon-myicon">
-        <a href="http://localhost:8000/" class="anchor-link" >docors.&nbsp;
+      <h1>
+        <a href="http://localhost:8000/" class="anchor-link" >doctorsinfo.pk&nbsp;
         <img src="{% static "icons/stethoscope.png" %}" height="18" width="18" /></a>
        </h1>
       <div id="head">
@@ -90,16 +88,17 @@
       </div>
   </div>
 
-<div role="main" class="ui-content">
+<div role="main" class="ui-content container">
 
 <center><h4>advance search options.</h4></center>
 
 <form action="{% url 'practitoners' %}" method="GET">
 
 <label for="city">City</label>
-  <select name="city" id="select-native-2">
+  <select name="city" required id="select-native-2">
+  <option value="">Select City.</option>
   {% for city in data.cities.iterator %}
-  <option selected="Lahore">{{city.name}}</option>
+  <option value="{{city.slug}}">{{city.name}}</option>
   {% endfor %}
   </select>
 
@@ -107,10 +106,10 @@
 <input type="search" name="name" id="search-2" placeholder="Doctor Name..." />
 
 <label for="speciality">Specialist Category</label>
-<select name="spec" id="select-native-2">
-<option >Select Speciality</option>
+<select name="spec" required id="select-native-2">
+<option value="">Select Speciality.</option>
 {% for speciality in data.specialities.iterator %}
-<option>{{speciality.name}}</option>
+<option value="{{speciality.slug}}">{{speciality.name}}</option>
 {% endfor %}
 </select>
 
@@ -145,7 +144,7 @@ Search
 </div>
 
 <!-- Registration -->
-  <div data-role="page" id="register" data-theme="a">
+  <div data-role="page" id="register" data-theme="a" data-title="doctorsinfo.pk | registration.">
   <div data-role="header">
       <h1 class="ui-icon-myicon">
         <a href="http://localhost:8000/" class="anchor-link" >docors.&nbsp;
@@ -160,7 +159,7 @@ Search
       </div>
   </div>
   
-  <div role="main" class="ui-content">
+  <div role="main" class="ui-content container">
 
   <strong>Please provide the following details.<br></strong>
   
@@ -186,7 +185,7 @@ Search
 
   <strong>Clinic details.<br></strong>
   <label for="text-basic">Clinic/Hospital Name:</label>
-  <input type="text" name="clinicName" placeholder="Dr. Ali Raza" required>
+  <input type="text" name="clinicName" placeholder="Dr. Ali Raza Clinic / Farooq Hospital." required>
 
   <label for="text-basic">Adress:</label>
   <input type="text" name="address" placeholder="Street Address" required>
@@ -201,7 +200,7 @@ Search
   <input type="text" name="fee" placeholder="2000" required>
 
   <label for="textarea">Services offered on that Clinic/Hospital:</label>
-  <textarea cols="40" rows="8" name="services" placeholder="Special Services" required></textarea>
+  <textarea cols="40" rows="8" name="services" placeholder="Services Details" required></textarea>
 
   <label for="text-basic">Appointments only ?</label>
   <input type="text" name="appointment" placeholder="Yes or No if you allow Checkup on First Come First Serve Bases." required>
@@ -222,7 +221,7 @@ Search
   <h4>Add another Clinic/Hospital Details for same Practitioner</h4>
     <strong>Clinic details.<br></strong>
   <label for="text-basic">Clinic/Hospital Name:</label>
-  <input type="text" name="clinicName2" placeholder="Dr. Ali Raza" >
+  <input type="text" name="clinicName2" placeholder="Dr. Ali Raza Clinic / Farooq Hospital." >
 
   <label for="text-basic">Adress:</label>
   <input type="text" name="address2" placeholder="Street Address" >
@@ -237,7 +236,7 @@ Search
   <input type="text" name="fee2" placeholder="2000" >
 
   <label for="textarea">Services offered on that Clinic/Hospital:</label>
-  <textarea cols="40" rows="8" name="services2" placeholder="Special Services" ></textarea>
+  <textarea cols="40" rows="8" name="services2" placeholder="Services Details" ></textarea>
 
   <label for="text-basic">Appointments only? (Yes or No.)</label>
   <input type="text" name="appointment2" placeholder="No, if you allow Checkup on First Come First Serve Basis." >

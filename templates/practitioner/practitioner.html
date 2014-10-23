@@ -2,7 +2,6 @@
 <html>
 <head>
 	{% load static from staticfiles %}
-	<title>{{data.practitioner.name}}</title>
 	<link rel="shortcut icon" href="{% static "jquery_mobile/icons/stethoscope.ico" %}">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="{% static "jquery_mobile/jquery.mobile-1.4.4.min.css" %}" rel="stylesheet" type="text/css">
@@ -12,10 +11,10 @@
 	<script src="{% static "jquery_mobile/jquery.mobile-1.4.4.min.map" %}" type="text/javascript"></script>
 </head>
 <body>
-	<div data-role="page">
+	<div data-role="page" data-title="{{data.practitioner.name}} | doctorsinfo.pk">
 <div data-role="header">
 	<h1 class="ui-icon-myicon">
-        <a href="http://localhost:8000/" class="anchor-link" >docors.&nbsp;
+        <a href="http://localhost:8000/" class="anchor-link" >doctorsinfo.pk&nbsp;&nbsp;
         <img src="{% static "icons/stethoscope.png" %}" height="18" width="18" /></a>
     </h1>
       <div id="head">
@@ -25,7 +24,7 @@
         <a href="/login/" style: class="anchor-link-right" >Login</a>
       {% endif %}
       </div>
-	</div>
+</div>
 	<div role="main" class="ui-content">
 
 	<!-- Practitioner Details -->
@@ -45,10 +44,9 @@
 		{{speciality.name}}</span><br>
 		{% endfor %}
 		<span>Experience: <strong>{{data.practitioner.experience}} years.</strong></span><br>
-		<span>Achievements: {{data.practitioner.achievements}}</span>
-	</div>
+		<span>Achievements: {{data.practitioner.achievements}}</span><br><br>
+	</div>	
 
-		<!-- Practitioner Details -->
 		<div class="ui-grid-b">
 		<!-- Practise-Location Details -->
 		{% if data.practise.exists %}
@@ -57,16 +55,16 @@
 		<div class="ui-bar ui-bar-a" >
 		<ul class="normalweight">
 		<span><center><h3>Clinic Details.</h3></center></span>
-		<span><center>{{pract.practise_location.name}}</center></span>
-		<span>Fee:&nbsp;{{pract.checkup_fee}}rs.</span>
+		<span><center>{{pract.practise_location.name}}</center></span><br>
+		<span>Fee:&nbsp;&nbsp;<strong>{{pract.checkup_fee}} rs.</strong></span><br>
 		<li><img src="{% static "icons/phone.png" %}" class="icon" height="20" width="20" /></li>
-		<span>{{pract.contact_number}}</span>
+		<span>{{pract.contact_number}}</span><br>
 		<li><img src="{% static "icons/app.png" %}" class="icon" title="Appointment Required ?" height="20" width="20" /></li>
-		{% if pract.appointments_only %}<span>Yes.</span>{% else %}<span>First Come First Serve.</span>{% endif %}
+		{% if pract.appointments_only %}<span>Yes.</span><br>{% else %}<span>First Come First Serve.</span><br>{% endif %}
 		<li><img src="{% static "icons/address_.png" %}" class="icon" height="22" width="18" /></li>
-		<span>{{pract.practise_location.clinic_address}}, <strong>{{pract.practise_location.city.name}}</strong></span>
+		<span>{{pract.practise_location.clinic_address}}, <strong>{{pract.practise_location.city.name}}</strong></span><br>
 		<li><img src="{% static "icons/stethoscope.png" %}" class="icon" title="Services Offered." height="20" width="20" /></li>
-		<span>{{pract.services}}</span>
+		<span>{{pract.services}}</span><br><br>
 		{% if pract.practise_location.lat and pract.practise_location.lon %}
 		<li class="float-right">
 			<a href="http://maps.google.com/maps?z=12&t=m&q={{pract.practise_location.lat}},{{pract.practise_location.lon}}" target="_blank" class="anchor-link">
@@ -77,17 +75,26 @@
 		{% endif %}
 
 	<!-- Clinic Timings Details -->
+	
 	{% if data.practise_timing.exists %}
 	<div class="ui-block-b clinicTimingsDetails">
 		<div class="ui-bar ui-bar-a">
 		<center><h3>Clinic Timings.</h3></center>
-			<p><b>&nbsp;&nbsp;Day&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Opens&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Closes</b>
+		{% load my_filters %}
+		{% for i in data.practise_count|times %}
+			<strong><span>{{data.practise.i.practise_location.name}}</span></strong><br>
+			<strong>&nbsp;&nbsp;<span>Day</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<span>Opens</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<span>Closes</span></b>
 			{% for ct in data.practise_timing.iterator %}
-			{{ct.get_day_display}}&nbsp;&nbsp;{{ct.get_start_time_display}}&nbsp;&nbsp;{{ct.get_end_time_display}}
-			{% endfor %}</p>
+			<span>{{ct.get_day_display}}</span>&nbsp;&nbsp;<span>{{ct.get_start_time_display}}</span>&nbsp;&nbsp;
+			<span>{{ct.get_end_time_display}}</span>
+			{% endfor %}
+		{% endfor %}
 		</div>
 	</div>
 	{% endif %}
+
 	<!-- Practitioner Reviews Details -->
 	{% if data.reviews.exists %}
 	<div class="ui-block-c practitionerReviews">
@@ -138,15 +145,14 @@
 	</div>
 	</div>
 <!-- Login SignUp -->
-<div data-role="page" id="loginSignup" data-theme="a">
+<div data-role="page" id="loginSignup" data-theme="a" data-title="doctorsinfo.pk">
 <div data-role="header">
-<h1 class="ui-icon-myicon">
-<a href="http://localhost:8000/" class="anchor-link" >docors.&nbsp;
-<img src="{% static "icons/stethoscope.png" %}" height="18" width="18" /></a>
-</h1>
+	<h1>
+        <a href="http://localhost:8000/" class="anchor-link" >doctorsinfo.pk&nbsp;&nbsp;
+        <img src="{% static "icons/stethoscope.png" %}" height="18" width="18" /></a>
+    </h1>
 </div>
-
-<div role="main" class="ui-content">
+<div role="main" class="ui-content container" >
 <center><a href="/login/" class="ui-btn ui-corner-all ui-shadow loginSignup">Login</a></center>
 <center><a href="/register/" class="ui-btn ui-corner-all ui-shadow loginSignup">Sign Up</a></center>
 <center><a href="/password/reset/" class="ui-btn ui-corner-all ui-shadow loginSignup">Forgot Password</a></center>

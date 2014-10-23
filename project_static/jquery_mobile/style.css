@@ -5,10 +5,10 @@ fonts: open sans, Lato, Ubuntu, Droid Serif
 body{font-family: open sans;}
 p {	font-weight: normal; }
 ul{ list-style-type: none;}
-ul li {list-style-type: none;}
-ul a {
-    list-style-type: none;
-}
+ul li {list-style-type: none; display: inline;}
+ul a {    list-style-type: none;}
+.container {height: 530px;}
+
 #content{	text-align: none;	margin: 0% 1%; }
 .ui-header .ui-title { margin: 0%;}
 #head { float: right; margin: -35px 20px 0px 0px;}
@@ -52,7 +52,7 @@ ul a {
 body{	font-family: Lato;}
 p {	font-weight: normal;}
 .ui-grid-b { font-size: 14px;}
-
+.container {height: 100%;}
 
 #patient-profile{	width: 320px; float: left; margin: 10px;  font-weight: normal;}
 #patient-profile table{ font-weight: normal;}
