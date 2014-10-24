@@ -25,30 +25,21 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 
-# REST_FRAMEWORK
-REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
-}
 # Application definition
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.sites',
-    'django.contrib.contenttypes',
+    'django.contrib.admin',
     'django.contrib.sessions',
+    'django.contrib.contenttypes',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'django.contrib.gis',
     'registration',
-    'rest_framework',
-    'world',
     'practitioner',
     'patients',
-    'django.contrib.admin'
+    'reviews'
 )
 
 SITE_ID = 1

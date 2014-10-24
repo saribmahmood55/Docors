@@ -51,8 +51,12 @@ ul a {    list-style-type: none;}
 @media only screen and (max-width: 767px) {
 body{	font-family: Lato;}
 p {	font-weight: normal;}
+h1 { font-size: 18px;}
+.container {height: 385px !important;}
 .ui-grid-b { font-size: 14px;}
+#head { float: right; margin: -30px 10px 0px 0px;}
 .container {height: 100%;}
+.anchor-link-right {	float:right; text-decoration: none; color: #000000;  font-size: 12px;}
 
 #patient-profile{	width: 320px; float: left; margin: 10px;  font-weight: normal;}
 #patient-profile table{ font-weight: normal;}

@@ -1,4 +1,5 @@
-from patients.models import *
+from patients.models import Patient
+from reviews.models import *
 from practitioner.models import *
 from django.shortcuts import get_object_or_404
 from django.http import Http404, HttpResponseRedirect, HttpResponse
@@ -30,7 +31,7 @@ def patient(request):
 		if data['user']:
 			try:
 				data['patient'] = Patient.patient_objects.patient_details(data['user'])
-				data['reviews'] = PractitionerReview.pr_objects.patient_reviews(data['user'])
+				data['reviews'] = Review.review_objects.patient_reviews(data['user'])
 				data['specialities'] = Specialization.objects.order_by('name')
 			except Patient.DoesNotExist:
 				raise Http404
@@ -62,117 +63,3 @@ def patient(request):
 		else:
 			data['patient'] = None
 	return render_to_response('patients/profile.html', {'data': data}, context_instance=RequestContext(request))
-
-#
-#
-def newReview(user, slug, review_text):
-	patient = Patient.patient_objects.patient_details(user=user)
-	practitioner = Practitioner.prac_objects.practitioner_slug(slug)
-	pr, created = PractitionerReview.objects.get_or_create(patient=patient, practitioner=practitioner)
-	if not created:
-		msg = "You can only review a particular Practitioner once. :/"
-		#messages.add_message(request, messages.INFO, msg)
-		print msg
-	else:
-		pr.practitioner = practitioner
-		pr.patient = patient
-		pr.review_text = review_text
-		pr.up_votes = 0
-		pr.down_votes = 0
-		pr.save()
-		print "new review"
-
-##
-def Vote(user,review_id, what):
-	votes = {}
-	patient = Patient.patient_objects.patient_details(user=user)
-	review = PractitionerReview.pr_objects.review(review_id)
-	rs, created = ReviewStats.objects.get_or_create(patient=patient, review=review)
-	if not created:
-		if what:
-			if rs.status == 1:
-				rs.save()
-				votes['up']=review.up_votes
-				votes['down']=review.down_votes
-				msg = "Review up-Voted, already."
-				print msg
-			else:
-				rs.status = 1
-				rs.save()
-				review.up_votes += 1
-				review.down_votes -= 1
-				votes['up']=review.up_votes
-				votes['down']=review.down_votes
-				review.save()
-				msg = "Review up-Voted."
-				print msg
-		else:
-			if rs.status == -1:
-				rs.save()
-				votes['up']=review.up_votes
-				votes['down']=review.down_votes
-				msg = "Review down-Voted, already."
-				print msg
-			else:
-				rs.status = -1
-				rs.save()
-				review.up_votes -= 1
-				review.down_votes += 1
-				votes['up']=review.up_votes
-				votes['down']=review.down_votes
-				review.save()
-				print "Review down-Voted."
-	else:
-		if what:
-			rs.status = 1
-			rs.save()
-			review.up_votes += 1
-			votes['up']=review.up_votes
-			votes['down']=review.down_votes
-			review.save()
-			print "new Review up-Voted."
-		else:
-			rs.status = -1
-			rs.save()
-			review.down_votes += 1
-			votes['up']=review.up_votes
-			votes['down']=review.down_votes
-			review.save()
-			print "new Review down-Voted."
-	return votes
-
-
-def addReview(request):
-	slug = None
-	if request.method == "POST":
-		if request.user.is_authenticated():
-			user = request.user
-			slug = request.POST.get('slug', None)
-			print slug
-			review_text = request.POST.get('review_text', None)
-			if slug:
-				newReview(user, slug, review_text)
-	
-	return HttpResponseRedirect(reverse('practitioner', kwargs={'slug': slug}))
-	#return HttpResponseRedirect(reverse('practitioner', args=[slug]))
-
-
-def review(request, review_id):
-	slug, votes = None, {}
-	if request.method == "POST":
-		if request.user.is_authenticated():
-			user = request.user
-			review = PractitionerReview.pr_objects.review(review_id)
-			slug = review.practitioner.slug
-			print slug
-			up = request.POST.get('up', None)
-			down = request.POST.get('down', None)
-			if up == "up" and not down:
-				what = True
-				votes = Vote(user, review_id, what)
-			elif down == "down" and not up:
-				what = False
-				votes = Vote(user, review_id, what)
-			if request.is_ajax():
-				return HttpResponse(json.dumps(votes), content_type="application/json")
-	return HttpResponseRedirect(reverse('practitioner', kwargs={'slug': slug}))

@@ -114,6 +114,7 @@ class Practise(models.Model):
     
     objects = models.Manager()
     practise_objects = PractiseManager()
+
     def __unicode__(self):
         return self.practise_location.name
 
