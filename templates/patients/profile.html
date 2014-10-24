@@ -20,7 +20,7 @@
                <img src="{% static "icons/stethoscope.png" %}" height="18" width="18" /></a>
             </h1>
             <div id="head">
-      		{% if patient.is_authenticated %}
+      		{% if data.user.is_authenticated %}
         	   <a href="/logout/" style: id="user" >Log Out.</a>
             {% else %}
             <a href="/register/" style: id="user" >Sign Up</a>
@@ -29,7 +29,7 @@
 
          </div>
          <div id='content'>
-         {% if patient.is_authenticated %}
+         {% if data.user.is_authenticated %}
             <div class="ui-grid-b">
                <div class="ui-block-a" id="patient-profile">
                   <div class="ui-bar ui-bar-a">
@@ -37,12 +37,12 @@
                      <center>
                         <h3><u>Patient Detail</u></h3>
                      </center>
-                     <p><b>username: </b>{{patient.user.username}}<br>
-                     <b>email: </b>{{patient.user.email}}<br>
-                     {% if patient.user.get_full_name and patient.cell_number and patient.gender %}
-                     first name: <b>{{patient.user.first_name}}</b><br>last Name: <b>{{patient.user.last_name}}</b><br>
-                     Cell Number: {{patient.cell_number}}<br>Gender: {{patient.get_gender_display}}<br>
-                     Age-Group: {{patient.get_age_group_display}}</p>
+                     <p><b>username: </b>{{data.patient.user.username}}<br>
+                     <b>email: </b>{{data.patient.user.email}}<br>
+                     {% if data.patient.user.get_full_name and data.patient.cell_number and data.patient.gender %}
+                     first name: <b>{{data.patient.user.first_name}}</b><br>last Name: <b>{{data.patient.user.last_name}}</b><br>
+                     Cell Number: {{data.patient.cell_number}}<br>Gender: {{data.patient.get_gender_display}}<br>
+                     Age-Group: {{data.patient.get_age_group_display}}</p>
                      {% else %}
                      <form action="{% url 'patient' %}" method="POST">{% csrf_token %}
                      <p><b>First Name: </b><input type="text" name="fname" />
@@ -64,13 +64,13 @@
                      <center>
                         <h3><u>Reviews List</u></h3>
                      </center>
-                     {% if reviews.exists %}
+                     {% if data.reviews.exists %}
                      <table style="font-weight: normal;">
                         <tr>
                            <th>Practitioner</th>
                            <th>Review</th>
                         </tr>
-                        {% for pr in reviews.iterator %}
+                        {% for pr in data.reviews.iterator %}
                         <tr>
                         	<td><b>* {{pr.practitioner.name}}&nbsp;&nbsp;</b></td>
                         	<td><p>'{{pr.review_text}}'</p></td>
@@ -90,13 +90,13 @@
                      <center>
                         <h3><u>Favourite Practitioners</u></h3>
                      </center>
-                     {% if patient.favt_practitioner.all.exists %}
+                     {% if data.patient.favt_practitioner.all.exists %}
                      <table style="font-weight: normal;">
                         <tr>
                            <th>Name</th>
                            <th>Specialist</th>
                         </tr>
-                        {% for practitioner in patient.favt_practitioner.all.iterator %}
+                        {% for practitioner in data.patient.favt_practitioner.all.iterator %}
                         <tr>
                            <td>* {{practitioner.name}}&nbsp;&nbsp;</td>
                            {% for speciality in practitioner.specialities.all.iterator %}
@@ -122,12 +122,12 @@
                      <center>
                         <h3><u>Interested Specialities</u></h3>
                      </center>
-                     {% if patient.interested_specialities.all.exists %}
+                     {% if data.patient.interested_specialities.all.exists %}
                      <table style="font-weight: normal;">
                         <tr>
                            <th>Name</th>
                         </tr>
-                        {% for spec in patient.interested_specialities.all.iterator %}
+                        {% for spec in data.patient.interested_specialities.all.iterator %}
                         <tr>
                            <td>* {{spec.name}}</td>
                         </tr>
@@ -154,7 +154,7 @@
                         <tr>
                            <th style="margin-right: 25px;">Name</th>
                         </tr>
-                        {% for spec in specialities.iterator %}
+                        {% for spec in data.specialities.iterator %}
                         <tr>
                            <td>
                               <form>

@@ -2,7 +2,7 @@
 <html>
 <head>
 	{% load static from staticfiles %}
-	<link rel="shortcut icon" href="{% static "jquery_mobile/icons/stethoscope.ico" %}">
+	<link rel="shortcut icon" href="{% static "icons/stethoscope.ico" %}">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="{% static "jquery_mobile/jquery.mobile-1.4.4.min.css" %}" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="{% static "jquery_mobile/style.css" %}"rel="stylesheet" type="text/css" >
@@ -76,21 +76,22 @@
 
 	<!-- Clinic Timings Details -->
 	
-	{% if data.practise_timing.exists %}
+	{% if data.practise_timing %}
 	<div class="ui-block-b clinicTimingsDetails">
-		<div class="ui-bar ui-bar-a">
+		<div class="ui-bar ui-bar-a normalweight textCentre">
 		<center><h3>Clinic Timings.</h3></center>
-		{% load my_filters %}
-		{% for i in data.practise_count|times %}
-			<strong><span>{{data.practise.i.practise_location.name}}</span></strong><br>
-			<strong>&nbsp;&nbsp;<span>Day</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<span>Opens</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<span>Closes</span></b>
-			{% for ct in data.practise_timing.iterator %}
-			<span>{{ct.get_day_display}}</span>&nbsp;&nbsp;<span>{{ct.get_start_time_display}}</span>&nbsp;&nbsp;
-			<span>{{ct.get_end_time_display}}</span>
+		<span style="padding-right: 10px;"><strong>Day</strong></span>
+		<span style="padding-right: 10px;"><strong>Opens</strong></span>
+		<span><strong>Closes</strong></span>
+		{% for oneClinic in data.practise_timing %}
+			<br><span><strong>{{oneClinic.name}}</strong></span><br>
+			{% for clinicTime in oneClinic.timing %}
+			<span style="padding-right: 5px;">{{clinicTime.day}}</span>
+			<span style="padding-right: 5px;">{{clinicTime.start_time}}</span>
+			<span style="padding-right: 5px;">{{clinicTime.end_time}}</span><br>
 			{% endfor %}
-		{% endfor %}
+			<br>
+		{% endfor %}	
 		</div>
 	</div>
 	{% endif %}
@@ -176,44 +177,51 @@
 			ev.preventDefault();
 		});
 	});
-/* down vote */
+	/* down vote */
 	$(function () {
 		var up = $('.up');
 		up.submit(function (ev) {
-			$.ajax({type:"POST", url: $(this).attr('action'),context: this, data: { up: "up", csrfmiddlewaretoken: '{{ csrf_token }}'
-		},
-		success: function(data) {
-			var up = $(this).next('.up_votes').text(data.up);
-			down = up.next('.down_votes');
-			up.text(data.up)
-			down.text(data.down)
+			if (count < 2){
+				$.ajax({type:"POST", url: $(this).attr('action'),context: this, data: { up: "up", csrfmiddlewaretoken: '{{ csrf_token }}'
 			},
-        error: function(data) {
-        	console.log('Not Ok');
-        },
-		dataType : 'json',
-	});
-			ev.preventDefault();
+			success: function(data) {
+				var up = $(this).next('.up_votes').text(data.up);
+				down = up.next('.down_votes');
+				up.text(data.up);
+				down.text(data.down);
+				count ++;
+			},
+			dataType : 'json',
+		});
+				ev.preventDefault();
+			}
+			else{ 
+				ev.preventDefault();
+			}
 		});
 	});
-/* up vote */
+	/* up vote */
 	$(function () {
 		var down = $('.down');
 		down.submit(function (ev) {
-			$.ajax({type:"POST", url: $(this).attr('action'),context: this, data: { down: "down", csrfmiddlewaretoken: '{{ csrf_token }}'
-		},
-		success: function(data) {
-			var down = $(this).prev('.down_votes');
-			var up = down.prev('.up_votes');
-			down.text(data.down)
-			up.text(data.up)
+			if (count<2){
+				console.log(count);
+				$.ajax({type:"POST", url: $(this).attr('action'),context: this, data: { down: "down", csrfmiddlewaretoken: '{{ csrf_token }}'
 			},
-        error: function(data) {
-                console.log('not Ok');
-        },
-		dataType : 'json'
-	});
-			ev.preventDefault();
+			success: function(data) {
+				var down = $(this).prev('.down_votes');
+				var up = down.prev('.up_votes');
+				down.text(data.down);
+				up.text(data.up);
+				count ++;
+			},
+			dataType : 'json'
+		});
+				ev.preventDefault();
+			}
+			else{
+				ev.preventDefault();
+			}
 		});
 	});
 </script>

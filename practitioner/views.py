@@ -1,5 +1,6 @@
 from practitioner.models import *
 from patients.models import *
+from utility import *
 from django.http import Http404
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -21,7 +22,6 @@ def index(request):
 		except Specialization.DoesNotExist:
 			raise Http404
 	return render_to_response('practitioner/index.html', {'data': data}, context_instance=RequestContext(request))
-	#return HttpResponse(json.dumps(data), content_type="application/json")
 
 
 #handle search request
@@ -46,7 +46,7 @@ def practitoners(request):
 	except Practise.DoesNotExist:
 		raise Http404
 	return render_to_response('practitioner/results.html', {'data': data}, context_instance=RequestContext(request))
-	#return HttpResponse(json.dumps(data), content_type="application/json")
+	
 
 
 # single practitioner details
@@ -67,16 +67,16 @@ def practitioner(request, slug):
 		try:
 			data['practitioner'] = Practitioner.prac_objects.practitioner_slug(slug)
 			data['practise'] = Practise.practise_objects.practise_detail(slug)
-			data['practise_count'] = Practise.practise_objects.practise_count(slug)
-			print data['practise_count']
-			data['practise_timing'] = PractiseTiming.pt_objects.practise_timing_details(slug)
+			data['practise_name'] = data['practise'].distinct('practise_location')
+			#print data['practise_name']
+			data['practise_timing'] = clinic_timings_dic(data['practise_name'])
 			data['reviews'] = PractitionerReview.pr_objects.practitioner_reviews(slug)
 		except Practitioner.DoesNotExist:
 			raise Http404
 	return render_to_response('practitioner/practitioner.html', {'data': data}, context_instance=RequestContext(request))
-	#return HttpResponse(json.dumps(data), content_type="application/json")
 
 
+#return HttpResponse(json.dumps(data), content_type="application/json")
 #send email
 def registration(request):
 	email, practitioner_name = None, None

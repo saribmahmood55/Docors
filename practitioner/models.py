@@ -53,6 +53,7 @@ class City(models.Model):
 
 class PractiseLocation(models.Model):
     name = models.CharField(max_length=50)
+    slug = AutoSlugField(populate_from='name', unique = True, null=True)
     clinic_address = models.TextField()
     city = models.ForeignKey(City)
     lat = models.FloatField(null=True, blank=True)
@@ -64,7 +65,7 @@ class PractiseLocation(models.Model):
     objects = models.Manager()
     
     def __unicode__(self):
-        return self.name
+        return self.slug
 
     class Meta:
         verbose_name_plural = "Practise Locations"
@@ -77,31 +78,29 @@ class PractiseManager(models.Manager):
         clinic_detail = super(PractiseManager, self).filter(practitioner__slug=slug)
         return clinic_detail
 
-    def practise_count(self, slug):
-        return super(PractiseManager, self).filter(practitioner__slug=slug).count()
-    
 
     # Search request handling
     def practise_details(self, city, name, speciality, experience, day):
         result = {}
         query = super(PractiseManager, self).filter(practise_location__city__slug=city)
         result['practise_count'] = query.count()
-        result['practise_list'] = query.distinct('practitioner')
+        query = query.distinct('practitioner')
         #filter name
         if name != None and speciality == None:
-            result['practise_list'] = result['practise_list'].filter(practitioner__name__icontains=name)
+            query = query.filter(practitioner__name__icontains=name)
         #filter Speciality
         if speciality != None :
-            result['practise_list'] = result['practise_list'].filter(practitioner__specialities__slug=speciality)
-            #filter name
+            query = query.filter(practitioner__specialities__slug=speciality)
+            #filter name and specialty
             if name != None:
-                result['practise_list'] = result['practise_list'].filter(practitioner__name__icontains=name)
+                query = query.filter(practitioner__name__icontains=name)
             #filter experienced
             if experience >= 0:
-                result['practise_list'] = result['practise_list'].filter(practitioner__experience__gte=experience)
+                query = query.filter(practitioner__experience__gte=experience)
         #filter day
         if day != None:
-            result['practise_list'] = result['practise_list'].filter(Q(practise_location__city__name=city)| Q(practitioner__specialities__slug=speciality)).distinct('practitioner')
+            query = query.filter(Q(practise_location__city__name=city)| Q(practitioner__specialities__slug=speciality)).distinct('practitioner')
+        result['practise_list'] = query
         return result
 
 
@@ -119,14 +118,15 @@ class Practise(models.Model):
         return self.practise_location.name
 
     class Meta:
-        verbose_name_plural = "Practises"
+        verbose_name_plural = "Practise"
 
 
 #Custom Manager
 class PractiseTimingManager(models.Manager):
 
-    def practise_timing_details(self, slug):
-        return super(PractiseTimingManager, self).filter(practitioner__slug=slug).order_by('pk')
+    def practise_timing(self, slug):
+        practise_timings = super(PractiseTimingManager, self).filter(practise_location__slug=slug).order_by('pk')
+        return practise_timings
 
 
 class PractiseTiming(models.Model):
@@ -140,6 +140,7 @@ class PractiseTiming(models.Model):
         ('20', '08:00pm'),('20.5', '08:30pm'),('21', '09:00pm'),('21.5', '09:30pm'),('22', '10:00pm'),('22.5', '10:30pm'),('23', '11:00pm'),('23.5', '11:30pm'),
         ('0', '12:00am'),('0.5', '12:30am'), ('1', "01:00am"),('2', '02:00am'), ('2.5', "02:30am")
         )
+    
     practitioner = models.ForeignKey(Practitioner)
     practise_location = models.ForeignKey(PractiseLocation)
     day = models.CharField(max_length=3, choices=DAY, help_text="Select Day.")

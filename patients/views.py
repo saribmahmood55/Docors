@@ -3,7 +3,8 @@ from practitioner.models import *
 from django.shortcuts import get_object_or_404
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import redirect
-from django.shortcuts import render
+from django.shortcuts import render_to_response
+from django.template import RequestContext
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 import json
@@ -20,21 +21,21 @@ def favourite(user,slug):
 		#messages.add_message(request, messages.INFO, msg)
 
 def patient(request):
-	patient, reviews, specialities, user = None, None, None, None
+	data = {}
 	if request.user.is_authenticated():
-		user = request.user
+		data['user'] = request.user
 	else:
-		user = None
+		data['user'] = None
 	if request.method == 'GET':
-		if user:
+		if data['user']:
 			try:
-				patient = Patient.patient_objects.patient_details(user)
-				reviews = PractitionerReview.pr_objects.patient_reviews(user)
-				specialities = Specialization.objects.order_by('name')
+				data['patient'] = Patient.patient_objects.patient_details(data['user'])
+				data['reviews'] = PractitionerReview.pr_objects.patient_reviews(data['user'])
+				data['specialities'] = Specialization.objects.order_by('name')
 			except Patient.DoesNotExist:
 				raise Http404
 		else:
-			patient = None
+			data['user'] = None
 	if request.method == 'POST':
 		if request.user.is_authenticated():
 			slug = request.POST.get('slug', None)
@@ -55,12 +56,12 @@ def patient(request):
 				p.cell_number=number
 				p.gender=gender
 				p.save()
-				patient = Patient.patient_objects.patient_details(user)
+				data['patient'] = Patient.patient_objects.patient_details(user)
 				print "Ok"
-				reviews = PractitionerReview.pr_objects.patient_reviews(user)
+				data['reviews'] = PractitionerReview.pr_objects.patient_reviews(user)
 		else:
-			patient = None
-	return render(request, 'patients/profile.html', {'patient': patient, 'reviews': reviews, 'specialities' : specialities})
+			data['patient'] = None
+	return render_to_response('patients/profile.html', {'data': data}, context_instance=RequestContext(request))
 
 #
 #
@@ -151,8 +152,8 @@ def addReview(request):
 			review_text = request.POST.get('review_text', None)
 			if slug:
 				newReview(user, slug, review_text)
-	return redirect('practitioner', slug=slug)
-	#return HttpResponseRedirect(reverse('practitioner', kwargs={'slug': slug}))
+	
+	return HttpResponseRedirect(reverse('practitioner', kwargs={'slug': slug}))
 	#return HttpResponseRedirect(reverse('practitioner', args=[slug]))
 
 
@@ -163,6 +164,7 @@ def review(request, review_id):
 			user = request.user
 			review = PractitionerReview.pr_objects.review(review_id)
 			slug = review.practitioner.slug
+			print slug
 			up = request.POST.get('up', None)
 			down = request.POST.get('down', None)
 			if up == "up" and not down:
@@ -173,4 +175,4 @@ def review(request, review_id):
 				votes = Vote(user, review_id, what)
 			if request.is_ajax():
 				return HttpResponse(json.dumps(votes), content_type="application/json")
-	return HttpResponseRedirect(reverse('practitioner', args=[slug]))
+	return HttpResponseRedirect(reverse('practitioner', kwargs={'slug': slug}))

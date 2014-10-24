@@ -30,11 +30,11 @@ ul a {    list-style-type: none;}
 #post-review-btn{	width: 90px; height: 40px; color: #3eb249; float: right; padding: 0px; margin-top: 15px;}
 #practitionerDetails{	float: none;	text-align: center;}
 .clinicDetails{	float: left; width: 325px !important;	margin: 10px;}
-.clinicTimingsDetails{	float: left; width: 250px !important;	margin: 10px;}
-.clinicTimingsDetails td { padding-right: 10px;}
+.clinicTimingsDetails{	float: left; width: 325px !important;	margin: 10px;}
+
 .ui-block-a { clear: none;}
 
-.practitionerReviews{width: 325px !important;; height: 300px !important;	margin: 10px; overflow-y:auto; }
+.practitionerReviews{ float: left; width: 325px !important;; height: 300px !important;	margin: 10px; overflow-y:auto; }
 
 .ui-grid-b { font-size: 15px;}
 .icon{ padding-right: 10px;}
