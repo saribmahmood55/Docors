@@ -18,11 +18,8 @@
 <body>
 <div data-role="page" id="basic" data-title="doctorsinfo.pk">
   <div data-role="header">
-  <title>doctorsInfo.pk</title>
-      <h1>
-        <a href="http://localhost:8000/" class="anchor-link" >doctorsInfo.pk&nbsp;
-        <img src="{% static "icons/stethoscope.png" %}" height="18" width="18" /></a>
-       </h1>
+  <h1><a href="http://localhost:8000/" class="anchor-link" >
+  <img class="marg-r" src="{% static "icons/stethoscope.png" %}" height="18" width="18" />doctorsinfo.pk</a></h1>
       <div id="head">
       {% if data.user.is_authenticated %}
         <a href="{% url 'patient' %}" style: id="user" >{{data.user.username}}</a>
@@ -75,10 +72,8 @@
   <!-- Advance Search -->
 <div data-role="page" id="advance" data-theme="a" data-title="doctorsinfo.pk | advance search">
   <div data-role="header">
-      <h1>
-        <a href="http://localhost:8000/" class="anchor-link" >doctorsinfo.pk&nbsp;
-        <img src="{% static "icons/stethoscope.png" %}" height="18" width="18" /></a>
-       </h1>
+  <h1><a href="http://localhost:8000/" class="anchor-link" >
+  <img class="marg-r" src="{% static "icons/stethoscope.png" %}" height="18" width="18" />doctorsinfo.pk</a></h1>
       <div id="head">
       {% if data.user.is_authenticated %}
         <a href="{% url 'patient' %}" style: id="user" >{{data.user.username}}</a>
@@ -146,10 +141,8 @@ Search
 <!-- Registration -->
   <div data-role="page" id="register" data-theme="a" data-title="doctorsinfo.pk | registration.">
   <div data-role="header">
-      <h1 class="ui-icon-myicon">
-        <a href="http://localhost:8000/" class="anchor-link" >docors.&nbsp;
-        <img src="{% static "icons/stethoscope.png" %}" height="18" width="18" /></a>
-       </h1>
+  <h1><a href="http://localhost:8000/" class="anchor-link" >
+  <img class="marg-r" src="{% static "icons/stethoscope.png" %}" height="18" width="18" />doctorsinfo.pk</a></h1>
       <div id="head">
       {% if data.user.is_authenticated %}
         <a href="{% url 'patient' %}" style: id="user" >{{data.user.username}}</a>

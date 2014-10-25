@@ -13,10 +13,8 @@
 <body>
 	<div data-role="page" data-title="{{data.practitioner.name}} | doctorsinfo.pk">
 <div data-role="header">
-	<h1 class="ui-icon-myicon">
-        <a href="http://localhost:8000/" class="anchor-link" >doctorsinfo.pk&nbsp;&nbsp;
-        <img src="{% static "icons/stethoscope.png" %}" height="18" width="18" /></a>
-    </h1>
+	<h1><a href="http://localhost:8000/" class="anchor-link" >
+	<img class="marg-r" src="{% static "icons/stethoscope.png" %}" height="18" width="18" />doctorsinfo.pk</a></h1>
       <div id="head">
       {% if data.user.is_authenticated %}
         <a href="{% url 'patient' %}" style: id="user" >{{data.user.username}}</a>
@@ -44,7 +42,7 @@
 		{{speciality.name}}</span><br>
 		{% endfor %}
 		<span>Experience: <strong>{{data.practitioner.experience}} years.</strong></span><br>
-		<span>Achievements: {{data.practitioner.achievements}}</span><br><br>
+		<span><strong>Achievements: </strong>{{data.practitioner.achievements}}</span><br><br>
 	</div>	
 
 		<div class="ui-grid-b">
@@ -97,11 +95,13 @@
 	{% endif %}
 
 	<!-- Practitioner Reviews Details -->
-	{% if data.reviews.exists %}
 	<div class="ui-block-c practitionerReviews">
-		<div class="ui-bar ui-bar-a">
-			<center><h3>Practitioner Reviews.</h3></center>
+	<div class="ui-bar ui-bar-a">
+	{% if data.reviews.exists %}
+	<center><h3>Practitioner Reviews.</h3></center><br>
 	{% for pr in data.reviews.iterator %}
+	
+	<!-- user login and reviews are there-->
 	{% if data.user.is_authenticated %}
 	<p class="normalweight">
 	<b>{{pr.patient}}</b> say: '{{pr.review_text}}'<br>Submitted on: <i>{{pr.review_date}}</i>
@@ -109,25 +109,48 @@
 	<!-- review upVote-->
 	<center><div id="votes" class="inline_">
 	<form action="{% url 'review' pr.pk %}" class="inline_ up" >
-		<input style="margin-right: 10px;" type="image" src="{% static "icons/up.png" %}" height="14" width="14" />
+		<input class="marg-r" type="image" src="{% static "icons/up.png" %}" height="14" width="14" />
 	</form>
-	<!-- review upVote-->
-	<span style="margin-right: 15px;" class="up_votes">{{pr.up_votes}}</span>-
-	<span style="margin-left: 10px;" class="down_votes">{{pr.down_votes}}</span>
+	<!-- review downVote-->
+	<span class="up_votes marg-r">{{pr.up_votes}}</span>-
+	<span class="down_votes marg-l">{{pr.down_votes}}</span>
 	<form action="{% url 'review' pr.pk %}" class="inline_ down">
-		<input style="margin-left: 10px;" type="image" src="{% static "icons/down.png" %}" height="14" width="14" />
+		<input class="marg-l" type="image" src="{% static "icons/down.png" %}" height="14" width="14" />
 	</form><br></div></center></p>
+	
+	<!-- No user login and reviews exists-->
 	{% else %}
-	<center><p class="normalweight"><b>{{pr.patient}}: </b>'{{pr.review_text}}'<br>
-	agree: {{pr.up_votes}}&nbsp;&nbsp;-&nbsp;&nbsp;disagree: {{pr.down_votes}}<br>
-	Submitted on: <i>{{pr.review_date}}</i></p></center>
+	<div class="normalweight textCentre">
+	<span class="float-left"><strong>{{pr.patient}}: </strong>'{{pr.review_text}}'</span><br>
+	<span class="marg-r"><strong>agree: {{pr.up_votes}}</strong></span>
+	<span class="marg-l"><strong>disagree: {{pr.down_votes}}</strong></span><br>
+	<span class="float-right"><i>{{pr.review_date}}</i></span></div><br>
 	{% endif %}
 	{% endfor %}
-	<!-- Post new Reviews-->
+
 	{% if data.user.is_authenticated %}
+	<!-- Post new Reviews, user loged, Reviews exists-->
+
 	<div id="reviewBox" data-role="collapsible" data-collapsed="true" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right"><h6>add review</h6>
-	
-	<!-- New Review Form-->
+	<form action="{% url 'review' %}" method="POST" class="inline_">{% csrf_token %}
+	{% if data.practise_name.count > 1 %}
+  	<select name="practise_slug" required id="select-native-2">
+  	<option value="">Select Practise Location.</option>
+  	{% for locname in data.practise_name.iterator %}
+  	<option value="{{locname.practise_location.slug}}">{{locname.practise_location.name}}</option>
+  	{% endfor %}
+  	<textarea cols="8" rows="8" name="review_text" required></textarea></select>
+  	{% endif %}
+	<input type="hidden" name="slug" value="{{data.practitioner.slug}}" >
+	<button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Post</button></form></div>
+	{% else %}
+	<p><a href="#loginSignup" class="anchor-link-right">add review</a></p>
+	{% endif %}
+	<!--if no review-->
+	{% elif data.user.is_authenticated%}
+	<!-- user login and no review exists-->
+	<span>No reviews, yet.<span><br>
+	<div id="reviewBox" data-role="collapsible" data-collapsed="true" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right"><h6>add review</h6>
 	<form action="{% url 'review' %}" method="POST" class="inline_">{% csrf_token %}
 	{% if data.practise_name.count > 1 %}
   	<select name="practise_slug" required id="select-native-2">
@@ -139,15 +162,10 @@
   	</select>
   	{% endif %}
 	<input type="hidden" name="slug" value="{{data.practitioner.slug}}" >
-	<button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Post</button>
-	</form>
-	</div>
+	<button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Post</button></form></div>
 	{% else %}
-	<!-- no user login	-->
-	<p><a href="#loginSignup" class="anchor-link-right">add review</a></p>
-	{% endif %}
-	{% else %}
-	<p>No reviews, yet.<br></p>
+	<!-- Post new Review / no user login-->
+	<span>No reviews, yet.<br><a href="#loginSignup" class="anchor-link-right">add review</a></span>
 	{% endif %}
 	</div>
 	</div>
@@ -161,10 +179,8 @@
 <!-- Login SignUp -->
 <div data-role="page" id="loginSignup" data-theme="a" data-title="doctorsinfo.pk">
 <div data-role="header">
-	<h1>
-        <a href="http://localhost:8000/" class="anchor-link" >doctorsinfo.pk&nbsp;&nbsp;
-        <img src="{% static "icons/stethoscope.png" %}" height="18" width="18" /></a>
-    </h1>
+<h1><a href="http://localhost:8000/" class="anchor-link" >
+  <img class="marg-r" src="{% static "icons/stethoscope.png" %}" height="18" width="18" />doctorsinfo.pk</a></h1>
 </div>
 <div role="main" class="ui-content container" >
 <center><a href="/login/" class="ui-btn ui-corner-all ui-shadow loginSignup">Login</a></center>

@@ -2,9 +2,6 @@
 
 <html>
   <head>
-	<title>
-      docors
-  </title>
   {% load staticfiles %}
   <link rel="shortcut icon" href="{% static "jquery_mobile/icons/stethoscope.ico" %}" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,14 +16,10 @@
   </head>
   
   <body>
-    <div data-role="page">
+    <div data-role="page" data-title="registration successful | doctorsinfo.pk">
       <div data-role="header">
-		<h1 class="ui-icon-myicon">
-          <a href="http://localhost:8000/" class="anchor-link" >
-            docors.&nbsp;
-			<img src="{% static "jquery_mobile/images/icons-png/stethoscope.png" %}" height="18" width="18" />
-          </a>
-      </h1>
+      <h1><a href="http://localhost:8000/" class="anchor-link" >
+  <img class="marg-r" src="{% static "icons/stethoscope.png" %}" height="18" width="18" />doctorsinfo.pk</a></h1>
   </div>
   <!-- Content -->
   <div role="main" class="ui-content">
