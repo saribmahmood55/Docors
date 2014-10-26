@@ -18,7 +18,8 @@
     <img class="marg-r" src="{% static "icons/stethoscope.png" %}" height="18" width="18" />doctorsinfo.pk</a></h1>
       <div id="head">
       {% if data.user.is_authenticated %}
-        <a href="{% url 'patient' %}" style: id="user" >{{data.user.username}}</a>
+        <a href="{% url 'patient' %}" style: id="user" >
+        <img class="marg-r" src="{% static "icons/person.jpg" %}" height="22" width="22" />{{data.user.username}}</a>
       {% else %}
         <a href="/login/" style: class="anchor-link-right" >Login</a>
       {% endif %}
@@ -39,7 +40,7 @@
     	{{speciality.name}}
     	{% endfor %}
     </p>
-    <p class="ui-li-aside">Clinic Details: <strong>{{data.practise.practise_count}}</strong></p>
+    <p class="ui-li-aside">Fee: <strong>{{onePractitioner.checkup_fee}}</strong> rs.</p>
     </a>
     </li>
     {% endfor %}

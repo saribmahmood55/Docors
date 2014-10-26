@@ -17,21 +17,22 @@
 	<img class="marg-r" src="{% static "icons/stethoscope.png" %}" height="18" width="18" />doctorsinfo.pk</a></h1>
       <div id="head">
       {% if data.user.is_authenticated %}
-        <a href="{% url 'patient' %}" style: id="user" >{{data.user.username}}</a>
+      <a href="{% url 'patient' %}" style: id="user" >
+        <img class="marg-r" src="{% static "icons/person.jpg" %}" height="22" width="22" />{{data.user.username}}</a>
       {% else %}
         <a href="/login/" style: class="anchor-link-right" >Login</a>
       {% endif %}
       </div>
 </div>
-	<div role="main" class="ui-content">
+	<div role="main" class="ui-content container">
 
 	<!-- Practitioner Details -->
 	<div id="practitionerDetails">
-		{% if not data.favorite %}
+		{% if not data.favourite %}
 		<form action="{% url 'patient' %}" method="POST" class="inline_">{% csrf_token %}
 			<input class="anchor-link-right" type="image" src="{% static "icons/favt_.png" %}" height="32" width="32">
 			<input type="hidden" name="slug" value="{{data.practitioner.slug}}">
-			<input type="hidden" name="favt" value="{{data.favorite}}">
+			<input type="hidden" name="favt" value="{{data.favourite}}">
 		</form>
 		{% else %}
 		<img class="anchor-link-right" title="Already favourited" src="{% static "icons/favt0.png" %}" height="32" width="32" />
@@ -41,24 +42,28 @@
 		<span>Specialized in: {% for speciality in data.practitioner.specialities.all.iterator %}
 		{{speciality.name}}</span><br>
 		{% endfor %}
-		<span>Experience: <strong>{{data.practitioner.experience}} years.</strong></span><br>
+		<span>Experience: <strong>{{data.practitioner.experience}} years.</strong></span><br><br>
 		<span><strong>Achievements: </strong>{{data.practitioner.achievements}}</span><br><br>
 	</div>	
 
-		<div class="ui-grid-b">
+	<div class="ui-grid-b">
 		<!-- Practise-Location Details -->
 		{% if data.practise.exists %}
 		{% for pract in data.practise.iterator %}
 		<div class="ui-block-a clinicDetails">
-		<div class="ui-bar ui-bar-a" >
+		<div class="ui-bar ui-bar-a lightgreen-bg" >
 		<ul class="normalweight">
-		<span><center><h3>Clinic Details.</h3></center></span>
-		<span><center>{{pract.practise_location.name}}</center></span><br>
-		<span>Fee:&nbsp;&nbsp;<strong>{{pract.checkup_fee}} rs.</strong></span><br>
+		<li><center><h2>Clinic Details.</h2></center></li>
+		<li><center><h3>{{pract.practise_location.name}}</h3></center></li><br>
+		<li><span class="marg-r">fee:</span><span><strong>{{pract.checkup_fee}} rs.</strong></span></li><br>
 		<li><img src="{% static "icons/phone.png" %}" class="icon" height="20" width="20" /></li>
 		<span>{{pract.contact_number}}</span><br>
 		<li><img src="{% static "icons/app.png" %}" class="icon" title="Appointment Required ?" height="20" width="20" /></li>
-		{% if pract.appointments_only %}<span>Yes.</span><br>{% else %}<span>First Come First Serve.</span><br>{% endif %}
+		{% if pract.appointments_only %}
+		<span class="small-font">Appointment Only: Yes.</span><br>
+		{% else %}
+		<span>First Come First Serve.</span><br>
+		{% endif %}
 		<li><img src="{% static "icons/address_.png" %}" class="icon" height="22" width="18" /></li>
 		<span>{{pract.practise_location.clinic_address}}, <strong>{{pract.practise_location.city.name}}</strong></span><br>
 		<li><img src="{% static "icons/stethoscope.png" %}" class="icon" title="Services Offered." height="20" width="20" /></li>
@@ -76,20 +81,22 @@
 	
 	{% if data.practise_timing %}
 	<div class="ui-block-b clinicTimingsDetails">
-		<div class="ui-bar ui-bar-a normalweight textCentre">
-		<center><h3>Clinic Timings.</h3></center>
+		<div class="ui-bar ui-bar-a ctbg normalweight textCentre">
+		<ul class="normalweight">
+		<li><center><h2>Clinic Timings.</h2></center></li>
 		{% for oneClinic in data.practise_timing %}
-			<span><strong>{{oneClinic.name}}</strong></span><br><br>
-			<span style="padding-right: 10px;"><strong>Day</strong></span>
-			<span style="padding-right: 10px;"><strong>Opens</strong></span>
-			<span style="padding-right: 10px;"><strong>Closes</strong></span><br>
+			<li><center><h3>{{ oneClinic.name }}</h3></center></li><br>
+			<span class="marg-r"><strong>Day</strong></span>
+			<span class="marg-r"><strong>Opens</strong></span>
+			<span class="marg-r"><strong>Closes</strong></span><br>
 			{% for clinicTime in oneClinic.timing %}
-			<span style="padding-right: 5px;">{{clinicTime.day}}</span>
-			<span style="padding-right: 5px;">{{clinicTime.start_time}}</span>
-			<span style="padding-right: 5px;">{{clinicTime.end_time}}</span><br>
+			<span class="marg-r">{{clinicTime.day}}</span>
+			<span class="marg-r">{{clinicTime.start_time}}</span>
+			<span class="marg-r">{{clinicTime.end_time}}</span><br>
 			{% endfor %}
 			<br>
-		{% endfor %}	
+		{% endfor %}
+		</ul>
 		</div>
 	</div>
 	{% endif %}
@@ -98,13 +105,14 @@
 	<div class="ui-block-c practitionerReviews">
 	<div class="ui-bar ui-bar-a">
 	{% if data.reviews.exists %}
-	<center><h3>Practitioner Reviews.</h3></center><br>
+	<center><h2>Practitioner Reviews.</h2></center>
 	{% for pr in data.reviews.iterator %}
 	
 	<!-- user login and reviews are there-->
 	{% if data.user.is_authenticated %}
 	<p class="normalweight">
-	<b>{{pr.patient}}</b> say: '{{pr.review_text}}'<br>Submitted on: <i>{{pr.review_date}}</i>
+	<span><b>{{pr.patient}}</b> say: '{{pr.review_text}}'</span>s<br>
+	<span class="float-right"><i>{{pr.review_date}}</i></span><br>
 	
 	<!-- review upVote-->
 	<center><div id="votes" class="inline_">
@@ -186,6 +194,7 @@
 <center><a href="/login/" class="ui-btn ui-corner-all ui-shadow loginSignup">Login</a></center>
 <center><a href="/register/" class="ui-btn ui-corner-all ui-shadow loginSignup">Sign Up</a></center>
 <center><a href="/password/reset/" class="ui-btn ui-corner-all ui-shadow loginSignup">Forgot Password</a></center>
+
 <!--footer-->
 <div style="margin: auto auto;" data-role="footer">
 <h4>&copy; all rights reserved-2014 &reg;</h4>

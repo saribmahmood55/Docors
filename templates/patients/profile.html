@@ -1,7 +1,6 @@
 <!DOCTYPE html> 
 <html>
    <head>
-      <title>docors | patient details</title>
       {% load staticfiles %}
       <link rel="shortcut icon" href="{% static "jquery_mobile/stethoscope.ico" %}" />
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,12 +12,10 @@
       <script src="{% static "jquery_mobile/jquery.jeditable.js" %}" type="text/javascript" charset="utf-8"></script>
    </head>
    <body>
-      <div data-role="page">
+      <div data-role="page" data-title="{{data.patient.user.username}} | doctorsinfo.pk">
          <div data-role="header">
-            <h1 class="ui-icon-myicon">
-               <a href="http://localhost:8000/" class="anchor-link" >docors.&nbsp;
-               <img src="{% static "icons/stethoscope.png" %}" height="18" width="18" /></a>
-            </h1>
+         <h1><a href="http://localhost:8000/" class="anchor-link" >
+         <img class="marg-r" src="{% static "icons/stethoscope.png" %}" height="18" width="18" />doctorsinfo.pk</a></h1>
             <div id="head">
       		{% if data.user.is_authenticated %}
         	   <a href="/logout/" style: id="user" >Log Out.</a>
@@ -28,146 +25,118 @@
       </div>
 
          </div>
-         <div id='content'>
+        <div role="main" class="ui-content container">
          {% if data.user.is_authenticated %}
             <div class="ui-grid-b">
                <div class="ui-block-a" id="patient-profile">
-                  <div class="ui-bar ui-bar-a">
+                  <div class="ui-bar ui-bar-a lightgreen-bg">
                      <!--Patient Profile -->
+                     <ul class="normalweight">
+                     <li>
                      <center>
-                        <h3><u>Patient Detail</u></h3>
+                        <h2><u>Patient Detail</u></h2>
                      </center>
-                     <p><b>username: </b>{{data.patient.user.username}}<br>
-                     <b>email: </b>{{data.patient.user.email}}<br>
+                     </li>
+                     <br>
+                     <span>username: <strong>{{data.patient.user.username}}</strong></span><br>
+                     <span>email: <strong>{{data.patient.user.email}}</strong></span><br>
                      {% if data.patient.user.get_full_name and data.patient.cell_number and data.patient.gender %}
-                     first name: <b>{{data.patient.user.first_name}}</b><br>last Name: <b>{{data.patient.user.last_name}}</b><br>
-                     Cell Number: {{data.patient.cell_number}}<br>Gender: {{data.patient.get_gender_display}}<br>
-                     Age-Group: {{data.patient.get_age_group_display}}</p>
+                     <span>First name: <strong>{{data.patient.user.first_name}}</strong></span><br>
+                     <span>Last Name: <strong>{{data.patient.user.last_name}}</strong></span><br>
+                     <span>Cell Number: {{data.patient.cell_number}}</span><br>
+                     <span>Gender: {{data.patient.get_gender_display}}</span><br>
+                     <span>Age-Group: {{data.patient.get_age_group_display}}</span>
                      {% else %}
                      <form action="{% url 'patient' %}" method="POST">{% csrf_token %}
-                     <p><b>First Name: </b><input type="text" name="fname" />
-                     <b>Last Name: </b><input type="text" name="lname" />
-                     <b>Cell Number: </b><input type="text" name="number" />
-                     <b>Gender: </b><select name="gender">
-                     <option value="M">Male</option>
-                     <option value="F">Female</option>
-                     </select>
-                     <input type="submit" value="Update" />
-                     </form>
-                     </p>
+                     <span><strong>First Name: <input type="text" name="fname" /></strong></span>
+                     <span><strong>Last Name: <input type="text" name="lname" /></strong></span>
+                     <span><strong>Cell Number: <input type="text" name="number" /></strong></span>
+                     <span><strong>Gender: </strong><select name="gender">
+                     <option value="M">Male</option><option value="F">Female</option>
+                     </select></span>
+                     <span><strong>Age Group: </strong><select name="age">
+                     <option value="10">10-14</option><option value="15">15-19</option><option value="20">20-24</option>
+                     <option value="25">25-29</option><option value="30">30-34</option><option value="35">35-39</option>
+                     <option value="40">40-44</option><option value="45">45-49</option><option value="50">50-54</option>
+                     <option value="55">55-59</option><option value="60">60-64</option><option value="65">65-69</option>
+                     <option value="80">80-84</option><option value="85">85+</option>
+                     </select></span>
+                     <button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Update</button></form>
                      {% endif %}
+                     </ul>
                   </div>
                </div>
                <!--patient reviews-->
                <div class="ui-block-b" id="patient-reviews">
                   <div class="ui-bar ui-bar-a">
-                     <center>
-                        <h3><u>Reviews List</u></h3>
-                     </center>
+                  <ul class="normalweight">
+                     <li><center>
+                        <h2><u>Reviews List</u></h2>
+                     </center></li><br>
                      {% if data.reviews.exists %}
-                     <table style="font-weight: normal;">
-                        <tr>
-                           <th>Practitioner</th>
-                           <th>Review</th>
-                        </tr>
-                        {% for pr in data.reviews.iterator %}
-                        <tr>
-                        	<td><b>* {{pr.practitioner.name}}&nbsp;&nbsp;</b></td>
-                        	<td><p>'{{pr.review_text}}'</p></td>
-                        </tr>
-                        {% endfor %}
-                     </table>
+                     <li><span><strong>Review</strong></span></li>
+                     <li><span><strong>Practitioner</strong></span></li>
+                     {% for pr in data.reviews.iterator %}
+                     <li><span class="marg-r">* {{pr.practitioner.name}}</span></li>
+                     <li><span>'{{pr.review_text}}'</span></li>
+                     {% endfor %}
                      {% else %}
-                     <center>
-                        <p>No Reviews from you about any Practitioner :(</p>
-                     </center>
+                     <center><li>No Reviews from you about any Practitioner :(</li></center>
+                     </ul>
                      {% endif %}
                   </div>
                </div>
                <!--favourite Practitioner -->
                <div class="ui-block-c" id="favourite-pracs">
                   <div class="ui-bar ui-bar-a">
-                     <center>
-                        <h3><u>Favourite Practitioners</u></h3>
-                     </center>
+                     <ul class="normalweight">
+                     <li><center>
+                        <h2><u>Favourite Practitioners</u></h2>
+                     </center></li><br>
                      {% if data.patient.favt_practitioner.all.exists %}
-                     <table style="font-weight: normal;">
-                        <tr>
-                           <th>Name</th>
-                           <th>Specialist</th>
-                        </tr>
-                        {% for practitioner in data.patient.favt_practitioner.all.iterator %}
-                        <tr>
-                           <td>* {{practitioner.name}}&nbsp;&nbsp;</td>
-                           {% for speciality in practitioner.specialities.all.iterator %}
-                           <td>{{speciality.name}}</td>
-                           {% endfor %}
-                        </tr>
-                        {% endfor %}
-                     </table>
-                     {% elif error %}
-                     <center>
-                        <p>Practitioner already on favourite list. :(</p>
-                     </center>
+                     <li><span class="marg-r"><strong>Name</strong></span></li>
+                     <li><span class="marg-l"><strong>Specialist</strong></span></li><br>
+                     {% for practitioner in data.patient.favt_practitioner.all.iterator %}
+                     <li><span class="marg-r">* {{practitioner.name}}</span></li>
+                     {% for speciality in practitioner.specialities.all.iterator %}
+                     <li>{{speciality.name}}</li>
+                     {% endfor %}
+                     {% endfor %}
                      {% else %}
                      <center>
-                        <p>No favourite Practitioner, yet. :(</p>
+                        <span>No favourite Practitioner, yet. :(</span>
                      </center>
                      {% endif %}
+                     </ul>
                   </div>
                </div>
-               <!--favourite Specialities -->
-               <div class="ui-block-c" id="favourite-spec">
-                  <div class="ui-bar ui-bar-a">
-                     <center>
-                        <h3><u>Interested Specialities</u></h3>
-                     </center>
-                     {% if data.patient.interested_specialities.all.exists %}
-                     <table style="font-weight: normal;">
-                        <tr>
-                           <th>Name</th>
-                        </tr>
-                        {% for spec in data.patient.interested_specialities.all.iterator %}
-                        <tr>
-                           <td>* {{spec.name}}</td>
-                        </tr>
-                        {% endfor %}
-                     </table>
-                     {% elif error %}
-                     <center>
-                        <p>Practitioner already on favourite list. :(</p>
-                     </center>
-                     {% else %}
-                     <center>
-                        <p>No favourite Practitioner, yet. :(</p>
-                     </center>
-                     {% endif %}
-                  </div>
-                </div>
                 <!--subscribe Specialities -->
-               <div class="ui-block-c" id="favourite-spec">
+                <div class="ui-block-c" id="subscribe-spec">
                   <div class="ui-bar ui-bar-a">
-                     <center>
-                        <h3><u>Subscibe for Specialities</u></h3>
-                     </center>
-                     <table style="font-weight: normal;">
-                        <tr>
-                           <th style="margin-right: 25px;">Name</th>
-                        </tr>
-                        {% for spec in data.specialities.iterator %}
-                        <tr>
-                           <td>
-                              <form>
-                              <input type="checkbox" name="Subscribe" value="Bike">
-                              </form>
-                           </td>
-                           <td>{{spec.name}}</td>
-                        </tr>
-                        {% endfor %}
-                     </table>
-                     <p>Please Select the above categories to get specific updates about latest research and tips, weekly.</p>
+                     <ul class="normalweight">
+                     <li><center>
+                        <h2><u>Subscibe for Specialities</u></h2>
+                     </center></li>
+                     <li class="float-right"><span><strong>Name</strong></span></li>
+                     <form action="{% url 'patient' %}" method="POST">{% csrf_token %}
+                     {% if data.patient.interested_specialities.all.exists %}
+                     {% for spec in data.patient.interested_specialities.all.iterator %}
+                        <li class="marg-r"><input type="checkbox" name="Subscribe" value="" checked>
+                        <span>{{spec.name}}</span></li>
+                     {% endfor %}
+                     {% else %}
+                     {% for spec in data.specialities.iterator %}
+                        <li class="marg-r"><input type="checkbox" name="Subscribe" value="">
+                        <span>{{spec.name}}</span></li>
+                     {% endfor %}
+                     {% endif %}
+                     <button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Subscribe</button>
+                     </form>
+                     <span>Please Select the above categories to get specific updates about latest research and tips, weekly.</span>
+                     </ul>
                   </div>
                 </div>
+                <!-- No user login-->
                 {% else %}
                 <center><a href="/login/" class="ui-btn ui-corner-all ui-shadow loginSignup">Login</a></center>
                <center><a href="/register/" class="ui-btn ui-corner-all ui-shadow loginSignup">Sign Up</a></center>

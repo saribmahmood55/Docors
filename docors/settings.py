@@ -16,11 +16,14 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+#
+#LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/auth/logged_in'
 
 #GMAIL
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'docors2014@gmail.com'
-EMAIL_HOST_PASSWORD = 'mgjzbltehsmlclin'
+EMAIL_HOST_USER = 'doctorsinfo.pk@gmail.com'
+EMAIL_HOST_PASSWORD = 'qtmtzmguforqkfkt'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
@@ -69,10 +72,13 @@ WSGI_APPLICATION = 'docors.wsgi.application'
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 DATABASES = {
     'default': {
-         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-         'NAME': 'geodjango',
-         'USER': 'asad',
-     }
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'doctors_',
+        'USER': 'asadrana',
+        'PASSWORD': 'asad0321',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
 }
 
 # Internationalization

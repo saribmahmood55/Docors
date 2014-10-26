@@ -1,8 +1,19 @@
 {% extends "registration/base.html" %}
-
-{% block title %}Registration complete{% endblock %}
+<!DOCTYPE html> 
+<html>
+<head>
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static "jquery_mobile/style.css" %}"rel="stylesheet" type="text/css" >
+</head>
+<body>
+{% block title %}Registration Complete | doctorsinfo.pk{% endblock %}
 
 {% block content %}
-<h1>Check your email</h1>
-<p>An activation link has been sent to the email address you supplied, along with instructions for activating your account.</p>
-{% endblock %}
+	<center><h1><a href="http://localhost:8000/" class="anchor-link" >
+	<img class="marg-r" src="{% static "icons/stethoscope.png" %}" height="18" width="18" />doctorsinfo.pk</a></h1></center>
+	<center><h2> Registration Successful !</h2><center>
+	{% endblock %}
+</body>
+</html>
+<!--h2>Check your email</h2>
+<p>An activation link has been sent to the email address you supplied, along with instructions for activating your account.</p-->

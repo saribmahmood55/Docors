@@ -9,9 +9,10 @@ class PractitionerAdmin(admin.ModelAdmin):
         ('Achievements', {'fields': ['achievements']}),
         ('Experience', {'fields': ['experience']}),
         ('Short Message', {'fields': ['message']}),
+        ('status', {'fields': ['status']}),
         ('Speciality', {'fields': ['specialities']}),
 	]
-	list_display = ['name','slug','credentials','Specialist_in','experience','message','achievements']
+	list_display = ['name','slug','credentials','Specialist_in','experience','message','status','achievements']
 	search_fields = ['name']
 	
 	def Specialist_in(self, obj):
@@ -32,8 +33,8 @@ class PractiseLocationAdmin(admin.ModelAdmin):
 
 class PractiseAdmin(admin.ModelAdmin):
 	fieldsets = [
-		('Select Practise Location', {'fields': ['practise_location']}),
 		('Select Practitioner', {'fields': ['practitioner']}),
+		('Select Practise Location', {'fields': ['practise_location']}),
         ('Enter Appointment Numbers', {'fields': ['contact_number']}),
         ('Enter Checkup Fees', {'fields': ['checkup_fee']}),
         ('Services Offered', {'fields': ['services']}),

@@ -12,7 +12,7 @@ def clinic_timings_dic(query):
 	for clinicname in slug_list:
 		dict_timing = []
 		for temp_timing in PractiseTiming.pt_objects.practise_timing(clinicname):
-			dict_timing.append({'day': temp_timing.get_day_display(), 'start_time': temp_timing.get_start_time_display(), 'end_time': temp_timing.get_end_time_display()})
+			dict_timing.append({'day': temp_timing.day, 'start_time': temp_timing.get_start_time_display(), 'end_time': temp_timing.get_end_time_display()})
 		onetime.append({'name':mylist[count], 'timing': dict_timing })
 		count += 1
 	return onetime

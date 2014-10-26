@@ -22,7 +22,8 @@
   <img class="marg-r" src="{% static "icons/stethoscope.png" %}" height="18" width="18" />doctorsinfo.pk</a></h1>
       <div id="head">
       {% if data.user.is_authenticated %}
-        <a href="{% url 'patient' %}" style: id="user" >{{data.user.username}}</a>
+        <a href="{% url 'patient' %}" style: id="user" >
+        <img class="marg-r" src="{% static "icons/person.jpg" %}" height="22" width="22" />{{data.user.username}}</a>
       {% else %}
         <a href="/register/" style: class="anchor-link-right" >Sign Up</a>
         <a href="/login/" style="margin-right: 10px;" class="anchor-link-right" >Login</a>
@@ -76,7 +77,8 @@
   <img class="marg-r" src="{% static "icons/stethoscope.png" %}" height="18" width="18" />doctorsinfo.pk</a></h1>
       <div id="head">
       {% if data.user.is_authenticated %}
-        <a href="{% url 'patient' %}" style: id="user" >{{data.user.username}}</a>
+      <a href="{% url 'patient' %}" style: id="user" >
+        <img class="marg-r" src="{% static "icons/person.jpg" %}" height="22" width="22" />{{data.user.username}}</a>
       {% else %}
         <a href="/login/" style: class="anchor-link-right" >Login</a>
       {% endif %}
@@ -128,8 +130,6 @@ Search
 <a class="anchor-link" style="float: right; margin-top: 20px;" href="#basic">basic search</a>
 </div>
 
-
-
 <div style="margin: auto auto;" data-role="footer">
 <h4>
 &copy; all rights reserved-2014 &reg;
@@ -145,7 +145,8 @@ Search
   <img class="marg-r" src="{% static "icons/stethoscope.png" %}" height="18" width="18" />doctorsinfo.pk</a></h1>
       <div id="head">
       {% if data.user.is_authenticated %}
-        <a href="{% url 'patient' %}" style: id="user" >{{data.user.username}}</a>
+        <a href="{% url 'patient' %}" style: id="user" >
+        <img class="marg-r" src="{% static "icons/person.jpg" %}" height="22" width="22" />{{data.user.username}}</a>
       {% else %}
         <a href="/login/" style: class="anchor-link-right" >Login</a>
       {% endif %}

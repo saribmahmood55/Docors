@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.gis.db import models
 from django.db.models import Q
 from autoslug import AutoSlugField
 from django.template.defaultfilters import slugify
@@ -29,6 +28,7 @@ class Practitioner(models.Model):
     achievements = models.TextField(null=True)
     experience = models.PositiveIntegerField(default=0, help_text="Number of years", null=True)
     message = models.TextField(max_length=140,null=True, blank=True)
+    status = models.BooleanField(default=False)
     specialities = models.ManyToManyField(Specialization)
     slug = AutoSlugField(populate_from='name', unique = True)
 
@@ -58,12 +58,6 @@ class PractiseLocation(models.Model):
     city = models.ForeignKey(City)
     lat = models.FloatField(null=True, blank=True)
     lon = models.FloatField(null=True, blank=True)
-
-    # gis
-    geo_objects = models.GeoManager()
-    #Custom Managers
-    objects = models.Manager()
-    
     def __unicode__(self):
         return self.slug
 
@@ -83,7 +77,6 @@ class PractiseManager(models.Manager):
     def practise_details(self, city, name, speciality, experience, day):
         result = {}
         query = super(PractiseManager, self).filter(practise_location__city__slug=city)
-        result['practise_count'] = query.count()
         query = query.distinct('practitioner')
         #filter name
         if name != None and speciality == None:

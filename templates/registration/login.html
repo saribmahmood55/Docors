@@ -1,27 +1,43 @@
 {% extends "registration/base.html" %}
-
-{% block title %}Log in{% endblock %}
-
+<!DOCTYPE html> 
+<html>
+<head>
+{% load staticfiles %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="shortcut icon" href="{% static "jquery_mobile/stethoscope.ico" %}" />
+<link rel="stylesheet" href="{% static "jquery_mobile/jquery.mobile-1.4.4.min.css" %}" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="{% static "jquery_mobile/style.css" %}"rel="stylesheet" type="text/css" >
+</head>
+<body>
 {% block content %}
-
-<h1>Log in</h1>
-
+<div data-role="page" data-title="Log In | doctorsinfo.pk">
+<div data-role="header">
+	<h1><a href="http://localhost:8000/" class="anchor-link" >
+	<img class="marg-r" src="{% static "icons/stethoscope.png" %}" height="18" width="18" />doctorsinfo.pk</a></h1>
+</div>
 {% if form.errors %}
 <p class="error">Please correct the errors below:</p>
 {% endif %}
-
 <form method="post" action="?next={{ next|default:"/" }}">{% csrf_token %}
 <dl>
-<dt><label for="id_username">Username:</label>{% if form.username.errors %} <span class="error">{{ form.username.errors|join:", " }}</span>{% endif %}</dt>
+<dt>
+	<label for="id_username">Username:</label>{% if form.username.errors %} <span class="error">{{ form.username.errors|join:", " }}</span>{% endif %}</dt>
 <dd>{{ form.username }}</dd>
 <dt><label for="id_password">Password:</label>{% if form.password.errors %} <span class="error">{{ form.password.errors|join:", " }}</span>{% endif %}</dt>
 <dd>{{ form.password }}</dd>
-<dt><input type="submit" value="Log in" /></dt>
+<dt>
+<input name="next" type="hidden" value="/patient/">
+<input type="submit" value="Log in" /></dt>
 </dl>
 </form>
+<center><a href="/register/" class="ui-btn ui-corner-all ui-shadow loginSignup">Sign up.</a></center>
+<center><a href="/password/reset/" class="ui-btn ui-corner-all ui-shadow loginSignup">Forgot Password.</a></center>
 {% endblock %}
 
 {% block content-related %}
-<p>If you don't have an account, you can <a href="/accounts/register/">sign
-up</a> for one.
+<p>If you don't have an account, you can <a href="/register/">sign
+up</a> for one.</p>
 {% endblock %}
+</div>
+</body>
+</html>

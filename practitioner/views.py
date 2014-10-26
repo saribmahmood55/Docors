@@ -63,6 +63,8 @@ def practitioner(request, slug):
 			favourite_practitioner = data['patient'].favt_practitioner.all().filter(slug=slug)
 			if favourite_practitioner.exists():
 				data['favourite'] = True
+			else:
+				data['favourite'] = False
 		else:
 			data['patient'] = None
 		try:
