@@ -9,6 +9,5 @@ pycrypto==2.6.1
 pycups==1.9.66
 pycurl==7.19.3
 requests==2.2.1
-system-service==0.1.6
 wsgiref==0.1.2
 zope.interface==4.0.5
