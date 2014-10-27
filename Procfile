@@ -1,1 +1,1 @@
-web: gunicorn docors.wsgi --workers --log-file -
+web: gunicorn docors.wsgi --log-file -
