@@ -1,7 +1,6 @@
 from django.db import models
 from django.db.models import Q
 from autoslug import AutoSlugField
-from django.template.defaultfilters import slugify
 
 class Specialization(models.Model):
     name = models.CharField(max_length=100)
@@ -53,7 +52,7 @@ class City(models.Model):
 
 class PractiseLocation(models.Model):
     name = models.CharField(max_length=50)
-    slug = AutoSlugField(populate_from='name', unique = True, null=True)
+    slug = AutoSlugField(populate_from='name', unique = True)
     clinic_address = models.TextField()
     city = models.ForeignKey(City)
     lat = models.FloatField(null=True, blank=True)
