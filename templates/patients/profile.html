@@ -1,7 +1,7 @@
 <!DOCTYPE html> 
 <html>
    <head>
-      {% load staticfiles %}
+      {% load static from staticfiles %}
       <link rel="shortcut icon" href="{% static "jquery_mobile/stethoscope.ico" %}" />
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="stylesheet" href="{% static "jquery_mobile/jquery.mobile-1.4.4.min.css" %}" rel="stylesheet" type="text/css" />
@@ -95,7 +95,7 @@
                      </center></li><br>
                      {% if data.patient.favt_practitioner.all.exists %}
                      <li><span class="marg-r"><strong>Name</strong></span></li>
-                     <li><span class="marg-l"><strong>Specialist</strong></span></li><br>
+                     <li><span style="margin-left: 100px;"><strong>Specialist</strong></span></li><br>
                      {% for practitioner in data.patient.favt_practitioner.all.iterator %}
                      <li><span class="marg-r">* {{practitioner.name}}</span></li>
                      {% for speciality in practitioner.specialities.all.iterator %}
@@ -116,17 +116,17 @@
                      <ul class="normalweight">
                      <li><center>
                         <h2><u>Subscibe for Specialities</u></h2>
-                     </center></li>
-                     <li class="float-right"><span><strong>Name</strong></span></li>
+                     </center></li><br>
+                     <li><span style="margin-left: 100px;"><strong>Name</strong></span></li><br>
                      <form action="{% url 'patient' %}" method="POST">{% csrf_token %}
                      {% if data.patient.interested_specialities.all.exists %}
                      {% for spec in data.patient.interested_specialities.all.iterator %}
-                        <li class="marg-r"><input type="checkbox" name="Subscribe" value="" checked>
+                        <li class="marg-r"><input type="checkbox" name="favt-spec" value="{{spec.name}}" checked>
                         <span>{{spec.name}}</span></li>
                      {% endfor %}
                      {% else %}
                      {% for spec in data.specialities.iterator %}
-                        <li class="marg-r"><input type="checkbox" name="Subscribe" value="">
+                        <li class="marg-r"><input type="checkbox" name="spec" value="{{spec.name}}">
                         <span>{{spec.name}}</span></li>
                      {% endfor %}
                      {% endif %}

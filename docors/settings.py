@@ -1,7 +1,9 @@
 #from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 from django.conf import global_settings
 import os
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+#BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
@@ -93,22 +95,23 @@ USE_L10N = True
 
 USE_TZ = True
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-STATIC_ROOT = 'staticfiles'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR, 'templates'),
+    os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")), "templates"),
 )
+
+#Gzip caching
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
-
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
-
 
 
 '''

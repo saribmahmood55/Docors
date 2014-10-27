@@ -2,7 +2,7 @@
 <!DOCTYPE html> 
 <html>
 <head>
-{% load staticfiles %}
+{% load static from staticfiles %}
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="shortcut icon" href="{% static "jquery_mobile/stethoscope.ico" %}" />
 <link rel="stylesheet" href="{% static "jquery_mobile/jquery.mobile-1.4.4.min.css" %}" rel="stylesheet" type="text/css" />
@@ -16,7 +16,7 @@
 	<img class="marg-r" src="{% static "icons/stethoscope.png" %}" height="18" width="18" />doctorsinfo.pk</a></h1>
 </div>
 {% if form.errors %}
-<p class="error">Please correct the errors below:</p>
+<p class="error">Incorrect User Name or Password:</p>
 {% endif %}
 <form method="post" action="?next={{ next|default:"/" }}">{% csrf_token %}
 <dl>
