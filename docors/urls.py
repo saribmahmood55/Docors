@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, url, include
 from django.contrib import admin
+from docors import settings
 from . import views
 from django.contrib.auth.models import User
 from django.views.generic import TemplateView
@@ -16,3 +17,8 @@ urlpatterns = patterns('',
     url(r'^password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', 'django.contrib.auth.views.password_reset_confirm', {'post_reset_redirect' : '/password/done/'}),
     url(r'^password/done/$', 'django.contrib.auth.views.password_reset_complete'),
 )
+
+if not settings.DEBUG:
+    urlpatterns += patterns('',
+        (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
+    )
