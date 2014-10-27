@@ -14,7 +14,7 @@ SECRET_KEY = 'zky%mapoo709@yv64h!ny#!7x8#&lh0o9nsfo++ny6+7gotp^r'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-TEMPLATE_DEBUG = False
+TEMPLATE_DEBUG = True
 
 #ALLOWED_HOSTS = []
 
@@ -70,6 +70,11 @@ WSGI_APPLICATION = 'docors.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
+
+import dj_database_url
+DATABASES = {'default': dj_database_url.config()}
+
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -77,9 +82,10 @@ DATABASES = {
         'USER': 'asadrana',
         'PASSWORD': 'asad0321',
         'HOST': 'localhost',
-        'PORT': '5432',
+        'PORT': '',
     }
 }
+'''
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
@@ -96,11 +102,10 @@ USE_L10N = True
 USE_TZ = True
 
 
-
 # Parse database configuration from $DATABASE_URL
-import dj_database_url
-DATABASES['default'] =  dj_database_url.config()
-
+'''
+DATABASES = {'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))}
+'''
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
@@ -120,33 +125,3 @@ STATICFILES_DIRS = (
 TEMPLATE_DIRS = (
     os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")), "templates"),
 )
-
-'''
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = '/static/'
-
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
-TEMPLATE_DIRS = (
-    os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")), "templates"),
-)
-
-#Gzip caching
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
-
-
-# Simplified static file serving.
-# https://warehouse.python.org/project/whitenoise/
-'''
-
-'''
-STATIC_URL = '/static/'
-TEMPLATE_DIRS = (
-    os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")), "templates"),
-)
-STATICFILES_DIRS = (
-    os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")), "project_static/"),
-)
-'''
