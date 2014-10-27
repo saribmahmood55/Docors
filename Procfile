@@ -1,1 +1,1 @@
-web: gunicorn docors.wsgi --workers $WEB_CONCURRENCY
+web: gunicorn docors.wsgi --workers --log-file -
