@@ -22,7 +22,7 @@ if DEBUG:
 else:
    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-#STATIC_URL = '/static/'
+STATIC_URL = '/static/'
 
 
 #Sites
@@ -110,16 +110,12 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # Allow all host headers
 ALLOWED_HOSTS = ['*']
 
-# Static asset configuration
-#import os
-#BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-#STATIC_ROOT = 'staticfiles'
-
+STATIC_ROOT = 'staticfiles'
+STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
-
 TEMPLATE_DIRS = (
     os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")), "templates"),
 )
