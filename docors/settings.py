@@ -1,8 +1,7 @@
 #from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 from django.conf import global_settings
 import os
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-#BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
 # Quick-start development settings - unsuitable for production
@@ -22,7 +21,6 @@ if DEBUG:
 else:
    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-STATIC_URL = '/static/'
 
 
 #Sites
@@ -104,23 +102,23 @@ USE_L10N = True
 
 USE_TZ = True
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.6/howto/static-files/
+
+
+# Parse database configuration from $DATABASE_URL
+DATABASES['default'] =  dj_database_url.config()
+
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Allow all host headers
 ALLOWED_HOSTS = ['*']
 
-STATIC_ROOT = 'staticfiles'
+# Static asset configuration
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
-TEMPLATE_DIRS = (
-    os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")), "templates"),
-)
-
-# Parse database configuration from $DATABASE_URL
-'''
-DATABASES = {'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))}
-'''
