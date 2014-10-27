@@ -1,6 +1,8 @@
 #from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 from django.conf import global_settings
 import os
+import dj_database_url
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -19,8 +21,7 @@ TEMPLATE_DEBUG = DEBUG
 if DEBUG: 
    STATIC_ROOT = os.path.join(BASE_DIR, '/static')
 else:
-   STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
+   STATIC_ROOT = os.path.join(BASE_DIR, 'static') 
 
 
 #Sites
@@ -75,10 +76,6 @@ WSGI_APPLICATION = 'docors.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
-import dj_database_url
-DATABASES = {'default': dj_database_url.config()}
-
-'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -89,10 +86,12 @@ DATABASES = {
         'PORT': '',
     }
 }
-'''
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
+
 LANGUAGE_CODE = 'en-us'
+
 #TIME_ZONE = 'UTC'
 TIME_ZONE = 'Asia/Karachi'
 
@@ -104,6 +103,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
+
+STATIC_URL = '/static/'
 
 
 # Parse database configuration from $DATABASE_URL
@@ -117,8 +118,13 @@ ALLOWED_HOSTS = ['*']
 
 # Static asset configuration
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
+)
+
+TEMPLATE_DIRS = (
+    os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")), "templates"),
 )
