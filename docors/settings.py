@@ -17,8 +17,7 @@ TEMPLATE_DEBUG = True
 ALLOWED_HOSTS = []
 
 #
-#LOGIN_REDIRECT_URL = '/'
-LOGIN_REDIRECT_URL = '/auth/logged_in'
+LOGIN_REDIRECT_URL = '/'
 
 #GMAIL
 EMAIL_HOST = 'smtp.gmail.com'
@@ -38,7 +37,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-    'django.contrib.gis',
     'registration',
     'practitioner',
     'patients',
