@@ -20,12 +20,17 @@ TEMPLATE_DEBUG = DEBUG
 if DEBUG: 
    STATIC_ROOT = os.path.join(BASE_DIR, '/static')
 else:
-   STATIC_ROOT = os.path.join(BASE_DIR, 'static') 
+   STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+#STATIC_URL = '/static/'
 
 
-#ALLOWED_HOSTS = []
+#Sites
+SITE_ID = 1
 
-#
+#Registration
+ACCOUNT_ACTIVATION_DAYS = 7
+REGISTRATION_OPEN = True
 LOGIN_REDIRECT_URL = '/'
 
 #GMAIL
@@ -51,12 +56,6 @@ INSTALLED_APPS = (
     'patients',
     'reviews'
 )
-
-SITE_ID = 1
-
-#Registration
-ACCOUNT_ACTIVATION_DAYS = 7
-REGISTRATION_OPEN = True
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -93,12 +92,9 @@ DATABASES = {
     }
 }
 '''
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
-
 #TIME_ZONE = 'UTC'
 TIME_ZONE = 'Asia/Karachi'
 
@@ -108,11 +104,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-# Parse database configuration from $DATABASE_URL
-'''
-DATABASES = {'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))}
-'''
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
@@ -120,10 +111,10 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 ALLOWED_HOSTS = ['*']
 
 # Static asset configuration
-import os
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-STATIC_ROOT = 'staticfiles'
-STATIC_URL = '/static/'
+#import os
+#BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+#STATIC_ROOT = 'staticfiles'
+
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
@@ -132,3 +123,8 @@ STATICFILES_DIRS = (
 TEMPLATE_DIRS = (
     os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")), "templates"),
 )
+
+# Parse database configuration from $DATABASE_URL
+'''
+DATABASES = {'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))}
+'''

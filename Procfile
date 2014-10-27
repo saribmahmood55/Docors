@@ -1,1 +1,1 @@
-web: gunicorn docors.wsgi --log-file -
+web: python docors/manage.py collectstatic --noinput; bin/gunicorn_django --workers=4 --bind=0.0.0.0:$PORT docors/settings.py
