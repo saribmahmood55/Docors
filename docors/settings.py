@@ -93,19 +93,30 @@ USE_L10N = True
 
 USE_TZ = True
 
-##STATICFILES_FINDERS = ("django.contrib.staticfiles.finders.FileSystemFinder",
-## "django.contrib.staticfiles.finders.AppDirectoriesFinder")
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.7/howto/static-files/
-#PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../"))
-#STATIC_ROOT = os.path.join(PROJECT_ROOT, "static/")
-
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR, 'templates'),
+)
+
+# Simplified static file serving.
+# https://warehouse.python.org/project/whitenoise/
+
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+
+
+'''
+STATIC_URL = '/static/'
 TEMPLATE_DIRS = (
     os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")), "templates"),
 )
 STATICFILES_DIRS = (
     os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")), "project_static/"),
 )
+'''
