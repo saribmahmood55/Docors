@@ -9,6 +9,28 @@ local_path = lambda path: os.path.join(os.path.dirname(__file__), path)
 #DATABASE_URL = "postgres://jimfzyyxmmgphs:igHjaN9x_SbjCzgsEs21yfVrsz@ec2-54-204-37-92.compute-1.amazonaws.com:5432/dd9m18h1llbkph"
 #BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+import os, sys, urlparse
+urlparse.uses_netloc.append('postgres')
+urlparse.uses_netloc.append('mysql')
+try:
+    if os.environ.has_key('DATABASE_URL'):
+        url = urlparse.urlparse(os.environ['DATABASE_URL'])
+        DATABASES['default'] = {
+            'NAME':     url.path[1:],
+            'USER':     url.username,
+            'PASSWORD': url.password,
+            'HOST':     url.hostname,
+            'PORT':     url.port,
+        }
+        if url.scheme == 'postgres':
+            DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
+        if url.scheme == 'mysql':
+            DATABASES['default']['ENGINE'] = 'django.db.backends.mysql'
+except:
+    print "Unexpected error:", sys.exc_info()
+
+
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
@@ -99,6 +121,7 @@ TEMPLATE_DIRS = (
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -109,7 +132,7 @@ DATABASES = {
         'PORT': '',
     }
 }
-
+'''
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
@@ -126,11 +149,14 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
-
+'''
+import dj_database_url  # add this to requirements.txt
+DATABASES = {'default': dj_database_url.config(default='postgres://localhost')}
+'''
 
 # Parse database configuration from $DATABASE_URL
 #DATABASES = {'default': dj_database_url.config(default=DATABASE_URL)}
-DATABASES['default'] =  dj_database_url.config()
+#DATABASES['default'] =  dj_database_url.config()
 
 #DATABASES = {'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))}
 
