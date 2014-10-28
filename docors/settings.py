@@ -79,7 +79,6 @@ import dj_database_url
 DATABASES = {
 'default': dj_database_url.config(default='postgres://jimfzyyxmmgphs:igHjaN9x_SbjCzgsEs21yfVrsz@ec2-54-204-37-92.compute-1.amazonaws.com:5432/dd9m18h1llbkph')
 }
-
 '''
 DATABASES = {
     'default': {
@@ -107,8 +106,6 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Parse database configuration from $DATABASE_URL
-
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
@@ -134,24 +131,6 @@ TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )
 
-
-
-
-# Static asset configuration
-'''
-import os
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-STATIC_ROOT = 'staticfiles'
-STATIC_URL = '/static/'
-
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
-TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR, 'templates'),
-)
-'''
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -175,3 +154,18 @@ LOGGING = {
         },
     }
 }
+
+# Static asset configuration
+'''
+import os
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = 'staticfiles'
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR, 'templates'),
+)
+'''

@@ -1,9 +1,22 @@
 {% extends "registration/base.html" %}
-
-{% block title %}Sign up{% endblock %}
-
+<!DOCTYPE html> 
+<html>
+<head>
+  {% load staticfiles %}
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="{% static "icons/stethoscope.ico" %}" />
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+  <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.css" />
+  <script src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.js"></script>
+  <link rel="stylesheet" href="{% static "style/style.css" %}"rel="stylesheet" type="text/css" />
+</head>
+<body>
 {% block content %}
-
+<div data-role="page" data-title="Sign Up. | doctorsinfo.pk">
+<div data-role="header">
+  <h1><a href="/" class="anchor-link" >
+  <img class="marg-r" src="{% static "icons/stethoscope.png" %}" height="18" width="18" />doctorsinfo.pk</a></h1>
+</div>
   {% if form.errors %}
   <p class="errors">Please correct the errors below: {{ form.non_field_errors }}</p>
   {% endif %}
@@ -13,7 +26,7 @@
   <form method="post" action="" class="wide">
 	{% csrf_token %}
     <p>
-      <label for="id_username">Username:</label>
+      <label for="id_username">Username: (alphanumeric)</label>
       {% if form.username.errors %}
         <p class="errors">{{ form.username.errors.as_text }}</p>
       {% endif %}
@@ -27,7 +40,7 @@
       {{ form.email }}
     </p>
     <p>
-      <label for="id_password1">Password:</label>
+      <label for="id_password1">Password: (alphanumeric)</label>
       {% if form.password1.errors %}
         <p class="errors">{{ form.password1.errors.as_text }}</p>
       {% endif %}
@@ -56,3 +69,6 @@ as much as you do.</p>
 <p>This account will let you log into the ticket tracker, claim tickets,
 and be exempt from spam filtering.</p>
 {% endblock %}
+</div>
+</body>
+</html>
