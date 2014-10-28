@@ -1,10 +1,9 @@
 #from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 from django.conf import global_settings
 import os
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 boolean = lambda value: bool(int(value))
-local_path = lambda path: os.path.join(os.path.dirname(__file__), path)
+#local_path = lambda path: os.path.join(os.path.dirname(__file__), path)
 
 
 # Quick-start development settings - unsuitable for production
@@ -14,29 +13,13 @@ local_path = lambda path: os.path.join(os.path.dirname(__file__), path)
 SECRET_KEY = 'zky%mapoo709@yv64h!ny#!7x8#&lh0o9nsfo++ny6+7gotp^r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = boolean(os.environ.get('DEBUG', 0))
+DEBUG = boolean(os.environ.get('DEBUG', 1))
 TEMPLATE_DEBUG = DEBUG
 
-# List of callables that know how to import templates from various sources.
-if not DEBUG:
-    TEMPLATE_LOADERS = (
-        ('django.template.loaders.cached.Loader', (
-            'django.template.loaders.filesystem.Loader',
-            'django.template.loaders.app_directories.Loader',
-        )),
-    )
-else:
-    TEMPLATE_LOADERS = (
-        'django.template.loaders.filesystem.Loader',
-        'django.template.loaders.app_directories.Loader',
-    )
 
-'''
-if DEBUG: 
-   STATIC_ROOT = os.path.join(BASE_DIR, '/static')
-else:
-   STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-'''
+ADMINS = (
+    ('Asad Naeem', 'doctorsinfo.pk@gmail.com'),
+)
 
 #Sites
 SITE_ID = 1
@@ -93,6 +76,17 @@ WSGI_APPLICATION = 'docors.wsgi.application'
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 DATABASES = {
     'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', 
+        'NAME': 'dd9m18h1llbkph',                     
+        'USER': 'jimfzyyxmmgphs',
+        'PASSWORD': 'igHjaN9x_SbjCzgsEs21yfVrsz',
+        'HOST': 'ec2-54-204-37-92.compute-1.amazonaws.com', # Or something like this
+        'PORT': '5432',                     
+    }
+}
+'''
+DATABASES = {
+    'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'doctors_',
         'USER': 'asadrana',
@@ -101,6 +95,7 @@ DATABASES = {
         'PORT': '',
     }
 }
+'''
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
@@ -115,11 +110,18 @@ USE_L10N = True
 
 USE_TZ = True
 
+
+# Simplified static file serving.
+# https://warehouse.python.org/project/whitenoise/
+
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 # Parse database configuration from $DATABASE_URL
+
+'''
 import dj_database_url
 DATABASES['default'] =  dj_database_url.config()
+'''
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -138,5 +140,29 @@ STATICFILES_DIRS = (
 )
 
 TEMPLATE_DIRS = (
-    os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")), "templates"),
+    os.path.join(BASE_DIR, 'templates'),
+    #os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")), "templates"),
 )
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler'
+        }
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    }
+}
