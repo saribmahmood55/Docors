@@ -5,7 +5,6 @@ import os
 boolean = lambda value: bool(int(value))
 #local_path = lambda path: os.path.join(os.path.dirname(__file__), path)
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
@@ -74,15 +73,12 @@ WSGI_APPLICATION = 'docors.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
+
+#heroku
+'''
+import dj_database_url
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', 
-        'NAME': 'dd9m18h1llbkph',                     
-        'USER': 'jimfzyyxmmgphs',
-        'PASSWORD': 'igHjaN9x_SbjCzgsEs21yfVrsz',
-        'HOST': 'ec2-54-204-37-92.compute-1.amazonaws.com', # Or something like this
-        'PORT': '5432',                     
-    }
+'default': dj_database_url.config(default='postgres://jimfzyyxmmgphs:igHjaN9x_SbjCzgsEs21yfVrsz@ec2-54-204-37-92.compute-1.amazonaws.com:5432/dd9m18h1llbkph')
 }
 '''
 DATABASES = {
@@ -95,7 +91,6 @@ DATABASES = {
         'PORT': '',
     }
 }
-'''
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
@@ -113,15 +108,9 @@ USE_TZ = True
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
-
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 # Parse database configuration from $DATABASE_URL
-
-'''
-import dj_database_url
-DATABASES['default'] =  dj_database_url.config()
-'''
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
