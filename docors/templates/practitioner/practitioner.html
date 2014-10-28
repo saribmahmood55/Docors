@@ -55,23 +55,18 @@
 		<li><center><h2>Clinic Details.</h2></center></li>
 		<li><center><h3>{{pract.practise_location.name}}</h3></center></li><br>
 		<li><span class="marg-r">fee:</span><span><strong>{{pract.checkup_fee}} rs.</strong></span></li><br>
-		<li><img src="{% static "icons/phone.png" %}" class="icon" height="20" width="20" /></li>
-		<span>{{pract.contact_number}}</span><br>
-		<li><img src="{% static "icons/app.png" %}" class="icon" title="Appointment Required ?" height="20" width="20" /></li>
-		{% if pract.appointments_only %}
-		<span class="small-font">Appointment Only: Yes.</span><br>
+		<li class="phone-icon"><span>{{pract.contact_number}}</span></li><br>
+		<li class="appointment-icon">{% if pract.appointments_only %}
+		<span>Appointment Only: Yes.</span><br>
 		{% else %}
 		<span>First Come First Serve.</span><br>
-		{% endif %}
-		<li><img src="{% static "icons/address_.png" %}" class="icon" height="22" width="18" /></li>
-		<span>{{pract.practise_location.clinic_address}}, <strong>{{pract.practise_location.city.name}}</strong></span><br>
-		<li><img src="{% static "icons/stethoscope.png" %}" class="icon" title="Services Offered." height="20" width="20" /></li>
-		<span>{{pract.services}}</span><br><br>
+		{% endif %}</li>
+		<li class="location-icon"><span>{{pract.practise_location.clinic_address}}, <strong>{{pract.practise_location.city.name}}</strong></span></li><br>
+		<li class="services-icon"><span>{{pract.services}}</span><br></li><br>
 		{% if pract.practise_location.lat and pract.practise_location.lon %}
-		<li class="float-right">
-			<a href="http://maps.google.com/maps?z=12&t=m&q={{pract.practise_location.lat}},{{pract.practise_location.lon}}" target="_blank" class="anchor-link">
-			<img src="{% static "icons/map1.png" %}" title="Services Offered." class="icon" height="24" width="24" /></a>
-		</li>{% endif %}</ul>
+		<li class="map-icon">
+			<a href="http://maps.google.com/maps?z=12&t=m&q={{pract.practise_location.lat}},{{pract.practise_location.lon}}" target="_blank" class="anchor-link"></a></li>{% endif %}
+		</ul>
 		</div></div>
 		{% endfor %}
 		{% endif %}

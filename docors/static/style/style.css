@@ -35,12 +35,18 @@ h1 { font-size: 20px;}
 
 /*	grid design General*/
 
+.ui-bar { padding: 0;}
 .ui-block-a { clear: none;}
-.ui-grid-b { font-size: 16px;  }
-.ui-bar-a{ border-radius: 1em; }
+.ui-grid-b { font-size: 16px; }
 .ctbg { background-color: #94cbc6;} 
 .lightgreen-bg {background-color: #DCEDC6;}
 
+/*clinic details */
+.phone-icon{ background-image: url('/images/phone.png');}
+.appointment-icon{ background-image: url('../images/appointment.png'); padding-right: 10px;}
+.location-icon{ background-image: url('../images/address.png'); padding-right: 10px;}
+.services-icon{ background-image: url('../images/service.png'); padding-right: 10px;}
+.map-icon{ background-image: url('../images/map.png'); float: right; padding-right: 10px;}
 
 #post-review-btn{	width: 90px; height: 40px; color: #3eb249; float: right; padding: 0px; margin-top: 15px;}
 #practitionerDetails{	float: none;	text-align: center; margin: 10px auto;}
