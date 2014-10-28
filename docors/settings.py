@@ -3,7 +3,6 @@ from django.conf import global_settings
 import os
 
 boolean = lambda value: bool(int(value))
-#local_path = lambda path: os.path.join(os.path.dirname(__file__), path)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
@@ -12,7 +11,7 @@ boolean = lambda value: bool(int(value))
 SECRET_KEY = 'zky%mapoo709@yv64h!ny#!7x8#&lh0o9nsfo++ny6+7gotp^r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = boolean(os.environ.get('DEBUG', 1))
+DEBUG = boolean(os.environ.get('DEBUG', 0))
 TEMPLATE_DEBUG = DEBUG
 
 
@@ -75,11 +74,12 @@ WSGI_APPLICATION = 'docors.wsgi.application'
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
 #heroku
-'''
+
 import dj_database_url
 DATABASES = {
 'default': dj_database_url.config(default='postgres://jimfzyyxmmgphs:igHjaN9x_SbjCzgsEs21yfVrsz@ec2-54-204-37-92.compute-1.amazonaws.com:5432/dd9m18h1llbkph')
 }
+
 '''
 DATABASES = {
     'default': {
@@ -91,6 +91,7 @@ DATABASES = {
         'PORT': '',
     }
 }
+'''
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
@@ -106,10 +107,6 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Simplified static file serving.
-# https://warehouse.python.org/project/whitenoise/
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
-
 # Parse database configuration from $DATABASE_URL
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
@@ -118,7 +115,30 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # Allow all host headers
 ALLOWED_HOSTS = ['*']
 
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
+#Testing
+PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_URL = '/static/'
+
+import os
+STATIC_ROOT = os.path.join(os.getcwd(), "staticfiles")
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_PATH, 'static'),
+)
+
+TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR, 'templates'),
+)
+
+
+
+
 # Static asset configuration
+'''
 import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = 'staticfiles'
@@ -127,11 +147,11 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
-
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
-    #os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")), "templates"),
 )
+'''
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
