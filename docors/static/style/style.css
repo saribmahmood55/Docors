@@ -1,0 +1,79 @@
+/* style sheet	fonts: open sans, Lato, Ubuntu, Droid Serif #0099FF #610B5E #DCEDC8 #94cbc6*/
+
+
+body{font-family: Arial;}
+p {	font-weight: normal; }
+ul{ list-style-type: none;}
+ul li {list-style-type: none; display: inline;}
+ul a {    list-style-type: none;}
+h1 { font-size: 20px;}
+.ui-bar h2 { font-size: 16px;}
+.ui-bar h3 { font-size: 14px;}
+
+/* General */
+
+.container {height: 530px;}
+#content{	text-align: none;	margin: 0% 1%; }
+.ui-header .ui-title { margin: 0%;}
+#head { float: right; margin: -35px 20px 0px 0px;}
+.anchor-link {	text-decoration: none !important;	color: #1B0A2A !important;}
+.anchor-link a:hover {	color: #ffffff; }
+#user { float:right; text-decoration: none; color: #000000; background-color: #DCEDC6;}
+.anchor-link-right {	float:right; text-decoration: none !important; color: #000000 !important; }
+.anchor-link-right a:hover { color: #ffffff; }
+.loginSignup { margin: 30px auto;}
+.float-right{ float: right;}
+.float-left{ float: left;}
+.textCentre { text-align: center;}
+#search-btn{	width: 90px; height: 40px; color: #3eb249; margin: 0px auto; padding: 0px;}
+.icon{ padding-right: 10px;}
+.marg-r{ padding-right: 10px; } 
+.marg-l{ padding-left: 10px; }
+.marg-b{ padding-right: 10px; } 
+.marg-t{ padding-left: 10px; }
+
+
+/*	grid design General*/
+
+.ui-block-a { clear: none;}
+.ui-grid-b { font-size: 16px;  }
+.ui-bar-a{ border-radius: 1em; }
+.ctbg { background-color: #94cbc6;} 
+.lightgreen-bg {background-color: #DCEDC6;}
+
+
+#post-review-btn{	width: 90px; height: 40px; color: #3eb249; float: right; padding: 0px; margin-top: 15px;}
+#practitionerDetails{	float: none;	text-align: center; margin: 10px auto;}
+.clinicDetails{	width: 300px !important; float: left; margin: 10px 5px;}
+.clinicTimingsDetails{	width: 300px !important; float: left; margin: 10px 5px;}
+.practitionerReviews{ width: 300px !important; float: left; height: 300px !important;	margin: 10px 5px; overflow-y:auto; }
+#reviewBox {width: 250px; float: right;}
+.small-font {font-size: 13px;}
+
+
+/* Patient Profile	*/
+
+#update-btn{	float: right; width: 90px; height: 40px; color: #3eb249; margin: 0px auto; padding: 0px;}
+#patient-profile{	width: 30%; float: left; margin: 10px; }
+#patient-reviews{	width: 30%; float: left; margin: 10px;}
+#favourite-pracs{	width: 30%; float: left; margin: 10px;}
+#subscribe-spec{	width: 30%; float: left; margin: 10px;}
+.inline_ { display: inline; padding: 0px; margin: 0px;}
+.normalweight { font-weight: normal;}
+
+/* Responsive for mobile devices */
+
+@media only screen and (max-width: 767px) {
+p {	font-weight: normal;}
+h1 { font-size: 18px;}
+.container {height: 385px !important;}
+.ui-grid-b { font-size: 14px;}
+#head { float: right; margin: -30px 10px 0px 0px;}
+.container {height: 100%;}
+.anchor-link-right {	float:right; text-decoration: none; color: #000000;  font-size: 12px;}
+
+#patient-profile{	width: 320px; float: left; margin: 10px;  font-weight: normal;}
+#patient-profile table{ font-weight: normal;}
+#mapDetails{	width: 330px;	margin: 20px auto;}
+#googleMap{	width: 310px;	height: 350px;}
+}
