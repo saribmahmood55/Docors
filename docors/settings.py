@@ -117,16 +117,16 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
-#Dj static url
-PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
 STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = (
-    os.path.join(PROJECT_PATH, 'static'),
-)
+import os
+
+PROJECT_DIR = os.path.dirname(__file__)
+
+STATICFILES_DIRS = (os.path.join(PROJECT_DIR, 'static'),)
+
+#BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 '''
 #Testing
