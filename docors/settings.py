@@ -1,6 +1,8 @@
 #from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 from django.conf import global_settings
+#import dj_database_url
 import os
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 boolean = lambda value: bool(int(value))
 
@@ -34,6 +36,30 @@ EMAIL_HOST_PASSWORD = 'qtmtzmguforqkfkt'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler'
+        }
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    }
+}
 
 # Application definition
 INSTALLED_APPS = (
@@ -106,72 +132,15 @@ USE_L10N = True
 USE_TZ = True
 
 
+STATIC_URL = '/static/'
+
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Allow all host headers
 ALLOWED_HOSTS = ['*']
 
-STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-)
-
-STATIC_ROOT = 'staticfiles'
-STATIC_URL = '/static/'
-
-import os
-
-PROJECT_DIR = os.path.dirname(__file__)
-
-STATICFILES_DIRS = (os.path.join(PROJECT_DIR, 'static'),)
-
-#BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-'''
-#Testing
-PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-STATIC_URL = '/static/'
-
-import os
-STATIC_ROOT = os.path.join(os.getcwd(), "staticfiles")
-STATICFILES_DIRS = (
-    os.path.join(PROJECT_PATH, 'static'),
-)
-'''
-
-TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR, 'templates'),
-)
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        }
-    },
-    'handlers': {
-        'mail_admins': {
-            'level': 'ERROR',
-            'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler'
-        }
-    },
-    'loggers': {
-        'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
-            'propagate': True,
-        },
-    }
-}
-
 # Static asset configuration
-'''
-import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
@@ -179,7 +148,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )
-'''
+
