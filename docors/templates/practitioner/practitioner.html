@@ -47,7 +47,7 @@
 		{% if data.practise.exists %}
 		{% for pract in data.practise.iterator %}
 	<div class="grid-name">
-		<h2>{{pract.practise_location.name}}</h2>
+		<h2 style="background-color: #51CA5F;">{{pract.practise_location.name}}</h2>
 		<div class="clinicDetails">
 		<ul>
 		<li><i class="fa fa-money money"></i><span><strong>{{pract.checkup_fee}} rs.</strong></span></li><br>
@@ -67,19 +67,19 @@
 		{% endif %}
 
 	<!-- Clinic Timings Details -->
-	<div style="background-color: #4b555d;" class="grid-name">
-		<h2>Practise Timing Details</h2>
+	<div class="grid-name">
+		<h2 style="background-color: #4b555d;">Practise Timing Details</h2>
 	{% if data.practise_timing %}
 	<div class="clinicTimingsDetails">
 		<ul>
 		{% for oneClinic in data.practise_timing %}
 			<li><h3>{{ oneClinic.name }}</h3></li>
-			<span class="marg-r-ct"><strong>Day</strong></span>
-			<span class="marg-r-ct"><strong>Opens</strong></span>
+			<span class="marg-r-day"><strong>Day</strong></span>
+			<span class="marg-r-open"><strong>Opens</strong></span>
 			<span><strong>Closes</strong></span><br>
 			{% for clinicTime in oneClinic.timing %}
-			<span class="marg-r-ct">{{clinicTime.day}}</span>
-			<span class="marg-r-ct">{{clinicTime.start_time}}</span>
+			<span class="marg-r-day">{{clinicTime.day}}</span>
+			<span class="marg-r-open">{{clinicTime.start_time}}</span>
 			<span>{{clinicTime.end_time}}</span><br>
 			{% endfor %}
 			<br>
@@ -90,8 +90,8 @@
 	</div>
 
 	<!-- Practitioner Reviews Details -->
-	<div class="grid-name" style="background-color: #4b555d;">
-		<h2>Practise Reviews</h2>
+	<div class="grid-name">
+		<h2 style="background-color: #4b555d;">Practise Reviews</h2>
 	<div class="practitionerReviews">
 	{% if data.reviews.exists %}
 	{% for pr in data.reviews.iterator %}

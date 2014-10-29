@@ -26,7 +26,7 @@ h1 { font-size: 20px;}
 .textCentre { text-align: center;}
 #search-btn{	width: 90px; height: 40px; color: #3eb249; margin: 0px auto; padding: 0px;}
 .marg-r{ padding-right: 10px; }  .marg-l{ padding-left: 10px; } .marg-b{ padding-right: 10px; } .marg-t{ padding-left: 10px; }
-.marg-r-ct { padding-right: 15px;}
+.marg-r-day { padding-right: 20px;} .marg-r-open { padding-right: 15px;}
 
 /* Practitioner details */
 .money { padding-right: 10px;}
@@ -39,19 +39,21 @@ h1 { font-size: 20px;}
 
 #practitionerDetails{ padding: 0; float: none;	text-align: center; margin: 10px auto; font-weight: normal;}
 
-.grid-name { float: left; margin: 10px 5px 0px 0px; background-color: #51CA5F; color: #fff; 
-	width: 280px; height: 40px; border: 2px solid #DCEDC6; text-shadow: none;}
-.grid-name h2 { text-align: center; font-size: 15px; }
-.grid-name h3 { text-align: center; font-size: 15px; }
+.grid-name { float: left; margin: 0px 5px 10px 0px; width: 280px;  text-shadow: none;}
+.grid-name h2 { border: 2px solid #DCEDC6; color: #fff; text-align: center; font-size: 17px; 
+	height: 20px; margin-bottom: 10px; padding: 10px 0px;}
+.grid-name h3 { color: #000; text-align: center; font-size: 17px; padding: 0px;}
 
-.clinicDetails{	width: 280px; float: left; margin: 10px 0px 0px 0px; padding: 0; font-weight: normal; clear: none; 
+.clinicDetails{	width: 280px; float: left; padding: 0; font-weight: normal; clear: none; 
 	color: #000; background-color: #DCEDC6;}
 
-.clinicTimingsDetails{	width: 280px; float: left; margin: 10px 0px 10px 0px; text-shadow: none; clear: none; 
-	color: #000; background-color: #94cbc6; text-align: center;}
 
-.practitionerReviews{ width: 280px; float: left; height: 300px;	margin: 10px 0px 0px 0px; overflow-y:auto; padding: 5px;
+.clinicTimingsDetails{	width: 280px; float: left; text-shadow: none; clear: none; 
+	color: #000; background-color: #94cbc6; text-align: none;}
+
+.practitionerReviews{ width: 280px; float: left; height: 300px; overflow-y:auto; 
 	font-weight: normal; clear: none; background-color: #DCEDC6; color: #000;}
+.practitionerReviews span { padding: 5px;}
 
 #reviewBox {width: 250px; float: right; font-weight: normal;}
 #post-review-btn{	width: 90px; height: 40px; color: #3eb249; float: right; padding: 0px; margin-top: 15px;}
@@ -76,11 +78,13 @@ h1 { font-size: 20px;}
 
 @media only screen and (max-width: 767px) {
 p {	font-weight: normal;}
-h1 { font-size: 18px;}
-.container {height: 385px !important;}
+h1 { font-size: 10px !important;}
+.container {height: 410px !important;}
 #head { float: right; margin: -30px 10px 0px 0px;}
 .container {height: 100%;}
 .anchor-link-right {	float:right; text-decoration: none; color: #000000;  font-size: 12px;}
+
+.grid-name { float: none !important; margin: 10px auto !important;}
 
 #patient-profile{	width: 320px; float: left; margin: 10px;  font-weight: normal;}
 #patient-profile table{ font-weight: normal;}
