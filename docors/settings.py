@@ -131,10 +131,6 @@ USE_L10N = True
 USE_TZ = True
 
 
-STATIC_URL = '/static/'
-MEDIA_ROOT = '/home/asad/docors/docors/media/'
-MEDIA_URL = '/media/'
-
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
@@ -153,4 +149,3 @@ STATICFILES_DIRS = (
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )
-

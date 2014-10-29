@@ -80,6 +80,7 @@ class PractiseManager(models.Manager):
         #filter name
         if name != None and speciality == None:
             query = query.filter(practitioner__name__icontains=name)
+            print name
         #filter Speciality
         if speciality != None :
             query = query.filter(practitioner__specialities__slug=speciality)

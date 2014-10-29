@@ -1,4 +1,6 @@
-/* style sheet	fonts: open sans, Lato, Ubuntu, Droid Serif #0099FF #610B5E #DCEDC8 #94cbc6*/
+/* style sheet	fonts: open sans, Lato, Ubuntu, Droid Serif #0099FF #610B5E
+light green- DCEDC6, sky-blue: 94cbc6, pink- #F94877, orange- #FF9000
+*/
 
 
 body{font-family: Arial;}
@@ -7,14 +9,11 @@ ul{ list-style-type: none;}
 ul li {list-style-type: none; display: inline;}
 ul a {    list-style-type: none;}
 h1 { font-size: 20px;}
-.ui-bar h2 { font-size: 16px;}
-.ui-bar h3 { font-size: 14px;}
 
 /* General */
 
 .container {height: 530px;}
-#content{	text-align: none;	margin: 0% 1%; }
-.ui-header .ui-title { margin: 0%;}
+#content{	text-align: none;	margin: 0%; }
 #head { float: right; margin: -35px 20px 0px 0px;}
 .anchor-link {	text-decoration: none !important;	color: #1B0A2A !important;}
 .anchor-link a:hover {	color: #ffffff; }
@@ -26,36 +25,40 @@ h1 { font-size: 20px;}
 .float-left{ float: left;}
 .textCentre { text-align: center;}
 #search-btn{	width: 90px; height: 40px; color: #3eb249; margin: 0px auto; padding: 0px;}
-.icon{ padding-right: 10px;}
-.marg-r{ padding-right: 10px; } 
-.marg-l{ padding-left: 10px; }
-.marg-b{ padding-right: 10px; } 
-.marg-t{ padding-left: 10px; }
+.marg-r{ padding-right: 10px; }  .marg-l{ padding-left: 10px; } .marg-b{ padding-right: 10px; } .marg-t{ padding-left: 10px; }
+
+/* Practitioner details */
+.money { padding-right: 10px;}
+.phone { padding-right: 15px;}
+.calendar { padding-right: 8px;}
+.location-arrow { padding-right: 15px;}
+.medkit { padding-right: 12px;}
+.map-marker { float: right; padding: 0px 10px 10px 0px !important;}
 
 
-/*	grid design General*/
+#practitionerDetails{ padding: 0; float: none;	text-align: center; margin: 10px auto; font-weight: normal;}
 
-.ui-bar { padding: 0;}
-.ui-block-a { clear: none;}
-.ui-grid-b { font-size: 16px; }
-.ctbg { background-color: #94cbc6;} 
-.lightgreen-bg {background-color: #DCEDC6;}
+.grid-name { float: left; margin: 0px 5px 0px 0px; background-color: #51CA5F; color: #fff; font-size: 14px;
+	width: 280px; height: 20px; border: 2px solid #DCEDC6; padding: 10px 5px; text-shadow: none;}
+.grid-name .text-center { text-align: center; display: block; margin: 0px auto;}
 
-/*clinic details */
-.phone-icon{ background-image: url('/images/phone.png');}
-.appointment-icon{ background-image: url('../images/appointment.png'); padding-right: 10px;}
-.location-icon{ background-image: url('../images/address.png'); padding-right: 10px;}
-.services-icon{ background-image: url('../images/service.png'); padding-right: 10px;}
-.map-icon{ background-image: url('../images/map.png'); float: right; padding-right: 10px;}
+.clinicDetails{	width: 290px; float: left; margin: 20px 0px 10px 0px; padding: 0; font-weight: normal; clear: none; 
+	color: #000; background-color: #DCEDC6;}
 
+.clinicTimingsDetails{	width: 290px; float: left; margin: 20px 0px 10px 0px; text-shadow: none; clear: none; 
+	color: #000; background-color: #94cbc6; text-align: center;}
+
+.practitionerReviews{ width: 285px; float: left; height: 300px;	margin: 20px 0px 10px 0px; overflow-y:auto; padding: 5px;
+	font-weight: normal; clear: none; background-color: #DCEDC6; color: #000;}
+
+#reviewBox {width: 250px; float: right; font-weight: normal;}
 #post-review-btn{	width: 90px; height: 40px; color: #3eb249; float: right; padding: 0px; margin-top: 15px;}
-#practitionerDetails{	float: none;	text-align: center; margin: 10px auto;}
-.clinicDetails{	width: 300px !important; float: left; margin: 10px 5px;}
-.clinicTimingsDetails{	width: 300px !important; float: left; margin: 10px 5px;}
-.practitionerReviews{ width: 300px !important; float: left; height: 300px !important;	margin: 10px 5px; overflow-y:auto; }
-#reviewBox {width: 250px; float: right;}
 .small-font {font-size: 13px;}
 
+.vote {
+    color:white;
+    background-color:black;
+}
 
 /* Patient Profile	*/
 
@@ -73,7 +76,6 @@ h1 { font-size: 20px;}
 p {	font-weight: normal;}
 h1 { font-size: 18px;}
 .container {height: 385px !important;}
-.ui-grid-b { font-size: 14px;}
 #head { float: right; margin: -30px 10px 0px 0px;}
 .container {height: 100%;}
 .anchor-link-right {	float:right; text-decoration: none; color: #000000;  font-size: 12px;}

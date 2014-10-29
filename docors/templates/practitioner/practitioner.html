@@ -7,17 +7,16 @@
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
   <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.css" />
   <script src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.js"></script>
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
   <link rel="stylesheet" href="{% static "style/style.css" %}"rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<div data-role="page" data-title="{{data.practitioner.name}} | doctorsinfo.pk">
 <div data-role="header">
-	<h1><a href="/" class="anchor-link" >
-	<img class="marg-r" src="{% static "icons/stethoscope.png" %}" height="18" width="18" />doctorsinfo.pk</a></h1>
+	<h1><a href="/" class="anchor-link" ><i class="fa fa-stethoscope fa-1x marg-r"></i>doctorsinfo.pk</a></h1>
       <div id="head">
       {% if data.user.is_authenticated %}
-      <a href="{% url 'patient' %}" style: id="user" >
-        <img class="marg-r" src="{% static "icons/person.jpg" %}" height="22" width="22" />{{data.user.username}}</a>
+      <a href="{% url 'patient' %}" class="anchor-link"><i class="fa fa-user fa-1x marg-r"></i>{{data.user.username}}</a>
       {% else %}
         <a href="/login/" style: class="anchor-link-right" >Login</a>
       {% endif %}
@@ -36,7 +35,7 @@
 		{% else %}
 		<img class="anchor-link-right" title="Already favourited" src="{% static "icons/favt0.png" %}" height="32" width="32" />
 		{% endif %}
-		<h1>{{data.practitioner.name}}</h1>
+		<h1><i class="fa fa-user-md fa-1x marg-r"></i>{{data.practitioner.name}}</h1>
 		<span>{{data.practitioner.credentials}}</span><br>
 		<span>Specialized in: {% for speciality in data.practitioner.specialities.all.iterator %}
 		{{speciality.name}}</span><br>
@@ -44,85 +43,80 @@
 		<span>Experience: <strong>{{data.practitioner.experience}} years.</strong></span><br><br>
 		<span><strong>Achievements: </strong>{{data.practitioner.achievements}}</span><br><br>
 	</div>	
-
-	<div class="ui-grid-b">
 		<!-- Practise-Location Details -->
 		{% if data.practise.exists %}
 		{% for pract in data.practise.iterator %}
-		<div class="ui-block-a clinicDetails">
-		<div class="ui-bar ui-bar-a lightgreen-bg" >
-		<ul class="normalweight">
-		<li><center><h2>Clinic Details.</h2></center></li>
-		<li><center><h3>{{pract.practise_location.name}}</h3></center></li><br>
-		<li><span class="marg-r">fee:</span><span><strong>{{pract.checkup_fee}} rs.</strong></span></li><br>
-		<li class="phone-icon"><span>{{pract.contact_number}}</span></li><br>
-		<li class="appointment-icon">{% if pract.appointments_only %}
+		<div class="grid-name">
+		<span class="text-center"><strong>{{pract.practise_location.name}}</span></strong>
+		<div class="clinicDetails">
+		<ul>
+		<li><span><i class="fa fa-money money"></i><span><strong>{{pract.checkup_fee}} rs.</strong></span></li><br>
+		<li><i class="fa fa-phone phone"></i><span>{{pract.contact_number}}</span></li><br>
+		<li><i class="fa fa-calendar calendar"></i>{% if pract.appointments_only %}
 		<span>Appointment Only: Yes.</span><br>
-		{% else %}
-		<span>First Come First Serve.</span><br>
-		{% endif %}</li>
-		<li class="location-icon"><span>{{pract.practise_location.clinic_address}}, <strong>{{pract.practise_location.city.name}}</strong></span></li><br>
-		<li class="services-icon"><span>{{pract.services}}</span><br></li><br>
+		{% else %}<span>First Come First Serve.</span><br>{% endif %}</li>
+		<li><i class="fa fa-location-arrow location-arrow"></i><span>{{pract.practise_location.clinic_address}}, <strong>{{pract.practise_location.city.name}}</strong></span></li><br>
+		<li><i class="fa fa-medkit fa-1x medkit"></i></i><span>{{pract.services}}</span><br></li><br>
 		{% if pract.practise_location.lat and pract.practise_location.lon %}
-		<li class="map-icon">
-			<a href="http://maps.google.com/maps?z=12&t=m&q={{pract.practise_location.lat}},{{pract.practise_location.lon}}" target="_blank" class="anchor-link"></a></li>{% endif %}
+		<li>
+			<a href="http://maps.google.com/maps?z=12&t=m&q={{pract.practise_location.lat}},{{pract.practise_location.lon}}" target="_blank" class="anchor-link-right map-marker"><i class="fa fa-map-marker fa-2x"></i></a></li>{% endif %}
 		</ul>
-		</div></div>
+		</div>
+		</div>
 		{% endfor %}
 		{% endif %}
 
 	<!-- Clinic Timings Details -->
-	
+	<div style="background-color: #F94877;" class="grid-name">
+		<span class="text-center"><strong>Practise Timing Details</span></strong>
 	{% if data.practise_timing %}
-	<div class="ui-block-b clinicTimingsDetails">
-		<div class="ui-bar ui-bar-a ctbg normalweight textCentre">
-		<ul class="normalweight">
-		<li><center><h2>Clinic Timings.</h2></center></li>
+	<div class="clinicTimingsDetails">
+		<ul>
 		{% for oneClinic in data.practise_timing %}
-			<li><center><h3>{{ oneClinic.name }}</h3></center></li><br>
+			<li><span class="text-center">{{ oneClinic.name }}</span></li><br>
 			<span class="marg-r"><strong>Day</strong></span>
 			<span class="marg-r"><strong>Opens</strong></span>
-			<span class="marg-r"><strong>Closes</strong></span><br>
+			<span><strong>Closes</strong></span><br>
 			{% for clinicTime in oneClinic.timing %}
 			<span class="marg-r">{{clinicTime.day}}</span>
 			<span class="marg-r">{{clinicTime.start_time}}</span>
-			<span class="marg-r">{{clinicTime.end_time}}</span><br>
+			<span>{{clinicTime.end_time}}</span><br>
 			{% endfor %}
 			<br>
 		{% endfor %}
 		</ul>
-		</div>
 	</div>
 	{% endif %}
+	</div>
 
 	<!-- Practitioner Reviews Details -->
-	<div class="ui-block-c practitionerReviews">
-	<div class="ui-bar ui-bar-a">
+	<div class="grid-name" style="background-color: #FF9000;">
+		<span class="text-center"><strong>Patients Reviews</span></strong>
+	<div class="practitionerReviews">
 	{% if data.reviews.exists %}
-	<center><h2>Practitioner Reviews.</h2></center><br>
 	{% for pr in data.reviews.iterator %}
-	
 	<!-- user login and reviews are there-->
 	{% if data.user.is_authenticated %}
-	<p class="normalweight">
+	<p>
 	<span><b>{{pr.patient}}</b> says: '{{pr.review_text}}'</span>s<br>
 	<span class="float-right"><i>{{pr.review_date}}</i></span><br>
 	
 	<!-- review upVote-->
-	<center><div id="votes" class="inline_">
+	<div id="votes" class="inline_ text-center">
 	<form action="{% url 'review' pr.pk %}" class="inline_ up" >
-		<input class="marg-r" type="image" src="{% static "icons/up.png" %}" height="14" width="14" />
+		<i class="fa fa-angle-down vote"></i>
 	</form>
+
 	<!-- review downVote-->
 	<span class="up_votes marg-r">{{pr.up_votes}}</span>-
 	<span class="down_votes marg-l">{{pr.down_votes}}</span>
 	<form action="{% url 'review' pr.pk %}" class="inline_ down">
-		<input class="marg-l" type="image" src="{% static "icons/down.png" %}" height="14" width="14" />
-	</form><br></div></center></p>
+		<input data-icon="carat-d" class="marg-l" type="image" height="14" width="14" />
+	</form><br></div></p>
 	
 	<!-- No user login and reviews exists-->
 	{% else %}
-	<div class="normalweight textCentre">
+	<div>
 	<span class="float-left"><strong>{{pr.patient}}: </strong>'{{pr.review_text}}'</span><br>
 	<span class="marg-r"><strong>agree: {{pr.up_votes}}</strong></span>
 	<span class="marg-l"><strong>disagree: {{pr.down_votes}}</strong></span><br>
@@ -172,22 +166,22 @@
 	</div>
 	</div>
 	</div>
-	</div>
 	<!-- Footer Details -->
 	<div data-role="footer">
 	<h4>&copy; all rights reserved-2014 &reg;</h4>
 	</div>
-	</div>
+</div>
 <!-- Login SignUp -->
 <div data-role="page" id="loginSignup" data-theme="a" data-title="doctorsinfo.pk">
 <div data-role="header">
-<h1><a href="/" class="anchor-link" >
-  <img class="marg-r" src="{% static "icons/stethoscope.png" %}" height="18" width="18" />doctorsinfo.pk</a></h1>
+<h1><a href="/" class="anchor-link" ><i class="fa fa-stethoscope fa-1x marg-r"></i>doctorsinfo.pk</a></h1>
 </div>
 <div role="main" class="ui-content container" >
-<center><a href="/login/" class="ui-btn ui-corner-all ui-shadow loginSignup">Login</a></center>
-<center><a href="/register/" class="ui-btn ui-corner-all ui-shadow loginSignup">Sign Up</a></center>
-<center><a href="/password/reset/" class="ui-btn ui-corner-all ui-shadow loginSignup">Forgot Password</a></center>
+<div class="text-center">
+	<a href="/login/" class="ui-btn ui-corner-all ui-shadow loginSignup">Login</a>
+	<a href="/register/" class="ui-btn ui-corner-all ui-shadow loginSignup">Sign Up</a>
+	<a href="/password/reset/" class="ui-btn ui-corner-all ui-shadow loginSignup">Forgot Password</a>
+</div>
 
 <!--footer-->
 <div style="margin: auto auto;" data-role="footer">
