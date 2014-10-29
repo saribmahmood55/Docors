@@ -16,6 +16,12 @@ urlpatterns = patterns('',
     url(r'^password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', 'django.contrib.auth.views.password_reset_confirm', {'post_reset_redirect' : '/password/done/'}),
     url(r'^password/done/$', 'django.contrib.auth.views.password_reset_complete'),
 )
+
+urlpatterns += patterns('',
+ (r'^static/(?P.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
+ )
+
+'''
 if settings.DEBUG:
     # static files (images, css, javascript, etc.)
     urlpatterns += patterns('',
@@ -26,3 +32,4 @@ if not settings.DEBUG:
         (r'^static/(?P<path>.*)$', 'django.views.static.serve', {
         'document_root': settings.STATIC_ROOT}),
         )
+'''
