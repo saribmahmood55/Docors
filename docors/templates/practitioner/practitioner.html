@@ -42,13 +42,15 @@
 		{% endfor %}
 		<span>Experience: <strong>{{data.practitioner.experience}} years.</strong></span><br><br>
 		<span><strong>Achievements: </strong>{{data.practitioner.achievements}}</span><br><br>
-	</div>	
+	</div>
+
 		<!-- Practise-Location Details -->
+		
 		{% if data.practise.exists %}
 		{% for pract in data.practise.iterator %}
 	<div class="grid-name">
 		<h2 style="background-color: #51CA5F;">{{pract.practise_location.name}}</h2>
-		<div class="clinicDetails">
+		<div class="clinic">
 		<ul>
 		<li><i class="fa fa-money money"></i><span><strong>{{pract.checkup_fee}} rs.</strong></span></li><br>
 		<li><i class="fa fa-phone phone"></i><span>{{pract.contact_number}}</span></li><br>
@@ -70,17 +72,17 @@
 	<div class="grid-name">
 		<h2 style="background-color: #4b555d;">Practise Timing Details</h2>
 	{% if data.practise_timing %}
-	<div class="clinicTimingsDetails">
+	<div class="clinicTiming">
 		<ul>
 		{% for oneClinic in data.practise_timing %}
-			<li><h3>{{ oneClinic.name }}</h3></li>
-			<span class="marg-r-day"><strong>Day</strong></span>
+			<h3>{{ oneClinic.name }}</h3>
+			<li><span class="marg-r-day"><strong>Day</strong></span>
 			<span class="marg-r-open"><strong>Opens</strong></span>
-			<span><strong>Closes</strong></span><br>
+			<span><strong>Closes</strong></span><br></li>
 			{% for clinicTime in oneClinic.timing %}
-			<span class="marg-r-day">{{clinicTime.day}}</span>
-			<span class="marg-r-open">{{clinicTime.start_time}}</span>
-			<span>{{clinicTime.end_time}}</span><br>
+			<li><span class="marg-r">{{clinicTime.day}}</span>
+			<span class="marg-r">{{clinicTime.start_time}}</span>
+			<span>{{clinicTime.end_time}}</span></li><br>
 			{% endfor %}
 			<br>
 		{% endfor %}
@@ -92,7 +94,7 @@
 	<!-- Practitioner Reviews Details -->
 	<div class="grid-name">
 		<h2 style="background-color: #4b555d;">Practise Reviews</h2>
-	<div class="practitionerReviews">
+	<div class="reviews">
 	{% if data.reviews.exists %}
 	{% for pr in data.reviews.iterator %}
 	<!-- user login and reviews are there-->
@@ -101,18 +103,24 @@
 	<span><b>{{pr.patient}}</b> says: '{{pr.review_text}}'</span>s<br>
 	<span class="float-right"><i>{{pr.review_date}}</i></span><br>
 	
-	<!-- review upVote-->
+	<!-- review upVote--><!-- review downVote--><!-- review downVote--><!-- review downVote-->
+	<!-- review upVote--><!-- review downVote--><!-- review downVote--><!-- review downVote-->
+
 	<div id="votes" class="inline_">
+	
 	<form action="{% url 'review' pr.pk %}" class="inline_ up" >
-		<i class="fa fa-angle-down vote"></i>
+		<i class="fa fa-angle-up marg-r"></i>
 	</form>
 
-	<!-- review downVote-->
 	<span class="up_votes marg-r">{{pr.up_votes}}</span>-
 	<span class="down_votes marg-l">{{pr.down_votes}}</span>
+	
 	<form action="{% url 'review' pr.pk %}" class="inline_ down">
-		<input data-icon="carat-d" class="marg-l" type="image" height="14" width="14" />
+		<i class="fa fa-angle-down marg-l"></i>
 	</form><br></div></p>
+
+	<!-- review downVote--><!-- review downVote--><!-- review downVote--><!-- review downVote-->
+	<!-- review downVote--><!-- review downVote--><!-- review downVote--><!-- review downVote-->
 	
 	<!-- No user login and reviews exists-->
 	{% else %}

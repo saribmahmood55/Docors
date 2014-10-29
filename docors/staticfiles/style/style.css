@@ -5,7 +5,7 @@ light green- DCEDC6, sky-blue: 94cbc6, pink- #F94877, orange- #FF9000, light-gra
 
 body{font-family: Arial;}
 p {	font-weight: normal; }
-ul{ list-style-type: none;}
+ul{ list-style-type: none; padding: 0px;}
 ul li {list-style-type: none; display: inline;}
 ul a {    list-style-type: none;}
 h1 { font-size: 20px;}
@@ -14,10 +14,11 @@ h1 { font-size: 20px;}
 
 .container {height: 530px;}
 #content{	text-align: none;	margin: 0%; }
-#head { float: right; margin: -35px 20px 0px 0px;}
+#head { float: right; margin: -50px 0px 0px 0px; width: 0px; font-size: 12px !important;}
 .anchor-link {	text-decoration: none !important;	color: #1B0A2A !important;}
 .anchor-link a:hover {	color: #ffffff; }
 #user { float:right; text-decoration: none; color: #000000; background-color: #DCEDC6;}
+
 .anchor-link-right {	float:right; text-decoration: none !important; color: #000000 !important; }
 .anchor-link-right a:hover { color: #ffffff; }
 .loginSignup { margin: 30px auto;}
@@ -25,6 +26,8 @@ h1 { font-size: 20px;}
 .float-left{ float: left;}
 .textCentre { text-align: center;}
 #search-btn{	width: 90px; height: 40px; color: #3eb249; margin: 0px auto; padding: 0px;}
+.inline_ { display: inline; padding: 0px; margin: 0px; }
+.normalweight { font-weight: normal;}
 .marg-r{ padding-right: 10px; }  .marg-l{ padding-left: 10px; } .marg-b{ padding-right: 10px; } .marg-t{ padding-left: 10px; }
 .marg-r-day { padding-right: 20px;} .marg-r-open { padding-right: 15px;}
 
@@ -39,41 +42,47 @@ h1 { font-size: 20px;}
 
 #practitionerDetails{ padding: 0; float: none;	text-align: center; margin: 10px auto; font-weight: normal;}
 
-.grid-name { float: left; margin: 0px 5px 10px 0px; width: 280px;  text-shadow: none;}
-.grid-name h2 { border: 2px solid #DCEDC6; color: #fff; text-align: center; font-size: 17px; 
+.grid-name { float: left; margin: 0px 5px 0px 0px; width: 280px;  text-shadow: none;}
+.grid-name h2 { border: 2px solid #DCEDC6; color: #fff; text-align: center; font-size: 14px; 
 	height: 20px; margin-bottom: 10px; padding: 10px 0px;}
-.grid-name h3 { color: #000; text-align: center; font-size: 17px; padding: 0px;}
+.grid-name h3 { color: #000; text-align: center; font-size: 14px; padding: 0px; margin: 0px; border: 2px solid #DCEDC6;}
 
-.clinicDetails{	width: 280px; float: left; padding: 0; font-weight: normal; clear: none; 
+.clinic{	width: 280px; float: left; padding: 0; font-weight: normal; clear: none; 
 	color: #000; background-color: #DCEDC6;}
+.clinic ul li { padding-left: 15px;}
+
+.clinicTiming { width: 280px; float: left; text-shadow: none; clear: none; 
+	color: #000; background-color: #94cbc6; text-align: center;}
 
 
-.clinicTimingsDetails{	width: 280px; float: left; text-shadow: none; clear: none; 
-	color: #000; background-color: #94cbc6; text-align: none;}
-
-.practitionerReviews{ width: 280px; float: left; height: 300px; overflow-y:auto; 
+.reviews{ width: 280px; float: left; height: 300px; overflow-y:auto; 
 	font-weight: normal; clear: none; background-color: #DCEDC6; color: #000;}
-.practitionerReviews span { padding: 5px;}
-
+#votes { margin: 0px 85px;}
 #reviewBox {width: 250px; float: right; font-weight: normal;}
+
 #post-review-btn{	width: 90px; height: 40px; color: #3eb249; float: right; padding: 0px; margin-top: 15px;}
 .small-font {font-size: 13px;}
 
-.vote {
-    color:white;
-    background-color:black;
-}
 
 /* Patient Profile	*/
 
+.profile-cntr { margin: 0px auto;}
 #update-btn{	float: right; width: 90px; height: 40px; color: #3eb249; margin: 0px auto; padding: 0px;}
-#patient-profile{	width: 30%; float: left; margin: 10px; }
-#patient-reviews{	width: 30%; float: left; margin: 10px;}
-#favourite-pracs{	width: 30%; float: left; margin: 10px;}
-#subscribe-spec{	width: 30%; float: left; margin: 10px;}
-.inline_ { display: inline; padding: 0px; margin: 0px;}
-.normalweight { font-weight: normal;}
 
+.profile {	width: 100%; float: left; margin: 10px; font-weight: normal; clear: none; text-align: center;}
+.profile span { margin-right: 10px; }
+
+.patient-reviews{	width: 300px; float: left; margin: 5px; font-weight: normal; clear: none; background-color: #DCEDC6;}
+.patient-reviews span { margin-left: 10px; } .patient-reviews h2 { color: #000; text-align: center; font-size: 16px;}
+
+.favourite-pracs{	width: 300px; float: left; margin: 5px; font-weight: normal; clear: none; background-color: #DCEDC6;}
+.favourite-pracs span { margin-left: 10px; } .favourite-pracs h2 { color: #000; text-align: center; font-size: 16px;}
+
+.subscribe-spec{	width: 300px; float: left; margin: 5px; font-weight: normal; clear: none; background-color: #DCEDC6;}
+.subscribe-spec span { margin-left: 35px; }
+
+.subscribe-spec h2 { color: #000; text-align: center; font-size: 16px;}
+.subscribe-spec li {display: inline;} 
 /* Responsive for mobile devices */
 
 @media only screen and (max-width: 767px) {

@@ -1,4 +1,3 @@
-#from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 from django.conf import global_settings
 #import dj_database_url
 import os
