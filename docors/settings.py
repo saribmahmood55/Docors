@@ -100,6 +100,7 @@ WSGI_APPLICATION = 'docors.wsgi.application'
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
 #heroku
+'''
 import dj_database_url
 DATABASES = {
 'default': dj_database_url.config(default='postgres://jimfzyyxmmgphs:igHjaN9x_SbjCzgsEs21yfVrsz@ec2-54-204-37-92.compute-1.amazonaws.com:5432/dd9m18h1llbkph')
@@ -115,7 +116,7 @@ DATABASES = {
         'PORT': '',
     }
 }
-'''
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
