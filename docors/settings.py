@@ -10,7 +10,7 @@ boolean = lambda value: bool(int(value))
 SECRET_KEY = 'zky%mapoo709@yv64h!ny#!7x8#&lh0o9nsfo++ny6+7gotp^r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = boolean(os.environ.get('DEBUG', 1))
+DEBUG = boolean(os.environ.get('DEBUG', 0))
 TEMPLATE_DEBUG = DEBUG
 
 
@@ -97,7 +97,6 @@ WSGI_APPLICATION = 'docors.wsgi.application'
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
 #heroku
-'''
 import dj_database_url
 DATABASES = {
 'default': dj_database_url.config(default='postgres://jimfzyyxmmgphs:igHjaN9x_SbjCzgsEs21yfVrsz@ec2-54-204-37-92.compute-1.amazonaws.com:5432/dd9m18h1llbkph')
@@ -113,6 +112,7 @@ DATABASES = {
         'PORT': '',
     }
 }
+'''
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/

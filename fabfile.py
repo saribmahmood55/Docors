@@ -10,3 +10,5 @@ def deploy():
    local('heroku maintenance:on')
    local('git push heroku master')
    local('heroku maintenance:off')
+   local('heroku ps:scale web=1')
+   local('heroku open')
