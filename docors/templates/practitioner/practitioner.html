@@ -51,7 +51,11 @@
       <!-- Practise-Location Details -->
       {% if data.practise.exists %} {% for pract in data.practise.iterator %}
       <div class="grid-name">
+        {% if pract.practise_type == 'P' %}
+        <h2 style="background-color: #51CA5F;">{{pract.practitioner.name}}</h2>
+        {% else %}
         <h2 style="background-color: #51CA5F;">{{pract.practise_location.name}}</h2>
+        {% endif %}
         <div class="clinic">
           <ul>
           <!-- Clinic Timing Details -->
@@ -73,10 +77,9 @@
               {% else %}<span>First Come First Serve.</span>{% endif %}</li>
             <li><i class="fa fa-location-arrow"></i><span>{{pract.practise_location.clinic_address}}, <strong>{{pract.practise_location.city.name}}</strong></span></li>
             <li><i class="fa fa-medkit fa-1x"></i><span>{{pract.services}}</span></li>
+            <li><i class="fa fa-clock-o fa-1x"></i><span>{{pract.modified|date:"d-m-Y"}}</span></li>
             {% if pract.practise_location.lat and pract.practise_location.lon %}
-            <li><i class="fa fa-map-marker fa-2x map-marker"></i>
-              <a href="http://maps.google.com/maps?z=12&t=m&q={{pract.practise_location.lat}},{{pract.practise_location.lon}}" target="_blank" class="anchor-link-right"></a>
-            </li>
+            <li><a href="http://maps.google.com/maps?z=12&t=m&q={{pract.practise_location.lat}},{{pract.practise_location.lon}}" target="_blank" class="anchor-link-right map-marker"><i style="padding: 0px 0px 10px 0px;" class="fa fa-map-marker fa-3x"></i></a></li>
             {% endif %}
           </ul>
         </div>
@@ -93,7 +96,7 @@
           <p style ="padding: 0px 10px;">
             <span><b>{{pr.patient}}</b> says: '{{pr.review_text}}'</span>s
             <br>
-            <span class="float-right"><i>{{pr.review_date}}</i></span>
+            <span class="float-right"><i>{{pr.review_date|date:"d-m-Y"}}</i></span>
             <br>
 
             <!-- review upVote-->
@@ -133,7 +136,7 @@
             <span class="marg-r"><strong>agree: {{pr.up_votes}}</strong></span>
             <span class="marg-l"><strong>disagree: {{pr.down_votes}}</strong></span>
             <br>
-            <span class="float-right"><i>{{pr.review_date}}</i></span>
+            <span class="float-right"><i>{{pr.review_date|date:"d-m-Y"}}</i></span>
           </div>
           <br> {% endif %} {% endfor %} {% if data.user.is_authenticated %}
           <!-- Post new Reviews, user loged, Reviews exists-->

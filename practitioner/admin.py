@@ -12,7 +12,7 @@ class PractitionerAdmin(admin.ModelAdmin):
         ('status', {'fields': ['status']}),
         ('Speciality', {'fields': ['specialities']}),
 	]
-	list_display = ['name','slug','credentials','Specialist_in','experience','message','status','achievements']
+	list_display = ['name','slug','credentials','Specialist_in','experience','message','status','achievements','modified']
 	search_fields = ['name']
 	
 	def Specialist_in(self, obj):
@@ -41,7 +41,7 @@ class PractiseAdmin(admin.ModelAdmin):
         ('Services Offered', {'fields': ['services']}),
         ('Appointments Only: Yes/No', {'fields': ['appointments_only']}),
 	]
-	list_display = ['practise_location','practitioner','contact_number','checkup_fee','services','appointments_only']
+	list_display = ['practise_location','practitioner','contact_number','checkup_fee','services','appointments_only','modified']
 	search_fields = ['practitioner']
 
 
