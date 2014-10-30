@@ -88,6 +88,7 @@ def registration(request):
 		experience = request.POST.get('experience', None)
 		speciality = request.POST.get('speciality', None)
 		#Clinic Details 1
+		clinic_type1 = request.POST.get('clinic-type1', None)
 		clinicName = request.POST.get('clinicName', None)
 		address = request.POST.get('address', None)
 		city = request.POST.get('city', None)
@@ -95,10 +96,11 @@ def registration(request):
 		fee = request.POST.get('fee', None)
 		services = request.POST.get('services', None)
 		appointment = request.POST.get('appointment', None)
-		latitude = request.POST.get('longitude', None)
-		longitude = request.POST.get('latitude', None)
+		latitude = request.POST.get('longitude', 0)
+		longitude = request.POST.get('latitude', 0)
 		timing = request.POST.get('timing', None)
 		#clinic Details 2
+		clinic_type2 = request.POST.get('clinic-type2', None)
 		clinicName2 = request.POST.get('clinicName2', None)
 		address2 = request.POST.get('address2', None)
 		city2 = request.POST.get('city2', None)
@@ -106,17 +108,17 @@ def registration(request):
 		fee2 = request.POST.get('fee2', None)
 		services2 = request.POST.get('services2', None)
 		appointment2 = request.POST.get('appointment2', None)
-		latitude2 = request.POST.get('longitude2', None)
-		longitude2 = request.POST.get('latitude2', None)
+		latitude2 = request.POST.get('longitude2', 0)
+		longitude2 = request.POST.get('latitude2', 0)
 		timing2 = request.POST.get('timing2', None)
 
 	##MAKE EMAIL##
-	recepient = 'docors2014@gmail.com'
+	recepient = 'doctorsinfo.pk@gmail.com'
 	subject = "Registration Request | " + practitioner_name
-	body = "Practitioner Details\n\n" + "Name: " + practitioner_name + "\n" + "Email: " + email + "\n" + "Credentials: " +credentials + "\n" + "Achievements: " + achievements + "\n" + "Experience: " + experience + "\n" + "Speciality: " +speciality + "\n\n"
-	body = body + "Clinic Details\n\n" + "Clinic Name: " + clinicName + "\n" + "Address: " + address + "\n" + "City: " +city + "\n" + "Number" + number + "\n" + "Fee: " + fee + "\n" + "Services: " + services + "\n" + "Appointment_only: " + appointment + "\n" + "Latitude: " + latitude + "\n" + "Longitude: " + longitude + "\n" + "Timing: " + timing + "\n\n"
+	body = "Practitioner Details\n\n" + "Name: " + practitioner_name + "\n" + "Email: " + email + "\n" + "Credentials: " +credentials + "\n" + "Achievements: " + achievements + "\n" + "Experience: " + experience + "\n" + "Speciality: " + speciality + "\n\n"
+	body = body + "Clinic Details:\n\n" + "Clinic Type: " + clinic_type1 + "Clinic Name: " + clinicName + "\n" + "Address: " + address + "\n" + "City: " +city + "\n" + "Number" + number + "\n" + "Fee: " + fee + "\n" + "Services: " + services + "\n" + "Appointment_only: " + appointment + "\n" + "Latitude: " + latitude + "\n" + "Longitude: " + longitude + "\n" + "Timing: " + timing + "\n\n"
 	if clinicName2 and address2 and city2 and number2:
-		body = body + "Clinic Details 2\n\n" + "Clinic Name: " + clinicName2 + "\n" + "Address: " + address2 + "\n" + "City: " +city2 + "\n" + "Number" + number2 + "\n" + "Fee: " + fee2 + "\n" + "Services: " + services2 + "\n" + "Appointment_only: " + appointment2 + "\n" + "Latitude: " + latitude2 + "\n" + "Longitude: " + longitude2 + "\n" + "Timing: " + timing2 + "\n\n"
+		body = body + "Clinic Details 2:\n\n" + "Clinic Type: " + clinic_type2 + "Clinic Name: " + clinicName2 + "\n" + "Address: " + address2 + "\n" + "City: " +city2 + "\n" + "Number" + number2 + "\n" + "Fee: " + fee2 + "\n" + "Services: " + services2 + "\n" + "Appointment_only: " + appointment2 + "\n" + "Latitude: " + latitude2 + "\n" + "Longitude: " + longitude2 + "\n" + "Timing: " + timing2 + "\n\n"
 	#send email
 	send_mail(subject, body, email, [recepient])
 	return render_to_response('practitioner/success.html',{'email': email}, context_instance=RequestContext(request))

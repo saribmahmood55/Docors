@@ -35,6 +35,7 @@ class PractiseAdmin(admin.ModelAdmin):
 	fieldsets = [
 		('Select Practitioner', {'fields': ['practitioner']}),
 		('Select Practise Location', {'fields': ['practise_location']}),
+		('Select Practise Type', {'fields': ['practise_type']}),
         ('Enter Appointment Numbers', {'fields': ['contact_number']}),
         ('Enter Checkup Fees', {'fields': ['checkup_fee']}),
         ('Services Offered', {'fields': ['services']}),

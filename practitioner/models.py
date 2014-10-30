@@ -23,13 +23,14 @@ class PractitionerManager(models.Manager):
 
 class Practitioner(models.Model):
     name = models.CharField(max_length=100)
+    slug = AutoSlugField(populate_from='name', unique = True)
     credentials = models.TextField()
     achievements = models.TextField(null=True)
     experience = models.PositiveIntegerField(default=0, help_text="Number of years", null=True)
     message = models.TextField(max_length=140,null=True, blank=True)
     status = models.BooleanField(default=False)
     specialities = models.ManyToManyField(Specialization)
-    slug = AutoSlugField(populate_from='name', unique = True)
+    modified = models.DateTimeField(auto_now=True)
 
     #Manager
     objects = models.Manager()
@@ -98,12 +99,18 @@ class PractiseManager(models.Manager):
 
 
 class Practise(models.Model):
+    PRACTISE_CHOICES = (
+        ('P', 'Private Clininc'),
+        ('H', 'Hospital'),
+    )
+    practise_type = models.CharField(max_length=1, choices=PRACTISE_CHOICES, help_text="Practise Type")
     practise_location = models.ForeignKey(PractiseLocation)
     practitioner = models.ForeignKey(Practitioner)
     contact_number = models.CharField(max_length=100)
     checkup_fee = models.PositiveIntegerField()
     services = models.TextField(null=True, blank=True)
     appointments_only = models.BooleanField(default=True)
+    modified = models.DateTimeField(auto_now=True)
     
     objects = models.Manager()
     practise_objects = PractiseManager()

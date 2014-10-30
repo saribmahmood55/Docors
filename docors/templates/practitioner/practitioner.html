@@ -49,53 +49,39 @@
       </div>
 
       <!-- Practise-Location Details -->
-
       {% if data.practise.exists %} {% for pract in data.practise.iterator %}
       <div class="grid-name">
         <h2 style="background-color: #51CA5F;">{{pract.practise_location.name}}</h2>
         <div class="clinic">
           <ul>
-            <li><i class="fa fa-money money"></i><span><strong>{{pract.checkup_fee}} rs.</strong></span></li>
-            <li><i class="fa fa-phone phone"></i><span>{{pract.contact_number}}</span></li>
-            <li><i class="fa fa-calendar calendar"></i>{% if pract.appointments_only %}<span>Appointment Only: Yes.</span>
+          <!-- Clinic Timing Details -->
+          {% if data.practise_timing %}
+          {% for oneClinic in data.practise_timing %}
+          <li style="float: right;"><i class="fa fa-clock-o fa-1x"></i>
+          <a class="anchor-link" href="#popupBasic" data-rel="popup" data-inline="true" data-transition="pop"><u>Timings</u></a>
+          <div data-role="popup" id="popupBasic">
+          <p><span class="break">{{oneClinic.name}}</span>
+          <span><strong>Day</strong></span><span><strong>Opens</strong></span><span><strong>Closes</strong></span><br>
+          {% for clinicTime in oneClinic.timing %}
+          <span>{{clinicTime.day}}</span><span>{{clinicTime.start_time}}</span><span>{{clinicTime.end_time}}</span><br>
+          {% endfor %}</p></div>
+          </li>{% endfor %}{% endif %}
+          <!-- Clinic Timing Details -->
+            <li><i class="fa fa-money"></i><span><strong>{{pract.checkup_fee}} rs.</strong></span></li>
+            <li><i class="fa fa-phone"></i><span>{{pract.contact_number}}</span></li>
+            <li><i class="fa fa-calendar"></i>{% if pract.appointments_only %}<span>Appointment Only: Yes.</span>
               {% else %}<span>First Come First Serve.</span>{% endif %}</li>
-            <li><i class="fa fa-location-arrow location-arrow"></i><span>{{pract.practise_location.clinic_address}}, <strong>{{pract.practise_location.city.name}}</strong></span></li>
-            <li><i class="fa fa-medkit fa-1x medkit"></i><span>{{pract.services}}</span></li>
+            <li><i class="fa fa-location-arrow"></i><span>{{pract.practise_location.clinic_address}}, <strong>{{pract.practise_location.city.name}}</strong></span></li>
+            <li><i class="fa fa-medkit fa-1x"></i><span>{{pract.services}}</span></li>
             {% if pract.practise_location.lat and pract.practise_location.lon %}
-            <li>
-              <a href="http://maps.google.com/maps?z=12&t=m&q={{pract.practise_location.lat}},{{pract.practise_location.lon}}" target="_blank" class="anchor-link-right map-marker"><i class="fa fa-map-marker fa-2x"></i></a>
+            <li><i class="fa fa-map-marker fa-2x map-marker"></i>
+              <a href="http://maps.google.com/maps?z=12&t=m&q={{pract.practise_location.lat}},{{pract.practise_location.lon}}" target="_blank" class="anchor-link-right"></a>
             </li>
             {% endif %}
           </ul>
         </div>
       </div>
       {% endfor %}{% endif %}
-
-      <!-- Clinic Timings Details -->
-      <div class="grid-name">
-      <h2 style="background-color: #4b555d;">Practise Timings</h2> {% if data.practise_timing %}
-      	<div class="clinicTiming">
-      		<ul>
-      			{% for oneClinic in data.practise_timing %}
-      			<h3>{{ oneClinic.name }}</h3>
-      			<br>
-      			<li><a href="#popupBasic" data-rel="popup" data-role="button" data-inline="true" data-transition="pop">Details</a>
-      				<div data-role="popup" id="popupBasic">
-      					<p>
-      						<span class="marg-r-day"><strong>Day</strong></span><span class="marg-r-open"><strong>Opens</strong></span>
-      						<span><strong>Closes</strong></span><br>
-      						{% for clinicTime in oneClinic.timing %}
-      						<span class="marg-r">{{clinicTime.day}}</span><span class="marg-r">{{clinicTime.start_time}}</span>
-      						<span>{{clinicTime.end_time}}</span><br>
-      						{% endfor %}
-      					</p>
-      				</div>
-      			</li>
-      			<br> {% endfor %}
-      		</ul>
-      	</div>
-      	{% endif %}
-      </div>
 
       <!-- Practitioner Reviews Details -->
       <div class="grid-name">
