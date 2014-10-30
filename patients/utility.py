@@ -21,4 +21,7 @@ def favourite(user,slug):
 		patient.favt_practitioner.add(practitioner)#update many to many field
 		msg = "Practitioner has been bookmarked, Click on your profile to access directly."
 		print msg
+		return True
+	else:
+		return False
 		#messages.add_message(request, messages.INFO, msg)

@@ -2,12 +2,10 @@ from patients.models import Patient
 from reviews.models import *
 from practitioner.models import *
 from utility import *
-from django.http import Http404, HttpResponseRedirect, HttpResponse
+from django.http import Http404, HttpResponse
 from django.shortcuts import redirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.contrib import messages
-from django.core.urlresolvers import reverse
 import json
 
 #
@@ -40,14 +38,16 @@ def patient(request):
 			patientDetails['age'] = request.POST.get('age', None)
 			patientDetails['gender'] = request.POST.get('gender', None)
 			if slug:
+				like = {}
 				user = request.user
-				favourite(user, slug)
-				return redirect(reverse('practitioner', kwargs={'slug':slug}))
+				like['status_'] = favourite(user, slug)
 			elif patientDetails:
 				updatePatientDetails(patientDetails)
 				data['patient'] = Patient.patient_objects.patient_details(data['user'])
 				print "user info updated."
 				data['reviews'] = Review.review_objects.patient_reviews(data['user'])
+			if request.is_ajax():
+				return HttpResponse(json.dumps(like), content_type="application/json")
 		else:
 			data['patient'] = None
 	return render_to_response('patients/profile.html', {'data': data}, context_instance=RequestContext(request))

@@ -16,7 +16,12 @@
 	<h1><a href="/" class="anchor-link" ><i class="fa fa-stethoscope fa-1x marg-r"></i>doctorsinfo.pk</a></h1>
       <div id="head">
       {% if data.user.is_authenticated %}
-      <a href="{% url 'patient' %}" class="anchor-link"><i class="fa fa-user fa-1x marg-r"></i>{{data.user.username}}</a>
+      <a href="#popupMenu" data-rel="popup" data-transition="slideup" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-gear ui-btn-icon-right ui-btn-a anchor-link-right"><i class="fa fa-user fa-2x marg-r"></i>{{data.user.username}}</a>
+      <div data-role="popup" id="popupMenu" data-theme="b">
+        <ul data-role="listview" data-inset="true" style="min-width:210px;">
+            <li><a href="{% url 'patient' %}">Profile</a></li>
+            <li><a href="/logout">Sign Out</a></li>
+        </ul></div>
       {% else %}
         <a href="/login/" style: class="anchor-link-right" >Login</a>
       {% endif %}
@@ -27,10 +32,9 @@
 	<!-- Practitioner Details -->
 	<div id="practitionerDetails">
 		{% if not data.favourite %}
-		<form action="{% url 'patient' %}" method="POST" class="inline_">{% csrf_token %}
-			<input class="anchor-link-right" type="image" src="{% static "icons/favt_.png" %}" height="32" width="32">
-			<input type="hidden" name="slug" value="{{data.practitioner.slug}}">
-			<input type="hidden" name="favt" value="{{data.favourite}}">
+		<form action="{% url 'patient' %}" method="POST" class="inline_ favourite">{% csrf_token %}
+			<input class="anchor-link-right" type="image" src="{% static "icons/favt_.png" %}" id="silver" height="32" width="32">
+			<img class="anchor-link-right" src="{% static "icons/favt0.png" %}" style="visibility: hidden;" id="golden" height="32" width="32"/>
 		</form>
 		{% else %}
 		<img class="anchor-link-right" title="Already favourited" src="{% static "icons/favt0.png" %}" height="32" width="32" />
@@ -75,7 +79,7 @@
 	<div class="clinicTiming">
 		<ul>
 		{% for oneClinic in data.practise_timing %}
-			<h3>{{ oneClinic.name }}</h3>
+			<h3>{{ oneClinic.name }}</h3><br>
 			<li><span class="marg-r-day"><strong>Day</strong></span>
 			<span class="marg-r-open"><strong>Opens</strong></span>
 			<span><strong>Closes</strong></span><br></li>
@@ -117,7 +121,9 @@
 	
 	<form action="{% url 'review' pr.pk %}" class="inline_ down">
 		<i class="fa fa-angle-down marg-l"></i>
-	</form><br></div></p>
+	</form><br>
+
+	</div></p>
 
 	<!-- review downVote--><!-- review downVote--><!-- review downVote--><!-- review downVote-->
 	<!-- review downVote--><!-- review downVote--><!-- review downVote--><!-- review downVote-->
@@ -202,21 +208,23 @@
 	var count = 0;
 	/* favt	*/
 	$(function () {
-		var favtImg = $('#favt');
-		favtImg.submit(function (ev) {
-			console.log('favt');
-			$.ajax({type:"POST", url: $(this).attr('action'), data: { favt: "favourite",
+		var favtImg = $('.favourite');
+		favtImg.click(function (ev) {
+			var doc = "{{data.favourite}}";
+			console.log(doc);
+			if ( doc == "False")
+				console.log('favt click');
+			$.ajax({type:"POST", url: $(this).attr('action'),data: { slug: "{{data.practitioner.slug}}",csrfmiddlewaretoken: '{{ csrf_token }}'
 		},
 		success: function(data) {
-			var up = $(this).next('.up_votes').text(data.up);
-			down = up.next('.down_votes');
-			up.text(data.up);
-			down.text(data.down);
-			count ++;
+			if (data.status_){
+				console.log('favt done');
+				$('silver').hide();
+				$('golden').show();
+			}
 		},
 		dataType : 'json',
 	});
-			ev.preventDefault();
 		});
 	});
 	/* up vote */
