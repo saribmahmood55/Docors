@@ -29,7 +29,7 @@ def patient(request):
 			data['user'] = None
 	if request.method == 'POST':
 		if request.user.is_authenticated():
-			patientDetails = {}
+			patientDetails, like, = {}, {}
 			slug = request.POST.get('slug', None)
 			patientDetails['user'] = data['user']
 			patientDetails['fname'] = request.POST.get('fname', None)
@@ -38,16 +38,16 @@ def patient(request):
 			patientDetails['age'] = request.POST.get('age', None)
 			patientDetails['gender'] = request.POST.get('gender', None)
 			if slug:
-				like = {}
 				user = request.user
 				like['status_'] = favourite(user, slug)
-			elif patientDetails:
+				if request.is_ajax():
+					print 'hi'
+					return HttpResponse(json.dumps(like), content_type="application/json")
+			elif patientDetails['fname'] and patientDetails['lname']:
 				updatePatientDetails(patientDetails)
 				data['patient'] = Patient.patient_objects.patient_details(data['user'])
 				print "user info updated."
 				data['reviews'] = Review.review_objects.patient_reviews(data['user'])
-			if request.is_ajax():
-				return HttpResponse(json.dumps(like), content_type="application/json")
 		else:
 			data['patient'] = None
 	return render_to_response('patients/profile.html', {'data': data}, context_instance=RequestContext(request))
