@@ -24,7 +24,7 @@
         {% endif %}
       </div>
     </div>
-    <div role="main" class="ui-content container">
+    <div role="main" class="ui-content">
 
       <!-- Practitioner Details -->
       <div id="practitionerDetails">
@@ -53,25 +53,23 @@
         <h2 style="background-color: #4b555d;">{{pract.practise_location.name}}</h2>
         {% endif %}
         <div class="clinic">
-          
           <!-- Lad Clinic Timings -->
           <!-- Lad Clinic Timings -->
-          <div>{% include "practitioner/clinictimings.html" %}
-          <form action="{% url 'practise' pract.practise_location.slug pract.practitioner.slug %}" class="timings">
-          <input type="image" src="{% static "icons/clock.png" %} "height="32" width="32" title="Clinic Timings" />
-          </form></div>
+          <ul><div class="clock" id="/practise/{{pract.practise_location.slug}}/{{pract.practitioner.slug}}/">
+          {% include "practitioner/clinictimings.html" %}
+          <li><img src="{% static "icons/clock.png" %} "height="22" width="24" title="Clinic Timings." />
+          <strong class="marg-l"><u>Practise Timing.</u></strong></li>
+          </div>
           <!-- Load Clinic Timings -->
           <!-- Lad Clinic Timings -->
-
-          <ul>
             <li><i class="fa fa-money" title="Checkup Fee."></i><span><strong>{{pract.checkup_fee}} rs.</strong></span></li>
             <li><i class="fa fa-phone"></i><span>{{pract.contact_number}}</span></li>
-            <li><i class="fa fa-calendar"></i>{% if pract.appointments_only %}<span>Appointment Only: Yes.</span>
+            <li><i class="fa fa-calendar"></i>{% if pract.appointments_only %}<span>Appointment Required: Yes.</span>
               {% else %}<span>First Come First Serve.</span>{% endif %}</li>
             <li><i class="fa fa-location-arrow"></i><span>{{pract.practise_location.clinic_address}}, <strong>{{pract.practise_location.city.name}}</strong></span></li>
             <li><i class="fa fa-medkit fa-1x" title="Services Offered."></i><span>{{pract.services}}</span></li>
           </ul>
-          <div class="modified"><img src="{% static "icons/modified.png" %}"height="18" width="18" title="Last Updated"/><span class="marg-l">{{pract.modified|date:"d-m-Y"}}</span></div>
+          <div class="modified"><img src="{% static "icons/modified.png" %}"height="18" width="18" title="Last Updated"/><span class="marg-l">{{pract.modified|date:"d-M-Y"}}</span></div>
            {% if pract.practise_location.lat and pract.practise_location.lon %}
             <a href="http://maps.google.com/maps?z=12&t=m&q={{pract.practise_location.lat}},{{pract.practise_location.lon}}" target="_blank" class="anchor-link-right map-marker" ><i style="padding: 0px 0px 10px 0px;" class="fa fa-map-marker fa-3x"></i></a>
             {% endif %}
@@ -87,26 +85,16 @@
           <!-- user login and reviews are there-->
           {% if data.user.is_authenticated %}
           <p style ="padding: 0px 10px;">
-            <span><b>{{pr.patient}}</b>: '{{pr.review_text}}'</span>
-            <br>
+            <span class="break"><b>{{pr.patient}}</b>: '{{pr.review_text}}'</span>
             <!-- review upVote-->
             <!-- review upVote-->
-
-            <div id="votes" class="inline_">
-              <form action="{% url 'review' pr.pk %}" class="inline_ up">
-                <!--input class="marg-r" type="image" src="{% static "icons/up.png" %}" style="visibility: hidden;" height="14" width="14" /-->
-                <i class="fa fa-thumbs-o-up marg-r"></i>
-              </form>
-
-              <span class="up_votes marg-r">{{pr.up_votes}}</span>-
-              <span class="down_votes marg-l">{{pr.down_votes}}</span>
-
-              <form action="{% url 'review' pr.pk %}" class="inline_ down">
-                <!--input class="marg-r" type="image" src="{% static "icons/up.png" %}" style="visibility: hidden;" height="14" width="14" /-->
-                <i class="fa fa-thumbs-o-down marg-l"></i>
-              </form>
+            <div class="inline_">
+            <i class="fa fa-thumbs-o-up up" id="/review/{{pr.pk}}/"></i>
+            <span class="up_votes marg-r">{{pr.up_votes}}</span>-
+            <span class="down_votes marg-l">{{pr.down_votes}}</span>
+            <i class="fa fa-thumbs-o-down marg-l down" id="/review/{{pr.pk}}/"></i>
+            <span class="float-right marg-r"><i class="fa fa-clock-o marg-r" class="Reviewd Date."></i>{{pr.review_date|date:"d-M-Y"}}</span>
             </div>
-            <span class="float-right marg-r"><i class="fa fa-clock-o marg-r" class="Reviewd Date."></i>{{pr.review_date|date:"d-m-Y"}}</span>
           </p>
           <!-- review downVote-->
           <!-- review downVote-->
@@ -114,12 +102,11 @@
           <!-- No user login and reviews exists-->
           {% else %}
           <div>
-            <span class="float-left"><strong>{{pr.patient}}: </strong>'{{pr.review_text}}'</span>
-            <br>
+            <span class="float-left break"><strong>{{pr.patient}}: </strong>'{{pr.review_text}}'</span>
             <span class="marg-r"><strong>agree: {{pr.up_votes}}</strong></span>
             <span class="marg-l"><strong>disagree: {{pr.down_votes}}</strong></span>
             <br>
-            <span class="float-right marg-r"><i>{{pr.review_date|date:"d-m-Y"}}</i></span>
+            <span class="float-right marg-r"><i>{{pr.review_date|date:"d-M-Y"}}</i></span>
           </div>
           <br> {% endif %} {% endfor %} {% if data.user.is_authenticated %}
           
@@ -149,9 +136,13 @@
       </div>
     </div>
     <!-- Footer Details -->
-    <div data-role="footer">
-      <h4>&copy; all rights reserved-2014 &reg;</h4>
+    <div class="foot" data-role="footer">
+      <h4>
+      <a href="https://www.facebook.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook fa-1x"></i></a>
+      <a href="mailto:doctorsinfo.pk@gmail.com"><i class="fa fa-envelope fa-1x"></i></a>
+      <a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i></a></h4>
     </div>
+
   </div>
   <!-- Login SignUp -->
   <div data-role="page" id="loginSignup" data-theme="a" data-title="doctorsinfo.pk">
@@ -160,15 +151,18 @@
     </div>
     <div role="main" class="ui-content container">
       <div class="text-center">
-        <a href="/login/" class="ui-btn ui-corner-all ui-shadow loginSignup">Login</a>
+        <span><a href="/login/" class="ui-btn ui-corner-all ui-shadow loginSignup">Login</a>
         <a href="/register/" class="ui-btn ui-corner-all ui-shadow loginSignup">Sign Up</a>
-        <a href="/password/reset/" class="ui-btn ui-corner-all ui-shadow loginSignup">Forgot Password</a>
+        <a href="/password/reset/" class="ui-btn ui-corner-all ui-shadow loginSignup">Forgot Password</a></span>
       </div>
 
       <!--footer-->
-      <div style="margin: auto auto;" data-role="footer">
-        <h4>&copy; all rights reserved-2014 &reg;</h4>
-      </div>
+    <div class="foot" data-role="footer">
+      <h4>
+      <a href="https://www.facebook.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook fa-1x"></i></a>
+      <a href="mailto:doctorsinfo.pk@gmail.com"><i class="fa fa-envelope fa-1x"></i></a>
+      <a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i></a></h4>
+    </div>
     </div>
   </div>
 
@@ -176,19 +170,21 @@
     var count = 0;
     /*  Load timings */
     $(function() {
-     $('.timings').submit(function(ev) {
+     $('.clock').click(function(ev) {
         console.log('click')
+        if (count < 1) {
         $.ajax({
             type: "GET",
-            url: $(this).attr('action'),
+            url: $(this).attr('id'),
             context: this,
             success: function(data) {
-              console.log(data)
               $(this).prepend(data);
+              count++;
             },
             dataType: 'html'
-          });
+          });}else {
           ev.preventDefault();
+        }
       });
     });
     /* favt	*/
@@ -196,7 +192,6 @@
       var favtImg = $('.favourite');
       favtImg.click(function(ev) {
         var doc = "{{data.favourite}}";
-        console.log(doc);
         if (doc == "False")
         	$('golden').show();
           console.log('favt click');
@@ -206,7 +201,6 @@
           context: this,
           success: function(data) {
             if (data.status_) {
-              console.log('favt done');
               $('silver').hide();
               $('golden').show();
             }
@@ -218,11 +212,11 @@
     /* up vote */
     $(function() {
       var up = $('.up');
-      up.submit(function(ev) {
+      up.click(function(ev) {
         if (count < 2) {
           $.ajax({
             type: "POST",
-            url: $(this).attr('action'),
+            url: $(this).attr('id'),
             context: this,
             data: {
               up: "up",
@@ -237,7 +231,6 @@
             },
             dataType: 'json',
           });
-          ev.preventDefault();
         } else {
           ev.preventDefault();
         }
@@ -246,12 +239,11 @@
     /* down vote */
     $(function() {
       var down = $('.down');
-      down.submit(function(ev) {
+      down.click(function(ev) {
         if (count < 2) {
-          console.log(count);
           $.ajax({
             type: "POST",
-            url: $(this).attr('action'),
+            url: $(this).attr('id'),
             context: this,
             data: {
               down: "down",
@@ -266,7 +258,6 @@
             },
             dataType: 'json'
           });
-          ev.preventDefault();
         } else {
           ev.preventDefault();
         }
