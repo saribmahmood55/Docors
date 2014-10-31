@@ -4,7 +4,7 @@
 <head>
   {% load staticfiles %}
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="shortcut icon" href="{% static " icons/stethoscope.ico " %}" />
+  <link rel="shortcut icon" href="{% static "icons/stethoscope.ico" %}" />
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
   <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.css" />
   <script src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.js"></script>
@@ -37,51 +37,44 @@
         <img class="anchor-link-right" title="Already favourited" src="{% static "icons/favt0.png" %}" height="32" width="32" /> {% endif %}
         <h1><i class="fa fa-user-md fa-1x marg-r"></i>{{data.practitioner.name}}</h1>
         <span>{{data.practitioner.credentials}}</span>
-        <br>
-        <span>Specialized in: {% for speciality in data.practitioner.specialities.all.iterator %}
-		{{speciality.name}}</span>
-        <br> {% endfor %}
+        <span>Specialized in: {% for speciality in data.practitioner.specialities.all.iterator %}{{speciality.name}}</span>
+        {% endfor %}
         <span>Experience: <strong>{{data.practitioner.experience}} years.</strong></span>
-        <br>
-        <br>
         <span><strong>Achievements: </strong>{{data.practitioner.achievements}}</span>
-        <br>
       </div>
 
       <!-- Practise-Location Details -->
-      {% if data.practise.exists %} {% for pract in data.practise.iterator %}
+      {% if data.practise.exists %}
+      {% for pract in data.practise.iterator %}
       <div class="grid-name">
         {% if pract.practise_type == 'P' %}
-        <h2 style="background-color: #51CA5F;">{{pract.practitioner.name}}</h2>
+        <h2 style="background-color: #4b555d;">{{pract.practitioner.name}}</h2>
         {% else %}
-        <h2 style="background-color: #51CA5F;">{{pract.practise_location.name}}</h2>
+        <h2 style="background-color: #4b555d;">{{pract.practise_location.name}}</h2>
         {% endif %}
         <div class="clinic">
+          
+          <!-- Lad Clinic Timings -->
+          <!-- Lad Clinic Timings -->
+          <div>{% include "practitioner/clinictimings.html" %}
+          <form action="{% url 'practise' pract.practise_location.slug pract.practitioner.slug %}" class="timings">
+          <input type="image" src="{% static "icons/clock.png" %} "height="32" width="32" title="Clinic Timings" />
+          </form></div>
+          <!-- Load Clinic Timings -->
+          <!-- Lad Clinic Timings -->
+
           <ul>
-          <!-- Clinic Timing Details -->
-          {% if data.practise_timing %}
-          {% for oneClinic in data.practise_timing %}
-          <li style="float: right;"><i class="fa fa-clock-o fa-1x"></i>
-          <a class="anchor-link" href="#popupBasic" data-rel="popup" data-inline="true" data-transition="pop"><u>Timings</u></a>
-          <div data-role="popup" id="popupBasic">
-          <p><span class="break">{{oneClinic.name}}</span>
-          <span><strong>Day</strong></span><span><strong>Opens</strong></span><span><strong>Closes</strong></span><br>
-          {% for clinicTime in oneClinic.timing %}
-          <span>{{clinicTime.day}}</span><span>{{clinicTime.start_time}}</span><span>{{clinicTime.end_time}}</span><br>
-          {% endfor %}</p></div>
-          </li>{% endfor %}{% endif %}
-          <!-- Clinic Timing Details -->
-            <li><i class="fa fa-money"></i><span><strong>{{pract.checkup_fee}} rs.</strong></span></li>
+            <li><i class="fa fa-money" title="Checkup Fee."></i><span><strong>{{pract.checkup_fee}} rs.</strong></span></li>
             <li><i class="fa fa-phone"></i><span>{{pract.contact_number}}</span></li>
             <li><i class="fa fa-calendar"></i>{% if pract.appointments_only %}<span>Appointment Only: Yes.</span>
               {% else %}<span>First Come First Serve.</span>{% endif %}</li>
             <li><i class="fa fa-location-arrow"></i><span>{{pract.practise_location.clinic_address}}, <strong>{{pract.practise_location.city.name}}</strong></span></li>
-            <li><i class="fa fa-medkit fa-1x"></i><span>{{pract.services}}</span></li>
-            <li><i class="fa fa-clock-o fa-1x"></i><span>{{pract.modified|date:"d-m-Y"}}</span></li>
-            {% if pract.practise_location.lat and pract.practise_location.lon %}
-            <li><a href="http://maps.google.com/maps?z=12&t=m&q={{pract.practise_location.lat}},{{pract.practise_location.lon}}" target="_blank" class="anchor-link-right map-marker"><i style="padding: 0px 0px 10px 0px;" class="fa fa-map-marker fa-3x"></i></a></li>
-            {% endif %}
+            <li><i class="fa fa-medkit fa-1x" title="Services Offered."></i><span>{{pract.services}}</span></li>
           </ul>
+          <div class="modified"><img src="{% static "icons/modified.png" %}"height="18" width="18" title="Last Updated"/><span class="marg-l">{{pract.modified|date:"d-m-Y"}}</span></div>
+           {% if pract.practise_location.lat and pract.practise_location.lon %}
+            <a href="http://maps.google.com/maps?z=12&t=m&q={{pract.practise_location.lat}},{{pract.practise_location.lon}}" target="_blank" class="anchor-link-right map-marker" ><i style="padding: 0px 0px 10px 0px;" class="fa fa-map-marker fa-3x"></i></a>
+            {% endif %}
         </div>
       </div>
       {% endfor %}{% endif %}
@@ -94,18 +87,12 @@
           <!-- user login and reviews are there-->
           {% if data.user.is_authenticated %}
           <p style ="padding: 0px 10px;">
-            <span><b>{{pr.patient}}</b> says: '{{pr.review_text}}'</span>s
+            <span><b>{{pr.patient}}</b>: '{{pr.review_text}}'</span>
             <br>
-            <span class="float-right"><i>{{pr.review_date|date:"d-m-Y"}}</i></span>
-            <br>
-
-            <!-- review upVote-->
-            <!-- review upVote-->
             <!-- review upVote-->
             <!-- review upVote-->
 
             <div id="votes" class="inline_">
-
               <form action="{% url 'review' pr.pk %}" class="inline_ up">
                 <!--input class="marg-r" type="image" src="{% static "icons/up.png" %}" style="visibility: hidden;" height="14" width="14" /-->
                 <i class="fa fa-thumbs-o-up marg-r"></i>
@@ -118,13 +105,9 @@
                 <!--input class="marg-r" type="image" src="{% static "icons/up.png" %}" style="visibility: hidden;" height="14" width="14" /-->
                 <i class="fa fa-thumbs-o-down marg-l"></i>
               </form>
-              <br>
-
             </div>
+            <span class="float-right marg-r"><i class="fa fa-clock-o marg-r" class="Reviewd Date."></i>{{pr.review_date|date:"d-m-Y"}}</span>
           </p>
-
-          <!-- review downVote-->
-          <!-- review downVote-->
           <!-- review downVote-->
           <!-- review downVote-->
 
@@ -136,26 +119,16 @@
             <span class="marg-r"><strong>agree: {{pr.up_votes}}</strong></span>
             <span class="marg-l"><strong>disagree: {{pr.down_votes}}</strong></span>
             <br>
-            <span class="float-right"><i>{{pr.review_date|date:"d-m-Y"}}</i></span>
+            <span class="float-right marg-r"><i>{{pr.review_date|date:"d-m-Y"}}</i></span>
           </div>
           <br> {% endif %} {% endfor %} {% if data.user.is_authenticated %}
+          
           <!-- Post new Reviews, user loged, Reviews exists-->
-
-          <div id="reviewBox" data-role="collapsible" data-collapsed="true" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right">
-            <h4>add review</h4>
-            <form action="{% url 'review' %}" method="POST" class="inline_">{% csrf_token %} {% if data.practise_name.count > 1 %}
-              <select name="practise_slug" required id="select-native-2">
-                <option value="">Select Practise Location.</option>
-                {% for locname in data.practise_name.iterator %}
-                <option value="{{locname.practise_location.slug}}">{{locname.practise_location.name}}</option>
-                {% endfor %}
-                <textarea cols="8" rows="8" name="review_text" required></textarea>
-              </select>
-              {% endif %}
+          <form id="reviewBox" action="{% url 'review' %}" method="POST" class="inline_">{% csrf_token %}
+              <textarea cols="8" rows="8" name="review_text" required></textarea>
               <input type="hidden" name="slug" value="{{data.practitioner.slug}}">
               <button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Post</button>
-            </form>
-          </div>
+          </form>          
           {% else %}
           <p><a href="#loginSignup" class="anchor-link-right">add review</a>
           </p>
@@ -163,21 +136,13 @@
           <!--if no review-->
           {% elif data.user.is_authenticated%}
           <!-- user login and no review exists-->
-          <span>No reviews, yet.<span><br>
-	<div id="reviewBox" data-role="collapsible" data-collapsed="true" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right"><h6>add review</h6>
-	<form action="{% url 'review' %}" method="POST" class="inline_">{% csrf_token %}
-	{% if data.practise_name.count > 1 %}
-  	<select name="practise_slug" required id="select-native-2">
-  	<option value="">Select Practise Location.</option>
-  	{% for locname in data.practise_name.iterator %}
-  	<option value="{{locname.practise_location.slug}}">{{locname.practise_location.name}}</option>
-  	{% endfor %}
-  	<textarea cols="8" rows="8" name="review_text" required></textarea>
-  	</select>
-  	{% endif %}
-	<input type="hidden" name="slug" value="{{data.practitioner.slug}}" >
-	<button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Post</button></form></div>
-	{% else %}
+          <strong><span class="textCentre">No reviews, yet, Write One.<span><br>
+          <form id="reviewBox" action="{% url 'review' %}" method="POST" class="inline_">{% csrf_token %}
+              <textarea cols="8" rows="8" name="review_text" required></textarea>
+              <input type="hidden" name="slug" value="{{data.practitioner.slug}}">
+              <button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Post</button>
+          </form>
+          {% else %}
 	<!-- Post new Review / no user login-->
 	<span>No reviews, yet.<br><a href="#loginSignup" class="anchor-link-right">add review</a></span> {% endif %}
         </div>
@@ -205,10 +170,27 @@
         <h4>&copy; all rights reserved-2014 &reg;</h4>
       </div>
     </div>
-
   </div>
+
   <script type="text/javascript">
     var count = 0;
+    /*  Load timings */
+    $(function() {
+     $('.timings').submit(function(ev) {
+        console.log('click')
+        $.ajax({
+            type: "GET",
+            url: $(this).attr('action'),
+            context: this,
+            success: function(data) {
+              console.log(data)
+              $(this).prepend(data);
+            },
+            dataType: 'html'
+          });
+          ev.preventDefault();
+      });
+    });
     /* favt	*/
     $(function() {
       var favtImg = $('.favourite');
@@ -221,10 +203,7 @@
         $.ajax({
           type: "POST",
           url: $(this).attr('action'),
-          data: {
-            slug: "{{data.practitioner.slug}}",
-            csrfmiddlewaretoken: '{{ csrf_token }}'
-          },
+          context: this,
           success: function(data) {
             if (data.status_) {
               console.log('favt done');

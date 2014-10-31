@@ -2,10 +2,12 @@ from practitioner.models import *
 from patients.models import Patient
 from reviews.models import Review
 from utility import *
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import render_to_response
+from django.template.loader import render_to_string
 from django.template import RequestContext
 from django.core.mail import send_mail
+import json
 
 #home page
 def index(request):
@@ -21,6 +23,12 @@ def index(request):
 		except Specialization.DoesNotExist:
 			raise Http404
 	return render_to_response('practitioner/index.html', {'data': data}, context_instance=RequestContext(request))
+
+
+def practise(request, practise_slug, practitioner_slug):
+	if request.method == "GET":
+		Timing = PractiseTiming.pt_objects.practise_timings(practise_slug,practitioner_slug)
+	return render_to_response('practitioner/clinictimings.html', {'Timing': Timing}, context_instance=RequestContext(request))
 
 
 #handle search request
@@ -69,7 +77,7 @@ def practitioner(request, slug):
 			data['practitioner'] = Practitioner.prac_objects.practitioner_slug(slug)
 			data['practise'] = Practise.practise_objects.practise_detail(slug)
 			data['practise_name'] = data['practise'].distinct('practise_location')
-			data['practise_timing'] = clinic_timings_dic(data['practise_name'])
+			#data['practise_timing'] = clinic_timings_dic(data['practise_name'])
 			data['reviews'] = Review.review_objects.practitioner_reviews(slug)
 		except Practitioner.DoesNotExist:
 			raise Http404

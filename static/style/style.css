@@ -1,5 +1,6 @@
 /* style sheet	fonts: open sans, Lato, Ubuntu, Droid Serif #0099FF #610B5E
-light green- DCEDC6, sky-blue: 94cbc6, pink- #F94877, orange- #FF9000, light-gray #f5f5f5, dark-grey: #4b555d;
+light green-playstore DCEDC6, sky-blue: 94cbc6, pink- #F94877, orange- #FF9000, light-gray #f5f5f5, dark-grey: #4b555d;
+ICI #ccccd5, rxlist: #e6e6e8;
 */
 
 body{font-family: Arial;}
@@ -24,6 +25,8 @@ h1 { font-size: 20px;}
 
 .anchor-link-right {	float:right; text-decoration: none !important; color: #000000 !important; font-size: 11px;}
 .anchor-link-right a:hover { color: #ffffff; }
+
+
 .loginSignup { margin: 30px auto;}
 .float-right{ float: right;}
 .float-left{ float: left;}
@@ -35,35 +38,40 @@ h1 { font-size: 20px;}
 .break { display: block;}
 
 /* Practitioner details */
-.map-marker { float: right; padding: 0px 0px 10px 0px;}
-
-
 #practitionerDetails{ padding: 0; float: none;	text-align: center; margin: 10px auto; font-weight: normal;}
+#practitionerDetails span { display: block;}
 
-.grid-name { float: left; margin: 0px 5px 0px 0px; width: 280px;  text-shadow: none;}
-.grid-name h2 { border: 2px solid #DCEDC6; color: #fff; text-align: center; font-size: 14px; 
+.grid-name { float: left; margin: 0px 10px 0px 0px; width: 320px;  text-shadow: none;}
+.grid-name h2 { border: 2px solid #e6e6e8; color: #fff; text-align: center; font-size: 14px; 
 	height: 20px; padding: 10px 0px; margin-bottom: 0px;}
 .grid-name h3 { color: #000; text-align: center; font-size: 14px; padding: 0px; margin: 0px;}
 
-.clinic{	width: 250px; float: left; padding: 10px 15px; font-weight: normal; clear: none; 
-	color: #000; background-color: #DCEDC6;}
-.clinic ul li {  display: block; width: 100%;}
-.clinic ul li i{ float: left; width: 20px; height: 20px; padding-right: 10px;}
-.clinic ul li span{ float: left; width: 200px; }
+.clinic{	width: 290px; float: left; padding: 10px 15px 0px 15px; font-weight: normal; clear: none; 
+	color: #000; background-color: #ccccd5;}
 
+.clinic ul li {  display: block; width: 100%;} 
+.clinic ul li span{ float: left; width: 260px; } 
+.clinic ul li i{ float: left; width: 20px; height: 20px; padding-right: 10px;}
+
+.map-marker { float: right; padding: 10px 0px 10px 0px;}
+.modified { float: left; padding: 20px 10px 0px 0px;}
+#clock { float: none;}
+
+.reviews{ width: 320px; float: left; overflow-x:auto; font-weight: normal; clear: none; background-color: #e6e6e8; color: #000;}
+#votes { float: left; margin: 0px 10px 20px 10px;}
+#reviewBox { float: left; width: 270px; float: none; font-weight: normal; margin: 0px 25px;}
+
+#post-review-btn{	width: 60px; height: 30px; color: #3eb249; float: right; padding: 0px; margin-top: -5px;}
+.small-font {font-size: 13px;}
+
+/*
 .clinicTiming { width: 280px; float: left; text-shadow: none; clear: none; 
 	color: #000; background-color: #94cbc6; text-align: center;}
 
 #ct { color: #fff; background-color: #000; font font-size: 15px; border-radius: none; }
 #popupBasic p span { width: 25px; padding-right: 15px;}
+*/
 
-.reviews{ width: 280px; float: left; height: 300px; overflow-y:auto; 
-	font-weight: normal; clear: none; background-color: #DCEDC6; color: #000;}
-#votes { margin: 0px 85px;}
-#reviewBox {width: 250px; float: right; font-weight: normal; margin: 0px 15px;}
-
-#post-review-btn{	width: 90px; height: 40px; color: #3eb249; float: right; padding: 0px; margin-top: 15px;}
-.small-font {font-size: 13px;}
 
 
 /* Patient Profile	*/

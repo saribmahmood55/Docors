@@ -124,10 +124,15 @@ class Practise(models.Model):
 
 #Custom Manager
 class PractiseTimingManager(models.Manager):
+    def practise_timings(self, pr_slug, p_slug):
+        practise_timings = super(PractiseTimingManager, self).filter(practise_location__slug=pr_slug, practitioner__slug=p_slug).order_by('pk')
+        return practise_timings    
 
+    '''
     def practise_timing(self, slug):
         practise_timings = super(PractiseTimingManager, self).filter(practise_location__slug=slug).order_by('pk')
         return practise_timings
+    '''
 
 
 class PractiseTiming(models.Model):

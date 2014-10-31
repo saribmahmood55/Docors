@@ -1,3 +1,4 @@
+'''
 from practitioner.models import PractiseTiming
 def clinic_timings_dic(query):
 	slug_list, mylist, onetime = [], [], []
@@ -16,3 +17,4 @@ def clinic_timings_dic(query):
 		onetime.append({'name':mylist[count], 'timing': dict_timing })
 		count += 1
 	return onetime
+	'''
