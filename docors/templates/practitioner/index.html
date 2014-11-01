@@ -27,44 +27,46 @@
 
     <div role="main" class="ui-content container">
       
-      <center><h4>Find Specialist Doctors in your area.</h4></center>
-
+      <div id="search">
+      <ul>
+      <li><h2>Find Specialist Doctors in your area.</h2></li>
       <form action="{% url 'practitoners' %}" method="GET">
-
-        <label for="city">City</label>
-        <select name="city" required id="select-native-2">
-          <option value="">Select City.</option>
+      <li><label for="city">City</label>
+        <select name="city" required>
+          <option value="">- Select City -</option>
           {% for city in data.cities.iterator %}
           <option value="{{city.slug}}">{{city.name}}</option>
           {% endfor %}
         </select>
-
-        <label for="specialty">Specialist Category</label>
-        <select name="spec" required id="select-native-2">
-          <option value="">Select Speciality</option>
+        </li>
+        <li>
+        <label for="spec">Specialist Category</label>
+        <select name="spec" required>
+          <option value="">- Select Speciality -</option>
           {% for speciality in data.specialities.iterator %}
           <option value={{speciality.slug}}>{{speciality.name}}</option>
           {% endfor %}
         </select>
-
-        <label for="slider-s">Select Experience in years.</label>
-        <input type="range" name="exp" id="slider-s" value="0" min="0" max="30" data-highlight="true">
-
-        <button type="submit" id="search-btn" class="ui-btn ui-shadow ui-corner-all">
-          Search</button>
-
+        </li>
+        <li>
+        <label for="exp">Experience in years.</label>
+        <input type="range" name="exp" value="0" min="0" max="30" data-highlight="true">
+        </li>
+        <li><button type="submit" class="ui-btn ui-shadow ui-corner-all">Search</button></li>
+        <li class="advance-search"><a class="anchor-link-left" href="#advance">advance search >></a></li>
         </form>
-        <a class="anchor-link" style="float: left; margin-top: 20px;" href="#register">get listed !</a>
-        <a class="anchor-link" style="float: right; margin-top: 20px;" href="#advance">advance search</a>
-
+        </ul>
+        </div>
+        
       </div>
       <div class="foot" data-role="footer">
         <h4>
+          <a class="anchor-link-left" href="#register">get listed !</a>
           <a href="https://www.facebook.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook fa-1x"></i></a>
           <a href="mailto:doctorsinfo.pk@gmail.com"><i class="fa fa-envelope fa-1x"></i></a>
           <a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i></a></h4>
         </div>
-      </div>
+    </div>
 
       <!-- Advance Search -->
       <div data-role="page" id="advance" data-theme="a" data-title="doctorsinfo.pk | advance search">
@@ -80,34 +82,34 @@
         </div>
 
         <div role="main" class="ui-content container">
-
-          <center><h4>advance search options.</h4></center>
-
-          <form action="{% url 'practitoners' %}" method="GET">
-
-            <label for="city">City</label>
-            <select name="city" required id="select-native-2">
-              <option value="">Select City.</option>
-              {% for city in data.cities.iterator %}
-              <option value="{{city.slug}}">{{city.name}}</option>
-              {% endfor %}
-            </select>
-
-            <label for="name">Search Specialist Doctors in your area.</label>
-            <input type="search" name="name" id="search-2" placeholder="Doctor Name..." />
-
-            <label for="speciality">Specialist Category</label>
-            <select name="spec" id="select-native-2">
-              <option value="">Select Speciality.</option>
-              {% for speciality in data.specialities.iterator %}
-              <option value="{{speciality.slug}}">{{speciality.name}}</option>
-              {% endfor %}
-            </select>
-
-            <label for="experience">Select Experience in years.</label>
-            <input type="range" name="exp" id="slider-2" value="0" min="0" max="30" data-highlight="true">
-            <label for="select-native-2">Search a Doctor avalability on specific Day.</label>
-            <select name="day" id="select-native-3">
+        <div id="search">
+      <ul>
+      <li><h2>Find Specialist Doctors in your area.</h2></li>
+      <form action="{% url 'practitoners' %}" method="GET">
+      <li><label for="city">City</label>
+        <select name="city" required>
+          <option value="">- Select City -</option>
+          {% for city in data.cities.iterator %}
+          <option value="{{city.slug}}">{{city.name}}</option>
+          {% endfor %}
+        </select>
+        </li>
+        <li>
+        <label for="spec">Specialist Category</label>
+        <select name="spec" required>
+          <option value="">- Select Speciality -</option>
+          {% for speciality in data.specialities.iterator %}
+          <option value={{speciality.slug}}>{{speciality.name}}</option>
+          {% endfor %}
+        </select>
+        </li>
+        <li>
+        <label for="exp">Experience in years.</label>
+        <input type="range" name="exp" value="0" min="0" max="30" data-highlight="true">
+        </li>
+        <li>
+          <label for="day">Doctor avalability on particular Day.</label>
+            <select name="day">
               <option>Select Day</option>
               <option value="Mon">Monday</option>
               <option value="Tue">Tuesday</option>
@@ -117,13 +119,13 @@
               <option value="Sat">Saturday</option>
               <option value="Sun">Sunday</option>
             </select>
-            <button type="submit" style="width: 90px; height: 45px; color: #3eb249; margin: 0px auto;" class="ui-btn ui-shadow ui-corner-all">
-              Search
-            </button>
-          </form>
-          <a class="anchor-link" style="float: right; margin-top: 20px;" href="#basic">basic search</a>
+        </li>
+        <li><button type="submit" class="ui-btn ui-shadow ui-corner-all">Search</button></li>
+        <li class="advance-search"><a class="anchor-link-left" href="#basic"><< basic search</a></li>
+        </form>
+        </ul>
         </div>
-
+      </div>
         <div class="foot" data-role="footer">
           <h4>
             <a href="https://www.facebook.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook fa-1x"></i></a>
@@ -131,7 +133,6 @@
             <a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i></a></h4>
           </div>
         </div>
-
       </div>
 
       <!-- Registration -->

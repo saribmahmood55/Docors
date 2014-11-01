@@ -93,7 +93,7 @@ class PractiseManager(models.Manager):
                 query = query.filter(practitioner__experience__gte=experience)
         #filter day
         if day != None:
-            query = query.filter(Q(practise_location__city__name=city)| Q(practitioner__specialities__slug=speciality)).distinct('practitioner')
+            query = query.filter(practitioner__specialities__slug=speciality).distinct('practitioner')
         result['practise_list'] = query
         return result
 

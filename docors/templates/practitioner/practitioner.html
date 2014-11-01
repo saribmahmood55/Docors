@@ -25,6 +25,8 @@
       </div>
     </div>
     <div role="main" class="ui-content">
+    <div id="border-left"></div>
+    <div id="border-right"></div>
 
       <!-- Practitioner Details -->
       <div id="practitionerDetails">
@@ -84,7 +86,7 @@
           {% if data.reviews.exists %} {% for pr in data.reviews.iterator %}
           <!-- user login and reviews are there-->
           {% if data.user.is_authenticated %}
-          <p style ="padding: 0px 10px;">
+          <p>
             <span class="break"><b>{{pr.patient}}</b>: '{{pr.review_text}}'</span>
             <!-- review upVote-->
             <!-- review upVote-->
