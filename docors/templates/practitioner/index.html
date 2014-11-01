@@ -82,7 +82,7 @@
         </div>
 
         <div role="main" class="ui-content container">
-        <div id="search">
+        <div id="search" class="advsearch">
       <ul>
       <li><h2>Find Specialist Doctors in your area.</h2></li>
       <form action="{% url 'practitoners' %}" method="GET">
@@ -110,7 +110,7 @@
         <li>
           <label for="day">Doctor avalability on particular Day.</label>
             <select name="day">
-              <option>Select Day</option>
+              <option>- Select Day -</option>
               <option value="Mon">Monday</option>
               <option value="Tue">Tuesday</option>
               <option value="Wed">Wednesday</option>

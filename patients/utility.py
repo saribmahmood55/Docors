@@ -1,4 +1,5 @@
 from patients.models import *
+from practitioner.models import Specialization
 from django.shortcuts import get_object_or_404
 
 #
@@ -25,3 +26,9 @@ def favourite(user,slug):
 	else:
 		return False
 		#messages.add_message(request, messages.INFO, msg)
+#
+def excludedSpecialities(patient):
+	favt_spec = []
+	for spec in patient.interested_specialities.all():
+		favt_spec.append(spec.slug)
+	return Specialization.objects.exclude(slug__in=favt_spec)

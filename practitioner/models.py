@@ -69,8 +69,8 @@ class PractiseLocation(models.Model):
 class PractiseManager(models.Manager):
 
     def practise_detail(self, slug):
-        clinic_detail = super(PractiseManager, self).filter(practitioner__slug=slug)
-        return clinic_detail
+        practise = super(PractiseManager, self).filter(practitioner__slug=slug)
+        return practise
 
 
     # Search request handling
@@ -79,6 +79,8 @@ class PractiseManager(models.Manager):
         query = super(PractiseManager, self).filter(practise_location__city__slug=city)
         query = query.distinct('practitioner')
         #filter name
+        if day != None:
+            query.filter(practisetiming__practitioner__slug=speciality, )
         if name != None and speciality == None:
             query = query.filter(practitioner__name__icontains=name)
             print name
@@ -128,12 +130,9 @@ class PractiseTimingManager(models.Manager):
         practise_timings = super(PractiseTimingManager, self).filter(practise_location__slug=pr_slug, practitioner__slug=p_slug).order_by('pk')
         return practise_timings    
 
-    '''
-    def practise_timing(self, slug):
-        practise_timings = super(PractiseTimingManager, self).filter(practise_location__slug=slug).order_by('pk')
+    def spec_day_timing(self, spec, day):
+        practise_timings = super(PractiseTimingManager, self).filter(practitioner__specialities__slug=spec, day=day).order_by('pk')
         return practise_timings
-    '''
-
 
 class PractiseTiming(models.Model):
     DAY = (

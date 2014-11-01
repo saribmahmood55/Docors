@@ -38,14 +38,14 @@
            <span>Age-Group: {{data.patient.get_age_group_display}}</span>
            {% else %}
            <form action="{% url 'patient' %}" method="POST">{% csrf_token %}
-             <span><strong>First Name: <input type="text" name="fname" /></strong></span>
-             <span><strong>Last Name: <input type="text" name="lname" /></strong></span>
+             <span><strong>First Name: <input type="text" name="fname" required /></strong></span>
+             <span><strong>Last Name: <input type="text" name="lname" required /></strong></span>
              <span><strong>Cell Number: <input type="text" name="number" /></strong></span>
              <span><strong>Gender: </strong><select name="gender">
                <option value="-">Prefer not to answer</option>
                <option value="M">Male</option><option value="F">Female</option>
              </select></span>
-             <span><strong>Age Group: </strong><select name="age">
+             <span><strong>Age Group: </strong><select name="age" required><option value="">-Select Age Group-</option>
                <option value="10">10-14</option><option value="15">15-19</option><option value="20">20-24</option>
                <option value="25">25-29</option><option value="30">30-34</option><option value="35">35-39</option>
                <option value="40">40-44</option><option value="45">45-49</option><option value="50">50-54</option>
@@ -63,9 +63,8 @@
          <h2>Reviews</h2>
          {% if data.reviews.exists %}
          <ul>
-           <li><span><strong>Review</strong></span></li><br>
            {% for pr in data.reviews.iterator %}
-           <li><span>* {{pr.review_text}}</span></li><br>
+           <li class="marg-l">* {{pr.review_text}}<i class="fa fa-times fa-1x" id="{{pr.pk}}"></i></li>
            {% endfor %}
            {% else %}
            <li><span>No Reviews from you about any Practitioner :(</span></li>
@@ -79,9 +78,8 @@
         <h2>Favourite Practitioners</h2>
         {% if data.patient.favt_practitioner.all.exists %}
         <ul>
-         <li><span><strong>Name</strong></span></li><br>
          {% for practitioner in data.patient.favt_practitioner.all.iterator %}
-         <li><span>* {{practitioner.name}}</span></li><br>
+         <li class="marg-l">* {{practitioner.name}}<i class="fa fa-times fa-1x" id="{{practitioner.slug}}"></i></li>
          {% endfor %}
          {% else %}
          <span><span>No favourite Practitioner, yet. :(</span>></span>
@@ -95,20 +93,18 @@
        <h2>Subscibe for Specialities</h2>
        <ul>
          <li>
-           <span><strong>Name</strong></span></li><br>
+           <span class="break"><strong>Name</strong></span></li>
            <form action="{% url 'patient' %}" method="POST">{% csrf_token %}
              {% if data.patient.interested_specialities.all.exists %}
              {% for spec in data.patient.interested_specialities.all.iterator %}
-             <li><input type="checkbox" name="favt-spec" value="0" checked />
+             <li><input type="checkbox" name="favt-spec" checked = "checked" value="{{spec.slug}}" />
               <span>{{spec.name}}</span></li>
-              {% endfor %}
-              {% else %}
-              {% for spec in data.specialities.iterator %}
+              {% endfor %}{% endif %}
+              {% for spec in data.excluded_specialties.iterator %}
               <li><input type="checkbox" name="spec" value="{{spec.name}}">
                 <span>{{spec.name}}</span></li>
                 {% endfor %}
-                {% endif %}
-                <button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Subscribe</button>
+                <button type="submit" id="subscribe-btn" class="ui-btn ui-corner-all ui-btn-a">Subscribe</button>
               </form>
             </ul>
             <p>Please Select the above categories to get specific updates about latest research and weekly health tips.</p>

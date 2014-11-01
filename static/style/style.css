@@ -26,7 +26,7 @@ h1 { font-size: 20px;}
 #search { width: 580px; height: 350px; float: left; margin: 20px 300px; padding: 0px 20px; background-color: #e6e6e8 !important;}
 #search select { float: left;} #search h2 { font-size: 18px; text-align: center;} 
 #search li button { float: right; width: 90px; height: 40px; color: #3eb249; padding: 0px;}
-
+.advsearch { height: 425px ! important; }
 
 /*	*/
 .loginSignup { margin: 30px auto;}
@@ -36,7 +36,7 @@ h1 { font-size: 20px;}
 /*#search-btn{	}*/
 .inline_ { display: inline; padding: 0px; margin: 0px; }
 .normalweight { font-weight: normal;}
-.marg-r{ padding-right: 10px; }  .marg-l{ padding-left: 10px; } .marg-b{ padding-right: 10px; } .marg-t{ padding-left: 10px; }
+.marg-r{ padding-right: 10px; }  .marg-l{ padding-left: 10px; } .marg-b{ padding-right: 10px; } .marg-t{ padding-top: 10px; }
 .break { display: block;}
 .day {width: 25px; margin-right: 10px;} .time{ width: 30px; margin-right: 10px; }
 
@@ -86,19 +86,22 @@ h1 { font-size: 20px;}
 #update-btn{	float: right; width: 90px; height: 40px; color: #3eb249; margin: 0px auto; padding: 0px;}
 
 .profile {	width: 100%; float: left; margin: 10px; font-weight: normal; clear: none; text-align: center;}
-.profile span { margin-right: 10px; }
+.profile span { padding-right: 10px; }
 
 .patient-reviews{	width: 300px; float: left; margin: 5px; font-weight: normal; clear: none; background-color: #DCEDC6;}
-.patient-reviews span { margin-left: 10px; } .patient-reviews h2 { color: #000; text-align: center; font-size: 16px;}
+.patient-reviews span { padding-left: 10px; display: block;} .patient-reviews h2 { color: #000; text-align: center; font-size: 16px;}
+.patient-reviews i { padding-right: 10px; float: right;}
 
 .favourite-pracs{	width: 300px; float: left; margin: 5px; font-weight: normal; clear: none; background-color: #DCEDC6;}
-.favourite-pracs span { margin-left: 10px; } .favourite-pracs h2 { color: #000; text-align: center; font-size: 16px;}
+.favourite-pracs span { padding-left: 10px; display: block;} .favourite-pracs h2 { color: #000; text-align: center; font-size: 16px;}
+.favourite-pracs i { padding-right: 10px; float: right;}
 
 .subscribe-spec{	width: 300px; float: left; margin: 5px; font-weight: normal; clear: none; background-color: #DCEDC6;}
-.subscribe-spec span { margin-left: 35px; }
-
+.subscribe-spec span { margin-left: 35px; display: block;} 
 .subscribe-spec h2 { color: #000; text-align: center; font-size: 16px;}
-.subscribe-spec li {display: inline;}
+.subscribe-spec li {display: inline;} .subscribe-spec p { padding: 5px;}
+.subscribe-spec .ui-checkbox input, .ui-radio input { margin: 0px;} 
+#subscribe-btn{	float: right; width: 100px; height: 40px; color: #3eb249; margin: 10px 10px 20px 0px; padding: 0px; display: block;}
 
 .foot {margin: 0px; auto;}
 .foot span {  text-align: center;}
@@ -107,10 +110,10 @@ h1 { font-size: 20px;}
 /* Responsive for mobile devices */
 @media only screen and (max-width: 767px) {
 	p {	font-weight: normal;}
-	.ui-content {height: 390px; width: 320px;}
+	.ui-content { width: 320px;}
 	#head { float: right; margin: -30px 5px 0px 0px;} .marg-l { padding-left: 5px;}
 	.anchor-link-right { float:right; text-decoration: none; color: #000000;  font-size: 12px;}
-	#search { width: 300px; height: 250px; float: left; margin: 0px auto;}
+	#search { width: 280px; margin: 0px;} .advsearch { height: 450px !important; }
 	#patient-profile{	width: 320px; float: left; margin: 10px;  font-weight: normal;}
 	#patient-profile table{ font-weight: normal;}
 }
