@@ -71,6 +71,17 @@
           <div class="modified"><img src="{% static "icons/modified.png" %}"height="18" width="18" title="Last Updated"/><span class="marg-l">{{pract.modified|date:"d-M-Y"}}</span></div>
            {% if pract.practise_location.lat and pract.practise_location.lon %}
             <a href="http://maps.google.com/maps?z=12&t=m&q={{pract.practise_location.lat}},{{pract.practise_location.lon}}" target="_blank" class="anchor-link-right map-marker" ><i style="padding: 0px 0px 10px 0px;" class="fa fa-map-marker fa-3x"></i></a>
+            {% else %}
+            <a href="#popupMenu" data-rel="popup" data-transition="slideup" class="anchor-link-right map-marker" ><i style="padding: 0px 0px 10px 0px;" class="fa fa-map-marker fa-3x"></i></a>
+        <div data-role="popup" id="popupMenu" data-theme="b">
+        <p class="locationReply">
+        <span class="break">* Please Make your that you are currently present at "{{pract.practise_location.name}}".</span>
+        <span class="break">* If You're reporting from a smart phone, Kindly Turn on Location Services from your device Settings.</span>
+        <span class="break">*Kidly Allow your device to detect your Geo Location, when prompted by Browser. Thanks</span>
+        <span class="break">Now Press Reort Button below.</span>
+          <button class="reportGeo" id="{{pract.practise_location.name}}" >Report GeoLocation.</button></p>
+          </div>
+          <span class="break">No Geo Location available, Click on Map Button to Update.</span>
             {% endif %}
         </div>
       </div>
@@ -160,43 +171,70 @@
 
   </div>
   <script type="text/javascript">
+    /* Location Detection */
+    var practise = '';
+    var x = document.getElementsByClassName("reportGeo");
+    $(function() {
+     $('.reportGeo').click(function(ev) {
+      practise = $(this).attr('id');
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+      }
+      else { 
+        x.innerHTML = "Geolocation is not supported by this browser.";
+      }
+    });
+  });
+    function showPosition(position) { var lat = position.coords.latitude; var lon = position.coords.longitude;
+      $.ajax({
+        type: "POST", url: '/update/', context: this, data: { type_ : "GeoLocation", 
+        name: '{{data.practitioner.name}}', practise: practise, lat: lat,
+        lon: lon, csrfmiddlewaretoken: '{{ csrf_token }}'},
+        success: function(data) {
+          if(data.Status){
+            $('.locationReply').hide();
+            alert("You have successfully reported the GeoLocation for '"+practise+"' Thanks for your Co-operation. :)");
+          }
+        }
+      });
+    }
     var count = 0;
     /*  Load timings */
     $(function() {
      $('.clock').click(function(ev) {
-        console.log('click')
-        if (count < 1) {
+      console.log('click')
+      if (count < 1) {
         $.ajax({
-            type: "GET",
-            url: $(this).attr('id'),
-            context: this,
-            success: function(data) {
-              $(this).prepend(data);
-              count++;
-            },
-            dataType: 'html'
-          });}else {
+          type: "GET",
+          url: $(this).attr('id'),
+          context: this,
+          success: function(data) {
+            $(this).prepend(data);
+            count++;
+          },
+          dataType: 'html'
+        }); }else {
           ev.preventDefault();
         }
       });
-    });
+   });
     /* favt	*/
     $(function() {
       var favtImg = $('.favourite');
       favtImg.click(function(ev) {
         var doc = "{{data.favourite}}";
         if (doc == "False")
-        $.ajax({
-          type: "POST",
-          url: '/patient/',
-          context: this,
-          data: { slug: '{{data.practitioner.slug}}',csrfmiddlewaretoken: '{{ csrf_token }}'},
-          success: function(data) {
-            if (data.status_) {
-            }
-          },
-          dataType: 'json',
-        });
+          $.ajax({
+            type: "POST",
+            url: '/patient/',
+            context: this,
+            data: { slug: '{{data.practitioner.slug}}',csrfmiddlewaretoken: '{{ csrf_token }}'},
+            success: function(data) {
+              if (data.status_) {
+              }
+            },
+            dataType: 'json',
+          });
       });
     });
     /* up vote */
