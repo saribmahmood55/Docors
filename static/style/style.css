@@ -56,9 +56,14 @@ h1 { font-size: 20px;}
 .clinic{	width: 290px; float: left; padding: 0px 15px 0px 15px; font-weight: normal; clear: none; 
 	color: #000; background-color: #ccccd5;}
 
-.clinic ul li { padding-right: 10px;  display: block; width: 100%;} 
+.clinic ul li { padding-right: 20px;  display: block; width: 100%;} 
 .clinic ul li span{ float: left; width: 260px; } 
-.clinic ul li i{ float: left; width: 20px; height: 20px; padding-right: 10px;}
+.clinic ul li i { float: left; width: 10px; height: 20px; padding-right: 20px;}
+.clinic .sorry-msg { float: left; font-size: 14px; padding-bottom: 10px; width: 100%;}
+.clinic p { width: 200px; padding: 0px 10px; font-size: 15px; margin: 0px auto;} 
+.clinic .day  { float: left; padding-right: 10px; } 
+.clinic .start { float: none; padding: 0px 10px; } 
+.clinic .end { float: right;}
 
 .map-marker { float: right; padding: 10px 0px 10px 0px;}
 .modified { float: left; padding: 20px 10px 0px 0px;}
@@ -81,8 +86,6 @@ h1 { font-size: 20px;}
 */
 
 /* Patient Profile	*/
-
-.profile-cntr { margin: 0px auto;}
 #update-btn{	float: right; width: 90px; height: 40px; color: #3eb249; margin: 0px auto; padding: 0px;}
 
 .profile {	width: 100%; float: left; margin: 10px; font-weight: normal; clear: none; text-align: center;}
@@ -99,12 +102,11 @@ h1 { font-size: 20px;}
 .subscribe-spec{	width: 300px; float: left; margin: 5px; font-weight: normal; clear: none; background-color: #DCEDC6;}
 .subscribe-spec span { margin-left: 35px; display: block;} 
 .subscribe-spec h2 { color: #000; text-align: center; font-size: 16px;}
-.subscribe-spec li {display: inline;} .subscribe-spec p { padding: 5px;}
+.subscribe-spec li {display: inline;} .subscribe-spec p { padding: 60px 10px 0px 10px; font-size: 15px;}
 .subscribe-spec .ui-checkbox input, .ui-radio input { margin: 0px;} 
 #subscribe-btn{	float: right; width: 100px; height: 40px; color: #3eb249; margin: 10px 10px 20px 0px; padding: 0px; display: block;}
 
-.foot {margin: 0px; auto;}
-.foot span {  text-align: center;}
+.foot {margin: 0px auto; text-align: center;}
 .foot a { text-decoration: none; padding-right: 30px;}
 
 /* Responsive for mobile devices */
@@ -117,6 +119,7 @@ h1 { font-size: 20px;}
 	#search { width: 280px !important; height: 340px; margin: 10px auto 0px auto !important;}
 	#search h2 { font-size: 16px; text-align: center;}
 	.advsearch { height: 420px !important; }
-	#patient-profile{	width: 320px; float: left; margin: 10px;  font-weight: normal;}
-	#patient-profile table{ font-weight: normal;}
+	
+	.profile {  width: 230px; padding: 10px; }
+	.profile ul li span { display: block; float: left;}
 }

@@ -1,7 +1,7 @@
-<p class="textCentre">
+<p>
 	{% for time in Timing %}
 	<span class="day">{{time.day}}</span>
-	<span class="time">{{time.get_start_time_display}}</span>
-	<span>{{time.get_end_time_display}}</span><br>
+	<span class="start">{{time.get_start_time_display}}</span>
+	<span class"end">{{time.get_end_time_display}}</span><br>
 	{% endfor %}	
 </p>

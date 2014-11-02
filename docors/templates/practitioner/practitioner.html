@@ -54,7 +54,8 @@
         <div class="clinic">
           <!-- Lad Clinic Timings -->
           <!-- Lad Clinic Timings -->
-          <ul><div class="clock" id="/practise/{{pract.practise_location.slug}}/{{pract.practitioner.slug}}/">
+          <ul>
+          <div class="clock" id="/practise/{{pract.practise_location.slug}}/{{pract.practitioner.slug}}/">
           {% include "practitioner/clinictimings.html" %}
           <li><img src="{% static "icons/clock.png" %} "height="22" width="24" title="Clinic Timings." />
           <strong class="marg-l"><u>Practise Timing.</u></strong></li>
@@ -65,7 +66,7 @@
             <li><i class="fa fa-phone"></i><span>{{pract.contact_number}}</span></li>
             <li><i class="fa fa-calendar"></i>{% if pract.appointments_only %}<span>Appointment Required: Yes.</span>
               {% else %}<span>First Come First Serve.</span>{% endif %}</li>
-            <li><i class="fa fa-location-arrow"></i><span>{{pract.practise_location.clinic_address}}, <strong>{{pract.practise_location.city.name}}</strong></span></li>
+            <li><i class="fa fa-location-arrow"></i><span>{{pract.practise_location.clinic_address}}, <strong>{{pract.practise_location.city.name}}.</strong></span></li>
             <li><i class="fa fa-medkit fa-1x" title="Services Offered."></i><span>{{pract.services}}</span></li>
           </ul>
           <div class="modified"><img src="{% static "icons/modified.png" %}"height="18" width="18" title="Last Updated"/><span class="marg-l">{{pract.modified|date:"d-M-Y"}}</span></div>
@@ -73,16 +74,15 @@
             <a href="http://maps.google.com/maps?z=12&t=m&q={{pract.practise_location.lat}},{{pract.practise_location.lon}}" target="_blank" class="anchor-link-right map-marker" ><i style="padding: 0px 0px 10px 0px;" class="fa fa-map-marker fa-3x"></i></a>
             {% else %}
             <a href="#popupMenu" data-rel="popup" data-transition="slideup" class="anchor-link-right map-marker" ><i style="padding: 0px 0px 10px 0px;" class="fa fa-map-marker fa-3x"></i></a>
-        <div data-role="popup" id="popupMenu" data-theme="b">
+        <div data-role="popup" id="popupMenu" data-theme="a">
         <p class="locationReply">
         <span class="break">* Please Make your that you are currently present at "{{pract.practise_location.name}}".</span>
         <span class="break">* If You're reporting from a smart phone, Kindly Turn on Location Services from your device Settings.</span>
-        <span class="break">*Kidly Allow your device to detect your Geo Location, when prompted by Browser. Thanks</span>
-        <span class="break">Now Press Reort Button below.</span>
-          <button class="reportGeo" id="{{pract.practise_location.name}}" >Report GeoLocation.</button></p>
-          </div>
-          <span class="break">No Geo Location available, Click on Map Button to Update.</span>
-            {% endif %}
+        <span class="break">* Kidly Allow your device to detect your Geo Location, when prompted by Browser. Thanks</span>
+        <button class="reportGeo" id="{{pract.practise_location.name}}" >Report GeoLocation.</button></p>
+        </div>
+          <span class="sorry-msg">* Sorry, No Geo Location available for that Practise Location, Click on Map Button to Update.</span>
+          {% endif %}
         </div>
       </div>
       {% endfor %}{% endif %}
@@ -140,12 +140,12 @@
           <!--if no review-->
           {% elif data.user.is_authenticated%}
           <!-- user login and no review exists-->
-          <strong><span class="textCentre marg-l break">No reviews, yet, Write One.<span>
+          <p><span class="textCentre marg-l break"><strong>No reviews, yet, Write One.</strong></span>
           <form id="reviewBox" action="{% url 'review' %}" method="POST" class="inline_">{% csrf_token %}
               <textarea cols="8" rows="8" name="review_text" required></textarea>
               <input type="hidden" name="slug" value="{{data.practitioner.slug}}">
               <button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Post</button>
-          </form>
+          </form></p>
           {% else %}
 	       <!-- Post new Review / no user login-->
 	       <span>No reviews, yet.<br>
@@ -228,7 +228,7 @@
             type: "POST",
             url: '/patient/',
             context: this,
-            data: { slug: '{{data.practitioner.slug}}',csrfmiddlewaretoken: '{{ csrf_token }}'},
+            data: { type_: "favourite", favt_slug: '{{data.practitioner.slug}}',csrfmiddlewaretoken: '{{ csrf_token }}'},
             success: function(data) {
               if (data.status_) {
               }

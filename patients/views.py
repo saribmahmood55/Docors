@@ -26,25 +26,33 @@ def patient(request):
 			data['user'] = None
 	if request.method == 'POST':
 		if request.user.is_authenticated():
-			patientDetails, slug = {}, None
-			patientDetails['user'] = data['user']
-			patientDetails['fname'] = request.POST.get('fname', None)
-			patientDetails['lname'] = request.POST.get('lname', None)
-			patientDetails['number'] = request.POST.get('number', None)
-			patientDetails['age'] = request.POST.get('age', None)
-			patientDetails['gender'] = request.POST.get('gender', None)
-			slug = request.POST.get('slug', None)
-			if  not slug:
+			patientDetails, response, type_ = {}, {}, None
+			type_ = request.POST.get('type_', None)
+			if type_ == "updatePatient":
+				patientDetails['user'] = data['user']
+				patientDetails['fname'] = request.POST.get('fname', None)
+				patientDetails['lname'] = request.POST.get('lname', None)
+				patientDetails['number'] = request.POST.get('number', None)
+				patientDetails['age'] = request.POST.get('age', None)
+				patientDetails['gender'] = request.POST.get('gender', None)
 				updatePatientDetails(patientDetails)
 				data['patient'] = Patient.patient_objects.patient_details(data['user'])
 				print "user info updated."
 				data['reviews'] = Review.review_objects.patient_reviews(data['user'])
-			if request.is_ajax() and not patientDetails['fname'] and not patientDetails['lname']:
-				like = {}
+			elif type_ == "deleteReview":
+				review_id = request.POST.get('id', None)
+				response['status_'] = deleteReview(review_id)
+				return HttpResponse(json.dumps(response), content_type="application/json")
+			elif type_ == "deletePrac":
+				slug = request.POST.get('prac_slug')
+				patient = Patient.patient_objects.patient_details(data['user'])
+				response['status_'] = deleteFavtPrac(patient, slug)
+				return HttpResponse(json.dumps(response), content_type="application/json")
+			elif type_ == "favourite":
+				slug = request.POST.get('favt_slug', None)
 				user = request.user
-				like['status_'] = favourite(user, slug)
-				return HttpResponse(json.dumps(like), content_type="application/json")
+				response['status_'] = favourite(user, slug)
+				return HttpResponse(json.dumps(response), content_type="application/json")
 		else:
 			data['patient'] = None
-
 	return render_to_response('patients/profile.html', {'data': data}, context_instance=RequestContext(request))

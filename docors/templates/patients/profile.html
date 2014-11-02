@@ -22,7 +22,7 @@
         {% endif %}
       </div>
     </div>
-    <div role="main" class="ui-content container profile-cntr">
+    <div role="main" class="ui-content container">
      {% if data.user.is_authenticated %}
      <!--Patient Profile -->
      <div class="profile">
@@ -37,7 +37,8 @@
            <span>Gender: {{data.patient.get_gender_display}}</span>
            <span>Age-Group: {{data.patient.get_age_group_display}}</span>
            {% else %}
-           <form action="{% url 'patient' %}" method="POST">{% csrf_token %}
+           <form action="{% url 'patient' %}" class="updateP" method="POST">{% csrf_token %}
+            <input type="hidden" name="type" value="updatePatient" />
              <span><strong>First Name: <input type="text" name="fname" required /></strong></span>
              <span><strong>Last Name: <input type="text" name="lname" required /></strong></span>
              <span><strong>Cell Number: <input type="text" name="number" /></strong></span>
@@ -52,7 +53,8 @@
                <option value="55">55-59</option><option value="60">60-64</option><option value="65">65-69</option>
                <option value="80">80-84</option><option value="85">85+</option>
              </select></span>
-             <button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Update</button></form>
+             <button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Update</button>
+            </form>
              {% endif %}
            </li>
          </ul>
@@ -64,31 +66,30 @@
          {% if data.reviews.exists %}
          <ul>
            {% for pr in data.reviews.iterator %}
-           <li class="marg-l">* {{pr.review_text}}<i class="fa fa-times fa-1x" id="{{pr.pk}}"></i></li>
+           <form action="{% url 'patient' %}" class="review" id="{{pr.pk}}" method="POST">{% csrf_token %}
+           <li class="marg-l">* {{pr.review_text}}<button type="submit" ><i class="fa fa-times fa-1x"></i></button></li>
+           </form>
            {% endfor %}
            {% else %}
-           <li><span>No Reviews from you about any Practitioner :(</span></li>
+           <li class="marg-l"><span>No Reviews from you about any Practitioner.</span></li>
          </ul>
          {% endif %}
        </div>
-       
        <!--favourite Practitioner -->
-       
        <div class="favourite-pracs">
         <h2>Favourite Practitioners</h2>
         {% if data.patient.favt_practitioner.all.exists %}
         <ul>
          {% for practitioner in data.patient.favt_practitioner.all.iterator %}
-         <li class="marg-l">* {{practitioner.name}}<i class="fa fa-times fa-1x" id="{{practitioner.slug}}"></i></li>
+         <form action="{% url 'patient' %}" class="prac" id="{{practitioner.slug}}" method="POST">{% csrf_token %}
+         <li class="marg-l">* {{practitioner.name}}<button type="submit" ><i class="fa fa-times fa-1x"></i></button></li>
          {% endfor %}
          {% else %}
-         <span><span>No favourite Practitioner, yet. :(</span>></span>
+         <li class="marg-l"><span>No favourite Practitioner.</span></li>
          {% endif %}
        </ul>
      </div>
-     
      <!--subscribe Specialities -->
-     
      <div class="subscribe-spec">
        <h2>Subscibe for Specialities</h2>
        <ul>
@@ -124,5 +125,51 @@
       <a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i></a></h4>
     </div>
       </div>
-    </body>
-    </html>
+<script type="text/javascript">
+    /* remove Review */
+    $(function() {
+      $('.review').submit(function(ev) {
+        $.ajax({
+            type: "POST",
+            url: $(this).attr('action'),
+            context: this,
+            data: {
+              type_: "deleteReview",
+              id: $(this).attr('id'),
+              csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function(data) {
+              if (data.status_){
+                $(this).remove()
+              }
+            },
+            dataType: 'json'
+          });
+        ev.preventDefault();
+      });
+    });
+    /* remove Prac */
+    $(function() {
+      $('.prac').submit(function(ev) {
+        $.ajax({
+            type: "POST",
+            url: $(this).attr('action'),
+            context: this,
+            data: {
+              type_: "deletePrac",
+              prac_slug: $(this).attr('id'),
+              csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function(data) {
+              if (data.status_){
+                $(this).remove()
+              }
+            },
+            dataType: 'json'
+          });
+        ev.preventDefault();
+      });
+    });
+</script>
+</body>
+</html>

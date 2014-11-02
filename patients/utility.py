@@ -1,6 +1,8 @@
 from patients.models import *
 from practitioner.models import Specialization
+from practitioner.models import Practitioner
 from django.shortcuts import get_object_or_404
+from reviews.models import Review
 
 #
 def updatePatientDetails(patientDetails):
@@ -26,6 +28,17 @@ def favourite(user,slug):
 	else:
 		return False
 		#messages.add_message(request, messages.INFO, msg)
+def  deleteFavtPrac(patient, slug):
+	practitioner = Practitioner.prac_objects.practitioner_slug(slug)
+	print practitioner
+	patient.favt_practitioner.remove(practitioner)
+	return True
+
+#
+def deleteReview(review_id):
+	review = Review.review_objects.review(review_id)
+	review.delete()
+	return True
 #
 def excludedSpecialities(patient):
 	favt_spec = []
