@@ -30,7 +30,7 @@
          <li>
            <span>username: <strong>{{data.patient.user.username}}</strong></span>
            <span>email: <strong>{{data.patient.user.email}}</strong></span>
-           {% if data.patient.user.get_full_name and data.patient.cell_number and data.patient.gender %}
+           {% if data.patient.user.get_full_name and data.patient.cell_number %}
            <span>First name: <strong>{{data.patient.user.first_name}}</strong></span>
            <span>Last Name: <strong>{{data.patient.user.last_name}}</strong></span>
            <span>Cell Number: {{data.patient.cell_number}}</span>
@@ -58,34 +58,32 @@
              {% endif %}
            </li>
          </ul>
-       </div>
+       </div> 
 
        <!--patient reviews-->
        <div class="patient-reviews">
          <h2>Reviews</h2>
-         {% if data.reviews.exists %}
          <ul>
+         {% if data.reviews.exists %}
            {% for pr in data.reviews.iterator %}
-           <form action="{% url 'patient' %}" class="review" id="{{pr.pk}}" method="POST">{% csrf_token %}
-           <li class="marg-l">* {{pr.review_text}}<button type="submit" ><i class="fa fa-times fa-1x"></i></button></li>
-           </form>
+           <li class="marg-l"><span contenteditable="true">{{pr.review_text}}</span><i class="fa fa-trash fa-1x review" id="{{pr.pk}}"></i><i class="fa fa-check updatereview" id="{{pr.pk}}"></i></li>
            {% endfor %}
            {% else %}
-           <li class="marg-l"><span>No Reviews from you about any Practitioner.</span></li>
-         </ul>
+           <li class="marg-l"><span>* No Reviews from you about any Practitioner.</span></li>
          {% endif %}
+         </ul>
+         <p>* Tap on review text to update and then click Check Button to Save.</p>
        </div>
        <!--favourite Practitioner -->
        <div class="favourite-pracs">
         <h2>Favourite Practitioners</h2>
-        {% if data.patient.favt_practitioner.all.exists %}
         <ul>
+        {% if data.patient.favt_practitioner.all.exists %}
          {% for practitioner in data.patient.favt_practitioner.all.iterator %}
-         <form action="{% url 'patient' %}" class="prac" id="{{practitioner.slug}}" method="POST">{% csrf_token %}
-         <li class="marg-l">* {{practitioner.name}}<button type="submit" ><i class="fa fa-times fa-1x"></i></button></li>
+         <li class="marg-l">* {{practitioner.name}}<i class="fa fa-times fa-1x prac" id="{{practitioner.slug}}"></i></li>
          {% endfor %}
          {% else %}
-         <li class="marg-l"><span>No favourite Practitioner.</span></li>
+         <li class="marg-l"><span>* No favourite Practitioner. *</span></li>
          {% endif %}
        </ul>
      </div>
@@ -108,7 +106,7 @@
                 <button type="submit" id="subscribe-btn" class="ui-btn ui-corner-all ui-btn-a">Subscribe</button>
               </form>
             </ul>
-            <p>Please Select the above categories to get specific updates about latest research and weekly health tips.</p>
+            <p>* Please Select the above categories to get specific updates about latest research and weekly health tips.</p>
           </div>
           <!-- No user login-->
           {% else %}
@@ -125,13 +123,18 @@
       <a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i></a></h4>
     </div>
       </div>
+           <!--form action="{% url 'patient' %}" class="review" id="{{pr.pk}}" method="POST">{% csrf_token %}
+           <li class="marg-l">* {{pr.review_text}}<button type="submit" ><i class="fa fa-times fa-1x"></i></button></li>
+           </form-->
 <script type="text/javascript">
     /* remove Review */
     $(function() {
-      $('.review').submit(function(ev) {
+      $('.review').click(function(ev) {
+        var warning = window.confirm("Are you sure you want to remove that Review ?");
+        if (warning){
         $.ajax({
             type: "POST",
-            url: $(this).attr('action'),
+            url: '/patient/',
             context: this,
             data: {
               type_: "deleteReview",
@@ -145,15 +148,40 @@
             },
             dataType: 'json'
           });
+        }
+        ev.preventDefault();
+      });
+    });
+    /* updatereview */
+        $(function() {
+      $('.updatereview').click(function(ev) {
+        $.ajax({
+            type: "POST",
+            url: '/patient/',
+            context: this,
+            data: {
+              type_: "deleteReview",
+              id: $(this).attr('id'),
+              csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function(data) {
+              if (data.status_){
+                $(this).hide()
+              }
+            },
+            dataType: 'json'
+          });
         ev.preventDefault();
       });
     });
     /* remove Prac */
     $(function() {
-      $('.prac').submit(function(ev) {
-        $.ajax({
+      $('.prac').click(function(ev) {
+        var warning = window.confirm("Are you sure you want to remove that Practitioner from your favourite List ?");
+        if (warning){
+          $.ajax({
             type: "POST",
-            url: $(this).attr('action'),
+            url: '/patient/',
             context: this,
             data: {
               type_: "deletePrac",
@@ -167,6 +195,7 @@
             },
             dataType: 'json'
           });
+        }
         ev.preventDefault();
       });
     });

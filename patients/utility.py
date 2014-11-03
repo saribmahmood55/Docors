@@ -26,6 +26,7 @@ def favourite(user,slug):
 		print msg
 		return True
 	else:
+		msg = "Practitioner already Favourite"
 		return False
 		#messages.add_message(request, messages.INFO, msg)
 def  deleteFavtPrac(patient, slug):

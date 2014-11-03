@@ -26,7 +26,7 @@
 	<center><h4>Search Results</h4></center>
 	{% if data.practise.practise_list.exists %}
 
-	<ul style="margin-bottom: 30px;" data-role="listview" data-inset="true">
+	<ul class="results" data-role="listview" data-inset="true">
     {% for onePractitioner in data.practise.practise_list.iterator %}
     <li>
     <a href="{% url 'practitioner' onePractitioner.practitioner.slug %}" class="anchor-link" >

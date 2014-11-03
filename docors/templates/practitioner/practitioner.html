@@ -31,9 +31,10 @@
       <!-- Practitioner Details -->
       <div id="practitionerDetails">
         {% if not data.favourite %}
-        <img class="anchor-link-right favourite" src="{% static "icons/favt_.png" %}" height="32" width="32"/>
+        <span id="bookmark" class="silver-img"><i class="fa fa-star-o fa-2x favourite" title="add to favourite list"></i></span>
         {% else %}
-        <img class="anchor-link-right" title="Already favourited" src="{% static "icons/favt0.png" %}" height="32" width="32" /> {% endif %}
+        <span class="silver-img"><i class="fa fa-star fa-2x" title="Already on Favourite List"></i></span>
+        {% endif %}
         <h1><i class="fa fa-user-md fa-1x marg-r"></i>{{data.practitioner.name}}</h1>
         <span>{{data.practitioner.credentials}}</span>
         <span>Specialized in: {% for speciality in data.practitioner.specialities.all.iterator %}{{speciality.name}}</span>
@@ -52,8 +53,8 @@
         <h2 style="background-color: #4b555d;">{{pract.practise_location.name}}</h2>
         {% endif %}
         <div class="clinic">
-          <!-- Lad Clinic Timings -->
-          <!-- Lad Clinic Timings -->
+          <!-- Load Clinic Timings -->
+          <!-- Load Clinic Timings -->
           <ul>
           <div class="clock" id="/practise/{{pract.practise_location.slug}}/{{pract.practitioner.slug}}/">
           {% include "practitioner/clinictimings.html" %}
@@ -61,7 +62,7 @@
           <strong class="marg-l"><u>Practise Timing.</u></strong></li>
           </div>
           <!-- Load Clinic Timings -->
-          <!-- Lad Clinic Timings -->
+          <!-- Load Clinic Timings -->
             <li><i class="fa fa-money" title="Checkup Fee."></i><span><strong>{{pract.checkup_fee}} rs.</strong></span></li>
             <li><i class="fa fa-phone"></i><span>{{pract.contact_number}}</span></li>
             <li><i class="fa fa-calendar"></i>{% if pract.appointments_only %}<span>Appointment Required: Yes.</span>
@@ -140,7 +141,7 @@
           <!--if no review-->
           {% elif data.user.is_authenticated%}
           <!-- user login and no review exists-->
-          <p><span class="textCentre marg-l break"><strong>No reviews, yet, Write One.</strong></span>
+          <p><span class="textCentre marg-l break"><strong>No reviews yet, Make One.</strong></span>
           <form id="reviewBox" action="{% url 'review' %}" method="POST" class="inline_">{% csrf_token %}
               <textarea cols="8" rows="8" name="review_text" required></textarea>
               <input type="hidden" name="slug" value="{{data.practitioner.slug}}">
@@ -148,7 +149,7 @@
           </form></p>
           {% else %}
 	       <!-- Post new Review / no user login-->
-	       <span>No reviews, yet.<br>
+	       <span>No reviews yet.<br>
           <a href="#popupMenu" data-rel="popup" data-transition="slideup" class="anchor-link-right marg-t" >add review..</a>
           <div data-role="popup" id="popupMenu" data-theme="b">
           <ul data-role="listview" data-inset="true" style="min-width:210px;">
@@ -231,6 +232,8 @@
             data: { type_: "favourite", favt_slug: '{{data.practitioner.slug}}',csrfmiddlewaretoken: '{{ csrf_token }}'},
             success: function(data) {
               if (data.status_) {
+                $(this).hide();
+                $('#bookmark').append('<i class="fa fa-star fa-2x" title="added to Favourite List"></i>');
               }
             },
             dataType: 'json',

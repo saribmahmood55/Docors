@@ -49,7 +49,7 @@ def patient(request):
 				response['status_'] = deleteFavtPrac(patient, slug)
 				return HttpResponse(json.dumps(response), content_type="application/json")
 			elif type_ == "favourite":
-				slug = request.POST.get('favt_slug', None)
+				slug = request.POST.get('favt_slug', '')
 				user = request.user
 				response['status_'] = favourite(user, slug)
 				return HttpResponse(json.dumps(response), content_type="application/json")
