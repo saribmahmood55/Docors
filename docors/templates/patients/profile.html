@@ -17,8 +17,6 @@
        <div id="head">
         {% if data.user.is_authenticated %}
         <a href="/logout/" style: id="user" >Log Out.</a>
-        {% else %}
-        <a href="/register/" style: id="user" >Sign Up</a>
         {% endif %}
       </div>
     </div>
@@ -64,27 +62,24 @@
        <div class="patient-reviews">
          <h2>Reviews</h2>
          <ul>
-         {% if data.reviews.exists %}
            {% for pr in data.reviews.iterator %}
            <li class="marg-l"><span contenteditable="true">{{pr.review_text}}</span><i class="fa fa-trash fa-1x review" id="{{pr.pk}}"></i><i class="fa fa-check updatereview" id="{{pr.pk}}"></i></li>
-           {% endfor %}
-           {% else %}
+           {% empty %}
            <li class="marg-l"><span>* No Reviews from you about any Practitioner.</span></li>
-         {% endif %}
+           {% endfor %}
          </ul>
          <p>* Tap on review text to update and then click Check Button to Save.</p>
        </div>
+
        <!--favourite Practitioner -->
        <div class="favourite-pracs">
         <h2>Favourite Practitioners</h2>
         <ul>
-        {% if data.patient.favt_practitioner.all.exists %}
          {% for practitioner in data.patient.favt_practitioner.all.iterator %}
          <li class="marg-l">* {{practitioner.name}}<i class="fa fa-times fa-1x prac" id="{{practitioner.slug}}"></i></li>
-         {% endfor %}
-         {% else %}
+          {% empty %}
          <li class="marg-l"><span>* No favourite Practitioner. *</span></li>
-         {% endif %}
+         {% endfor %}
        </ul>
      </div>
      <!--subscribe Specialities -->

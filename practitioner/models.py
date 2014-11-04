@@ -76,25 +76,18 @@ class PractiseManager(models.Manager):
     # Search request handling
     def practise_details(self, city, name, speciality, experience, day):
         result = {}
-        query = super(PractiseManager, self).filter(practise_location__city__slug=city)
+        query = super(PractiseManager, self).filter(practitioner__specialities__slug=speciality, practise_location__city__slug=city)
         query = query.distinct('practitioner')
-        #filter name
-        if day != None:
-            query.filter(practisetiming__practitioner__slug=speciality, )
-        if name != None and speciality == None:
-            query = query.filter(practitioner__name__icontains=name)
-            print name
-        #filter Speciality
-        if speciality != None :
-            query = query.filter(practitioner__specialities__slug=speciality)
-            #filter name and specialty
-            if name != None:
-                query = query.filter(practitioner__name__icontains=name)
-            #filter experienced
-            if experience >= 0:
+        
+        #filter experienced
+        if experience >= 0:
                 query = query.filter(practitioner__experience__gte=experience)
+        #filter name
+        if name != '':
+            print name
+            query = query.filter(practitioner__name__icontains=name)
         #filter day
-        if day != None:
+        if day != '':
             query = query.filter(practitioner__specialities__slug=speciality).distinct('practitioner')
         result['practise_list'] = query
         return result

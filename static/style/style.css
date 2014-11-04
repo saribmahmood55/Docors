@@ -11,8 +11,9 @@ h1 { font-size: 20px;}
 /* General*/
 
 .ui-content {width: 1170px; height: 535px; margin: 0px auto;}
-#head { float: right; margin: -35px 20px 0px 0px; font-size: 16px;}
-.anchor-link {	text-decoration: none !important;	color: #1B0A2A !important; font-size: 14px;}
+#head { float: right; margin: -35px 20px 0px 0px; font-size: 16px; text-align: center;}
+.anchor { color: #000 ! important; }
+.anchor-link {	text-decoration: none !important; color: #1B0A2A !important; font-size: 14px;}
 .anchor-link a:hover {	color: #ffffff; }
 #user { float:right; text-decoration: none; color: #000000; background-color: #DCEDC6;}
 .anchor-link-right {float:right; text-decoration: none !important; color: #000000 !important; font-size: 14px;}
@@ -28,15 +29,15 @@ h1 { font-size: 20px;}
 	color: #ffffff; background-color: #455B70 !important; text-shadow: none;}
 #search select { float: left;} #search h2 { font-size: 18px; text-align: center;} 
 #search li button { float: right; width: 90px; height: 40px; color: #3eb249; padding: 0px;}
-.advsearch { height: 430px ! important; }
+.advsearch { height: 500px ! important; }
 
 /*#search-btn{	}*/
 .inline_ { display: inline; padding: 0px; margin: 0px; }
 .normalweight { font-weight: normal;}
 .marg-r{ padding-right: 10px; }  .marg-l{ padding-left: 10px; } .marg-b{ padding-right: 10px; } .marg-t{ padding-top: 10px; }
 .break { display: block;}
+
 /* Results */
-.results li { background-color: #e6e6e8 !important;}
 
 /* Practitioner details */
 #practitionerDetails{ padding: 0; float: none;	text-align: center; margin: 10px auto; font-weight: normal;}
@@ -57,10 +58,11 @@ h1 { font-size: 20px;}
 .clinic .sorry-msg { float: left; font-size: 14px; padding-bottom: 10px; width: 100%;}
 .clinic p { width: 200px; padding: 0px 10px; font-size: 15px; margin: 0px auto;} 
 .clinic .day  { float: left; width: 25px; padding-right: 15px; } .clinic .start { float: none; width: 25px; padding: 0px 10px; } .clinic .end { float: right; width: 25px;}
+.clinic .description { float: left; width: 25px; padding-right: 35px;}
 
 .map-marker { float: right; padding: 10px 0px 10px 0px;}
-.modified { float: left; padding: 20px 10px 0px 0px;}
-#clock_ { float: right; }
+.modified { float: left; padding-top: 20px; } .modified span { padding-left: 5px; font-size: 14px;}
+.clock .timings { padding-left: 5px; text-decoration: underline; }
 
 .reviews{ width: 320px; float: left; overflow-x:auto; font-weight: normal; clear: none; background-color: #e6e6e8; color: #000;}
 .reviews p { padding: 0px 10px;}
@@ -96,15 +98,16 @@ color: #ffffff; background-color: #455a64; text-shadow: none; }
 .subscribe-spec .ui-checkbox input, .ui-radio input { margin: 0px;} 
 #subscribe-btn{	float: right; width: 100px; height: 40px; color: #3eb249; margin: 10px 10px 20px 0px; padding: 0px; display: block;}
 
-.foot {margin: 0px auto; text-align: center;}
-.foot a { text-decoration: none; padding-right: 30px;}
+.ui-footer .ui-title { }
+.foot { text-align: center;} .foot h2 { width: 450px; }
+.foot a { padding-right: 30px; text-decoration: none;	color: #000 !important; font-size: 14px;}
 
 /* Responsive for mobile devices */
 @media only screen and (max-width: 767px) {
 	h1 { font-size: 18px;}
 	p {	font-weight: normal;}
 	.ui-content { width: 320px !important;}
-	#head { float: right; margin: -30px 5px 0px 0px;} .marg-l { padding-left: 5px;}
+	.marg-l { padding-left: 5px;}
 	.anchor-link-right { float:right; text-decoration: none; color: #000000;  font-size: 12px;}
 	#search { width: 280px !important; height: 340px; margin: 10px auto 0px auto !important;}
 	#search h2 { font-size: 16px; text-align: center;}

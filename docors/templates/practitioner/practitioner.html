@@ -20,7 +20,15 @@
         {% if data.user.is_authenticated %}
         <a href="{% url 'patient' %}" class="anchor-link"><i class="fa fa-user fa-1x marg-r"></i>{{data.user.username}}</a>
         {% else %}
-        <a href="/login/" style: class="anchor-link-right" >Login</a>
+        <a href="#popupMenu" data-rel="popup" data-transition="slideup" class="anchor-link">
+        <img src="{% static "icons/person.jpg" %}" width="32" height="32" ></a>
+        <div data-role="popup" id="popupMenu" data-theme="a">
+        <ul data-role="listview" data-inset="true" style="min-width:210px;">
+          <li><a href="/login/">Login</a></li>
+          <li><a href="/register/">Sign Up</a></li>
+          <li><a href="/login/">Forgot Password</a></li>
+        </ul>
+        </div> 
         {% endif %}
       </div>
     </div>
@@ -44,34 +52,35 @@
       </div>
 
       <!-- Practise-Location Details -->
-      {% if data.practise.exists %}
       {% for pract in data.practise.iterator %}
       <div class="grid-name">
-        {% if pract.practise_type == 'P' %}
+        {% ifequal pract.practise_type "P" %}
         <h2 style="background-color: #4b555d;">{{pract.practitioner.name}}</h2>
         {% else %}
         <h2 style="background-color: #4b555d;">{{pract.practise_location.name}}</h2>
-        {% endif %}
+        {% endifequal %}
         <div class="clinic">
-          <!-- Load Clinic Timings -->
           <!-- Load Clinic Timings -->
           <ul>
           <div class="clock" id="/practise/{{pract.practise_location.slug}}/{{pract.practitioner.slug}}/">
           {% include "practitioner/clinictimings.html" %}
           <li><img src="{% static "icons/clock.png" %} "height="22" width="24" title="Clinic Timings." />
-          <strong class="marg-l"><u>Practise Timing.</u></strong></li>
+          <strong class="timings">Practice Timing.</strong></li>
           </div>
           <!-- Load Clinic Timings -->
-          <!-- Load Clinic Timings -->
+            <br>
             <li><i class="fa fa-money" title="Checkup Fee."></i><span><strong>{{pract.checkup_fee}} rs.</strong></span></li>
-            <li><i class="fa fa-phone"></i><span>{{pract.contact_number}}</span></li>
-            <li><i class="fa fa-calendar"></i>{% if pract.appointments_only %}<span>Appointment Required: Yes.</span>
+            <li><i class="fa fa-phone"></i><span><u>{{pract.contact_number}}</u></span></li>
+            <li><i class="fa fa-calendar"></i>{% if pract.appointments_only %}<span>Appointment Required: <b>Yes.</b></span>
               {% else %}<span>First Come First Serve.</span>{% endif %}</li>
-            <li><i class="fa fa-location-arrow"></i><span>{{pract.practise_location.clinic_address}}, <strong>{{pract.practise_location.city.name}}.</strong></span></li>
-            <li><i class="fa fa-medkit fa-1x" title="Services Offered."></i><span>{{pract.services}}</span></li>
+            <li><i class="fa fa-location-arrow"></i><span>{{pract.practise_location.clinic_address}}, {{pract.practise_location.city.name}}.</span></li>
+            <li><i class="fa fa-medkit fa-1x" title="Services Offered."></i><span>Services: {{pract.services}}</span></li>
           </ul>
-          <div class="modified"><img src="{% static "icons/modified.png" %}"height="18" width="18" title="Last Updated"/><span class="marg-l">{{pract.modified|date:"d-M-Y"}}</span></div>
-           {% if pract.practise_location.lat and pract.practise_location.lon %}
+
+          <div class="modified"><img src="{% static "icons/mod.png" %}"height="18" width="18" title="Last Updated"/>
+          <span>{{pract.modified|date:"d-M-Y"}}</span></div>
+          <!-- Lat Long -->
+          {% if pract.practise_location.lat and pract.practise_location.lon %}
             <a href="http://maps.google.com/maps?z=12&t=m&q={{pract.practise_location.lat}},{{pract.practise_location.lon}}" target="_blank" class="anchor-link-right map-marker" ><i style="padding: 0px 0px 10px 0px;" class="fa fa-map-marker fa-3x"></i></a>
             {% else %}
             <a href="#popupMenu" data-rel="popup" data-transition="slideup" class="anchor-link-right map-marker" ><i style="padding: 0px 0px 10px 0px;" class="fa fa-map-marker fa-3x"></i></a>
@@ -86,7 +95,7 @@
           {% endif %}
         </div>
       </div>
-      {% endfor %}{% endif %}
+      {% endfor %}
 
       <!-- Practitioner Reviews Details -->
       <div class="grid-name">
@@ -199,24 +208,20 @@
         }
       });
     }
-    var count = 0;
     /*  Load timings */
-    $(function() {
-     $('.clock').click(function(ev) {
-      console.log('click')
-      if (count < 1) {
+  $(function() {
+    $('.clock').click(function(ev) {
         $.ajax({
           type: "GET",
           url: $(this).attr('id'),
           context: this,
           success: function(data) {
             $(this).prepend(data);
-            count++;
+            $(this).unbind('click');
           },
           dataType: 'html'
-        }); }else {
-          ev.preventDefault();
-        }
+        });
+        ev.preventDefault();
       });
    });
     /* favt	*/
@@ -244,7 +249,6 @@
     $(function() {
       var up = $('.up');
       up.click(function(ev) {
-        if (count < 2) {
           $.ajax({
             type: "POST",
             url: $(this).attr('id'),
@@ -258,20 +262,16 @@
               down = up.next('.down_votes');
               up.text(data.up);
               down.text(data.down);
-              count++;
+              $(this).unbind('click');
             },
             dataType: 'json',
           });
-        } else {
-          ev.preventDefault();
-        }
       });
     });
     /* down vote */
     $(function() {
       var down = $('.down');
       down.click(function(ev) {
-        if (count < 2) {
           $.ajax({
             type: "POST",
             url: $(this).attr('id'),
@@ -285,16 +285,12 @@
               var up = down.prev('.up_votes');
               down.text(data.down);
               up.text(data.up);
-              count++;
+              $(this).unbind('click');
             },
             dataType: 'json'
           });
-        } else {
-          ev.preventDefault();
-        }
       });
     });
   </script>
 </body>
-
 </html>

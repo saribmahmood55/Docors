@@ -19,8 +19,15 @@
         {% if data.user.is_authenticated %}
         <a href="{% url 'patient' %}" class="anchor-link"><i class="fa fa-user fa-1x marg-r"></i>{{data.user.username}}</a>
         {% else %}
-        <a href="/register/" style: class="anchor-link-right marg-l" >Sign Up</a>
-        <a href="/login/" class="anchor-link-right" >Login</a>
+        <a href="#popupMenu" data-rel="popup" data-transition="slideup" class="anchor-link">
+        <img src="{% static "icons/person.jpg" %}" width="32" height="32" ></a>
+        <div data-role="popup" id="popupMenu" data-theme="a">
+        <ul data-role="listview" data-inset="true" style="min-width:210px;">
+          <li><a href="/login/">Login</a></li>
+          <li><a href="/register/">Sign Up</a></li>
+          <li><a href="/login/">Forgot Password</a></li>
+        </ul>
+        </div> 
         {% endif %}
       </div>
     </div>
@@ -53,7 +60,7 @@
         <input type="range" name="exp" value="0" min="0" max="30" data-highlight="true">
         </li>
         <li><button type="submit" class="ui-btn ui-shadow ui-corner-all">Search</button></li>
-        <li class="advance-search"><a class="anchor-link-left" href="#advance">advance search >></a></li>
+        <li><a class="anchor-link-left" href="#advance">advance search >></a></li>
         </form>
         </ul>
         </div>
@@ -61,11 +68,12 @@
       </div>
       <div class="foot" data-role="footer">
         <h4>
-          <a class="anchor-link-left" href="#register">get listed !</a>
+          <a class="float-left" href="{% url 'registration' %}">get listed !</a>
           <a href="https://www.facebook.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook fa-1x"></i></a>
-          <a href="mailto:doctorsinfo.pk@gmail.com"><i class="fa fa-envelope fa-1x"></i></a>
-          <a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i></a></h4>
-        </div>
+          <a href="mailto:doctorsinfo.pk@gmail.com" target="_blank"><i class="fa fa-envelope fa-1x"></i></a>
+          <a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i></a>
+        </h4>
+      </div>
     </div>
 
       <!-- Advance Search -->
@@ -75,9 +83,17 @@
           <div id="head">
             {% if data.user.is_authenticated %}
             <a href="{% url 'patient' %}" class="anchor-link"><i class="fa fa-user fa-1x marg-r"></i>{{data.user.username}}</a>
-            {% else %}
-            <a href="/login/" style: class="anchor-link-right" >Login</a>
-            {% endif %}
+        {% else %}
+        <a href="#popupMenu" data-rel="popup" data-transition="slideup" class="anchor-link">
+        <img src="{% static "icons/person.jpg" %}" width="32" height="32" ></a>
+        <div data-role="popup" id="popupMenu" data-theme="a">
+        <ul data-role="listview" data-inset="true" style="min-width:210px;">
+          <li><a href="/login/">Login</a></li>
+          <li><a href="/register/">Sign Up</a></li>
+          <li><a href="/login/">Forgot Password</a></li>
+        </ul>
+        </div> 
+        {% endif %}
           </div>
         </div>
 
@@ -95,8 +111,12 @@
         </select>
         </li>
         <li>
+        <label for="name">Name</label>
+        <input type="search" name="name" value="" placeholder="Doctor Name">
+        </li>
+        <li>
         <label for="spec">Specialist Category</label>
-        <select name="spec" required>
+        <select name="spec">
           <option value="">- Select Speciality -</option>
           {% for speciality in data.specialities.iterator %}
           <option value={{speciality.slug}}>{{speciality.name}}</option>
@@ -110,7 +130,7 @@
         <li>
           <label for="day">Doctor avalability on particular Day.</label>
             <select name="day">
-              <option>- Select Day -</option>
+              <option value="">- Select Day -</option>
               <option value="Mon">Monday</option>
               <option value="Tue">Tuesday</option>
               <option value="Wed">Wednesday</option>
@@ -134,142 +154,7 @@
           </div>
         </div>
       </div>
-
-      <!-- Registration -->
-      <div data-role="page" id="register" data-theme="a" data-title="doctorsinfo.pk | registration.">
-        <div data-role="header">
-          <h1><a href="/" class="anchor-link" ><i class="fa fa-stethoscope fa-1x marg-r"></i>doctorsinfo.pk</a></h1>
-          <div id="head">
-            {% if data.user.is_authenticated %}
-            <a href="{% url 'patient' %}" class="anchor-link"><i class="fa fa-user fa-1x marg-r"></i>{{data.user.username}}</a>
-            {% else %}
-            <a href="/login/" style: class="anchor-link-right" >Login</a>
-            {% endif %}
-          </div>
-        </div>
-        
-        <div role="main" class="ui-content container">
-
-          <strong>Please provide the following details.<br></strong>
-          
-          <form action="{% url 'registration' %}" method="POST">
-            {% csrf_token %}
-            
-            Practitioner Name: <input type="text" name="practitioner_name" id="text-basic" placeholder="Dr. Ali Raza" required>
-
-            <label for="email">email address: (it will not be published, online)</label>
-            <input type="email" name="email" id="email" autocomplete="on" required>
-
-            <label for="text-basic">Credentials.</label>
-            <input type="text" name="credentials" placeholder="MBBS, MD, DAB, MRCP, MCPS..." required>
-
-            <label for="textarea">Achievements.</label>
-            <textarea cols="40" rows="8" name="achievements" id="textarea" placeholder="Education, Research Work, Training & Achievements"></textarea>
-
-            <label for="text-basic">Experience in Years.</label>
-            <input type="text" name="experience" placeholder="20" required>
-
-            <label for="text-basic">Specialized In:</label>
-            <input type="text" name="speciality" placeholder="Pediatrics, Family Medicine" required>
-
-            <strong>Clinic details.<br></strong>
-            
-            <select name="clinic-type1" id="select-native-3" required>
-              <option>Select Practise Type</option>
-              <option value="P">Private Clinic</option>
-              <option value="Tue">Hospital</option>
-            </select>
-
-            <label for="text-basic">Clinic/Hospital Name:</label>
-            <input type="text" name="clinicName" placeholder="Dr. Ali Raza Clinic / Farooq Hospital." required>
-
-            <label for="text-basic">Adress:</label>
-            <input type="text" name="address" placeholder="Street Address" required>
-
-            <label for="text-basic">City:</label>
-            <input type="text" name="city" required>
-
-            <label for="tel">Contact Number:</label>
-            <input type="tel" id="tel" name="number1" placeholder="03001234567, 04235000000" required >
-
-            <label for="number-pattern">Checkup Fee: (Enter Numbers only)</label>
-            <input type="number" pattern="[0-9]*" id="number-pattern" name="fee" placeholder="2000." required>
-
-            <label for="textarea">Services offered on that Clinic/Hospital:</label>
-            <textarea cols="40" rows="8" name="services" placeholder="Services Details" required></textarea>
-
-            <label for="text-basic">Appointments only ?</label>
-            <input type="text" name="appointment" placeholder="Yes or No. No means, Checkup allow on First Come First Serve Bases." required>
-
-            <label for="text-basic">Physical Latitude:</label>
-            <input type="text" name="latitude" placeholder="xx.yyyyyy">
-
-            <label for="text-basic">Physical Longitude:</label>
-            <input type="text" name="longitude" placeholder="xx.yyyyyy">
-
-            <strong>Clinic Timings<br></strong>
-
-            <label for="textarea">Clininc/Hospital Timings</label>
-            <textarea cols="40" rows="8" name="timing" placeholder="format: Monday 10:00am to 01:00pm" required></textarea>
-
-            <!-- Extra -->
-            <div data-role="collapsible" data-collapsed="true" data-collapsed-icon="carat-d" data-expanded-icon="carat-u">
-              <h4>Add another Clinic/Hospital Details for same Practitioner</h4>
-              <strong>Clinic details.<br></strong>
-
-              <select name="clinic-type2" id="select-native-3">
-                <option>Select Practise Type</option>
-                <option value="Private Clinic">Private Clinic</option>
-                <option value="Hospital">Hospital</option>
-              </select>
-              <label for="text-basic">Clinic/Hospital Name:</label>
-              <input type="text" name="clinicName2" placeholder="Dr. Ali Raza Clinic / Farooq Hospital." >
-
-              <label for="text-basic">Adress:</label>
-              <input type="text" name="address2" placeholder="Street Address" >
-
-              <label for="text-basic">City:</label>
-              <input type="text" name="city2" >
-
-              <label for="tel">Contact Number:</label>
-              <input type="tel" id="tel" name="number2" placeholder="03001234567, 04235000000" >
-
-              <label for="number-pattern">Checkup Fee: (Enter Numbers only)</label>
-              <input type="number" name="fee2" pattern="[0-9]*" id="number-pattern" placeholder="2000." required>
-
-              <label for="textarea">Services offered on that Clinic/Hospital:</label>
-              <textarea cols="40" rows="8" name="services2" placeholder="Services Details" ></textarea>
-
-              <label for="text-basic">Appointments only? (Yes or No.)</label>
-              <input type="text" name="appointment2" placeholder="No, if you allow Checkup on First Come First Serve Basis." >
-
-              <label for="text-basic">Physical Latitude:</label>
-              <input type="text" name="latitude1" placeholder="xx.yyyyyy" >
-
-              <label for="text-basic">Physical Longitude:</label>
-              <input type="text" name="longitude2" placeholder="xx.yyyyyy" >
-
-              <strong>Clinic Timings<br></strong>
-
-              <label for="textarea">Clininc/Hospital Timings</label>
-              <textarea cols="40" rows="8" name="timing2" placeholder="format: Monday 10:00am to 01:00pm" ></textarea>
-            </div>
-
-            <button type="submit" style="width: 90px; height: 45px; color: #3eb249; margin: 0px auto;" class="ui-btn ui-shadow ui-corner-all">
-              Submit</button>
-
-            </form>
-          </div>
-
-          <div class="foot" data-role="footer">
-            <h4>
-              <a href="https://www.facebook.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook fa-1x"></i></a>
-              <a href="mailto:doctorsinfo.pk@gmail.com"><i class="fa fa-envelope fa-1x"></i></a>
-              <a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i></a></h4>
-            </div>
-
-          </div>
-        </body>
-        </html>
+</body>
+</html>
 <!--label for="slider-2">Search a Specialist in KM radius.</label>
 <input type="range" name="slider-2" id="slider-2" value="0" min="0" max="15" data-highlight="true"-->

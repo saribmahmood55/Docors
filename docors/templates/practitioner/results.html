@@ -11,47 +11,52 @@
   <link rel="stylesheet" href="{% static "style/style.css" %}"rel="stylesheet" type="text/css" />
 </head>
 <body>
-<div data-role="page" data-title="doctorsinfo.pk">
-	<div data-role="header">
+  <div data-role="page" data-title="doctorsinfo.pk">
+   <div data-role="header">
     <h1><a href="/" class="anchor-link" ><i class="fa fa-stethoscope fa-1x marg-r"></i>doctorsinfo.pk</a></h1>
-      <div id="head">
+    <div id="head">
       {% if data.user.is_authenticated %}
-        <a href="{% url 'patient' %}" class="anchor-link"><i class="fa fa-user fa-1x marg-r"></i>{{data.user.username}}</a>
-      {% else %}
-        <a href="/login/" style: class="anchor-link-right" >Login</a>
-      {% endif %}
-      </div>
-	</div>
-<div role="main" class="ui-content container">
-	<center><h4>Search Results</h4></center>
-	{% if data.practise.practise_list.exists %}
-
-	<ul class="results" data-role="listview" data-inset="true">
-    {% for onePractitioner in data.practise.practise_list.iterator %}
+      <a href="{% url 'patient' %}" class="anchor-link"><i class="fa fa-user fa-1x marg-r"></i>{{data.user.username}}</a>
+        {% else %}
+        <a href="#popupMenu" data-rel="popup" data-transition="slideup" class="anchor-link">
+        <img src="{% static "icons/person.jpg" %}" width="32" height="32" ></a>
+        <div data-role="popup" id="popupMenu" data-theme="a">
+        <ul data-role="listview" data-inset="true" style="min-width:210px;">
+          <li><a href="/login/">Login</a></li>
+          <li><a href="/register/">Sign Up</a></li>
+          <li><a href="/login/">Forgot Password</a></li>
+        </ul>
+        </div> 
+        {% endif %}
+    </div>
+  </div>
+  <div role="main" class="ui-content container">
+   <center><h4>Search Results</h4></center>
+   {% for onePractitioner in data.practise.practise_list.iterator %}
+   <ul class="results" data-role="listview" data-inset="true">
     <li>
-    <a href="{% url 'practitioner' onePractitioner.practitioner.slug %}" class="anchor-link" >
-    <h1>{{onePractitioner.practitioner.name}}</h1>
-    <p><strong>{{onePractitioner.practitioner.credentials}}</strong></p>
-    <p>Specialized in: 
-    	{% for speciality in onePractitioner.practitioner.specialities.all.iterator %}
-    	{{speciality.name}}
-    	{% endfor %}
-    </p>
-    <p class="ui-li-aside">Fee: <strong>{{onePractitioner.checkup_fee}}</strong> rs.</p>
-    </a>
+      <a href="{% url 'practitioner' onePractitioner.practitioner.slug %}" class="anchor-link" >
+        <h1>{{onePractitioner.practitioner.name}}</h1>
+        <p><strong>{{onePractitioner.practitioner.credentials}}</strong></p>
+        <p>Specialized in: 
+         {% for speciality in onePractitioner.practitioner.specialities.all.iterator %}
+         {{speciality.name}}
+         {% endfor %}
+       </p>
+       <p class="ui-li-aside">Fee: <strong>{{onePractitioner.checkup_fee}}</strong> rs.</p>
+     </a>
     </li>
-    {% endfor %}
-	</ul>
-	{% else %}
-    <center><p><strong>Sorry, No results found. Search again.</strong></p></center>
-	{% endif %}
-    </div>
-	    <div class="foot" data-role="footer">
-      <h4>
-      <a href="https://www.facebook.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook fa-1x"></i></a>
-      <a href="mailto:doctorsinfo.pk@gmail.com"><i class="fa fa-envelope fa-1x"></i></a>
-      <a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i></a></h4>
-    </div>
+   </ul>
+   {% empty %}
+   <center><p><strong>Sorry, No results found. Search again.</strong></p></center>
+   {% endfor %}
+  </div>
+<div class="foot" data-role="footer">
+  <h4>
+    <a href="https://www.facebook.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook fa-1x"></i></a>
+    <a href="mailto:doctorsinfo.pk@gmail.com"><i class="fa fa-envelope fa-1x"></i></a>
+    <a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i></a></h4>
+  </div>
 </div>
 </body>
 </html>

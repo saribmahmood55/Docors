@@ -39,15 +39,11 @@ def practitoners(request):
 	else:
 		data['user'] = None
 	if request.method == "GET":
-		city = request.GET.get('city', None)
-		name = request.GET.get('name', None)
-		speciality = request.GET.get('spec', None)
-		experience = request.GET.get('exp', None)
-		day = request.GET.get('day', None)
-		if speciality == "Select Speciality":
-			speciality = None
-		if day == "Select Day":
-			day = None
+		city = request.GET.get('city', '')
+		name = request.GET.get('name', '')
+		speciality = request.GET.get('spec', '')
+		experience = request.GET.get('exp', '')
+		day = request.GET.get('day', '')
 	try:
 		data['practise'] = Practise.practise_objects.practise_details(city, name, speciality, experience, day)
 	except Practise.DoesNotExist:
@@ -101,8 +97,15 @@ def update(request):
 
 
 def registration(request):
-	email, practitioner_name = None, None
+	data = {}
+	if request.user.is_authenticated():
+		data['user'] = request.user
+	else:
+		data['user'] = None
+	if request.method == "GET":
+		return render_to_response('practitioner/registration.html', {'data': data}, context_instance=RequestContext(request))
 	if request.method == "POST":
+		email, practitioner_name = None, None
 		practitioner_name = request.POST.get('practitioner_name', '')
 		email = request.POST.get('email', '')
 		credentials = request.POST.get('credentials', '')
@@ -134,13 +137,13 @@ def registration(request):
 		longitude2 = request.POST.get('latitude2', '')
 		timing2 = request.POST.get('timing2', '')
 
-	##MAKE EMAIL##
-	recepient = 'doctorsinfo.pk@gmail.com'
-	subject = "Registration Request | " + practitioner_name
-	body = "Practitioner Details\n\n" + "Name: " + practitioner_name + "\n" + "Email: " + email + "\n" + "Credentials: " +credentials + "\n" + "Achievements: " + achievements + "\n" + "Experience: " + experience + "\n" + "Speciality: " + speciality + "\n\n"
-	body = body + "Clinic Details:\n\n" + "Clinic Type: " + clinic_type1 + "Clinic Name: " + clinicName + "\n" + "Address: " + address + "\n" + "City: " +city + "\n" + "Number" + number + "\n" + "Fee: " + fee + "\n" + "Services: " + services + "\n" + "Appointment_only: " + appointment + "\n" + "Latitude: " + latitude + "\n" + "Longitude: " + longitude + "\n" + "Timing: " + timing + "\n\n"
-	if clinicName2 and address2 and city2 and number2:
-		body = body + "Clinic Details 2:\n\n" + "Clinic Type: " + clinic_type2 + "Clinic Name: " + clinicName2 + "\n" + "Address: " + address2 + "\n" + "City: " +city2 + "\n" + "Number" + number2 + "\n" + "Fee: " + fee2 + "\n" + "Services: " + services2 + "\n" + "Appointment_only: " + appointment2 + "\n" + "Latitude: " + latitude2 + "\n" + "Longitude: " + longitude2 + "\n" + "Timing: " + timing2 + "\n\n"
-	#send email
-	send_mail(subject, body, email, [recepient])
-	return render_to_response('practitioner/success.html',{'email': email}, context_instance=RequestContext(request))
+		##MAKE EMAIL##
+		recepient = 'doctorsinfo.pk@gmail.com'
+		subject = "Registration Request | " + practitioner_name
+		body = "Practitioner Details\n\n" + "Name: " + practitioner_name + "\n" + "Email: " + email + "\n" + "Credentials: " +credentials + "\n" + "Achievements: " + achievements + "\n" + "Experience: " + experience + "\n" + "Speciality: " + speciality + "\n\n"
+		body = body + "Clinic Details:\n\n" + "Clinic Type: " + clinic_type1 + "Clinic Name: " + clinicName + "\n" + "Address: " + address + "\n" + "City: " +city + "\n" + "Number" + number + "\n" + "Fee: " + fee + "\n" + "Services: " + services + "\n" + "Appointment_only: " + appointment + "\n" + "Latitude: " + latitude + "\n" + "Longitude: " + longitude + "\n" + "Timing: " + timing + "\n\n"
+		if clinicName2 and address2 and city2 and number2:
+			body = body + "Clinic Details 2:\n\n" + "Clinic Type: " + clinic_type2 + "Clinic Name: " + clinicName2 + "\n" + "Address: " + address2 + "\n" + "City: " +city2 + "\n" + "Number" + number2 + "\n" + "Fee: " + fee2 + "\n" + "Services: " + services2 + "\n" + "Appointment_only: " + appointment2 + "\n" + "Latitude: " + latitude2 + "\n" + "Longitude: " + longitude2 + "\n" + "Timing: " + timing2 + "\n\n"
+		#send email
+		send_mail(subject, body, email, [recepient])
+		return render_to_response('practitioner/success.html',{'email': email}, context_instance=RequestContext(request))
