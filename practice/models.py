@@ -4,6 +4,7 @@ from django.db.models import Q
 from autoslug import AutoSlugField
 from django.contrib.gis.db import models as gis_models
 from django.contrib.gis import geos
+from django.contrib.gis import measure
 
 
 class City(models.Model):
@@ -46,28 +47,36 @@ class PracticeManager(models.Manager):
         return practice
 
 
+    def nearby_practice(self, city, speciality, dist, lon, lat):
+    	result = {}
+    	#print 'distance: %s lon: %s lat: %s' % (dist, lon, lat)
+    	current_point = geos.fromstr("POINT(%s %s)" % (lon, lat))
+    	distance_from_point = {'km': dist}
+    	practice = Practice.gis.filter(location__distance_lte=(current_point, measure.D(**distance_from_point)))
+    	#practice.filter(practitioner__specialities__slug=speciality, practice_location__city__slug=city)
+    	print 'spatial'
+    	result['practice_list'] = practice
+        return result
+
+
     # Search request handling
-    def practice_details(self, city, name, speciality, experience, day, dist):
+    def practice_lookup(self, city, speciality, experience, name, day):
         result = {}
         query = super(PracticeManager, self).filter(practitioner__specialities__slug=speciality, practice_location__city__slug=city)
         query = query.distinct('practitioner')
         
-        #distance 
-        if dist > 0:
-        	current_point = geos.fromstr("POINT(%s %s)" % (lon, lat))
-    		distance_from_point = {'km': km}
-    		practice = Practice.gis.filter(location__distance_lte=(current_point, measure.D(**distance_from_point)))
-    		print practice
+        #filter day
+        if day != None:
+            query = query.filter(practicetiming__day=day).distinct('practitioner')
+        
         #filter experienced
         if experience >= 0:
                 query = query.filter(practitioner__experience__gte=experience)
+        
         #filter name
-        if name != '':
-            print name
+        if name != None:
             query = query.filter(practitioner__name__icontains=name)
-        #filter day
-        if day != '':
-            query = query.filter(practitioner__specialities__slug=speciality).distinct('practitioner')
+        
         result['practice_list'] = query
         return result
 

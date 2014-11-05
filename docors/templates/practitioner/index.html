@@ -57,7 +57,9 @@
         </li>
         <li>
         <label for="slider-2">Search a Specialist in KM radius.</label>
-        <input type="range" name="dist" id="distance" value="0" min="0" max="30" data-highlight="true">
+        <input type="range" name="dist" oninput="geo()" onchange="geo()" value="0" min="0" max="30" data-highlight="true">
+        <input type="hidden" name="lon" id= "lon">
+        <input type="hidden" name="lat" id= "lat">
         </li>
         <!--label for="exp">Experience in years.</label>
         <input type="range" name="exp" value="0" min="0" max="30" data-highlight="true" /-->
@@ -77,31 +79,19 @@
         </h4>
       </div>
     </div>
-<script >
-$(function() {
-  $('.searchForm').submit(function(ev) {
-    var distance = document.getElementsById("distance");
-    if (navigator.geolocation && distance > 0) {
-      navigator.geolocation.getCurrentPosition(showPosition);
+<script type="text/javascript">
+function geo(){
+  //if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {}
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  }
+  else {
+    alert("Sorry We are unable to detect your geo location.");
     }
-    else { 
-      x.innerHTML = "Geolocation is not supported by this Browser.";
-      var data = $('.searchForm').serializeArray();
-      $.ajax({ type: "GET", url: $(this).attr('action'), data: data,});
-    }
-  });
- });
-function showPosition(position) { 
-  var lat = position.coords.latitude; 
-  var lon = position.coords.longitude;
-  var data = $('.searchForm').serializeArray();
-  data.push({name: 'lon', value: lon});
-  data.push({name: 'lat', value: lat});
-  $.ajax({
-    type: "GET", 
-    url: $(this).attr('action'),
-    data: data,
-  });
+}
+function showPosition(position) {
+  $('#lon').val(position.coords.latitude);
+  $('#lat').val(position.coords.longitude);
 }
 </script>
 </body>

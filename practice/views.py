@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from patients.models import Patient
 from reviews.models import Review
+from practice.models import Practice
+from practitioner.models import Practitioner
 from django.http import Http404
 from django.shortcuts import render_to_response
 from django.template.loader import render_to_string
@@ -20,16 +22,26 @@ def practitoners(request):
 	else:
 		data['user'] = None
 	if request.method == "GET":
-		city = request.GET.get('city', '')
-		name = request.GET.get('name', '')
-		speciality = request.GET.get('spec', '')
-		experience = request.GET.get('exp', '')
-		day = request.GET.get('day', '')
-		dist = request.GET.get('dist', 0)
-	try:
-		data['practice'] = Practice.practice_objects.practice_details(city, name, speciality, experience, day,dist)
-	except Practice.DoesNotExist:
-		raise Http404
+		city = request.GET.get('city', None)
+		speciality = request.GET.get('spec', None)
+		name = request.GET.get('name', None)
+		experience = int(request.GET.get('exp', 0))
+		day = request.GET.get('day', None)
+		dist = int(request.GET.get('dist', 0))
+		#spatial request
+		if dist > 0:
+			lon = request.GET.get('lon', None)
+			lat = request.GET.get('lat', None)
+			try:
+				data['practice'] = Practice.practice_objects.nearby_practice(city, speciality, dist, lon, lat)
+			except Practice.DoesNotExist:
+				raise Http404
+		#basic search request
+		else:
+			try:
+				data['practice'] = Practice.practice_objects.practice_lookup(city, speciality, experience, name, day)
+			except Practice.DoesNotExist:
+				raise Http404
 	return render_to_response('practitioner/results.html', {'data': data}, context_instance=RequestContext(request))
 
 
