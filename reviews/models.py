@@ -1,5 +1,6 @@
 from django.db import models
-from practitioner.models import Practitioner, Practise
+from practitioner.models import Practitioner
+from practice.models import *
 from patients.models import Patient
 
 # Create your models here.
@@ -21,7 +22,7 @@ class ReviewManager(models.Manager):
 class Review(models.Model):
     practitioner = models.ForeignKey(Practitioner)
     patient = models.ForeignKey(Patient)
-    practise = models.ForeignKey(Practise, null=True)
+    practice = models.ForeignKey(Practice, null=True)
     post_as_anonymous = models.BooleanField(default=False)
     review_text = models.TextField()
     review_date = models.DateTimeField(auto_now_add=True)

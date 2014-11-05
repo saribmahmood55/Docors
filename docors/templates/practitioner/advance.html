@@ -10,14 +10,13 @@
   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
   <link rel="stylesheet" href="{% static "style/style.css" %}" rel="stylesheet" type="text/css" />
 </head>
-
 <body>
-  <div data-role="page" id="basic" data-title="doctorsinfo.pk">
-    <div data-role="header">
-      <h1><a href="/" class="anchor-link" ><i class="fa fa-stethoscope fa-1x marg-r"></i>doctorsinfo.pk</a></h1>
-      <div id="head">
-        {% if data.user.is_authenticated %}
-        <a href="{% url 'patient' %}" class="anchor-link"><i class="fa fa-user fa-1x marg-r"></i>{{data.user.username}}</a>
+      <div data-role="page" id="advance" data-theme="a" data-title="doctorsinfo.pk | advance search">
+        <div data-role="header">
+          <h1><a href="/" class="anchor-link" ><i class="fa fa-stethoscope fa-1x marg-r"></i>doctorsinfo.pk</a></h1>
+          <div id="head">
+            {% if data.user.is_authenticated %}
+            <a href="{% url 'patient' %}" class="anchor-link"><i class="fa fa-user fa-1x marg-r"></i>{{data.user.username}}</a>
         {% else %}
         <a href="#popupMenu" data-rel="popup" data-transition="slideup" class="anchor-link">
         <img src="{% static "icons/person.jpg" %}" width="32" height="32" ></a>
@@ -29,12 +28,11 @@
         </ul>
         </div> 
         {% endif %}
-      </div>
-    </div>
+          </div>
+        </div>
 
-    <div role="main" class="ui-content container">
-      
-      <div id="search">
+        <div role="main" class="ui-content container">
+        <div id="search" class="advsearch">
       <ul>
       <li><h2>Find Specialist Doctors in your area.</h2></li>
       <form action="{% url 'practitoners' %}" class="searchForm">
@@ -47,8 +45,12 @@
         </select>
         </li>
         <li>
+        <label for="name">Name</label>
+        <input type="search" name="name" value="" placeholder="Doctor Name">
+        </li>
+        <li>
         <label for="spec">Specialist Category</label>
-        <select name="spec" required>
+        <select name="spec">
           <option value="">- Select Speciality -</option>
           {% for speciality in data.specialities.iterator %}
           <option value={{speciality.slug}}>{{speciality.name}}</option>
@@ -58,23 +60,37 @@
         <li>
         <label for="slider-2">Search a Specialist in KM radius.</label>
         <input type="range" name="dist" id="distance" value="0" min="0" max="30" data-highlight="true">
+        <input type="hidden" name="lon" id="longitude">
+        <input type="hidden" name="lat" id="latitude">
         </li>
         <!--label for="exp">Experience in years.</label>
         <input type="range" name="exp" value="0" min="0" max="30" data-highlight="true" /-->
+        <li>
+          <label for="day">Doctor avalability on particular Day.</label>
+            <select name="day">
+              <option value="">- Select Day -</option>
+              <option value="Mon">Monday</option>
+              <option value="Tue">Tuesday</option>
+              <option value="Wed">Wednesday</option>
+              <option value="Thu">Thursday</option>
+              <option value="Fri">Friday</option>
+              <option value="Sat">Saturday</option>
+              <option value="Sun">Sunday</option>
+            </select>
+        </li>
         <li><button type="submit" class="ui-btn ui-shadow ui-corner-all">Search</button></li>
-        <li><a class="anchor-link-left" href="{% url 'adv' %}">advance search >></a></li>
+        <li class="advance-search"><a class="anchor-link-left" href="/"><< basic search</a></li>
         </form>
         </ul>
         </div>
-        
       </div>
-      <div class="foot" data-role="footer">
-        <h4>
-          <a class="float-left" href="{% url 'registration' %}">get listed !</a>
-          <a href="https://www.facebook.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook fa-1x"></i></a>
-          <a href="mailto:doctorsinfo.pk@gmail.com" target="_blank"><i class="fa fa-envelope fa-1x"></i></a>
-          <a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i></a>
-        </h4>
+        <div class="foot" data-role="footer">
+          <h4>
+            <a href="https://www.facebook.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook fa-1x"></i></a>
+            <a href="mailto:doctorsinfo.pk@gmail.com"><i class="fa fa-envelope fa-1x"></i></a>
+            <a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i></a>
+          </h4>
+        </div>
       </div>
     </div>
 <script >
@@ -87,10 +103,10 @@ $(function() {
     else { 
       x.innerHTML = "Geolocation is not supported by this Browser.";
       var data = $('.searchForm').serializeArray();
-      $.ajax({ type: "GET", url: $(this).attr('action'), data: data,});
+      $.ajax({ type: "GET", url: $(this).attr('action'), context: this, data: data});
     }
   });
- });
+});
 function showPosition(position) { 
   var lat = position.coords.latitude; 
   var lon = position.coords.longitude;
@@ -99,8 +115,9 @@ function showPosition(position) {
   data.push({name: 'lat', value: lat});
   $.ajax({
     type: "GET", 
-    url: $(this).attr('action'),
-    data: data,
+    url: $(this).attr('action'), 
+    context: this,
+    data: data
   });
 }
 </script>

@@ -14,11 +14,11 @@ def addReview(request):
 		if request.user.is_authenticated():
 			user = request.user
 			prac_slug = request.POST.get('slug', None)
-			practise_slug = request.POST.get('practise_slug', None)
+			practice_slug = request.POST.get('practice_slug', None)
 			review_text = request.POST.get('review_text', None)
 			print prac_slug
 			if prac_slug:
-				newReview(user, prac_slug, practise_slug, review_text)
+				newReview(user, prac_slug, practice_slug, review_text)
 	
 	return HttpResponseRedirect(reverse('practitioner', kwargs={'slug': prac_slug}))
 

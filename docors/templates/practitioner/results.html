@@ -32,7 +32,7 @@
   </div>
   <div role="main" class="ui-content container">
    <center><h4>Search Results</h4></center>
-   {% for onePractitioner in data.practise.practise_list.iterator %}
+   {% for onePractitioner in data.practice.practice_list.iterator %}
    <ul class="results" data-role="listview" data-inset="true">
     <li>
       <a href="{% url 'practitioner' onePractitioner.practitioner.slug %}" class="anchor-link" >

@@ -68,9 +68,11 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    'django.contrib.gis',
     'registration',
     'practitioner',
     'patients',
+    'practice',
     'reviews'
 )
 
@@ -102,7 +104,6 @@ import dj_database_url
 DATABASES = {
 'default': dj_database_url.config(default='postgres://jimfzyyxmmgphs:igHjaN9x_SbjCzgsEs21yfVrsz@ec2-54-204-37-92.compute-1.amazonaws.com:5432/dd9m18h1llbkph')
 }
-'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -113,7 +114,16 @@ DATABASES = {
         'PORT': '',
     }
 }
-
+'''
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': 'geodjango',
+        'USER': 'asadrana',
+        'PASSWORD': 'asad0321',
+        'HOST': 'localhost',
+    }
+}
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 

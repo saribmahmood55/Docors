@@ -1,6 +1,7 @@
 from practitioner.models import *
 from patients.models import Patient
 from reviews.models import Review
+from practice.models import *
 from utility import *
 from django.http import Http404, HttpResponse
 from django.shortcuts import render_to_response
@@ -25,59 +26,20 @@ def index(request):
 	return render_to_response('practitioner/index.html', {'data': data}, context_instance=RequestContext(request))
 
 
-def practise(request, practise_slug, practitioner_slug):
-	if request.method == "GET":
-		Timing = PractiseTiming.pt_objects.practise_timings(practise_slug,practitioner_slug)
-	return render_to_response('practitioner/clinictimings.html', {'Timing': Timing}, context_instance=RequestContext(request))
-
-
-#handle search request
-def practitoners(request):
+#advance search
+def adv(request):
 	data = {}
 	if request.user.is_authenticated():
 		data['user'] = request.user
 	else:
 		data['user'] = None
 	if request.method == "GET":
-		city = request.GET.get('city', '')
-		name = request.GET.get('name', '')
-		speciality = request.GET.get('spec', '')
-		experience = request.GET.get('exp', '')
-		day = request.GET.get('day', '')
-	try:
-		data['practise'] = Practise.practise_objects.practise_details(city, name, speciality, experience, day)
-	except Practise.DoesNotExist:
-		raise Http404
-	return render_to_response('practitioner/results.html', {'data': data}, context_instance=RequestContext(request))
-	
-
-
-# single practitioner details
-def practitioner(request, slug):
-	data = {}
-	if request.user.is_authenticated():
-		data['user'] = request.user
-	else:
-		data['user'] = None
-	if request.method == "GET":
-		if request.user.is_authenticated():
-			data['patient'] = Patient.patient_objects.patient_details(data['user'])
-			favourite_practitioner = data['patient'].favt_practitioner.all().filter(slug=slug)
-			if favourite_practitioner.exists():
-				data['favourite'] = True
-			else:
-				data['favourite'] = False
-		else:
-			data['patient'] = None
 		try:
-			data['practitioner'] = Practitioner.prac_objects.practitioner_slug(slug)
-			data['practise'] = Practise.practise_objects.practise_detail(slug)
-			data['practise_name'] = data['practise'].distinct('practise_location')
-			#data['practise_timing'] = clinic_timings_dic(data['practise_name'])
-			data['reviews'] = Review.review_objects.practitioner_reviews(slug)
-		except Practitioner.DoesNotExist:
+			data['specialities'] = Specialization.objects.order_by('slug')
+			data['cities'] = City.objects.order_by('pk')
+		except Specialization.DoesNotExist:
 			raise Http404
-	return render_to_response('practitioner/practitioner.html', {'data': data}, context_instance=RequestContext(request))
+	return render_to_response('practitioner/advance.html', {'data': data}, context_instance=RequestContext(request))	
 
 
 def update(request):
@@ -86,11 +48,11 @@ def update(request):
 		if type_ == "GeoLocation":
 			reply = {}
 			practitioner = request.POST.get('name', '')
-			practise = request.POST.get('practise', '')
+			practice = request.POST.get('practice', '')
 			lat = request.POST.get('lat', '')
 			lon = request.POST.get('lon', '')
-			print "doc: %s , loc: %s , lat: %s, lon: %s" % (practitioner, practise, lat, lon)
-			body = "Practitioner Name: "+practitioner+"\nPractise: "+practise+"\nLatitude: "+lat+"\nLongitude: "+lon
+			print "doc: %s , loc: %s , lat: %s, lon: %s" % (practitioner, practice, lat, lon)
+			body = "Practitioner Name: "+practitioner+"\nPractice: "+practice+"\nLatitude: "+lat+"\nLongitude: "+lon
 			Email(practitioner, body)
 			reply['Status'] = True
 			return HttpResponse(json.dumps(reply), content_type="application/json")
