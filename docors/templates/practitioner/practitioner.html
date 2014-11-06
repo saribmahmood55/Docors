@@ -78,7 +78,8 @@
           </ul>
 
           <div class="modified"><img src="{% static "icons/mod.png" %}"height="18" width="18" title="Last Updated"/>
-          <span>{{pract.modified|date:"d-M-Y"}}</span></div>
+          {% load humanize %}
+          <span>{{pract.modified|naturaltime}}</span></div>
           <!-- Lat Long -->
           {% if pract.practice_location.lat and pract.practice_location.lon %}
             <a href="http://maps.google.com/maps?z=12&t=m&q={{pract.practice_location.lat}},{{pract.practice_location.lon}}" target="_blank" class="anchor-link-right map-marker" ><i style="padding: 0px 0px 10px 0px;" class="fa fa-map-marker fa-3x"></i></a>
@@ -114,10 +115,9 @@
             <span class="up_votes marg-r">{{pr.up_votes}}</span>-
             <span class="down_votes marg-l">{{pr.down_votes}}</span>
             <i class="fa fa-thumbs-o-down marg-l down" id="/review/{{pr.pk}}/"></i>
-            <span class="float-right marg-r"><i class="fa fa-clock-o marg-r" class="Reviewd Date."></i>{{pr.review_date|date:"d-M-Y"}}</span>
+            <span class="float-right marg-r"><i class="fa fa-clock-o marg-r" class="Reviewd Date."></i>{{pr.review_date|naturaltime}}</span>
             </div>
           </p>
-          <!-- review downVote-->
           <!-- review downVote-->
 
           <!-- No user login and reviews exists-->
@@ -127,7 +127,7 @@
             <div class="inline_">
             <span class="up_votes marg-l">agree. {{pr.up_votes}} - </span>
             <span class="down_votes">{{pr.down_votes}}  diagree.</span>
-            <span class="float-right marg-r"><i class="fa fa-clock-o marg-r" class="Reviewd Date."></i>{{pr.review_date|date:"d-M-Y"}}</span></div>
+            <span class="float-right marg-r"><i class="fa fa-clock-o marg-r" class="Reviewd Date."></i>{{pr.review_date|naturaltime}}</span></div>
           </p>
           <br> {% endif %} {% endfor %} 
           {% if data.user.is_authenticated %}
@@ -150,7 +150,8 @@
           <!--if no review-->
           {% elif data.user.is_authenticated%}
           <!-- user login and no review exists-->
-          <p><span class="textCentre marg-l break"><strong>No reviews yet, Make One.</strong></span>
+          <p>
+          <span class="textCentre marg-l break"><strong>No reviews yet, Make One.</strong></span>
           <form id="reviewBox" action="{% url 'review' %}" method="POST" class="inline_">{% csrf_token %}
               <textarea cols="8" rows="8" name="review_text" required></textarea>
               <input type="hidden" name="slug" value="{{data.practitioner.slug}}">
@@ -158,7 +159,7 @@
           </form></p>
           {% else %}
 	       <!-- Post new Review / no user login-->
-	       <span>No reviews yet.<br>
+	       <span class="marg-l break"><strong>No reviews yet.</strong></span>
           <a href="#popupMenu" data-rel="popup" data-transition="slideup" class="anchor-link-right marg-t" >add review..</a>
           <div data-role="popup" id="popupMenu" data-theme="b">
           <ul data-role="listview" data-inset="true" style="min-width:210px;">
@@ -211,6 +212,7 @@
     /*  Load timings */
   $(function() {
     $('.clock').click(function(ev) {
+      console.log('clock click');
         $.ajax({
           type: "GET",
           url: $(this).attr('id'),
@@ -221,7 +223,6 @@
           },
           dataType: 'html'
         });
-        ev.preventDefault();
       });
    });
     /* favt	*/

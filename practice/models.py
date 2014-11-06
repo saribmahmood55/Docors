@@ -46,36 +46,38 @@ class PracticeManager(models.Manager):
         practice = super(PracticeManager, self).filter(practitioner__slug=slug)
         return practice
 
-
     def nearby_practice(self, city, speciality, dist, lon, lat):
     	result = {}
-    	#print 'distance: %s lon: %s lat: %s' % (dist, lon, lat)
+    	print 'spatial'
     	current_point = geos.fromstr("POINT(%s %s)" % (lon, lat))
     	distance_from_point = {'km': dist}
     	practice = Practice.gis.filter(location__distance_lte=(current_point, measure.D(**distance_from_point)))
-    	#practice.filter(practitioner__specialities__slug=speciality, practice_location__city__slug=city)
-    	print 'spatial'
-    	result['practice_list'] = practice
+    	practice = practice.distance(current_point).order_by('distance')
+    	result['practice_list'] = practice.distance(current_point)
         return result
 
 
     # Search request handling
     def practice_lookup(self, city, speciality, experience, name, day):
-        result = {}
-        query = super(PracticeManager, self).filter(practitioner__specialities__slug=speciality, practice_location__city__slug=city)
-        query = query.distinct('practitioner')
+        result, query = {}, None
+        if city and speciality:
+        	query = super(PracticeManager, self).filter(practitioner__specialities__slug=speciality , practice_location__city__slug=city).distinct('practitioner')
+        else:
+        	query = super(PracticeManager, self).filter(Q(practitioner__specialities__slug=speciality) | Q(practice_location__city__slug=city)).distinct('practitioner')
         
+        #filter name
+        if name != '':
+        	query = query.filter(practitioner__name__icontains=name)
+
         #filter day
-        if day != None:
-            query = query.filter(practicetiming__day=day).distinct('practitioner')
+        if day != '':
+        	query = query.filter(practicetiming__day=day).distinct('practitioner')
         
+        '''
         #filter experienced
         if experience >= 0:
                 query = query.filter(practitioner__experience__gte=experience)
-        
-        #filter name
-        if name != None:
-            query = query.filter(practitioner__name__icontains=name)
+        '''
         
         result['practice_list'] = query
         return result
@@ -115,7 +117,7 @@ class Practice(models.Model):
 #Custom Manager
 class PracticeTimingManager(models.Manager):
     def practice_timings(self, pr_slug, p_slug):
-        practice_timings = super(PracticeTimingManager, self).filter(practice__location_name__slug=pr_slug, practitioner__slug=p_slug).order_by('pk')
+        practice_timings = super(PracticeTimingManager, self).filter(practice__practice_location__slug=pr_slug, practitioner__slug=p_slug).order_by('pk')
         return practice_timings    
 
     def spec_day_timing(self, spec, day):

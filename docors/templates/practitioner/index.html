@@ -72,26 +72,32 @@
       </div>
       <div class="foot" data-role="footer">
         <h4>
-          <a class="float-left" href="{% url 'registration' %}">get listed !</a>
+          <a class="get-listed" href="{% url 'registration' %}">get listed!</a>
           <a href="https://www.facebook.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook fa-1x"></i></a>
           <a href="mailto:doctorsinfo.pk@gmail.com" target="_blank"><i class="fa fa-envelope fa-1x"></i></a>
           <a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i></a>
+          <a class="educate" href="#">educate</a>
         </h4>
       </div>
     </div>
 <script type="text/javascript">
+function showPosition(position) {
+  if (position.coords.latitude != null && position.coords.longitude != null){
+    $('#lon').val(position.coords.latitude);
+    $('#lat').val(position.coords.longitude);
+  }
+  else if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+    alert("doctorsinfo.pk would like to access your current location\nKindly Turn On Location Services from device Settings.");
+    location.reload();
+  }
+}
 function geo(){
-  //if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {}
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition);
   }
   else {
     alert("Sorry We are unable to detect your geo location.");
     }
-}
-function showPosition(position) {
-  $('#lon').val(position.coords.latitude);
-  $('#lat').val(position.coords.longitude);
 }
 </script>
 </body>

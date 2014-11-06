@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from patients.models import Patient
 from reviews.models import Review
-from practice.models import Practice
+from practice.models import *
 from practitioner.models import Practitioner
 from django.http import Http404
 from django.shortcuts import render_to_response
@@ -10,7 +10,7 @@ from django.template import RequestContext
 
 def practice(request, practice_slug, practitioner_slug):
 	if request.method == "GET":
-		Timing = PracticeTiming.pt_objects.practice_timings(practice_slug,practitioner_slug)
+		Timing = PracticeTiming.pt_objects.practice_timings(practice_slug, practitioner_slug)
 	return render_to_response('practitioner/clinictimings.html', {'Timing': Timing}, context_instance=RequestContext(request))
 
 
@@ -22,16 +22,16 @@ def practitoners(request):
 	else:
 		data['user'] = None
 	if request.method == "GET":
-		city = request.GET.get('city', None)
-		speciality = request.GET.get('spec', None)
-		name = request.GET.get('name', None)
+		city = str(request.GET.get('city', ''))
+		speciality = str(request.GET.get('spec', ''))
+		name = str(request.GET.get('name', ''))
 		experience = int(request.GET.get('exp', 0))
-		day = request.GET.get('day', None)
+		day = str(request.GET.get('day', ''))
 		dist = int(request.GET.get('dist', 0))
+		lon = request.GET.get('lon', '')
+		lat = request.GET.get('lat', '')
 		#spatial request
-		if dist > 0:
-			lon = request.GET.get('lon', None)
-			lat = request.GET.get('lat', None)
+		if dist > 0 and lon != '' and lat != '':
 			try:
 				data['practice'] = Practice.practice_objects.nearby_practice(city, speciality, dist, lon, lat)
 			except Practice.DoesNotExist:

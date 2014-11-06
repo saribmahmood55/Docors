@@ -6,7 +6,7 @@ body{font-family: Arial;}
 p {	font-weight: normal; }
 ul{ list-style-type: none; padding: 0px;}
 ul li {list-style-type: none; display: inline;}
-ul a {    list-style-type: none;}
+ul a { list-style-type: none;}
 h1 { font-size: 20px;}
 /* General*/
 
@@ -29,7 +29,7 @@ h1 { font-size: 20px;}
 	color: #ffffff; background-color: #455B70 !important; text-shadow: none;}
 #search select { float: left;} #search h2 { font-size: 18px; text-align: center;} 
 #search li button { float: right; width: 90px; height: 40px; color: #3eb249; padding: 0px;}
-.advsearch { height: 500px ! important; }
+.advsearch { height: 495px ! important; }
 
 /*#search-btn{	}*/
 .inline_ { display: inline; padding: 0px; margin: 0px; }
@@ -38,6 +38,8 @@ h1 { font-size: 20px;}
 .break { display: block;}
 
 /* Results */
+.results li:nth-child(odd):not(.ui-li-divider), .results li:nth-child(odd):not(.ui-li-divider) a { background-color: #ccccd5 !important; text-shadow: none;}
+.ui-content .ui-listview-inset, .ui-panel-inner > .ui-listview-inset { margin: 0em 0em;}
 
 /* Practitioner details */
 #practitionerDetails{ padding: 0; float: none;	text-align: center; margin: 10px auto; font-weight: normal;}
@@ -49,7 +51,7 @@ h1 { font-size: 20px;}
 	height: 20px; padding: 10px 0px; margin-bottom: 0px;}
 .grid-name h3 { color: #000; text-align: center; font-size: 14px; padding: 0px; margin: 0px;}
 
-.clinic{	width: 290px; float: left; padding: 0px 15px 0px 15px; font-weight: normal; clear: none; 
+.clinic{	width: 290px; float: left; padding: 0px 15px 0px 15px; margin-bottom: 20px; font-weight: normal; clear: none; 
 	color: #000; background-color: #ccccd5;}
 
 .clinic ul li { padding-right: 20px;  display: block; width: 100%;} 
@@ -98,24 +100,28 @@ color: #ffffff; background-color: #455a64; text-shadow: none; }
 .subscribe-spec .ui-checkbox input, .ui-radio input { margin: 0px;} 
 #subscribe-btn{	float: right; width: 100px; height: 40px; color: #3eb249; margin: 10px 10px 20px 0px; padding: 0px; display: block;}
 
-.ui-footer .ui-title { }
-.foot { text-align: center;} .foot h2 { width: 450px; }
-.foot a { padding-right: 30px; text-decoration: none;	color: #000 !important; font-size: 14px;}
+.ui-footer .ui-title { margin: 0px auto !important;}
+.foot h4 { width: 580px !important;} 
+.foot .get-listed { float: left; padding: 0px 30px 0px 10px !important;}
+.foot .educate { float: right; padding: 0px 0px 0px 0px !important;}
+.foot a { padding-left: 25px; text-decoration: none; color: #000 !important; font-size: 14px; }
 
 /* Responsive for mobile devices */
 @media only screen and (max-width: 767px) {
 	h1 { font-size: 18px;}
 	p {	font-weight: normal;}
-	.ui-content { width: 320px !important;}
+	.ui-content { width: 320px !important; height: 390px !important;}
 	.marg-l { padding-left: 5px;}
 	.anchor-link-right { float:right; text-decoration: none; color: #000000;  font-size: 12px;}
-	#search { width: 280px !important; height: 340px; margin: 10px auto 0px auto !important;}
+	#search { width: 280px !important; height: 320px; margin: 30px auto 0px auto; }
+	#search label { font-size: 12px; } #search a { font-size: 16px;}
 	#search h2 { font-size: 16px; text-align: center;}
-	.advsearch { height: 420px !important; }
+	.advsearch { height: 460px !important; margin: 0px auto !important; }
 	
 	.profile {  width: 230px; padding: 10px; }
 	.profile ul li span { display: block; float: left;}
 	.no-button { width: 10px; height: 10px; margin: 0px; padding: 0px; float: right; display: inline;}
+	.foot h4 { width: 320px !important; } .foot a { padding: 0px 20px 0px 10px;}
 }
 /* For mobile : like samsung grand(480 * 800): */
 @media screen and (max-width : 480px){}

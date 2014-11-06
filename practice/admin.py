@@ -15,7 +15,7 @@ class PracticeLocationAdmin(admin.ModelAdmin):
 		('Enter Physical latitude', {'fields': ['lon']}),
         ('Enter Physical latitude', {'fields': ['lat']}),
 	]
-	list_display = ['name','slug','clinic_address','lat','lon']
+	list_display = ['name','slug','clinic_address','lon','lat']
 	search_fields = ['name']
 
 
