@@ -73,6 +73,8 @@
             <li><i class="fa fa-phone"></i><span><u>{{pract.contact_number}}</u></span></li>
             <li><i class="fa fa-calendar"></i>{% if pract.appointments_only %}<span>Appointment Required: <b>Yes.</b></span>
               {% else %}<span>First Come First Serve.</span>{% endif %}</li>
+            <li><i class="fa fa-clock-o" title="Checkup on Waiting List"></i>{% if pract.checkup_on_waiting %}<span>Checkup on Waiting: <b>Yes.</b></span>
+              {% else %}<span>Appointments Only.</span>{% endif %}</li>
             <li><i class="fa fa-location-arrow"></i><span>{{pract.practice_location.clinic_address}}, {{pract.practice_location.city.name}}.</span></li>
             <li><i class="fa fa-medkit fa-1x" title="Services Offered."></i><span>Services: {{pract.services}}</span></li>
           </ul>
@@ -82,7 +84,7 @@
           <span>{{pract.modified|naturaltime}}</span></div>
           <!-- Lat Long -->
           {% if pract.practice_location.lat and pract.practice_location.lon %}
-            <a href="http://maps.google.com/maps?z=12&t=m&q={{pract.practice_location.lat}},{{pract.practice_location.lon}}" target="_blank" class="anchor-link-right map-marker" ><i style="padding: 0px 0px 10px 0px;" class="fa fa-map-marker fa-3x"></i></a>
+            <a href="http://maps.google.com/maps?z=12&t=m&q={{pract.practice_location.lon}},{{pract.practice_location.lat}}" target="_blank" class="anchor-link-right map-marker" ><i style="padding: 0px 0px 10px 0px;" class="fa fa-map-marker fa-3x"></i></a>
             {% else %}
             <a href="#popupMenu" data-rel="popup" data-transition="slideup" class="anchor-link-right map-marker" ><i style="padding: 0px 0px 10px 0px;" class="fa fa-map-marker fa-3x"></i></a>
         <div data-role="popup" id="popupMenu" data-theme="a">

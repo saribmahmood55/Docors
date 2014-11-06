@@ -46,14 +46,15 @@ class PracticeManager(models.Manager):
         practice = super(PracticeManager, self).filter(practitioner__slug=slug)
         return practice
 
-    def nearby_practice(self, city, speciality, dist, lon, lat):
+    def nearby_practice(self, speciality, dist, lon, lat):
     	result = {}
     	print 'spatial'
     	current_point = geos.fromstr("POINT(%s %s)" % (lon, lat))
     	distance_from_point = {'km': dist}
     	practice = Practice.gis.filter(location__distance_lte=(current_point, measure.D(**distance_from_point)))
     	practice = practice.distance(current_point).order_by('distance')
-    	result['practice_list'] = practice.distance(current_point)
+    	practice = practice.filter(practitioner__specialities__slug=speciality)
+    	result['practice_list'] = practice
         return result
 
 
@@ -95,6 +96,7 @@ class Practice(models.Model):
     checkup_fee = models.PositiveIntegerField()
     services = models.TextField(null=True, blank=True)
     appointments_only = models.BooleanField(default=True)
+    checkup_on_waiting = models.BooleanField(default=True, blank=True)
     modified = models.DateTimeField(auto_now=True)
     location = gis_models.PointField(geography=True, blank=True, null=True)
     

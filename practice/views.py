@@ -33,7 +33,7 @@ def practitoners(request):
 		#spatial request
 		if dist > 0 and lon != '' and lat != '':
 			try:
-				data['practice'] = Practice.practice_objects.nearby_practice(city, speciality, dist, lon, lat)
+				data['practice'] = Practice.practice_objects.nearby_practice(speciality, dist, lon, lat)
 			except Practice.DoesNotExist:
 				raise Http404
 		#basic search request

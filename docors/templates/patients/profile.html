@@ -28,7 +28,7 @@
          <li>
            <span>username: <strong>{{data.patient.user.username}}</strong></span>
            <span>email: <strong>{{data.patient.user.email}}</strong></span>
-           {% if data.patient.user.get_full_name and data.patient.cell_number %}
+           {% if data.patient.user.get_full_name and data.patient.cell_number != '' %}
            <span>First name: <strong>{{data.patient.user.first_name}}</strong></span>
            <span>Last Name: <strong>{{data.patient.user.last_name}}</strong></span>
            <span>Cell Number: {{data.patient.cell_number}}</span>
@@ -76,7 +76,7 @@
         <h2>Favourite Practitioners</h2>
         <ul>
          {% for practitioner in data.patient.favt_practitioner.all.iterator %}
-         <li class="marg-l">* {{practitioner.name}}<i class="fa fa-times fa-1x prac" id="{{practitioner.slug}}"></i></li>
+         <li><span class="Pracname">* {{practitioner.name}}</span><i class="fa fa-times fa-1x deletePrac" id="{{practitioner.slug}}"></i></li>
           {% empty %}
          <li class="marg-l"><span>* No favourite Practitioner. *</span></li>
          {% endfor %}
@@ -138,7 +138,7 @@
             },
             success: function(data) {
               if (data.status_){
-                $(this).remove()
+                $(this).remove();
               }
             },
             dataType: 'json'
@@ -161,7 +161,7 @@
             },
             success: function(data) {
               if (data.status_){
-                $(this).hide()
+                $(this).hide();
               }
             },
             dataType: 'json'
@@ -171,7 +171,7 @@
     });
     /* remove Prac */
     $(function() {
-      $('.prac').click(function(ev) {
+      $('.deletePrac').click(function(ev) {
         var warning = window.confirm("Are you sure you want to remove that Practitioner from your favourite List ?");
         if (warning){
           $.ajax({
@@ -185,7 +185,9 @@
             },
             success: function(data) {
               if (data.status_){
-                $(this).remove()
+                var name = $(this).prev('.Pracname');
+                name.remove();
+                $(this).remove();
               }
             },
             dataType: 'json'

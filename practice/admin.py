@@ -28,8 +28,9 @@ class PracticeAdmin(admin.ModelAdmin):
         ('Enter Checkup Fees', {'fields': ['checkup_fee']}),
         ('Services Offered', {'fields': ['services']}),
         ('Appointments Only: Yes/No', {'fields': ['appointments_only']}),
+        ('Checkup on Waiting: Yes/No', {'fields': ['checkup_on_waiting']}),
 	]
-	list_display = ['practice_location','practitioner','contact_number','checkup_fee','services','modified','appointments_only','location']
+	list_display = ['practice_location','practitioner','contact_number','checkup_fee','modified','appointments_only','checkup_on_waiting','location']
 	search_fields = ['practitioner']
 
 
