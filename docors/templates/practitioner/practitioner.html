@@ -76,6 +76,7 @@
             <li><i class="fa fa-medkit fa-1x" title="Services Offered."></i><span>Services: {{pract.services}}</span></li>
           </ul>
           <div class="modified"><img src="{% static "icons/mod.png" %}"height="18" width="18" title="Last Updated"/>
+          {% load humanize %}
           <span>{{pract.modified|naturaltime}}</span></div>
           <!-- Lat Long -->
           {% if pract.practice_location.lat and pract.practice_location.lon %}
@@ -103,31 +104,6 @@
           {% for pr in data.reviews.iterator %}
           <!-- user login and reviews are there-->
           {% if data.user.is_authenticated %}
-          <p>
-            <span class="break"><b>{{pr.patient}}</b>: '{{pr.review_text}}'</span>
-            <!-- review upVote-->
-            <!-- review upVote-->
-            <div class="inline_">
-            <i class="fa fa-thumbs-o-up up" id="/review/{{pr.pk}}/"></i>
-            <span class="up_votes marg-r">{{pr.up_votes}}</span>-
-            <span class="down_votes marg-l">{{pr.down_votes}}</span>
-            <i class="fa fa-thumbs-o-down marg-l down" id="/review/{{pr.pk}}/"></i>
-            <span class="float-right marg-r"><i class="fa fa-clock-o marg-r" class="Reviewd Date."></i>{{pr.review_date|naturaltime}}</span>
-            </div>
-          </p>
-          <!-- review downVote-->
-
-          <!-- No user login and reviews exists-->
-          {% else %}
-          <p>
-            <span class="break"><b>{{pr.patient}}</b>: '{{pr.review_text}}'</span>
-            <div class="inline_">
-            <span class="up_votes marg-l">agree. {{pr.up_votes}} - </span>
-            <span class="down_votes">{{pr.down_votes}}  diagree.</span>
-            <span class="float-right marg-r"><i class="fa fa-clock-o marg-r" class="Reviewd Date."></i>{{pr.review_date|naturaltime}}</span></div>
-          </p>
-          <br> {% endif %} {% endfor %} 
-          {% if data.user.is_authenticated %}
           <!-- Post new Reviews, user loged, Reviews exists-->
           <form id="reviewBox" action="{% url 'addreview' %}" method="POST" class="inline_">{% csrf_token %}
               {% if data.practice.count > 1 %}
@@ -148,6 +124,31 @@
               {% endif %}
               <button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Post</button>
           </form>
+          <p class="oneComment">
+            <span class="patientName inlineB">{{pr.patient}}</span>
+            <span class="float-right inlineB"><i class="fa fa-clock-o marg-r"></i>{{pr.review_date|naturaltime}}</span>
+            <span class="break">{{pr.review_text}}</span>
+            <!-- review upVote-->
+            <!-- review upVote-->
+            <div class="inline_">
+            <i class="fa fa-thumbs-o-up up" id="/review/{{pr.pk}}/"></i>
+            <span class="up_votes marg-r">{{pr.up_votes}}</span>-
+            <span class="down_votes marg-l">{{pr.down_votes}}</span>
+            <i class="fa fa-thumbs-o-down marg-l down" id="/review/{{pr.pk}}/"></i>
+            </div>
+          </p>
+          <!-- review downVote-->
+          <!-- No user login and reviews exists-->
+          {% else %}
+          <p>
+            <span class="break"><b>{{pr.patient}}</b>: '{{pr.review_text}}'</span>
+            <div class="inline_">
+            <span class="up_votes marg-l">agree. {{pr.up_votes}} - </span>
+            <span class="down_votes">{{pr.down_votes}}  diagree.</span>
+            <span class="float-right marg-r"><i class="fa fa-clock-o marg-r" class="Reviewd Date."></i>{{pr.review_date|naturaltime}}</span></div>
+          </p>
+          <br> {% endif %} {% endfor %} 
+          {% if data.user.is_authenticated %}
           {% else %}
           <a href="#popupMenu" data-rel="popup" data-transition="slideup" class="anchor-link-right marg-t" >add review..</a>
           <div data-role="popup" id="popupMenu" data-theme="b">
@@ -276,12 +277,14 @@
     $(function() {
       var up = $('.up');
       up.click(function(ev) {
+        console.log('up');
           $.ajax({
             type: "POST",
             url: $(this).attr('id'),
             context: this,
             data: {
               up: "up",
+              prac_slug: "{{data.practitioner.slug}}",
               csrfmiddlewaretoken: '{{ csrf_token }}'
             },
             success: function(data) {
@@ -299,12 +302,14 @@
     $(function() {
       var down = $('.down');
       down.click(function(ev) {
+        console.log('up');
           $.ajax({
             type: "POST",
             url: $(this).attr('id'),
             context: this,
             data: {
               down: "down",
+              prac_slug: "{{data.practitioner.slug}}",
               csrfmiddlewaretoken: '{{ csrf_token }}'
             },
             success: function(data) {

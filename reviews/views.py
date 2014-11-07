@@ -18,7 +18,7 @@ def addReview(request):
 			review_text = request.POST.get('review_text', None)
 			if prac_slug:
 				newReview(user, prac_slug, practice_slug, review_text)
-		return HttpResponseRedirect(reverse('practitioner', kwargs={'slug': prac_slug}))
+	return HttpResponseRedirect(reverse('practitioner', kwargs={'slug': prac_slug}))
 
 
 def review(request, review_id):
