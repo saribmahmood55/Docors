@@ -10,7 +10,7 @@ boolean = lambda value: bool(int(value))
 SECRET_KEY = 'zky%mapoo709@yv64h!ny#!7x8#&lh0o9nsfo++ny6+7gotp^r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = boolean(os.environ.get('DEBUG', 0))
+DEBUG = boolean(os.environ.get('DEBUG', 1))
 TEMPLATE_DEBUG = DEBUG
 
 
@@ -100,10 +100,21 @@ WSGI_APPLICATION = 'docors.wsgi.application'
 
 #heroku
 import dj_database_url
+DATABASES = {}
 DATABASES['default'] =  dj_database_url.config(default='postgres://ukmmuiwdvgoedx:rKUzM9TsSZ3VEiRywilVctUmvN@ec2-54-197-237-120.compute-1.amazonaws.com:5432/dc18vrdjn47bc0')
 DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
 
 '''
+import dj_database_url
+DATABASES['default'] = dj_database_url.config()
+DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
+'''
+
+'''
+import dj_database_url
+DATABASES = {}
+DATABASES['default'] =  dj_database_url.config(default='postgres://ukmmuiwdvgoedx:rKUzM9TsSZ3VEiRywilVctUmvN@ec2-54-197-237-120.compute-1.amazonaws.com:5432/dc18vrdjn47bc0')
+DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
