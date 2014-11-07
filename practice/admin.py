@@ -9,35 +9,34 @@ class CityAdmin(admin.ModelAdmin):
 
 class PracticeLocationAdmin(admin.ModelAdmin):
 	fieldsets = [
-		('Enter Name', {'fields': ['name']}),
-		('Enter Address', {'fields': ['clinic_address']}),
+		('Clinic/Hospital Name', {'fields': ['name']}),
+		('Street Address', {'fields': ['clinic_address']}),
 		('Select City', {'fields': ['city']}),
-		('Enter Physical latitude', {'fields': ['lon']}),
-        ('Enter Physical latitude', {'fields': ['lat']}),
+		('Physical longitude', {'fields': ['lon']}),
+        ('Physical latitude', {'fields': ['lat']}),
 	]
-	list_display = ['name','slug','clinic_address','lon','lat']
+	list_display = ['name','pk','slug','clinic_address','lon','lat']
 	search_fields = ['name']
 
 
 class PracticeAdmin(admin.ModelAdmin):
 	fieldsets = [
-		('Select Practitioner', {'fields': ['practitioner']}),
-		('Select Practice Location', {'fields': ['practice_location']}),
-		('Select Practice Type', {'fields': ['practice_type']}),
-        ('Enter Appointment Numbers', {'fields': ['contact_number']}),
-        ('Enter Checkup Fees', {'fields': ['checkup_fee']}),
-        ('Services Offered', {'fields': ['services']}),
-        ('Appointments Only: Yes/No', {'fields': ['appointments_only']}),
-        ('Checkup on Waiting: Yes/No', {'fields': ['checkup_on_waiting']}),
+		(None, {'fields': ['practitioner']}),
+		(None, {'fields': ['practice_location']}),
+		(None, {'fields': ['practice_type']}),
+        (None, {'fields': ['contact_number']}),
+        (None, {'fields': ['checkup_fee']}),
+        (None, {'fields': ['services']}),
+        (None, {'fields': ['appointments_only']}),
 	]
-	list_display = ['practice_location','practitioner','contact_number','checkup_fee','modified','appointments_only','checkup_on_waiting','location']
-	search_fields = ['practitioner']
+	list_display = ['practitioner','practice_location','contact_number','checkup_fee','appointments_only','modified','location']
+	search_fields = ['practitioner__name']
 
 
 class PracticeTimingAdmin(admin.ModelAdmin):
 	list_display = ['practitioner','practice','day', 'start_time','end_time']
 	list_filter = ['day']
-	search_fields = ['day']
+	search_fields = ['practitioner__name','practice__practice_location__name','day']
 
 
 admin.site.register(City, CityAdmin)

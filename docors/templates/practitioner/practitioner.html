@@ -71,16 +71,11 @@
             <br>
             <li><i class="fa fa-money" title="Checkup Fee."></i><span><strong>{{pract.checkup_fee}} rs.</strong></span></li>
             <li><i class="fa fa-phone"></i><span><u>{{pract.contact_number}}</u></span></li>
-            <li><i class="fa fa-calendar"></i>{% if pract.appointments_only %}<span>Appointment Required: <b>Yes.</b></span>
-              {% else %}<span>First Come First Serve.</span>{% endif %}</li>
-            <li><i class="fa fa-clock-o" title="Checkup on Waiting List"></i>{% if pract.checkup_on_waiting %}<span>Checkup on Waiting: <b>Yes.</b></span>
-              {% else %}<span>Appointments Only.</span>{% endif %}</li>
+            <li><i class="fa fa-clock-o" title="Appointment Only or Waiting"></i>{% if pract.appointments_only %}<span>Appointment Required: <b>Yes.</b></span>{% else %}<span>Checkup on Waiting: <b>Yes.</b></span>{% endif %}</li>
             <li><i class="fa fa-location-arrow"></i><span>{{pract.practice_location.clinic_address}}, {{pract.practice_location.city.name}}.</span></li>
             <li><i class="fa fa-medkit fa-1x" title="Services Offered."></i><span>Services: {{pract.services}}</span></li>
           </ul>
-
           <div class="modified"><img src="{% static "icons/mod.png" %}"height="18" width="18" title="Last Updated"/>
-          {% load humanize %}
           <span>{{pract.modified|naturaltime}}</span></div>
           <!-- Lat Long -->
           {% if pract.practice_location.lat and pract.practice_location.lon %}
@@ -134,11 +129,25 @@
           <br> {% endif %} {% endfor %} 
           {% if data.user.is_authenticated %}
           <!-- Post new Reviews, user loged, Reviews exists-->
-          <form id="reviewBox" action="{% url 'review' %}" method="POST" class="inline_">{% csrf_token %}
+          <form id="reviewBox" action="{% url 'addreview' %}" method="POST" class="inline_">{% csrf_token %}
+              {% if data.practice.count > 1 %}
+              <select name="practice_slug" required>
+              <option value="">- Select Practice Location -</option>
+              {% for pract in data.practice.iterator %}
+              <option value="{{pract.practice_location.slug}}">{{pract.practice_location.name}}</option>
+              {% endfor %}
+              </select>
+              <textarea cols="8" rows="8" name="review_text" required></textarea>
+              <input type="hidden" name="slug" value="{{data.practitioner.slug}}">             
+              {% else %}
               <textarea cols="8" rows="8" name="review_text" required></textarea>
               <input type="hidden" name="slug" value="{{data.practitioner.slug}}">
+              {% for pract in data.practice.iterator %}
+              <input type="hidden" name="practice_slug" value="{{pract.practice_location.slug}}">
+              {% endfor %}
+              {% endif %}
               <button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Post</button>
-          </form>          
+          </form>
           {% else %}
           <a href="#popupMenu" data-rel="popup" data-transition="slideup" class="anchor-link-right marg-t" >add review..</a>
           <div data-role="popup" id="popupMenu" data-theme="b">
@@ -154,11 +163,26 @@
           <!-- user login and no review exists-->
           <p>
           <span class="textCentre marg-l break"><strong>No reviews yet, Make One.</strong></span>
-          <form id="reviewBox" action="{% url 'review' %}" method="POST" class="inline_">{% csrf_token %}
+          <form id="reviewBox" action="{% url 'addreview' %}" method="POST" class="inline_">{% csrf_token %}
+              {% if data.practice.count > 1 %}
+              <select name="practice_slug" required>
+              <option value="">- Select Practice Location -</option>
+              {% for pract in data.practice.iterator %}
+              <option value="{{pract.practice_location.slug}}">{{pract.practice_location.name}}</option>
+              {% endfor %}
+              </select>
+              <textarea cols="8" rows="8" name="review_text" required></textarea>
+              <input type="hidden" name="slug" value="{{data.practitioner.slug}}">             
+              {% else %}
               <textarea cols="8" rows="8" name="review_text" required></textarea>
               <input type="hidden" name="slug" value="{{data.practitioner.slug}}">
+              {% for pract in data.practice.iterator %}
+              <input type="hidden" name="practice_slug" value="{{pract.practice_location.slug}}">
+              {% endfor %}
+              {% endif %}
               <button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Post</button>
-          </form></p>
+          </form>
+          </p>
           {% else %}
 	       <!-- Post new Review / no user login-->
 	       <span class="marg-l break"><strong>No reviews yet.</strong></span>

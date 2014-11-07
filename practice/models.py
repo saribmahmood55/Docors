@@ -96,7 +96,6 @@ class Practice(models.Model):
     checkup_fee = models.PositiveIntegerField()
     services = models.TextField(null=True, blank=True)
     appointments_only = models.BooleanField(default=True)
-    checkup_on_waiting = models.BooleanField(default=True, blank=True)
     modified = models.DateTimeField(auto_now=True)
     location = gis_models.PointField(geography=True, blank=True, null=True)
     
