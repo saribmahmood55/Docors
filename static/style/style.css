@@ -51,8 +51,8 @@ h1 { font-size: 20px;}
 	height: 20px; padding: 10px 0px; margin-bottom: 0px;}
 .grid-name h3 { color: #000; text-align: center; font-size: 14px; padding: 0px; margin: 0px;}
 
-.clinic{	width: 290px; float: left; padding: 0px 15px 0px 15px; margin-bottom: 20px; font-weight: normal; clear: none; 
-	color: #000; background-color: #ccccd5;}
+.clinic{width: 290px; float: left; padding: 0px 15px 0px 15px; margin-bottom: 20px; 
+	font-weight: normal; clear: none; color: #000; background-color: #ccccd5;}
 
 .clinic ul li { padding-right: 20px;  display: block; width: 100%;} 
 .clinic ul li span{ float: left; width: 260px; } 
@@ -67,11 +67,12 @@ h1 { font-size: 20px;}
 .clock .timings { padding-left: 5px; text-decoration: underline; }
 
 .reviews{ width: 320px; float: left; overflow-x:auto; font-weight: normal; clear: none; background-color: #e6e6e8; color: #000;}
-.reviews .oneComment .patientName {font-weight: bold; color: #} .reviews p { padding: 0px 10px;}
+.reviews .oneComment { background-color: #fff; border: 1px solid #4b555d; margin: 10px; padding: 5px 5px;}
+.reviews .patientName {font-weight: bold; color: #4285f4; padding-bottom: 5px; } 
 #reviewBox { float: left; width: 310px; font-weight: normal; margin: 0px 5px;}
-.up { padding: 0px 10px 0px 15px;} 
+.up { padding: 10px 10px 0px 0px;} 
 
-#post-review-btn{	width: 60px; height: 30px; color: #3eb249; float: right; padding: 0px; margin-top: -5px;}
+#post-review-btn{	width: 60px; height: 30px; color: #3eb249; float: right; padding: 0px; margin-top: 0px;}
 .small-font {font-size: 13px;}
 
 /* Patient Profile	*/

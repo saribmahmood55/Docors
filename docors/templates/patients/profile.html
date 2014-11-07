@@ -28,7 +28,7 @@
          <li>
            <span>username: <strong>{{data.patient.user.username}}</strong></span>
            <span>email: <strong>{{data.patient.user.email}}</strong></span>
-           {% if data.patient.user.get_full_name and data.patient.cell_number != '' %}
+           {% if data.patient.user.get_full_name and data.patient.cell_number %}
            <span>First name: <strong>{{data.patient.user.first_name}}</strong></span>
            <span>Last Name: <strong>{{data.patient.user.last_name}}</strong></span>
            <span>Cell Number: {{data.patient.cell_number}}</span>
@@ -36,7 +36,7 @@
            <span>Age-Group: {{data.patient.get_age_group_display}}</span>
            {% else %}
            <form action="{% url 'patient' %}" class="updateP" method="POST">{% csrf_token %}
-            <input type="hidden" name="type" value="updatePatient" />
+            <input type="hidden" name="type_" value="updatePatient" />
              <span><strong>First Name: <input type="text" name="fname" required /></strong></span>
              <span><strong>Last Name: <input type="text" name="lname" required /></strong></span>
              <span><strong>Cell Number: <input type="text" name="number" /></strong></span>

@@ -101,10 +101,8 @@
         <h2 style="background-color: #4b555d;">Practice Reviews</h2>
         <div class="reviews">
           {% if data.reviews.exists %} 
-          {% for pr in data.reviews.iterator %}
-          <!-- user login and reviews are there-->
-          {% if data.user.is_authenticated %}
-          <!-- Post new Reviews, user loged, Reviews exists-->
+            <!-- Post new Reviews, user loged -->
+            {% if data.user.is_authenticated %}
           <form id="reviewBox" action="{% url 'addreview' %}" method="POST" class="inline_">{% csrf_token %}
               {% if data.practice.count > 1 %}
               <select name="practice_slug" required>
@@ -124,32 +122,35 @@
               {% endif %}
               <button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Post</button>
           </form>
+            {% endif %}
+          {% for pr in data.reviews.iterator %}
+          <!-- Post new Reviews, user loged, Reviews exists-->
+           {% if data.user.is_authenticated %}
+           <!--Load Reviews with up-down votes -->
           <p class="oneComment">
             <span class="patientName inlineB">{{pr.patient}}</span>
             <span class="float-right inlineB"><i class="fa fa-clock-o marg-r"></i>{{pr.review_date|naturaltime}}</span>
-            <span class="break">{{pr.review_text}}</span>
+            <span class="break marg-l">{{pr.review_text}}</span>
             <!-- review upVote-->
-            <!-- review upVote-->
-            <div class="inline_">
             <i class="fa fa-thumbs-o-up up" id="/review/{{pr.pk}}/"></i>
             <span class="up_votes marg-r">{{pr.up_votes}}</span>-
             <span class="down_votes marg-l">{{pr.down_votes}}</span>
+            <!-- review downVote-->
             <i class="fa fa-thumbs-o-down marg-l down" id="/review/{{pr.pk}}/"></i>
-            </div>
           </p>
-          <!-- review downVote-->
           <!-- No user login and reviews exists-->
           {% else %}
-          <p>
-            <span class="break"><b>{{pr.patient}}</b>: '{{pr.review_text}}'</span>
-            <div class="inline_">
-            <span class="up_votes marg-l">agree. {{pr.up_votes}} - </span>
-            <span class="down_votes">{{pr.down_votes}}  diagree.</span>
-            <span class="float-right marg-r"><i class="fa fa-clock-o marg-r" class="Reviewd Date."></i>{{pr.review_date|naturaltime}}</span></div>
+          <p class="oneComment">
+            <span class="patientName inlineB">{{pr.patient}}</span>
+            <span class="float-right inlineB"><i class="fa fa-clock-o marg-r"></i>{{pr.review_date|naturaltime}}</span>
+            <span class="break marg-l">{{pr.review_text}}</span>
+            <span class="up_votes inlineB">agree. {{pr.up_votes}} - </span>
+            <span class="down_votes inlineB">{{pr.down_votes}}  diagree.</span>
           </p>
-          <br> {% endif %} {% endfor %} 
-          {% if data.user.is_authenticated %}
-          {% else %}
+          {% endif %}
+          {% endfor %}
+          {% if not data.user.is_authenticated %}
+          <!-- No user login and reviews exists-->
           <a href="#popupMenu" data-rel="popup" data-transition="slideup" class="anchor-link-right marg-t" >add review..</a>
           <div data-role="popup" id="popupMenu" data-theme="b">
           <ul data-role="listview" data-inset="true" style="min-width:210px;">
@@ -159,11 +160,12 @@
           </ul>
           </div>
           {% endif %}
-          <!--if no review-->
-          {% elif data.user.is_authenticated%}
-          <!-- user login and no review exists-->
-          <p>
+          <!-- No user login and reviews exists-->
+          {% else %}
+            {% if data.user.is_authenticated %}
+            <!-- user login and no review exists-->
           <span class="textCentre marg-l break"><strong>No reviews yet, Make One.</strong></span>
+          <div>
           <form id="reviewBox" action="{% url 'addreview' %}" method="POST" class="inline_">{% csrf_token %}
               {% if data.practice.count > 1 %}
               <select name="practice_slug" required>
@@ -182,11 +184,10 @@
               {% endfor %}
               {% endif %}
               <button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Post</button>
-          </form>
-          </p>
-          {% else %}
-	       <!-- Post new Review / no user login-->
-	       <span class="marg-l break"><strong>No reviews yet.</strong></span>
+          </form></div>
+            {% else %}
+         <!-- Post new Review / no user login-->
+         <span class="marg-l break"><strong>No reviews yet.</strong></span>
           <a href="#popupMenu" data-rel="popup" data-transition="slideup" class="anchor-link-right marg-t" >add review..</a>
           <div data-role="popup" id="popupMenu" data-theme="b">
           <ul data-role="listview" data-inset="true" style="min-width:210px;">
@@ -195,6 +196,7 @@
           <li><a href="/password/reset/">Forgot Password</a></li>
           </ul>
           </div>
+            {% endif %}
          {% endif %}
         </div>
       </div>
@@ -206,7 +208,6 @@
       <a href="mailto:doctorsinfo.pk@gmail.com"><i class="fa fa-envelope fa-1x"></i></a>
       <a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i></a></h4>
     </div>
-
   </div>
   <script type="text/javascript">
     /* Location Detection */

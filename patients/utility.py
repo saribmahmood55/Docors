@@ -1,6 +1,5 @@
 from patients.models import *
-from practitioner.models import Specialization
-from practitioner.models import Practitioner
+from practitioner.models import Practitioner, Specialization
 from django.shortcuts import get_object_or_404
 from reviews.models import Review
 
