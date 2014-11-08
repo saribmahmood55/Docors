@@ -23,27 +23,20 @@ def practitoners(request):
 		data['user'] = None
 	if request.method == "GET":
 		city = str(request.GET.get('city', ''))
-		speciality = str(request.GET.get('spec', ''))
-		name = str(request.GET.get('name', ''))
-		experience = int(request.GET.get('exp', 0))
-		day = str(request.GET.get('day', ''))
+		spec = str(request.GET.get('spec', ''))
 		dist = int(request.GET.get('dist', 0))
 		lon = request.GET.get('lon', '')
 		lat = request.GET.get('lat', '')
-		#spatial request
-		if dist > 0 and lon != '' and lat != '':
-			try:
-				data['practice'] = Practice.practice_objects.nearby_practice(speciality, dist, lon, lat)
-			except Practice.DoesNotExist:
-				raise Http404
-		#basic search request
-		else:
-			try:
-				data['practice'] = Practice.practice_objects.practice_lookup(city, speciality, experience, name, day)
-			except Practice.DoesNotExist:
-				raise Http404
-	return render_to_response('practitioner/results.html', {'data': data}, context_instance=RequestContext(request))
+		name = str(request.GET.get('name', ''))
+		day = str(request.GET.get('day', ''))
+		wait = bool(request.GET.get('wait', False))
+		#Search Request
+		try:
+			data['practice'] = Practice.practice_objects.practice_lookup(city, spec, dist, lon, lat, name, day, wait)
+		except Practice.DoesNotExist:
+			raise Http404
 
+	return render_to_response('practitioner/results.html', {'data': data}, context_instance=RequestContext(request))
 
 # single practitioner details
 def practitioner(request, slug):

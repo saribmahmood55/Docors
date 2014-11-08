@@ -45,20 +45,19 @@
         </select>
         </li>
         <li>
-        <label for="name">Name</label>
-        <input type="search" name="name" value="" placeholder="Doctor Name">
-        </li>
-        <li>
         <label for="spec">Specialist Category</label>
-        <select name="spec">
+        <select name="spec" required>
           <option value="">- Select Speciality -</option>
           {% for speciality in data.specialities.iterator %}
           <option value={{speciality.slug}}>{{speciality.name}}</option>
           {% endfor %}
         </select>
-        <!--label for="exp">Experience in years.</label>
-        <input type="range" name="exp" value="0" min="0" max="30" data-highlight="true" /-->
+        </li>
         <li>
+        <label for="name">Name</label>
+        <input type="search" name="name" value="" placeholder="Doctor Name">
+        </li>
+        <li class="oneLine">
           <label for="day">Doctor avalability on particular Day.</label>
             <select name="day">
               <option value="">- Select Day -</option>
@@ -71,6 +70,12 @@
               <option value="Sun">Sunday</option>
             </select>
         </li>
+        <li class="oneLine">
+          <label for="wait">Checkup Allowed on Waiting:</label>
+            <select class="waiting" name="wait" data-role="slider">
+            <option value="True">Yes</option>
+            <option value="False">No</option>
+            </select>
         </li>
         <li>
         <label for="slider-2">Search a Specialist in KM radius.</label>
@@ -99,9 +104,11 @@ function showPosition(position) {
     $('#lon').val(position.coords.latitude);
     $('#lat').val(position.coords.longitude);
   }
-  else if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-    alert("doctorsinfo.pk would like to access your current location\nKindly Turn On Location Services from device Settings.");
-    location.reload();
+  else{
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+      alert("doctorsinfo.pk would like to access your current location\nKindly Turn On Location Services from device Settings.");
+      location.reload();
+    }
   }
 }
 function geo(){

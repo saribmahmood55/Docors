@@ -1,6 +1,5 @@
 from django.db import models
 from practitioner.models import *
-from django.db.models import Q
 from autoslug import AutoSlugField
 from django.contrib.gis.db import models as gis_models
 from django.contrib.gis import geos
@@ -46,39 +45,33 @@ class PracticeManager(models.Manager):
         practice = super(PracticeManager, self).filter(practitioner__slug=slug)
         return practice
 
-    def nearby_practice(self, speciality, dist, lon, lat):
-    	result = {}
-    	print 'spatial'
-    	current_point = geos.fromstr("POINT(%s %s)" % (lon, lat))
-    	distance_from_point = {'km': dist}
-    	practice = Practice.gis.filter(location__distance_lte=(current_point, measure.D(**distance_from_point)))
-    	practice = practice.distance(current_point).order_by('distance')
-    	practice = practice.filter(practitioner__specialities__slug=speciality)
-    	result['practice_list'] = practice
-        return result
-
 
     # Search request handling
-    def practice_lookup(self, city, speciality, experience, name, day):
+    def practice_lookup(self, city, spec, dist, lon, lat, name, day, wait):
         result, query = {}, None
-        if city and speciality:
-        	query = super(PracticeManager, self).filter(practitioner__specialities__slug=speciality , practice_location__city__slug=city).distinct('practitioner')
+        if dist == 0 and lon == '' and lat == '':
+        	query = super(PracticeManager, self).filter(practitioner__specialities__slug=spec, practice_location__city__slug=city).distinct('practitioner')
+        	if name != '':
+    			query = query.filter(practitioner__name__icontains=name)
+    		if day != '':
+    			query = query.filter(practicetiming__day=day).distinct('practitioner')
+    		if wait == True:
+    			query = query.filter(appointments_only=True)
         else:
-        	query = super(PracticeManager, self).filter(Q(practitioner__specialities__slug=speciality) | Q(practice_location__city__slug=city)).distinct('practitioner')
-        
-        #filter name
-        if name != '':
-        	query = query.filter(practitioner__name__icontains=name)
-
-        #filter day
-        if day != '':
-        	query = query.filter(practicetiming__day=day).distinct('practitioner')
-        
-        '''
-        #filter experienced
-        if experience >= 0:
-                query = query.filter(practitioner__experience__gte=experience)
-        '''
+        	print "spatial"
+        	current_point = geos.fromstr("POINT(%s %s)" % (lon, lat))
+    		distance_from_point = {'km': dist}
+    		query = Practice.gis.filter(location__distance_lte=(current_point, measure.D(**distance_from_point)))
+    		query = query.distance(current_point).order_by('distance')
+    		query = query.filter(practitioner__specialities__slug=spec)
+    		#spatial name search
+    		if name != '':
+    			query = query.filter(practitioner__name__icontains=name)
+    		if day != '':
+    			query = query.filter(practicetiming__day=day).distinct('practitioner')
+    			query = query.distance(current_point).order_by('practitioner')
+    		if wait == True:
+    			query = query.filter(appointments_only=False)
         
         result['practice_list'] = query
         return result
@@ -152,3 +145,17 @@ class PracticeTiming(models.Model):
 
     class Meta:
         verbose_name_plural = "Practice Timings"
+'''
+city, spec, dist, lon, lat, name, day, wait
+from django.db.models import Q
+    def nearby_practice(self, spec, dist, lon, lat):
+    	result = {}
+    	print 'spatial'
+    	current_point = geos.fromstr("POINT(%s %s)" % (lon, lat))
+    	distance_from_point = {'km': dist}
+    	practice = Practice.gis.filter(location__distance_lte=(current_point, measure.D(**distance_from_point)))
+    	practice = practice.distance(current_point).order_by('distance')
+    	practice = practice.filter(practitioner__specialities__slug=spec)
+    	result['practice_list'] = practice
+        return result
+'''

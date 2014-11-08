@@ -61,8 +61,6 @@
         <input type="hidden" name="lon" id= "lon">
         <input type="hidden" name="lat" id= "lat">
         </li>
-        <!--label for="exp">Experience in years.</label>
-        <input type="range" name="exp" value="0" min="0" max="30" data-highlight="true" /-->
         <li><button type="submit" class="ui-btn ui-shadow ui-corner-all">Search</button></li>
         <li><a class="anchor-link-left" href="{% url 'adv' %}">advance search >></a></li>
         </form>
@@ -86,9 +84,11 @@ function showPosition(position) {
     $('#lon').val(position.coords.latitude);
     $('#lat').val(position.coords.longitude);
   }
-  else if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-    alert("doctorsinfo.pk would like to access your current location\nKindly Turn On Location Services from device Settings.");
-    location.reload();
+  else{
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+      alert("doctorsinfo.pk would like to access your current location\nKindly Turn On Location Services from device Settings.");
+      location.reload();
+    }
   }
 }
 function geo(){
