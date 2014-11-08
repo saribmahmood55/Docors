@@ -49,14 +49,14 @@ class PracticeManager(models.Manager):
     # Search request handling
     def practice_lookup(self, city, spec, dist, lon, lat, name, day, wait):
         result, query = {}, None
-        if dist == 0 and lon == '' and lat == '':
+        if lon == '' and lat == '':
         	query = super(PracticeManager, self).filter(practitioner__specialities__slug=spec, practice_location__city__slug=city).distinct('practitioner')
         	if name != '':
     			query = query.filter(practitioner__name__icontains=name)
     		if day != '':
     			query = query.filter(practicetiming__day=day).distinct('practitioner')
     		if wait == True:
-    			query = query.filter(appointments_only=True)
+    			query = query.filter(appointments_only=False)
         else:
         	print "spatial"
         	current_point = geos.fromstr("POINT(%s %s)" % (lon, lat))

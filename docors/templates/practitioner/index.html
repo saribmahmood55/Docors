@@ -80,7 +80,7 @@
     </div>
 <script type="text/javascript">
 function showPosition(position) {
-  if (position.coords.latitude != null && position.coords.longitude != null){
+  if (position.coords.latitude != '' && position.coords.longitude != ''){
     $('#lon').val(position.coords.latitude);
     $('#lat').val(position.coords.longitude);
   }

@@ -126,8 +126,13 @@ color: #ffffff; background-color: #455a64; text-shadow: none; }
 	.no-button { width: 10px; height: 10px; margin: 0px; padding: 0px; float: right; display: inline;}
 	.foot h4 { width: 320px !important; } .foot a { padding: 0px 20px 0px 10px;}
 }
-/* For mobile : like samsung grand(480 * 800): */
-@media screen and (max-width : 480px){}
+/* For mobile : like samsung grand(480 * 800): Huawei*/
+@media screen and (max-width : 480px){
+
+	.ui-content { width: 320px !important; height: 435px !important;} #search { margin-top: 50px;}
+	#search .oneLine { width: 125px !important; margin: 0px 5px !important; padding: 0px !important;}
+	.advsearch { height: 480px ! important; }
+}
 
 
 /* For iphone: */
