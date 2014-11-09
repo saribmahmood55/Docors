@@ -48,7 +48,7 @@
         </li>
         <li>
         <label for="spec">Specialist Category</label>
-        <select name="spec" required>
+        <select name="spec" required onchange="android()">
           <option value="">- Select Speciality -</option>
           {% for speciality in data.specialities.iterator %}
           <option value={{speciality.slug}}>{{speciality.name}}</option>
@@ -56,7 +56,7 @@
         </select>
         </li>
         <li>
-        <label for="slider-2">Search a Specialist in KM radius.</label>
+        <label for="dist">Search a Specialist in KM radius.</label>
         <input type="range" name="dist" oninput="geo()" onchange="geo()" value="0" min="0" max="30" data-highlight="true">
         <input type="hidden" name="lon" id= "lon">
         <input type="hidden" name="lat" id= "lat">
@@ -79,16 +79,15 @@
       </div>
     </div>
 <script type="text/javascript">
+function android(){
+  if( /Android/i.test(navigator.userAgent) ) {
+    alert("* Inorder to search nearby Clinics.\n\n* Kindly Turn On Location Services from your Android Settings.");
+    }
+}
 function showPosition(position) {
   if (position.coords.latitude != '' && position.coords.longitude != ''){
     $('#lon').val(position.coords.latitude);
     $('#lat').val(position.coords.longitude);
-  }
-  else{
-    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-      alert("doctorsinfo.pk would like to access your current location\nKindly Turn On Location Services from device Settings.");
-      location.reload();
-    }
   }
 }
 function geo(){

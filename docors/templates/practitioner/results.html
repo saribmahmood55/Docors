@@ -30,7 +30,7 @@
         {% endif %}
     </div>
   </div>
-  <div role="main" class="ui-content container results">
+  <div role="main" class="ui-content container result">
    <h4 class="textCentre">Search Results</h4>
    {% for onePractitioner in data.practice.practice_list.iterator %}
    <ul class="results" data-role="listview" data-inset="true">
@@ -48,7 +48,7 @@
        {% if onePractitioner.distance.m > 1000 %}
        <p class="ui-li-aside"><strong>{{onePractitioner.distance.km|floatformat:2}}</strong> KM.</p>
        {% else %}
-       <p class="ui-li-aside"><strong>{{onePractitioner.distance.m|intword}}</strong> meter.</p>
+       <p class="ui-li-aside"><strong>{{onePractitioner.distance.m|intword}}</strong> m.</p>
        {% endif %}
        {% else %}
        <p class="ui-li-aside">Fee: <strong>{{onePractitioner.checkup_fee}}</strong> rs.</p>

@@ -81,7 +81,8 @@
           <!-- Lat Long -->
           {% if pract.practice_location.lat and pract.practice_location.lon %}
             <a href="http://maps.google.com/maps?z=12&t=m&q={{pract.practice_location.lon}},{{pract.practice_location.lat}}" target="_blank" class="anchor-link-right map-marker" ><i style="padding: 0px 0px 10px 0px;" class="fa fa-map-marker fa-3x"></i></a>
-            {% else %}
+          <!--
+          {% else %}
             <a href="#popupMenu" data-rel="popup" data-transition="slideup" class="anchor-link-right map-marker" ><i style="padding: 0px 0px 10px 0px;" class="fa fa-map-marker fa-3x"></i></a>
         <div data-role="popup" id="popupMenu" data-theme="a">
         <p class="locationReply">
@@ -92,6 +93,7 @@
         </div>
           <span class="sorry-msg">* Sorry, No Geo Location available for that Practice Location, Click on Map Button to Update.</span>
           {% endif %}
+          <-->
         </div>
       </div>
       {% endfor %}
@@ -129,7 +131,7 @@
            <!--Load Reviews with up-down votes -->
           <p class="oneComment">
             <span class="patientName inlineB">{{pr.patient}}</span>
-            <span class="float-right inlineB"><i class="fa fa-clock-o marg-r"></i>{{pr.review_date|naturaltime}}</span>
+            <span class="float-right inlineB commentDate"><i class="fa fa-clock-o marg-r"></i>{{pr.review_date|naturaltime}}</span>
             <span class="break marg-l">{{pr.review_text}}</span>
             <!-- review upVote-->
             <i class="fa fa-thumbs-o-up up" id="/review/{{pr.pk}}/"></i>
@@ -142,7 +144,7 @@
           {% else %}
           <p class="oneComment">
             <span class="patientName inlineB">{{pr.patient}}</span>
-            <span class="float-right inlineB"><i class="fa fa-clock-o marg-r"></i>{{pr.review_date|naturaltime}}</span>
+            <span class="float-right inlineB commentDate"><i class="fa fa-clock-o marg-r"></i>{{pr.review_date|naturaltime}}</span>
             <span class="break marg-l">{{pr.review_text}}</span>
             <span class="up_votes inlineB">agree. {{pr.up_votes}} - </span>
             <span class="down_votes inlineB">{{pr.down_votes}}  diagree.</span>
@@ -210,7 +212,7 @@
     </div>
   </div>
   <script type="text/javascript">
-    /* Location Detection */
+    /* Location Detection 
     var practice = '';
     var x = document.getElementsByClassName("reportGeo");
     $(function() {
@@ -237,6 +239,7 @@
         }
       });
     }
+    */
     /*  Load timings */
   $(function() {
     $('.clock').click(function(ev) {
