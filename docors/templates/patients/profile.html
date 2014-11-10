@@ -37,165 +37,178 @@
            {% else %}
            <form action="{% url 'patient' %}" class="updateP" method="POST">{% csrf_token %}
             <input type="hidden" name="type_" value="updatePatient" />
-             <span><strong>First Name: <input type="text" name="fname" required /></strong></span>
-             <span><strong>Last Name: <input type="text" name="lname" required /></strong></span>
-             <span><strong>Cell Number: <input type="text" name="number" /></strong></span>
-             <span><strong>Gender: </strong><select name="gender">
-               <option value="-">Prefer not to answer</option>
-               <option value="M">Male</option><option value="F">Female</option>
-             </select></span>
-             <span><strong>Age Group: </strong><select name="age" required><option value="">-Select Age Group-</option>
-               <option value="10">10-14</option><option value="15">15-19</option><option value="20">20-24</option>
-               <option value="25">25-29</option><option value="30">30-34</option><option value="35">35-39</option>
-               <option value="40">40-44</option><option value="45">45-49</option><option value="50">50-54</option>
-               <option value="55">55-59</option><option value="60">60-64</option><option value="65">65-69</option>
-               <option value="80">80-84</option><option value="85">85+</option>
-             </select></span>
-             <button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Update</button>
-            </form>
-             {% endif %}
-           </li>
-         </ul>
-       </div> 
+            <span><strong>First Name: <input type="text" name="fname" required /></strong></span>
+            <span><strong>Last Name: <input type="text" name="lname" required /></strong></span>
+            <span><strong>Cell Number: <input type="text" name="number" /></strong></span>
+            <span><strong>Gender: </strong><select name="gender">
+             <option value="-">Prefer not to answer</option>
+             <option value="M">Male</option><option value="F">Female</option>
+           </select></span>
+           <span><strong>Age Group: </strong><select name="age" required><option value="">-Select Age Group-</option>
+             <option value="10">10-14</option><option value="15">15-19</option><option value="20">20-24</option>
+             <option value="25">25-29</option><option value="30">30-34</option><option value="35">35-39</option>
+             <option value="40">40-44</option><option value="45">45-49</option><option value="50">50-54</option>
+             <option value="55">55-59</option><option value="60">60-64</option><option value="65">65-69</option>
+             <option value="80">80-84</option><option value="85">85+</option>
+           </select></span>
+           <button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Update</button>
+         </form>
+         {% endif %}
+       </li>
+     </ul>
+   </div> 
 
-       <!--patient reviews-->
-       <div class="patient-reviews">
-         <h2>Reviews</h2>
-         <ul>
-           {% for pr in data.reviews.iterator %}
-           <li class="marg-l"><span contenteditable="true">{{pr.review_text}}</span><i class="fa fa-trash fa-1x review" id="{{pr.pk}}"></i><i class="fa fa-check updatereview" id="{{pr.pk}}"></i></li>
-           {% empty %}
-           <li class="marg-l"><span>* No Reviews from you about any Practitioner.</span></li>
-           {% endfor %}
-         </ul>
+   <!--patient reviews-->
+   <div class="grid-name">
+     <h2 style="background-color: #4b555d;">Reviews</h2>
+     <div class="patient-reviews">
+       <ul>
+         {% for pr in data.reviews.iterator %}
+         <li class="marg-l">
+           <span class="comment" contenteditable="true">{{pr.review_text}}</span>
+           <i class="fa fa-trash fa-1x review" id="{{pr.pk}}"></i>
+           <i class="fa fa-check updatereview" id="{{pr.pk}}"></i>
+         </li>
          <p>* Tap on review text to update and then click Check Button to Save.</p>
-       </div>
-
-       <!--favourite Practitioner -->
-       <div class="favourite-pracs">
-        <h2>Favourite Practitioners</h2>
-        <ul>
-         {% for practitioner in data.patient.favt_practitioner.all.iterator %}
-         <li><span class="Pracname">* {{practitioner.name}}</span><i class="fa fa-times fa-1x deletePrac" id="{{practitioner.slug}}"></i></li>
-          {% empty %}
-         <li class="marg-l"><span>* No favourite Practitioner. *</span></li>
+         {% empty %}
+         <li class="marg-l"><span>* No Reviews from you about any Practitioner.</span></li>
          {% endfor %}
        </ul>
      </div>
-     <!--subscribe Specialities -->
-     <div class="subscribe-spec">
-       <h2>Subscibe for Specialities</h2>
-       <ul>
-         <li>
-           <span class="break"><strong>Name</strong></span></li>
-           <form action="{% url 'patient' %}" method="POST">{% csrf_token %}
-             {% if data.patient.interested_specialities.all.exists %}
-             {% for spec in data.patient.interested_specialities.all.iterator %}
-             <li><input type="checkbox" name="favt-spec" checked = "checked" value="{{spec.slug}}" />
-              <span>{{spec.name}}</span></li>
-              {% endfor %}{% endif %}
-              {% for spec in data.excluded_specialties.iterator %}
-              <li><input type="checkbox" name="spec" value="{{spec.name}}">
-                <span>{{spec.name}}</span></li>
-                {% endfor %}
-                <button type="submit" id="subscribe-btn" class="ui-btn ui-corner-all ui-btn-a">Subscribe</button>
-              </form>
-            </ul>
-            <p>* Please Select the above categories to get specific updates about latest research and weekly health tips.</p>
-          </div>
-          <!-- No user login-->
-          {% else %}
-          <center><a href="/login/" class="ui-btn ui-corner-all ui-shadow loginSignup">Login</a></center>
-          <center><a href="/register/" class="ui-btn ui-corner-all ui-shadow loginSignup">Sign Up</a></center>
-          <center><a href="/password/reset/" class="ui-btn ui-corner-all ui-shadow loginSignup">Forgot Password</a></center>
-          {% endif %}
-        </div>
-        <!-- Footer Details -->
-      <div class="foot" data-role="footer">
-      <h4>
+   </div>
+
+   <!--favourite Practitioner -->
+   <div class="grid-name">
+     <h2 style="background-color: #4b555d;">Favourite Practitioners</h2>
+     <div class="favourite-pracs">
+      <ul>
+       {% for practitioner in data.patient.favt_practitioner.all.iterator %}
+       <li><a href="{% url 'practitioner' practitioner.slug %}" class="anchor-link Pracname" >* {{practitioner.name}}</a><i class="fa fa-times fa-1x deletePrac" id="{{practitioner.slug}}"></i></li>
+       {% empty %}
+       <li class="marg-l"><span>* No favourite Practitioner. *</span></li>
+       {% endfor %}
+     </ul>
+   </div>
+ </div>
+
+ <!--subscribe Specialities -->
+ <div class="grid-name">
+   <h2 style="background-color: #4b555d;">Subscibe for Specialities</h2>
+   <div class="subscribe-spec">
+     <ul>
+       <form action="{% url 'patient' %}" method="POST">{% csrf_token %}
+         {% if data.patient.interested_specialities.all.exists %}
+         {% for spec in data.patient.interested_specialities.all.iterator %}
+         <li><input type="checkbox" name="favt-spec" checked = "checked" value="{{spec.slug}}" />
+          <span>{{spec.name}}</span></li>
+          {% endfor %}{% endif %}
+          {% for spec in data.excluded_specialties.iterator %}
+          <li><input type="checkbox" name="spec" value="{{spec.name}}">
+            <span>{{spec.name}}</span></li>
+            {% endfor %}
+            <button type="submit" id="subscribe-btn" class="ui-btn ui-corner-all ui-btn-a">Subscribe</button>
+          </form>
+        </ul>
+        <p>* Please Select the above categories to get specific updates about latest research and weekly health tips.</p>
+      </div>
+    </div>
+    <!-- No user login-->
+    {% else %}
+    <center><a href="/login/" class="ui-btn ui-corner-all ui-shadow loginSignup">Login</a></center>
+    <center><a href="/register/" class="ui-btn ui-corner-all ui-shadow loginSignup">Sign Up</a></center>
+    <center><a href="/password/reset/" class="ui-btn ui-corner-all ui-shadow loginSignup">Forgot Password</a></center>
+    {% endif %}
+  </div>
+  <!-- Footer Details -->
+  <div class="foot" data-role="footer">
+    <h4>
       <a href="https://www.facebook.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook fa-1x"></i></a>
       <a href="mailto:doctorsinfo.pk@gmail.com"><i class="fa fa-envelope fa-1x"></i></a>
       <a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i></a></h4>
     </div>
-      </div>
+  </div>
            <!--form action="{% url 'patient' %}" class="review" id="{{pr.pk}}" method="POST">{% csrf_token %}
            <li class="marg-l">* {{pr.review_text}}<button type="submit" ><i class="fa fa-times fa-1x"></i></button></li>
-           </form-->
-<script type="text/javascript">
-    /* remove Review */
-    $(function() {
-      $('.review').click(function(ev) {
-        var warning = window.confirm("Are you sure you want to remove that Review ?");
-        if (warning){
-        $.ajax({
-            type: "POST",
-            url: '/patient/',
-            context: this,
-            data: {
-              type_: "deleteReview",
-              id: $(this).attr('id'),
-              csrfmiddlewaretoken: '{{ csrf_token }}'
-            },
-            success: function(data) {
-              if (data.status_){
-                $(this).remove();
+         </form-->
+         <script type="text/javascript">
+          /* remove Review */
+          $(function() {
+            $('.review').click(function(ev) {
+              var warning = window.confirm("Are you sure you want to remove that Review ?");
+              if (warning){
+                $.ajax({
+                  type: "POST",
+                  url: '/patient/',
+                  context: this,
+                  data: {
+                    type_: "deleteReview",
+                    id: $(this).attr('id'),
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                  },
+                  success: function(data) {
+                    if (data.status_){  
+                      var cmnt = $(this).next('.updatereview');
+                      var check = $(this).prev('.comment');
+                      cmnt.remove();
+                      check.remove();
+                      $(this).remove();
+                    }
+                  },
+                  dataType: 'json'
+                });
               }
-            },
-            dataType: 'json'
+              ev.preventDefault();
+            });
           });
-        }
-        ev.preventDefault();
-      });
-    });
-    /* updatereview */
-        $(function() {
-      $('.updatereview').click(function(ev) {
-        $.ajax({
-            type: "POST",
-            url: '/patient/',
-            context: this,
-            data: {
-              type_: "deleteReview",
-              id: $(this).attr('id'),
-              csrfmiddlewaretoken: '{{ csrf_token }}'
-            },
-            success: function(data) {
-              if (data.status_){
-                $(this).hide();
+          /* updatereview */
+          $(function() {
+            $('.updatereview').click(function(ev) {
+              $.ajax({
+                type: "POST",
+                url: '/patient/',
+                context: this,
+                data: {
+                  type_: "deleteReview",
+                  id: $(this).attr('id'),
+                  csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function(data) {
+                  if (data.status_){
+                    $(this).hide();
+                  }
+                },
+                dataType: 'json'
+              });
+              ev.preventDefault();
+            });
+          });
+          /* remove Prac */
+          $(function() {
+            $('.deletePrac').click(function(ev) {
+              var warning = window.confirm("Are you sure you want to remove that Practitioner from your favourite List ?");
+              if (warning){
+                $.ajax({
+                  type: "POST",
+                  url: '/patient/',
+                  context: this,
+                  data: {
+                    type_: "deletePrac",
+                    prac_slug: $(this).attr('id'),
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                  },
+                  success: function(data) {
+                    if (data.status_){
+                      var name = $(this).prev('.Pracname');
+                      name.remove();
+                      $(this).remove();
+                    }
+                  },
+                  dataType: 'json'
+                });
               }
-            },
-            dataType: 'json'
+              ev.preventDefault();
+            });
           });
-        ev.preventDefault();
-      });
-    });
-    /* remove Prac */
-    $(function() {
-      $('.deletePrac').click(function(ev) {
-        var warning = window.confirm("Are you sure you want to remove that Practitioner from your favourite List ?");
-        if (warning){
-          $.ajax({
-            type: "POST",
-            url: '/patient/',
-            context: this,
-            data: {
-              type_: "deletePrac",
-              prac_slug: $(this).attr('id'),
-              csrfmiddlewaretoken: '{{ csrf_token }}'
-            },
-            success: function(data) {
-              if (data.status_){
-                var name = $(this).prev('.Pracname');
-                name.remove();
-                $(this).remove();
-              }
-            },
-            dataType: 'json'
-          });
-        }
-        ev.preventDefault();
-      });
-    });
-</script>
-</body>
-</html>
+        </script>
+      </body>
+      </html>

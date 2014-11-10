@@ -86,19 +86,19 @@ h1 { font-size: 20px;}
 color: #ffffff; background-color: #455a64; text-shadow: none; }
 .profile span { padding-right: 10px; }
 
-.patient-reviews{	width: 300px; float: left; margin: 5px; font-weight: normal; clear: none; background-color: #DCEDC6;}
+.patient-reviews{	width: 320px; float: left; font-weight: normal; clear: none; background-color: #DCEDC6;}
 .patient-reviews h2 { color: #000; text-align: center; font-size: 16px;}
 .patient-reviews ul li {padding: 0px; margin: 0px;}
 .patient-reviews ul li span { float left; width: 240px; padding-left: 10px; font-size: 14px; display: inline-block;}
 .patient-reviews i { padding-right: 10px; float: right;}
 .patient-reviews p { padding: 20px 10px 0px 10px; font-size: 15px;}
 
-.favourite-pracs{	width: 300px; float: left; margin: 5px; font-weight: normal; clear: none; background-color: #DCEDC6;}
-.favourite-pracs span { padding: 0px 0px 0px 10px; display: inline-block; margin: 0px;} 
+.favourite-pracs{	width: 320px; float: left; font-weight: normal; clear: none; background-color: #DCEDC6;}
+.favourite-pracs a { padding: 0px 0px 0px 10px; display: inline-block; margin: 0px;} 
 .favourite-pracs h2 { color: #000; text-align: center; font-size: 16px;}
 .favourite-pracs i { padding-right: 10px; float: right;}
 
-.subscribe-spec{	width: 300px; float: left; margin: 5px; font-weight: normal; clear: none; background-color: #DCEDC6;}
+.subscribe-spec{	width: 320px; float: left; font-weight: normal; clear: none; background-color: #DCEDC6;}
 .subscribe-spec span { margin-left: 35px; display: block;} 
 .subscribe-spec h2 { color: #000; text-align: center; font-size: 16px;}
 .subscribe-spec ul li { display: inline; margin: 0px; padding: 0px;} .subscribe-spec p { padding: 60px 10px 0px 10px; font-size: 15px;}
