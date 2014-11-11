@@ -145,17 +145,3 @@ class PracticeTiming(models.Model):
 
     class Meta:
         verbose_name_plural = "Practice Timings"
-'''
-city, spec, dist, lon, lat, name, day, wait
-from django.db.models import Q
-    def nearby_practice(self, spec, dist, lon, lat):
-    	result = {}
-    	print 'spatial'
-    	current_point = geos.fromstr("POINT(%s %s)" % (lon, lat))
-    	distance_from_point = {'km': dist}
-    	practice = Practice.gis.filter(location__distance_lte=(current_point, measure.D(**distance_from_point)))
-    	practice = practice.distance(current_point).order_by('distance')
-    	practice = practice.filter(practitioner__specialities__slug=spec)
-    	result['practice_list'] = practice
-        return result
-'''

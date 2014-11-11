@@ -98,19 +98,7 @@ WSGI_APPLICATION = 'docors.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 # GEOS from buildpack
-'''
-try:
-    GEOS_LIBRARY_PATH = os.path.join(os.environ['GEOS_LIBRARY_PATH'], 'libgeos_c.so')
-    GDAL_LIBRARY_PATH = os.path.join(os.environ['GDAL_LIBRARY_PATH'], 'libgdal.so')
-except:
-    pass
 
-#heroku
-import dj_database_url
-DATABASES = {}
-DATABASES['default'] =  dj_database_url.config(default='postgres://ukmmuiwdvgoedx:rKUzM9TsSZ3VEiRywilVctUmvN@ec2-54-197-237-120.compute-1.amazonaws.com:5432/dc18vrdjn47bc0')
-DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
-'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
@@ -120,17 +108,6 @@ DATABASES = {
         'HOST': 'localhost',
     }
 }
-
-#default='postgres://ukmmuiwdvgoedx:rKUzM9TsSZ3VEiRywilVctUmvN@ec2-54-197-237-120.compute-1.amazonaws.com:5432/dc18vrdjn47bc0'
-# Heroku
-HEROKU = bool(os.environ.get('DATABASE_URL'))
-
-if HEROKU:
-    import dj_database_url
-    DATABASES['default'] =  dj_database_url.config()
-    DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
-    POSTGIS_VERSION = (2, 1, 0)
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
