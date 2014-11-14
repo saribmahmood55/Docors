@@ -16,19 +16,12 @@
     <div data-role="header">
       <h1><a href="/" class="anchor-link" ><i class="fa fa-stethoscope fa-1x marg-r"></i>doctorsinfo.pk</a></h1>
       <div id="head">
-        {% if data.user.is_authenticated %}
-        <a href="{% url 'patient' %}" class="anchor-link"><i class="fa fa-user fa-1x marg-r"></i>{{data.user.username}}</a>
-        {% else %}
-        <a href="#popupMenu" data-rel="popup" data-transition="slideup" class="anchor-link">
-        <img src="{% static "icons/person.jpg" %}" width="32" height="32" ></a>
-        <div data-role="popup" id="popupMenu" data-theme="a">
-        <ul data-role="listview" data-inset="true" style="min-width:210px;">
-          <li><a href="/login/">Login</a></li>
-          <li><a href="/register/">Sign Up</a></li>
-          <li><a href="/login/">Forgot Password</a></li>
-        </ul>
-        </div> 
-        {% endif %}
+      {% if data.user.is_authenticated %}
+      <a href="{% url 'patient' %}" class="anchor-link"><i class="fa fa-user fa-1x marg-r"></i>{{data.user.username}}</a>
+      {% else %}
+        <a href="/login/" class="anchor-link" >Login</a><span>&nbsp;/</span>
+        <a href="/register/" style: class="anchor-link" >Register</a>
+      {% endif %}
       </div>
     </div>
 

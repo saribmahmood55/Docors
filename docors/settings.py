@@ -13,7 +13,6 @@ SECRET_KEY = 'zky%mapoo709@yv64h!ny#!7x8#&lh0o9nsfo++ny6+7gotp^r'
 DEBUG = boolean(os.environ.get('DEBUG', 1))
 TEMPLATE_DEBUG = DEBUG
 
-
 ADMINS = (
     ('Asad Naeem', 'doctorsinfo.pk@gmail.com'),
 )
@@ -32,31 +31,6 @@ EMAIL_HOST_USER = 'doctorsinfo.pk@gmail.com'
 EMAIL_HOST_PASSWORD = 'qtmtzmguforqkfkt'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        }
-    },
-    'handlers': {
-        'mail_admins': {
-            'level': 'ERROR',
-            'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler'
-        }
-    },
-    'loggers': {
-        'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
-            'propagate': True,
-        },
-    }
-}
 
 # Application definition
 INSTALLED_APPS = (
@@ -142,9 +116,37 @@ TEMPLATE_DIRS = (
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+if DEBUG:
+    STATIC_URL = '/static/'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+else:
+    STATIC_ROOT = '/home/asad/docors/static/'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler'
+        }
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    }
+}
