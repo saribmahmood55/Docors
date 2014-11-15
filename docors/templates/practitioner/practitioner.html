@@ -131,8 +131,8 @@
            <!--Load Reviews with up-down votes -->
           <p class="oneComment">
             <span class="patientName inlineB">{{pr.patient}}</span>
-            <span class="float-right inlineB commentDate"><i class="fa fa-clock-o marg-r"></i>{{pr.review_date|naturaltime}}</span>
-            <span class="break marg-l">{{pr.review_text}}</span>
+            <span class="commentDate float-right inlineB"><i class="fa fa-clock-o marg-r"></i>{{pr.review_date|naturaltime}}</span>
+            <span class="comment break marg-l">{{pr.review_text}}</span>
             <!-- review upVote-->
             <i class="fa fa-thumbs-o-up up" id="/review/{{pr.pk}}/"></i>
             <span class="up_votes marg-r">{{pr.up_votes}}</span>-
@@ -145,7 +145,7 @@
           <p class="oneComment">
             <span class="patientName inlineB">{{pr.patient}}</span>
             <span class="float-right inlineB commentDate"><i class="fa fa-clock-o marg-r"></i>{{pr.review_date|naturaltime}}</span>
-            <span class="break marg-l">{{pr.review_text}}</span>
+            <span class="comment break marg-l">{{pr.review_text}}</span>
             <span class="up_votes inlineB">agree. {{pr.up_votes}} - </span>
             <span class="down_votes inlineB">{{pr.down_votes}}  diagree.</span>
           </p>
