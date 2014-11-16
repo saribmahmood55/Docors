@@ -14,53 +14,48 @@
   <div data-role="page" data-title="doctorsinfo.pk">
    <div data-role="header">
     <h1><a href="/" class="anchor-link" ><i class="fa fa-stethoscope fa-1x marg-r"></i>doctorsinfo.pk</a></h1>
-    <div id="head">
-      {% if data.user.is_authenticated %}
-      <a href="{% url 'patient' %}" class="anchor-link"><i class="fa fa-user fa-1x marg-r"></i>{{data.user.username}}</a>
+    <div data-role="header">
+      <h1><a href="/" class="anchor-link" ><i class="fa fa-stethoscope fa-1x marg-r"></i>doctorsinfo.pk</a></h1>
+      <div id="head">
+        {% if data.user.is_authenticated %}
+        <a href="{% url 'patient' %}" class="anchor-link"><i class="fa fa-user fa-1x marg-r"></i>{{data.user.username}}</a>
         {% else %}
-        <a href="#popupMenu" data-rel="popup" data-transition="slideup" class="anchor-link">
-        <img src="{% static "icons/person.jpg" %}" width="32" height="32" ></a>
-        <div data-role="popup" id="popupMenu" data-theme="a">
-        <ul data-role="listview" data-inset="true" style="min-width:210px;">
-          <li><a href="/login/">Login</a></li>
-          <li><a href="/register/">Sign Up</a></li>
-          <li><a href="/login/">Forgot Password</a></li>
-        </ul>
-        </div> 
+        <a href="/login/" class="anchor-link" >Login</a><span>&nbsp;/</span>
+        <a href="/register/" style: class="anchor-link" >Register</a>
         {% endif %}
+      </div>
     </div>
-  </div>
-  <div role="main" class="ui-content container result">
-   <h4 class="textCentre">Search Results</h4>
-   {% for onePractitioner in data.practice.practice_list.iterator %}
-   <ul class="results" data-role="listview" data-inset="true">
-    <li>
-      <a href="{% url 'practitioner' onePractitioner.practitioner.slug %}" class="anchor-link" >
-        <h1>{{onePractitioner.practitioner.name}}</h1>
-        <p><strong>{{onePractitioner.practitioner.credentials}}</strong></p>
-        <p>Specialized in: 
-         {% for speciality in onePractitioner.practitioner.specialities.all.iterator %}
-         {{speciality.name}}
-         {% endfor %}
-       </p>
-       {% load humanize %}
-       {% if onePractitioner.distance.m > 0 %}
-       {% if onePractitioner.distance.m > 1000 %}
-       <p class="ui-li-aside"><strong>{{onePractitioner.distance.km|floatformat:2}}</strong> KM.</p>
-       {% else %}
-       <p class="ui-li-aside"><strong>{{onePractitioner.distance.m|intword}}</strong> m.</p>
-       {% endif %}
-       {% else %}
-       <p class="ui-li-aside">Fee: <strong>{{onePractitioner.checkup_fee}}</strong> rs.</p>
-       {% endif %}
-     </a>
-    </li>
-    {% empty %}
-    <li><p class="textCentre"><strong>Sorry, No results found. Search again.</strong></p></li>
-    </ul>
+    <div role="main" class="ui-content container result">
+     <h4 class="textCentre">Search Results</h4>
+     {% for onePractitioner in data.practice.practice_list.iterator %}
+     <ul class="results" data-role="listview" data-inset="true">
+      <li>
+        <a href="{% url 'practitioner' onePractitioner.practitioner.slug %}" class="anchor-link" >
+          <h1>{{onePractitioner.practitioner.name}}</h1>
+          <p><strong>{{onePractitioner.practitioner.credentials}}</strong></p>
+          <p>Specialized in: 
+           {% for speciality in onePractitioner.practitioner.specialities.all.iterator %}
+           {{speciality.name}}
+           {% endfor %}
+         </p>
+         {% load humanize %}
+         {% if onePractitioner.distance.m > 0 %}
+         {% if onePractitioner.distance.m > 1000 %}
+         <p class="ui-li-aside"><strong>{{onePractitioner.distance.km|floatformat:2}}</strong> KM.</p>
+         {% else %}
+         <p class="ui-li-aside"><strong>{{onePractitioner.distance.m|intword}}</strong> m.</p>
+         {% endif %}
+         {% else %}
+         <p class="ui-li-aside">Fee: <strong>{{onePractitioner.checkup_fee}}</strong> rs.</p>
+         {% endif %}
+       </a>
+     </li>
+     {% empty %}
+     <li><p class="textCentre"><strong>Sorry, No results found. Search again.</strong></p></li>
+   </ul>
    {% endfor %}
-  </div>
-<div class="foot" data-role="footer">
+ </div>
+ <div class="foot" data-role="footer">
   <h4>
     <a href="https://www.facebook.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook fa-1x"></i></a>
     <a href="mailto:doctorsinfo.pk@gmail.com"><i class="fa fa-envelope fa-1x"></i></a>
