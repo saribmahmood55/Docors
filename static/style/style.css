@@ -11,7 +11,7 @@ h1 { font-size: 20px;}
 /* General*/
 
 .ui-content {width: 1170px; height: 535px; margin: 0px auto;}
-#head { float: right; margin: -35px 20px 0px 0px; font-size: 16px; text-align: center;}
+#head { float: right; margin: -35px 20px 0px 0px; font-size: 16px; text-align: center;} #head a {padding: 0px 5px;}
 .anchor { color: #000 ! important; }
 .anchor-link {	text-decoration: none !important; color: #1B0A2A !important; font-size: 14px;}
 .anchor-link a:hover {	color: #ffffff; }
@@ -69,12 +69,12 @@ h1 { font-size: 20px;}
 .modified { float: left; padding-top: 20px; } .modified span { padding-left: 5px; font-size: 14px;}
 .clock .timings { padding-left: 5px; text-decoration: underline; }
 
-.reviews{ width: 320px; float: left; overflow-x:auto; font-weight: normal; clear: none; background-color: #e6e6e8; color: #000;}
-.oneComment { background-color: #F9F9F9; border: 1px solid #4b555d; margin: 10px; padding: 5px 5px;}
+.reviews { width: 320px; float: left; overflow-x:auto; font-weight: normal; clear: none; background-color: #e6e6e8; color: #000;}
+.oneComment { background-color:  #ccccd5; margin: 10px; padding: 5px 5px;}
 .oneComment .commentDate { font-size: 12px !important;}
 .patientName {font-weight: bold; color: #4285f4; padding-bottom: 5px; } .patientName {font-size: 12px;}
 .comment {font-size: 14px;}
-#reviewBox { float: left; width: 310px; font-weight: normal; margin: 0px 5px; font-size: 12px;}
+.reviewBox { width: 310px; font-weight: normal; margin: 0px 5px; font-size: 14px; height: 80px; }
 .up { padding: 10px 10px 0px 0px;} 
 
 #post-review-btn{	width: 60px; height: 30px; color: #3eb249; float: right; padding: 0px; margin-top: 0px;}
@@ -120,7 +120,8 @@ color: #ffffff; background-color: #455a64; text-shadow: none; }
 	.ui-content { width: 320px !important; height: 390px !important;}
 	.marg-l { padding-left: 5px;}
 	.anchor-link-right { float:right; text-decoration: none; color: #000000;  font-size: 12px;}
-	#head { font-size: 12px; margin: -30px 20px 0px 0px;}
+	#head { margin: -25px 5px 0px 0px; font-size: 11px;}
+	#head a { font-size: 12px; padding: 0px 2px;}
 	#search { width: 280px !important; height: 320px; margin: 30px auto 0px auto; }
 	#search label { font-size: 12px; } #search a { font-size: 16px;}
 	#search h2 { font-size: 16px; text-align: center;}

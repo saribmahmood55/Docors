@@ -10,7 +10,7 @@ boolean = lambda value: bool(int(value))
 SECRET_KEY = 'zky%mapoo709@yv64h!ny#!7x8#&lh0o9nsfo++ny6+7gotp^r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = boolean(os.environ.get('DEBUG', 0))
+DEBUG = boolean(os.environ.get('DEBUG', 1))
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -83,51 +83,6 @@ DATABASES = {
     }
 }
 
-# Internationalization
-# https://docs.djangoproject.com/en/1.7/topics/i18n/
-
-LANGUAGE_CODE = 'en-us'
-
-#TIME_ZONE = 'UTC'
-TIME_ZONE = 'Asia/Karachi'
-
-USE_I18N = True
-
-USE_L10N = True
-
-USE_TZ = True
-
-
-# Honor the 'X-Forwarded-Proto' header for request.is_secure()
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-# Allow all host headers
-ALLOWED_HOSTS = ['*']
-
-# Static asset configuration
-#BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # <-- docors/docors/...
-#BASE_DIR = os.path.dirname(os.path.dirname(__file__))   # <-- docors/...   project root
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # <-- docors/docors/...
-
-TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR, 'templates'),
-)
-
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-
-
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
-
-if DEBUG:
-    STATIC_URL = '/static/'
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-else:
-    STATIC_URL = '/static/'
-    STATIC_ROOT = '/home/asad/docors/static/'
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -151,3 +106,39 @@ LOGGING = {
         },
     }
 }
+# Internationalization
+LANGUAGE_CODE = 'en-us'
+
+#TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Karachi'
+USE_I18N = True
+USE_L10N = True
+USE_TZ = True
+
+
+# Honor the 'X-Forwarded-Proto' header for request.is_secure()
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# Allow all host headers
+ALLOWED_HOSTS = ['*']
+
+#Static asset configuration
+#BASE_DIR = os.path.dirname(os.path.abspath(__file__))   # <-- docors/docors/...
+#BASE_DIR = os.path.dirname(os.path.dirname(__file__))   # <-- docors/...
+
+STATIC_URL = '/static/'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR, 'templates'),
+)
+
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
+if DEBUG:
+    STATIC_ROOT = 'staticfiles'
+else:
+    STATIC_ROOT = '/home/asad/docors/static/'

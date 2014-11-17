@@ -12,13 +12,15 @@ def addReview(request):
 	prac_slug = None
 	if request.method == "POST":
 		if request.user.is_authenticated():
+			review = {}
 			user = request.user
 			prac_slug = request.POST.get('slug', None)
 			practice_slug = request.POST.get('practice_slug', None)
 			review_text = request.POST.get('review_text', None)
 			if prac_slug:
-				newReview(user, prac_slug, practice_slug, review_text)
-	return HttpResponseRedirect(reverse('practitioner', kwargs={'slug': prac_slug}))
+				review = newReview(user, prac_slug, practice_slug, review_text)
+		if request.is_ajax():
+			return HttpResponse(json.dumps(review), content_type="application/json")
 
 
 def review(request, review_id):

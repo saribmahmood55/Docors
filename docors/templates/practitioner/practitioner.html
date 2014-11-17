@@ -3,6 +3,7 @@
 
 <head>
   {% load staticfiles %}
+  {% load humanize %}
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="shortcut icon" href="{% static "icons/stethoscope.ico" %}" />
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
@@ -69,24 +70,11 @@
             <li><i class="fa fa-medkit fa-1x" title="Services Offered."></i><span>Services: {{pract.services}}</span></li>
           </ul>
           <div class="modified"><img src="{% static "icons/mod.png" %}"height="18" width="18" title="Last Updated"/>
-          {% load humanize %}
           <span>{{pract.modified|naturaltime}}</span></div>
           <!-- Lat Long -->
           {% if pract.practice_location.lat and pract.practice_location.lon %}
             <a href="http://maps.google.com/maps?z=12&t=m&q={{pract.practice_location.lon}},{{pract.practice_location.lat}}" target="_blank" class="anchor-link-right map-marker" ><i style="padding: 0px 0px 10px 0px;" class="fa fa-map-marker fa-3x"></i></a>
-          <!--
-          {% else %}
-            <a href="#popupMenu" data-rel="popup" data-transition="slideup" class="anchor-link-right map-marker" ><i style="padding: 0px 0px 10px 0px;" class="fa fa-map-marker fa-3x"></i></a>
-        <div data-role="popup" id="popupMenu" data-theme="a">
-        <p class="locationReply">
-        <span class="break">* Please Make your that you are currently present at "{{pract.practice_location.name}}".</span>
-        <span class="break">* If You're reporting from a smart phone, Kindly Turn on Location Services from your device Settings.</span>
-        <span class="break">* Kidly Allow your device to detect your Geo Location, when prompted by Browser. Thanks</span>
-        <button class="reportGeo" id="{{pract.practice_location.name}}" >Report GeoLocation.</button></p>
-        </div>
-          <span class="sorry-msg">* Sorry, No Geo Location available for that Practice Location, Click on Map Button to Update.</span>
           {% endif %}
-          <-->
         </div>
       </div>
       {% endfor %}
@@ -96,9 +84,9 @@
         <h2 style="background-color: #4b555d;">Practice Reviews</h2>
         <div class="reviews">
           {% if data.reviews.exists %} 
-            <!-- Post new Reviews, user loged -->
+            <!-- Post new Reviews, user loged in & Reviews exists -->
             {% if data.user.is_authenticated %}
-          <form id="reviewBox" action="{% url 'addreview' %}" method="POST" class="inline_">{% csrf_token %}
+          <form class="reviewBox" action="{% url 'addreview' %}" method="POST" class="inline_">{% csrf_token %}
               {% if data.practice.count > 1 %}
               <select name="practice_slug" required>
               <option value="">- Select Practice Location -</option>
@@ -110,20 +98,21 @@
               <input type="hidden" name="slug" value="{{data.practitioner.slug}}">             
               {% else %}
               <textarea cols="8" rows="8" name="review_text" required></textarea>
-              <input type="hidden" name="slug" value="{{data.practitioner.slug}}">
+              <input type="hidden" id="slug" name="slug" value="{{data.practitioner.slug}}">
               {% for pract in data.practice.iterator %}
-              <input type="hidden" name="practice_slug" value="{{pract.practice_location.slug}}">
+              <input type="hidden" id="practice_slug" name="practice_slug" value="{{pract.practice_location.slug}}">
               {% endfor %}
               {% endif %}
               <button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Post</button>
           </form>
             {% endif %}
           {% for pr in data.reviews.iterator %}
-          <!-- Post new Reviews, user loged, Reviews exists-->
+          <!-- Load Reviews, user loged in, Reviews exists-->
            {% if data.user.is_authenticated %}
            <!--Load Reviews with up-down votes -->
-          <p class="oneComment">
-            <span class="patientName inlineB">{{pr.patient}}</span>
+          <div class="oneComment">
+            <span class="patientName inlineB">{% if pr.patient.user.get_full_name %}
+            {{pr.patient.user.get_full_name}}{% else %}{{pr.patient}}{% endif %}</span>
             <span class="commentDate float-right inlineB"><i class="fa fa-clock-o marg-r"></i>{{pr.review_date|naturaltime}}</span>
             <span class="comment break marg-l">{{pr.review_text}}</span>
             <!-- review upVote-->
@@ -132,16 +121,17 @@
             <span class="down_votes marg-l">{{pr.down_votes}}</span>
             <!-- review downVote-->
             <i class="fa fa-thumbs-o-down marg-l down" id="/review/{{pr.pk}}/"></i>
-          </p>
+          </div>
           <!-- No user login and reviews exists-->
           {% else %}
-          <p class="oneComment">
-            <span class="patientName inlineB">{{pr.patient}}</span>
+          <div class="oneComment">
+            <span class="patientName inlineB">{% if pr.patient.user.get_full_name %}
+            {{pr.patient.user.get_full_name}}{% else %}{{pr.patient}}{% endif %}</span>
             <span class="float-right inlineB commentDate"><i class="fa fa-clock-o marg-r"></i>{{pr.review_date|naturaltime}}</span>
             <span class="comment break marg-l">{{pr.review_text}}</span>
             <span class="up_votes inlineB">agree. {{pr.up_votes}} - </span>
             <span class="down_votes inlineB">{{pr.down_votes}}  diagree.</span>
-          </p>
+          </div>
           {% endif %}
           {% endfor %}
           {% if not data.user.is_authenticated %}
@@ -151,7 +141,6 @@
           <ul data-role="listview" data-inset="true" style="min-width:210px;">
           <li><a href="/login/" >Login</a></li>
           <li><a href="/register/" >Sign Up</a></li>
-          <li><a href="/password/reset/">Forgot Password</a></li>
           </ul>
           </div>
           {% endif %}
@@ -161,7 +150,7 @@
             <!-- user login and no review exists-->
           <span class="textCentre marg-l break"><strong>No reviews yet, Make One.</strong></span>
           <div>
-          <form id="reviewBox" action="{% url 'addreview' %}" method="POST" class="inline_">{% csrf_token %}
+          <form class="reviewBox" action="{% url 'addreview' %}" method="POST" class="inline_">{% csrf_token %}
               {% if data.practice.count > 1 %}
               <select name="practice_slug" required>
               <option value="">- Select Practice Location -</option>
@@ -169,10 +158,10 @@
               <option value="{{pract.practice_location.slug}}">{{pract.practice_location.name}}</option>
               {% endfor %}
               </select>
-              <textarea cols="8" rows="8" name="review_text" required></textarea>
+              <textarea cols="8" rows="8" id="review_text" name="review_text" required></textarea>
               <input type="hidden" name="slug" value="{{data.practitioner.slug}}">             
               {% else %}
-              <textarea cols="8" rows="8" name="review_text" required></textarea>
+              <textarea cols="8" rows="8" id="review_text" name="review_text" required></textarea>
               <input type="hidden" name="slug" value="{{data.practitioner.slug}}">
               {% for pract in data.practice.iterator %}
               <input type="hidden" name="practice_slug" value="{{pract.practice_location.slug}}">
@@ -188,7 +177,6 @@
           <ul data-role="listview" data-inset="true" style="min-width:210px;">
           <li><a href="/login/" >Login</a></li>
           <li><a href="/register/" >Sign Up</a></li>
-          <li><a href="/password/reset/">Forgot Password</a></li>
           </ul>
           </div>
             {% endif %}
@@ -205,38 +193,39 @@
     </div>
   </div>
   <script type="text/javascript">
-    /* Location Detection 
-    var practice = '';
-    var x = document.getElementsByClassName("reportGeo");
-    $(function() {
-     $('.reportGeo').click(function(ev) {
-      practice = $(this).attr('id');
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-      }
-      else { 
-        x.innerHTML = "Geolocation is not supported by this browser.";
-      }
-    });
-  });
-    function showPosition(position) { var lat = position.coords.latitude; var lon = position.coords.longitude;
-      $.ajax({
-        type: "POST", url: '/update/', context: this, data: { type_ : "GeoLocation", 
-        name: '{{data.practitioner.name}}', practice: practice, lat: lat,
-        lon: lon, csrfmiddlewaretoken: '{{ csrf_token }}'},
-        success: function(data) {
-          if(data.Status){
-            $('.locationReply').hide();
-            alert("You have successfully reported the GeoLocation for '"+practice+"' Thanks for your Co-operation. :)");
-          }
-        }
+    /* new Review */
+    $(document).ready(function() {
+      var comment = $('.reviewBox');
+      comment.submit(function(ev) {
+        var doc = "{{data.favourite}}";
+        if (doc == "False")
+          $.ajax({
+            type: "POST",
+            url: $(this).attr('action'),
+            context: this,
+            data: { slug: $(this).attr('slug'), practice_slug: $(this).attr('action'), review_text: $(this).attr('review_text') },
+            success: function(data){
+              if (data.msg != null) {
+                alert(data.msg);
+                $(this).hide();
+              } else {
+                //$(this).hide();
+                $(this).append('<div class="oneComment">
+                  <span class="patientName inlineB">'data.patient'</span>
+                  <span class="float-right inlineB commentDate"><i class="fa fa-clock-o marg-r"></i>{% now "jS F Y H:i" %}</span>
+                  <span class="comment break marg-l">'data.review_text'</span>
+                  </div>');
+                }
+              },
+            dataType: 'json',
+          });
       });
-    }
-    */
+    });
+    // csrfmiddlewaretoken: '{{ csrf_token }}'}
     /*  Load timings */
-  $(function() {
-    $('.clock').click(function(ev) {
-      console.log('clock click');
+    $(document).ready(function() {
+      $('.clock').click(function(ev) {
+        console.log('clock click');
         $.ajax({
           type: "GET",
           url: $(this).attr('id'),
@@ -248,9 +237,9 @@
           dataType: 'html'
         });
       });
-   });
+    });
     /* favt	*/
-    $(function() {
+    $(document).ready(function() {
       var favtImg = $('.favourite');
       favtImg.click(function(ev) {
         var doc = "{{data.favourite}}";
@@ -271,53 +260,51 @@
       });
     });
     /* up vote */
-    $(function() {
+    $(document).ready(function() {
       var up = $('.up');
       up.click(function(ev) {
-        console.log('up');
-          $.ajax({
-            type: "POST",
-            url: $(this).attr('id'),
-            context: this,
-            data: {
-              up: "up",
-              prac_slug: "{{data.practitioner.slug}}",
-              csrfmiddlewaretoken: '{{ csrf_token }}'
-            },
-            success: function(data) {
-              var up = $(this).next('.up_votes').text(data.up);
-              down = up.next('.down_votes');
-              up.text(data.up);
-              down.text(data.down);
-              $(this).unbind('click');
-            },
-            dataType: 'json',
-          });
+        $.ajax({
+          type: "POST",
+          url: $(this).attr('id'),
+          context: this,
+          data: {
+            up: "up",
+            prac_slug: "{{data.practitioner.slug}}",
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+          },
+          success: function(data) {
+            var up = $(this).next('.up_votes').text(data.up);
+            down = up.next('.down_votes');
+            up.text(data.up);
+            down.text(data.down);
+            $(this).unbind('click');
+          },
+          dataType: 'json',
+        });
       });
     });
     /* down vote */
-    $(function() {
+    $(document).ready(function() {
       var down = $('.down');
       down.click(function(ev) {
-        console.log('up');
-          $.ajax({
-            type: "POST",
-            url: $(this).attr('id'),
-            context: this,
-            data: {
-              down: "down",
-              prac_slug: "{{data.practitioner.slug}}",
-              csrfmiddlewaretoken: '{{ csrf_token }}'
-            },
-            success: function(data) {
-              var down = $(this).prev('.down_votes');
-              var up = down.prev('.up_votes');
-              down.text(data.down);
-              up.text(data.up);
-              $(this).unbind('click');
-            },
-            dataType: 'json'
-          });
+        $.ajax({
+          type: "POST",
+          url: $(this).attr('id'),
+          context: this,
+          data: {
+            down: "down",
+            prac_slug: "{{data.practitioner.slug}}",
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+          },
+          success: function(data) {
+            var down = $(this).prev('.down_votes');
+            var up = down.prev('.up_votes');
+            down.text(data.down);
+            up.text(data.up);
+            $(this).unbind('click');
+          },
+          dataType: 'json'
+        });
       });
     });
   </script>

@@ -14,14 +14,6 @@
   <div data-role="page" data-title="doctorsinfo.pk">
    <div data-role="header">
    <h1><a href="/" class="anchor-link" ><i class="fa fa-stethoscope fa-1x marg-r"></i>doctorsinfo.pk</a></h1>
-      <div id="head">
-        {% if data.user.is_authenticated %}
-        <a href="{% url 'patient' %}" class="anchor-link"><i class="fa fa-user fa-1x marg-r"></i>{{data.user.username}}</a>
-        {% else %}
-        <a href="/login/" class="anchor-link" >Login</a><span>&nbsp;/</span>
-        <a href="/register/" style: class="anchor-link" >Register</a>
-        {% endif %}
-      </div>
     </div>
     <div role="main" class="ui-content container result">
      <h4 class="textCentre">Search Results</h4>
