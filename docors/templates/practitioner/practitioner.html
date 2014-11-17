@@ -207,14 +207,14 @@
             success: function(data){
               if (data.msg != null) {
                 alert(data.msg);
-                $(this).hide();
               } else {
-                //$(this).hide();
+                /*$(this).hide();
                 $(this).append('<div class="oneComment">
                   <span class="patientName inlineB">'data.patient'</span>
                   <span class="float-right inlineB commentDate"><i class="fa fa-clock-o marg-r"></i>{% now "jS F Y H:i" %}</span>
                   <span class="comment break marg-l">'data.review_text'</span>
                   </div>');
+                */
                 }
               },
             dataType: 'json',
