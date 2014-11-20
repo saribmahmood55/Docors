@@ -9,18 +9,17 @@ import json
 
 
 def addReview(request):
-	prac_slug = None
+	review, slug = {}, None
 	if request.method == "POST":
 		if request.user.is_authenticated():
-			review = {}
 			user = request.user
-			prac_slug = request.POST.get('slug', None)
-			practice_slug = request.POST.get('practice_slug', None)
+			slug = request.POST.get('slug', None)
 			review_text = request.POST.get('review_text', None)
-			if prac_slug:
-				review = newReview(user, prac_slug, practice_slug, review_text)
-		if request.is_ajax():
-			return HttpResponse(json.dumps(review), content_type="application/json")
+			if slug:
+				review = newReview(user, slug, review_text)
+			if request.is_ajax():
+				return HttpResponse(json.dumps(review), content_type="application/json")
+	return HttpResponseRedirect(reverse('practitioner', kwargs={'slug': slug}))
 
 
 def review(request, review_id):
@@ -42,4 +41,3 @@ def review(request, review_id):
 			if request.is_ajax():
 				return HttpResponse(json.dumps(votes), content_type="application/json")
 	return HttpResponseRedirect(reverse('practitioner', kwargs={'slug': slug}))
-#

@@ -1,12 +1,16 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
 from practitioner.models import Practitioner, Specialization
-from patients.models import Patient
+from patients.models import *
+
+class SubscriptionAdmin(admin.ModelAdmin):
+	list_display = ['email','cell_number','practitioner']
+	search_fields = ['email']
 
 
 class PatientAdmin(admin.ModelAdmin):
-	#inlines = (PatientInline, )
 	list_display = ['patient_name','patient_user_name','email','cell_number','gender','age_group','Interested_Specialities','Favourite_Practitioners']
+	search_fields = ['email']
 
 	def patient_user_name(self, obj):
 		return obj.user.username
@@ -23,4 +27,5 @@ class PatientAdmin(admin.ModelAdmin):
 	def Favourite_Practitioners(self, obj):
 		return "\n".join([practitioner.name for practitioner in obj.favt_practitioner.all()])
 
+admin.site.register(Subscription, SubscriptionAdmin)
 admin.site.register(Patient, PatientAdmin)

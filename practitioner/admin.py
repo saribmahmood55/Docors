@@ -1,6 +1,10 @@
 from django.contrib import admin
 from practitioner.models import *
+from practice.models import *
 
+class PracticeTimingInline(admin.TabularInline):
+	model = PracticeTiming
+	extra = 1
 
 class PractitionerAdmin(admin.ModelAdmin):
 	fieldsets = [
@@ -14,6 +18,7 @@ class PractitionerAdmin(admin.ModelAdmin):
 	]
 	list_display = ['name','slug','credentials','Specialist_in','experience','message','status','achievements','modified']
 	search_fields = ['name']
+	inlines = [PracticeTimingInline]
 	
 	def Specialist_in(self, obj):
 		return "\n".join([s.name for s in obj.specialities.all()])

@@ -1,11 +1,23 @@
 from patients.models import Patient
 from reviews.models import *
 from utility import *
-from django.http import Http404, HttpResponse
-from django.shortcuts import redirect
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from django.core.urlresolvers import reverse
 import json
+
+def subscribe(request):
+	slug = None
+	if request.method == 'POST':
+		data = {}
+		slug = request.POST.get('slug', None)
+		email = request.POST.get('email', None)
+		cell_number = request.POST.get('mobile', None)
+		data['msg'] = newSubscription(slug, email, cell_number)
+		if request.is_ajax():
+			return HttpResponse(json.dumps(data), content_type="application/json")
+	return HttpResponseRedirect(reverse('practitioner', kwargs={'slug': slug}))
 
 
 def patient(request):

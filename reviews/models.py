@@ -22,7 +22,6 @@ class ReviewManager(models.Manager):
 class Review(models.Model):
     practitioner = models.ForeignKey(Practitioner)
     patient = models.ForeignKey(Patient)
-    practice = models.ForeignKey(Practice, null=True)
     post_as_anonymous = models.BooleanField(default=False)
     review_text = models.TextField()
     review_date = models.DateTimeField(auto_now_add=True)

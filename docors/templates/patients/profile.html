@@ -124,91 +124,87 @@
     <h4>
       <a href="https://www.facebook.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook fa-1x"></i></a>
       <a href="mailto:doctorsinfo.pk@gmail.com"><i class="fa fa-envelope fa-1x"></i></a>
-      <a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i></a></h4>
-    </div>
+      <a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i></a>
+      <a href="https://plus.google.com/114638856531345672910" rel="publisher" target="_blank"><i class="fa fa-google-plus fa-1x"></i></a>
+    </h4>
   </div>
+</div>
            <!--form action="{% url 'patient' %}" class="review" id="{{pr.pk}}" method="POST">{% csrf_token %}
            <li class="marg-l">* {{pr.review_text}}<button type="submit" ><i class="fa fa-times fa-1x"></i></button></li>
          </form-->
-         <script type="text/javascript">
-          /* remove Review */
-          $(function() {
-            $('.review').click(function(ev) {
-              var warning = window.confirm("Are you sure you want to remove that Review ?");
-              if (warning){
-                $.ajax({
-                  type: "POST",
-                  url: '/patient/',
-                  context: this,
-                  data: {
-                    type_: "deleteReview",
-                    id: $(this).attr('id'),
-                    csrfmiddlewaretoken: '{{ csrf_token }}'
-                  },
-                  success: function(data) {
-                    if (data.status_){  
-                      var cmnt = $(this).next('.updatereview');
-                      var check = $(this).prev('.comment');
-                      cmnt.remove();
-                      check.remove();
-                      $(this).remove();
-                    }
-                  },
-                  dataType: 'json'
-                });
-              }
-              ev.preventDefault();
-            });
-          });
-          /* updatereview */
-          $(function() {
-            $('.updatereview').click(function(ev) {
-              $.ajax({
-                type: "POST",
-                url: '/patient/',
-                context: this,
-                data: {
-                  type_: "deleteReview",
-                  id: $(this).attr('id'),
-                  csrfmiddlewaretoken: '{{ csrf_token }}'
-                },
-                success: function(data) {
-                  if (data.status_){
-                    $(this).hide();
-                  }
-                },
-                dataType: 'json'
-              });
-              ev.preventDefault();
-            });
-          });
-          /* remove Prac */
-          $(function() {
-            $('.deletePrac').click(function(ev) {
-              var warning = window.confirm("Are you sure you want to remove that Practitioner from your favourite List ?");
-              if (warning){
-                $.ajax({
-                  type: "POST",
-                  url: '/patient/',
-                  context: this,
-                  data: {
-                    type_: "deletePrac",
-                    prac_slug: $(this).attr('id'),
-                    csrfmiddlewaretoken: '{{ csrf_token }}'
-                  },
-                  success: function(data) {
-                    if (data.status_){
-                      var name = $(this).prev('.Pracname');
-                      name.remove();
-                      $(this).remove();
-                    }
-                  },
-                  dataType: 'json'
-                });
-              }
-              ev.preventDefault();
-            });
-          });
-        </script>
-      </body>
-      </html>
+<script type="text/javascript">
+/* remove Review */
+$(document).ready(function() {
+  $('.review').click(function(ev) {
+    var warning = window.confirm("Are you sure you want to remove that Review ?");
+    if (warning){
+      $.ajax({
+        type: "POST",
+        url: '/patient/',
+        context: this,
+        data: {
+          type_: "deleteReview",
+          id: $(this).attr('id'),
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        success: function(data) {
+          if (data.status_){  
+            var cmnt = $(this).next('.updatereview');
+            var check = $(this).prev('.comment');
+            cmnt.remove();
+            check.remove();
+            $(this).remove();
+          }
+        },
+        dataType: 'json'
+      });
+    }
+  });
+  /* updatereview */
+  $('.updatereview').click(function(ev) {
+    $.ajax({
+      type: "POST",
+      url: '/patient/',
+      context: this,
+      data: {
+        type_: "deleteReview",
+        id: $(this).attr('id'),
+        csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
+      success: function(data) {
+        if (data.status_){
+          $(this).hide();
+        }
+      },
+      dataType: 'json'
+    });
+  });
+  /* remove Prac */
+  $('.deletePrac').click(function(ev) {
+    var warning = window.confirm("Are you sure you want to remove that Practitioner from your favourite List ?");
+    if (warning){
+      $.ajax({
+        type: "POST",
+        context: this,
+        url: '/patient/',
+        context: this,
+        data: {
+          type_: "deletePrac",
+          prac_slug: $(this).attr('id'),
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        success: function(data) {
+          if (data.status_){
+            var name = $(this).prev('.Pracname');
+            name.remove();
+            $(this).remove();
+          }
+        },
+      });
+    }
+    ev.preventDefault();
+  });
+});
+</script>
+</body>
+</html>

@@ -6,13 +6,11 @@ from reviews.models import *
 from django.shortcuts import get_object_or_404
 
 # Create your views here.
-def newReview(user, prac_slug, practice_slug, review_text):
+def newReview(user, slug, review_text):
 	practice, review = None, {}
 	patient = Patient.patient_objects.patient_details(user=user)
-	practitioner = Practitioner.prac_objects.practitioner_slug(prac_slug)
-	if practice_slug:
-		practice = Practice.objects.get(practice_location__slug=practice_slug)
-	pr = Review.objects.filter(patient=patient, practitioner=practitioner, practice=practice)
+	practitioner = Practitioner.prac_objects.practitioner_slug(slug)
+	pr = Review.objects.filter(patient=patient, practitioner=practitioner)
 	if pr.exists():
 		review["msg"] = "Sorry. You can post Review about a particular Practitioner only once. :/"
 		#messages.add_message(request, messages.INFO, msg)
@@ -20,7 +18,6 @@ def newReview(user, prac_slug, practice_slug, review_text):
 		pr = Review()
 		pr.practitioner = practitioner
 		pr.patient = patient
-		pr.practice = practice
 		pr.review_text = review_text
 		pr.save()
 		review["patient"] = user.username

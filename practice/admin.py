@@ -34,6 +34,11 @@ class PracticeAdmin(admin.ModelAdmin):
 
 
 class PracticeTimingAdmin(admin.ModelAdmin):
+	fieldsets = (
+        (None, {
+            'fields': ('practitioner','practice','day', 'start_time','end_time')
+        }),
+    )
 	list_display = ['practitioner','practice','day', 'start_time','end_time']
 	list_filter = ['day']
 	search_fields = ['practitioner__name','practice__practice_location__name','day']

@@ -58,9 +58,12 @@
           <ul>
           <div class="clock" id="/practice/{{pract.practice_location.slug}}/{{pract.practitioner.slug}}/">
           {% include "practitioner/clinictimings.html" %}
-          <li><img src="{% static "icons/clock.png" %} "height="22" width="24" title="Clinic Timings." />
-          <strong class="timings">Practice Timing.</strong></li>
+          <li>
+            <button type="submit" class="ui-btn ui-shadow ui-corner-all timings">Practice Timings.</button>
+            </li>
           </div>
+          <!--img src="{% static "icons/clock.png" %} "height="22" width="24" title="Clinic Timings." />
+          <strong class="timings">Practice Timing.</strong-->
           <!-- Load Clinic Timings -->
             <br>
             <li><i class="fa fa-money" title="Checkup Fee."></i><span><strong>{{pract.checkup_fee}} rs.</strong></span></li>
@@ -73,7 +76,7 @@
           <span>{{pract.modified|naturaltime}}</span></div>
           <!-- Lat Long -->
           {% if pract.practice_location.lat and pract.practice_location.lon %}
-            <a href="http://maps.google.com/maps?z=12&t=m&q={{pract.practice_location.lon}},{{pract.practice_location.lat}}" target="_blank" class="anchor-link-right map-marker" ><i style="padding: 0px 0px 10px 0px;" class="fa fa-map-marker fa-3x"></i></a>
+            <a href="http://maps.google.com/maps?q={{pract.practice_location.lon}},{{pract.practice_location.lat}}" target="_blank" class="anchor-link-right map-marker" ><i style="padding: 0px 0px 10px 0px;" class="fa fa-map-marker fa-3x"></i></a>
           {% endif %}
         </div>
       </div>
@@ -86,23 +89,8 @@
           {% if data.reviews.exists %} 
             <!-- Post new Reviews, user loged in & Reviews exists -->
             {% if data.user.is_authenticated %}
-          <form class="reviewBox" action="{% url 'addreview' %}" method="POST" class="inline_">{% csrf_token %}
-              {% if data.practice.count > 1 %}
-              <select name="practice_slug" required>
-              <option value="">- Select Practice Location -</option>
-              {% for pract in data.practice.iterator %}
-              <option value="{{pract.practice_location.slug}}">{{pract.practice_location.name}}</option>
-              {% endfor %}
-              </select>
+          <form class="reviewBox" action="{% url 'addReview' %}" method="POST" class="inline_">{% csrf_token %}
               <textarea cols="8" rows="8" name="review_text" required></textarea>
-              <input type="hidden" name="slug" value="{{data.practitioner.slug}}">             
-              {% else %}
-              <textarea cols="8" rows="8" name="review_text" required></textarea>
-              <input type="hidden" id="slug" name="slug" value="{{data.practitioner.slug}}">
-              {% for pract in data.practice.iterator %}
-              <input type="hidden" id="practice_slug" name="practice_slug" value="{{pract.practice_location.slug}}">
-              {% endfor %}
-              {% endif %}
               <button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Post</button>
           </form>
             {% endif %}
@@ -150,25 +138,11 @@
             <!-- user login and no review exists-->
           <span class="textCentre marg-l break"><strong>No reviews yet, Make One.</strong></span>
           <div>
-          <form class="reviewBox" action="{% url 'addreview' %}" method="POST" class="inline_">{% csrf_token %}
-              {% if data.practice.count > 1 %}
-              <select name="practice_slug" required>
-              <option value="">- Select Practice Location -</option>
-              {% for pract in data.practice.iterator %}
-              <option value="{{pract.practice_location.slug}}">{{pract.practice_location.name}}</option>
-              {% endfor %}
-              </select>
-              <textarea cols="8" rows="8" id="review_text" name="review_text" required></textarea>
-              <input type="hidden" name="slug" value="{{data.practitioner.slug}}">             
-              {% else %}
-              <textarea cols="8" rows="8" id="review_text" name="review_text" required></textarea>
-              <input type="hidden" name="slug" value="{{data.practitioner.slug}}">
-              {% for pract in data.practice.iterator %}
-              <input type="hidden" name="practice_slug" value="{{pract.practice_location.slug}}">
-              {% endfor %}
-              {% endif %}
+            <form class="reviewBox" action="{% url 'addReview' %}" method="POST" class="inline_">{% csrf_token %}
+              <textarea cols="8" rows="8" name="review_text" required></textarea>
               <button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Post</button>
-          </form></div>
+            </form>
+          </div>
             {% else %}
          <!-- Post new Review / no user login-->
          <span class="marg-l break"><strong>No reviews yet.</strong></span>
@@ -183,130 +157,154 @@
          {% endif %}
         </div>
       </div>
+      
+      <!-- News Letter -->
+      {% if not data.user.is_authenticated %}
+      <div class="grid-name">
+        <h2 style="background-color: #4285F4;">Subscribe</h2>
+        <div class="subscribe">
+        <ul>
+        <li class="subDesc">Get important updates about<br><strong>{{data.practitioner.name}}</strong></li>
+          <form class="subscription" action="{% url 'subscribe' %}" method="POST" >{% csrf_token %}
+            <li><input type="hidden" name="slug" value="{{data.practitioner.slug}}"></li>
+            <li><i class="fa fa-envelope"></i><span><input type="email" name="email" autocomplete="on" placeholder="email" /></span></li>
+            <li class="textCentre break">OR</li>
+            <li><i class="fa fa-mobile fa-2x"></i><span><input type="tel" id="tel" name="mobile" minlength="10" placeholder="03xxYYYYYYY" /></span></li>
+            <button type="submit" class="ui-btn ui-corner-all ui-btn-a">Subscribe</button>
+          </form>
+          <li class="privacy">100% Privacy. We don't spam.</li>
+          </ul>
+        </div>
+      </div>
+      {% endif %}
     </div>
     <!-- Footer Details -->
     <div class="foot" data-role="footer">
       <h4>
       <a href="https://www.facebook.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook fa-1x"></i></a>
       <a href="mailto:doctorsinfo.pk@gmail.com"><i class="fa fa-envelope fa-1x"></i></a>
-      <a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i></a></h4>
+      <a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i></a>
+      <a href="https://plus.google.com/114638856531345672910" rel="publisher" target="_blank"><i class="fa fa-google-plus fa-1x"></i></a>
+      </h4>
     </div>
   </div>
-  <script type="text/javascript">
-    /* new Review */
-    $(document).ready(function() {
-      var comment = $('.reviewBox');
-      comment.submit(function(ev) {
-        var doc = "{{data.favourite}}";
-        if (doc == "False")
-          $.ajax({
-            type: "POST",
-            url: $(this).attr('action'),
-            context: this,
-            data: { slug: $(this).attr('slug'), practice_slug: $(this).attr('action'), review_text: $(this).attr('review_text') },
-            success: function(data){
-              if (data.msg != null) {
-                alert(data.msg);
-              } else {
-                /*$(this).hide();
-                $(this).append('<div class="oneComment">
-                  <span class="patientName inlineB">'data.patient'</span>
-                  <span class="float-right inlineB commentDate"><i class="fa fa-clock-o marg-r"></i>{% now "jS F Y H:i" %}</span>
-                  <span class="comment break marg-l">'data.review_text'</span>
-                  </div>');
-                */
-                }
-              },
-            dataType: 'json',
-          });
-      });
+<script type="text/javascript">
+  /* subscription */
+$(document).ready(function() {
+  $('.subscription').submit(function(ev) {
+    $.ajax({
+      type: "POST",
+      url: $(this).attr('action'),
+      context: this,
+      data: { slug: '{{data.practitioner.slug}}', email: $('input[name="email"]').val(), mobile: $('input[name="mobile"]').val(), 
+      csrfmiddlewaretoken: '{{ csrf_token }}'},
+      success: function(data){
+        alert(data.msg);
+      },
+      dataType: 'json',
     });
-    // csrfmiddlewaretoken: '{{ csrf_token }}'}
-    /*  Load timings */
-    $(document).ready(function() {
-      $('.clock').click(function(ev) {
-        console.log('clock click');
-        $.ajax({
-          type: "GET",
-          url: $(this).attr('id'),
-          context: this,
-          success: function(data) {
-            $(this).prepend(data);
-            $(this).unbind('click');
-          },
-          dataType: 'html'
-        });
-      });
+    ev.preventDefault();
+  });
+  /* new Review */
+  $('.reviewBox').submit(function(ev) {
+    $.ajax({
+      type: "POST",
+      url: $(this).attr('action'),
+      context: this,
+      data: { slug: '{{data.practitioner.slug}}', review_text: $('textarea[name="review_text"]').val(), csrfmiddlewaretoken: '{{ csrf_token }}'},
+      success: function(data){
+        if (data.msg != null) {
+          alert(data.msg);
+        } else {
+          console.log(data.patient+'\n'+data.review_text);
+        }
+      },
+      dataType: 'json',
     });
-    /* favt	*/
-    $(document).ready(function() {
-      var favtImg = $('.favourite');
-      favtImg.click(function(ev) {
-        var doc = "{{data.favourite}}";
-        if (doc == "False")
-          $.ajax({
-            type: "POST",
-            url: '/patient/',
-            context: this,
-            data: { type_: "favourite", favt_slug: '{{data.practitioner.slug}}',csrfmiddlewaretoken: '{{ csrf_token }}'},
-            success: function(data) {
-              if (data.status_) {
-                $(this).hide();
-                $('#bookmark').append('<i class="fa fa-star fa-2x" title="added to Favourite List"></i>');
-              }
-            },
-            dataType: 'json',
-          });
-      });
+    ev.preventDefault();
+  });
+/*  Load timings */
+$('.clock').click(function(ev) {
+  $.ajax({
+    type: "GET",
+    url: $(this).attr('id'),
+    context: this,
+    success: function(data) {
+      $(this).prepend(data);
+      $('.timings').hide();
+      $(this).unbind('click');
+    },
+    dataType: 'html'
+  });
+});
+/* favt	*/
+$('.favourite').click(function(ev) {
+  var doc = "{{data.favourite}}";
+  if (doc == "False")
+    $.ajax({
+      type: "POST",
+      url: '/patient/',
+      context: this,
+      data: { type_: "favourite", favt_slug: '{{data.practitioner.slug}}',csrfmiddlewaretoken: '{{ csrf_token }}'},
+      success: function(data) {
+        if (data.status_) {
+          $(this).hide();
+          $('#bookmark').append('<i class="fa fa-star fa-2x" title="added to Favourite List"></i>');
+        }
+      },
+      dataType: 'json',
     });
-    /* up vote */
-    $(document).ready(function() {
-      var up = $('.up');
-      up.click(function(ev) {
-        $.ajax({
-          type: "POST",
-          url: $(this).attr('id'),
-          context: this,
-          data: {
-            up: "up",
-            prac_slug: "{{data.practitioner.slug}}",
-            csrfmiddlewaretoken: '{{ csrf_token }}'
-          },
-          success: function(data) {
-            var up = $(this).next('.up_votes').text(data.up);
-            down = up.next('.down_votes');
-            up.text(data.up);
-            down.text(data.down);
-            $(this).unbind('click');
-          },
-          dataType: 'json',
-        });
-      });
-    });
-    /* down vote */
-    $(document).ready(function() {
-      var down = $('.down');
-      down.click(function(ev) {
-        $.ajax({
-          type: "POST",
-          url: $(this).attr('id'),
-          context: this,
-          data: {
-            down: "down",
-            prac_slug: "{{data.practitioner.slug}}",
-            csrfmiddlewaretoken: '{{ csrf_token }}'
-          },
-          success: function(data) {
-            var down = $(this).prev('.down_votes');
-            var up = down.prev('.up_votes');
-            down.text(data.down);
-            up.text(data.up);
-            $(this).unbind('click');
-          },
-          dataType: 'json'
-        });
-      });
-    });
-  </script>
+});
+/* up vote */
+$('.up').click(function(ev) {
+  $.ajax({
+    type: "POST",
+    url: $(this).attr('id'),
+    context: this,
+    data: {
+      up: "up",
+      prac_slug: "{{data.practitioner.slug}}",
+      csrfmiddlewaretoken: '{{ csrf_token }}'
+    },
+    success: function(data) {
+      var up = $(this).next('.up_votes').text(data.up);
+      down = up.next('.down_votes');
+      up.text(data.up);
+      down.text(data.down);
+      $(this).unbind('click');
+    },
+    dataType: 'json',
+  });
+});
+/* down vote */
+$('.down').click(function(ev) {
+  $.ajax({
+    type: "POST",
+    url: $(this).attr('id'),
+    context: this,
+    data: {
+      down: "down",
+      prac_slug: "{{data.practitioner.slug}}",
+      csrfmiddlewaretoken: '{{ csrf_token }}'
+    },
+    success: function(data) {
+      var down = $(this).prev('.down_votes');
+      var up = down.prev('.up_votes');
+      down.text(data.down);
+      up.text(data.up);
+      $(this).unbind('click');
+    },
+    dataType: 'json'
+  });
+});
+});
+        /*$(this).hide();
+        $(this).append('<div class="oneComment">
+          <span class="patientName inlineB">'data.patient'</span>
+          <span class="float-right inlineB commentDate"><i class="fa fa-clock-o marg-r"></i>{% now "jS F Y H:i" %}</span>
+          <span class="comment break marg-l">'data.review_text'</span>
+          </div>');
+        */
+</script>
 </body>
 </html>

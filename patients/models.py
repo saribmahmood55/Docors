@@ -4,10 +4,42 @@ from practitioner.models import Specialization, Practitioner
 
 
 #customManager
+class SubscriptionManager(models.Manager):
+
+    def subscription_email_details(self, email, practitioner):
+        return super(SubscriptionManager, self).filter(email=email, practitioner=practitioner)
+
+    def subscription_mobile_details(self, mobile, practitioner):
+        return super(SubscriptionManager, self).filter(cell_number=mobile, practitioner=practitioner)
+
+    def subscription_both_details(self, email, mobile, practitioner):
+        return super(SubscriptionManager, self).filter(email=email, cell_number=mobile, practitioner=practitioner)
+
+
+class Subscription(models.Model):
+    cell_number = models.CharField(max_length=20,null=True, blank=True)
+    email = models.EmailField(max_length=35, blank=True, null=True)
+    practitioner = models.ForeignKey(Practitioner)
+
+
+    objects = models.Manager()
+    subscription_objects = SubscriptionManager()
+
+    def __str__(self):
+        return self.practitioner.name
+
+    class Meta:
+        verbose_name_plural = 'Subscriptions'
+
+
+#customManager
 class PatientManager(models.Manager):
 
     def patient_details(self, user):
         return super(PatientManager, self).get(user=user)
+
+    def registered_patient(self, email):
+        return super(PatientManager, self).filter(user__email=email)
 
 
 class Patient(models.Model):
@@ -38,4 +70,3 @@ class Patient(models.Model):
 
     def __str__(self):
         return self.user.username
-        #"%s %s" % (self.user.first_name,self.user.last_name)
