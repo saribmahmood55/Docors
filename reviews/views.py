@@ -4,6 +4,8 @@ from practitioner.models import Practitioner
 from utility import *
 from reviews.models import *
 from django.http import HttpResponseRedirect, HttpResponse
+from django.shortcuts import render_to_response
+from django.template import RequestContext
 from django.core.urlresolvers import reverse
 import json
 
@@ -15,8 +17,7 @@ def addReview(request):
 			user = request.user
 			slug = request.POST.get('slug', None)
 			review_text = request.POST.get('review_text', None)
-			if slug:
-				review = newReview(user, slug, review_text)
+			review['msg'] = newReview(user, slug, review_text)
 			if request.is_ajax():
 				return HttpResponse(json.dumps(review), content_type="application/json")
 	return HttpResponseRedirect(reverse('practitioner', kwargs={'slug': slug}))

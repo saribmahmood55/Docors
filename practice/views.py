@@ -59,16 +59,7 @@ def practitioner(request, slug):
 			data['practitioner'] = Practitioner.prac_objects.practitioner_slug(slug)
 			data['practice'] = Practice.practice_objects.practice_detail(slug)
 			data['practice_name'] = data['practice'].distinct('practice_location')
-			#data['practice_timing'] = clinic_timings_dic(data['practice_name'])
 			data['reviews'] = Review.review_objects.practitioner_reviews(slug)
 		except Practitioner.DoesNotExist:
 			raise Http404
 	return render_to_response('practitioner/practitioner.html', {'data': data}, context_instance=RequestContext(request))
-
-'''
-def get_practice(lon, lat, km):
-    current_point = geos.fromstr("POINT(%s %s)" % (lon, lat))
-    distance_from_point = {'km': km}
-    practice = Practice.gis.filter(location__distance_lte=(current_point, measure.D(**distance_from_point)))
-    return practice
-'''

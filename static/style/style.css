@@ -57,21 +57,22 @@ h1 { font-size: 20px;}
 .clinic{width: 290px; float: left; padding: 0px 15px 0px 15px; margin-bottom: 20px; 
 	font-weight: normal; clear: none; color: #000; background-color: #ccccd5;}
 
-.clinic ul li { padding-right: 20px;  display: block; width: 100%;} 
-.clinic ul li span{ float: left; width: 260px; } 
+.clinic ul li { padding-right: 20px;  display: block; width: 100%;} .clinic button { width: 200px; margin: 0px auto; color: #4b555d !important;}
+.clinic ul li span{ float: left; width: 260px; font-size: 16px;} /* .clinic ul li .address, .clinic ul li .services { font-size: 14px;} */
 .clinic ul li i { float: left; width: 10px; height: 20px; padding-right: 20px;}
 .clinic .sorry-msg { float: left; font-size: 14px; padding-bottom: 10px; width: 100%;}
 .clinic p { width: 200px; padding: 0px 10px; font-size: 15px; margin: 0px auto;} 
-.clinic .day  { float: left; width: 25px; padding-right: 15px; } .clinic .start { float: none; width: 25px; padding: 0px 10px; } .clinic .end { float: right; width: 25px;}
+.clinic .day  { float: left; width: 25px; padding-right: 15px; } .clinic .start { float: none; width: 25px; padding: 0px 10px; } 
+.clinic .end { float: right; width: 25px;}
 .clinic .description { float: left; width: 25px; padding-right: 35px;}
 
 .map-marker { float: right; padding: 10px 0px 10px 0px;}
 .modified { float: left; padding-top: 20px; } .modified span { padding-left: 5px; font-size: 14px;}
-.clock .timings { padding-left: 5px; text-decoration: underline; }
 
 .reviews { width: 320px; float: left; overflow-x:auto; font-weight: normal; clear: none; background-color: #e6e6e8; color: #000;}
 .oneComment { background-color:  #ccccd5; margin: 10px; padding: 5px 5px;}
 .oneComment .commentDate { font-size: 12px !important;}
+.no_review_msg { display: inline-block; padding: 5px 50px; font-weight: bold; color: #4b555d;}
 .patientName {font-weight: bold; color: #4285f4; padding-bottom: 5px; } .patientName {font-size: 12px;}
 .comment {font-size: 14px;}
 .reviewBox { width: 310px; font-weight: normal; margin: 0px 5px; font-size: 14px; height: 80px; }
@@ -84,7 +85,7 @@ h1 { font-size: 20px;}
 .subscribe ul li i { float: left; width: 10px; padding: 15px 15px 0px 10px;} 
 .subscribe ul li span{ float: left; width: 280px !important;}
 .subscribe .subDesc { font-size: 14px; text-align: center;} .subscribe .privacy { font-size: 12px; text-align: center;}
-.subscribe button {	width: 100px; height: 40px; color: #3eb249 !important; margin: 10px auto; }
+.subscribe button {	width: 120px; height: 40px; color: #3eb249 !important; margin: 10px auto; }
 
 /* Patient Profile	*/
 #update-btn{	float: right; width: 90px; height: 40px; color: #3eb249; margin: 0px auto; padding: 0px;}

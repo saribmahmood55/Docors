@@ -56,21 +56,23 @@
         <div class="clinic">
           <!-- Load Clinic Timings -->
           <ul>
-          <div class="clock" id="/practice/{{pract.practice_location.slug}}/{{pract.practitioner.slug}}/">
+          <div class="timings" id="/practice/{{pract.practice_location.slug}}/{{pract.practitioner.slug}}/">
           {% include "practitioner/clinictimings.html" %}
           <li>
-            <button type="submit" class="ui-btn ui-shadow ui-corner-all timings">Practice Timings.</button>
+            <button type="submit" class="ui-btn ui-shadow ui-corner-all loadbtn">Practice Timings.</button>
             </li>
           </div>
-          <!--img src="{% static "icons/clock.png" %} "height="22" width="24" title="Clinic Timings." />
-          <strong class="timings">Practice Timing.</strong-->
           <!-- Load Clinic Timings -->
             <br>
             <li><i class="fa fa-money" title="Checkup Fee."></i><span><strong>{{pract.checkup_fee}} rs.</strong></span></li>
             <li><i class="fa fa-phone"></i><span><u>{{pract.contact_number}}</u></span></li>
             <li><i class="fa fa-calendar" title="Appointment Only or Waiting"></i>{% if pract.appointments_only %}<span>Appointment Required: <b>Yes.</b></span>{% else %}<span>Checkup on Waiting: <b>Yes.</b></span>{% endif %}</li>
-            <li><i class="fa fa-location-arrow"></i><span>{{pract.practice_location.clinic_address}}, {{pract.practice_location.city.name}}.</span></li>
-            <li><i class="fa fa-medkit fa-1x" title="Services Offered."></i><span>Services: {{pract.services}}</span></li>
+            <li><i class="fa fa-location-arrow"></i>
+              <span class="address">{{pract.practice_location.clinic_address}}, {{pract.practice_location.city.name}}.</span>
+            </li>
+            <li><i class="fa fa-medkit fa-1x" title="Services Offered."></i>
+              <span class="services">{{pract.services}}</span>
+            </li>
           </ul>
           <div class="modified"><img src="{% static "icons/mod.png" %}"height="18" width="18" title="Last Updated"/>
           <span>{{pract.modified|naturaltime}}</span></div>
@@ -136,13 +138,11 @@
           {% else %}
             {% if data.user.is_authenticated %}
             <!-- user login and no review exists-->
-          <span class="textCentre marg-l break"><strong>No reviews yet, Make One.</strong></span>
-          <div>
+          <span class="no_review_msg">No reviews yet, Make One.</span>
             <form class="reviewBox" action="{% url 'addReview' %}" method="POST" class="inline_">{% csrf_token %}
               <textarea cols="8" rows="8" name="review_text" required></textarea>
               <button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Post</button>
             </form>
-          </div>
             {% else %}
          <!-- Post new Review / no user login-->
          <span class="marg-l break"><strong>No reviews yet.</strong></span>
@@ -213,25 +213,23 @@ $(document).ready(function() {
       context: this,
       data: { slug: '{{data.practitioner.slug}}', review_text: $('textarea[name="review_text"]').val(), csrfmiddlewaretoken: '{{ csrf_token }}'},
       success: function(data){
-        if (data.msg != null) {
-          alert(data.msg);
-        } else {
-          console.log(data.patient+'\n'+data.review_text);
-        }
+        if (data.msg != 1){ alert(data.msg);} else { location.reload();} 
       },
       dataType: 'json',
     });
     ev.preventDefault();
   });
 /*  Load timings */
-$('.clock').click(function(ev) {
+$('.timings').click(function(ev) {
   $.ajax({
     type: "GET",
     url: $(this).attr('id'),
     context: this,
     success: function(data) {
+      var btn = $(this).closest('button').next().find('.loadbtn');
+      console.log(btn);
+      btn.hide();
       $(this).prepend(data);
-      $('.timings').hide();
       $(this).unbind('click');
     },
     dataType: 'html'

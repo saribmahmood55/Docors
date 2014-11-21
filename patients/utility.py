@@ -49,45 +49,45 @@ def excludedSpecialities(patient):
 
 #
 def newSubscription(slug, email, cell_number):
-	msg, patient = None, None
+	msg, patient, emailSub, smsSub = None, None, None, None
 	practitioner = Practitioner.prac_objects.practitioner_slug(slug)
-	if email != '' and cell_number == '':
-		if Subscription.subscription_objects.subscription_email_details(email, practitioner).exists():
-			msg = "You have already been Subscribed for updates about "+practitioner.name+" Practice Details."
-		else:
-			patient = Patient.patient_objects.registered_patient(email)
-			if patient.exists():
-				favourite_list = patient.favt_practitioner.all().filter(slug=slug)
-				if not favourite_list.exists():
-					patient.favt_practitioner.add(practitioner)
-					msg = "Practitioner has been bookmarked, Click on your profile to access directly."
-				else:
-					msg = "Practitioner already Favourite"
+	if email != '':
+		patient = Patient.patient_objects.registered_patient(email)
+		if patient.exists():
+			patient = Patient.patient_objects.patient_details(patient)
+			favourite_list = patient.favt_practitioner.all().filter(slug=slug)
+			if not favourite_list.exists():
+				patient.favt_practitioner.add(practitioner)
+				msg = "Practitioner has been bookmarked, Click on your profile to access directly."
 			else:
-				sub = Subscription()
-				sub.email = email
-				sub.cell_number = cell_number
-				sub.practitioner = practitioner
-				sub.save()
-				msg = "You have been subscribed for updates about "+practitioner.name+" Practice Details."
-	elif email == '' and cell_number != '':
-		if Subscription.subscription_objects.subscription_mobile_details(cell_number, practitioner).exists():
-			msg = "You have already been Subscribed for updates about "+practitioner.name+" Practice Details."
+				msg = "You have already been Subscribed for updates about "+practitioner.name+" Practice Details through email."
+			return msg
+		emailSub = Subscription.subscription_objects.subscription_email_details(email, practitioner)
+		if emailSub.exists():
+			msg = "You have already been Subscribed for updates about "+practitioner.name+" Practice Details through email."
+			if cell_number != '':
+				smsSub = Subscription.subscription_objects.subscription_mobile_details(cell_number, practitioner)
+				if smsSub.exists():
+					msg = "You have already been Subscribed for sms updates about "+practitioner.name+" Practice Details."
+				else:
+					emailSub.update(cell_number='12345678')
+					msg = "You have been subscribed for sms updates about "+practitioner.name+" Practice Details."
 		else:
 			sub = Subscription()
 			sub.email = email
-			sub.cell_number = cell_number
 			sub.practitioner = practitioner
+			sub.cell_number = ''
 			sub.save()
-			msg = "You have been subscribed for updates about "+practitioner.name+" Practice Details."
-	elif email != '' and cell_number != '':
-		if Subscription.subscription_objects.subscription_both_details(email, cell_number, practitioner).exists():
-			msg = "You have already been Subscribed for updates about "+practitioner.name+" Practice Details."
+			msg = "You have been subscribed for updates about "+practitioner.name+" Practice Details through email."
+	elif cell_number != '' and email == '':
+		smsSub = Subscription.subscription_objects.subscription_mobile_details(cell_number, practitioner)
+		if smsSub.exists():
+			msg = "You have already been Subscribed for sms about "+practitioner.name+" Practice Details."
 		else:
 			sub = Subscription()
-			sub.email = email
 			sub.cell_number = cell_number
+			sub.email = ''
 			sub.practitioner = practitioner
 			sub.save()
-			msg = "You have been subscribed for updates about "+practitioner.name+" Practice Details."
+			msg = "You have been subscribed for sms updates about "+practitioner.name+" Practice Details."	
 	return msg

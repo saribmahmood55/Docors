@@ -1,0 +1,18 @@
+<p>	
+{% load humanize %}
+{% if messages %}
+{% for message in messages %}
+    <span>{{ message }}</span>
+{% endfor %}
+{% else %}
+{% if review %}
+<span class="patientName inlineB">{% if review.patient.user.get_full_name %}
+{{review.patient.user.get_full_name}}{% else %}{{review.patient}}{% endif %}
+</span>
+<span class="float-right inlineB commentDate"><i class="fa fa-clock-o marg-r"></i>{{review.review_date|naturaltime}}</span>
+<span class="comment break marg-l">{{review.review_text}}</span>
+<span class="up_votes inlineB">agree. {{review.up_votes}} - </span>
+<span class="down_votes inlineB">{{review.down_votes}}  diagree.</span>
+{% endif %}
+{% endif %}
+</p>

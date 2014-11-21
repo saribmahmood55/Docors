@@ -3,29 +3,25 @@ from patients.models import Patient
 from practice.models import Practice
 from practitioner.models import Practitioner
 from reviews.models import *
-from django.shortcuts import get_object_or_404
+#from django.contrib import messages
 
-# Create your views here.
 def newReview(user, slug, review_text):
-	practice, review = None, {}
 	patient = Patient.patient_objects.patient_details(user=user)
 	practitioner = Practitioner.prac_objects.practitioner_slug(slug)
 	pr = Review.objects.filter(patient=patient, practitioner=practitioner)
 	if pr.exists():
-		review["msg"] = "Sorry. You can post Review about a particular Practitioner only once. :/"
-		#messages.add_message(request, messages.INFO, msg)
+		return "Sorry. You can post Review about a particular Practitioner only once. !!"
+		#messages.set_level(request, messages.ERROR)
+		#messages.error(request, "Sorry. You can post Review about a particular Practitioner only once. !!")
 	else:
 		pr = Review()
 		pr.practitioner = practitioner
 		pr.patient = patient
 		pr.review_text = review_text
 		pr.save()
-		review["patient"] = user.username
-		review["review_text"] = review_text
-	return review
+		return 1
 
-##
-##
+#
 def Vote(user,review_id, what):
 	votes = {}
 	patient = Patient.patient_objects.patient_details(user=user)
@@ -37,8 +33,6 @@ def Vote(user,review_id, what):
 				rs.save()
 				votes['up']=review.up_votes
 				votes['down']=review.down_votes
-				msg = "Review up-Voted, already."
-				print msg
 			else:
 				rs.status = 1
 				rs.save()
@@ -47,15 +41,11 @@ def Vote(user,review_id, what):
 				votes['up']=review.up_votes
 				votes['down']=review.down_votes
 				review.save()
-				msg = "Review up-Voted."
-				print msg
 		else:
 			if rs.status == -1:
 				rs.save()
 				votes['up']=review.up_votes
 				votes['down']=review.down_votes
-				msg = "Review down-Voted, already."
-				print msg
 			else:
 				rs.status = -1
 				rs.save()
@@ -64,7 +54,6 @@ def Vote(user,review_id, what):
 				votes['up']=review.up_votes
 				votes['down']=review.down_votes
 				review.save()
-				print "Review down-Voted."
 	else:
 		if what:
 			rs.status = 1
@@ -73,7 +62,6 @@ def Vote(user,review_id, what):
 			votes['up']=review.up_votes
 			votes['down']=review.down_votes
 			review.save()
-			print "new Review up-Voted."
 		else:
 			rs.status = -1
 			rs.save()
@@ -81,5 +69,4 @@ def Vote(user,review_id, what):
 			votes['up']=review.up_votes
 			votes['down']=review.down_votes
 			review.save()
-			print "new Review down-Voted."
 	return votes
