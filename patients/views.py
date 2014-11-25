@@ -60,6 +60,11 @@ def patient(request):
 				patient = Patient.patient_objects.patient_details(data['user'])
 				response['status_'] = deleteFavtPrac(patient, slug)
 				return HttpResponse(json.dumps(response), content_type="application/json")
+			elif type_ == "updatereview":
+				review_id = request.POST.get('review_id')
+				review_text = request.POST.get('review_text')
+				response['status_'] = updateReview(review_id, review_text)
+				return HttpResponse(json.dumps(response), content_type="application/json")
 			elif type_ == "favourite":
 				slug = request.POST.get('favt_slug', '')
 				user = request.user

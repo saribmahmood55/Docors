@@ -16,7 +16,7 @@ class PractitionerAdmin(admin.ModelAdmin):
         ('status', {'fields': ['status']}),
         ('Speciality', {'fields': ['specialities']}),
 	]
-	list_display = ['name','slug','credentials','Specialist_in','experience','message','status','achievements','modified']
+	list_display = ['pk','name','slug','credentials','Specialist_in','experience','status','modified']
 	search_fields = ['name']
 	inlines = [PracticeTimingInline]
 	
@@ -24,7 +24,7 @@ class PractitionerAdmin(admin.ModelAdmin):
 		return "\n".join([s.name for s in obj.specialities.all()])
 
 class SpecializationAdmin(admin.ModelAdmin):
-	list_display = ['name','slug']
+	list_display = ['name','human_name','slug']
 	list_filter = ['name']
 	search_fields = ['name']
 

@@ -1,1 +1,1 @@
-[{"fields": {"name": "Pediatrics (Child)", "slug": "pediatrics-child"}, "model": "practitioner.specialization", "pk": 1}, {"fields": {"name": "Gastroenterology", "slug": "gastroenterology"}, "model": "practitioner.specialization", "pk": 2}]
+[{"fields": {"human_name": "Child Specialist", "name": "Pediatrics", "slug": "pediatrics"}, "model": "practitioner.specialization", "pk": 1}, {"fields": {"human_name": "Gastroenterologist", "name": "Gastroenterology", "slug": "gastroenterology"}, "model": "practitioner.specialization", "pk": 2}]

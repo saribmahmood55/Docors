@@ -6,8 +6,8 @@
     <link rel="shortcut icon" href="{% static "icons/stethoscope.ico" %}" />
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.css" />
-    <script src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.js"></script>
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.js"></script>
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static "style/style.css" %}"rel="stylesheet" type="text/css" />
   </head>
   <body>
@@ -22,6 +22,7 @@
     </div>
     <div role="main" class="ui-content container">
      {% if data.user.is_authenticated %}
+     <h2 class="textCentre">User Profile</h2>
      <!--Patient Profile -->
      <div class="profile">
        <ul>
@@ -77,7 +78,7 @@
      </div>
    </div>
 
-   <!--favourite Practitioner -->
+   <!--favourite Practitioner List -->
    <div class="grid-name">
      <h2 style="background-color: #4b555d;">Favourite Practitioners</h2>
      <div class="favourite-pracs">
@@ -91,27 +92,6 @@
    </div>
  </div>
 
- <!--subscribe Specialities -->
- <div class="grid-name">
-   <h2 style="background-color: #4b555d;">Subscibe for Specialities</h2>
-   <div class="subscribe-spec">
-     <ul>
-       <form action="{% url 'patient' %}" method="POST">{% csrf_token %}
-         {% if data.patient.interested_specialities.all.exists %}
-         {% for spec in data.patient.interested_specialities.all.iterator %}
-         <li><input type="checkbox" name="favt-spec" checked = "checked" value="{{spec.slug}}" />
-          <span>{{spec.name}}</span></li>
-          {% endfor %}{% endif %}
-          {% for spec in data.excluded_specialties.iterator %}
-          <li><input type="checkbox" name="spec" value="{{spec.name}}">
-            <span>{{spec.name}}</span></li>
-            {% endfor %}
-            <button type="submit" id="subscribe-btn" class="ui-btn ui-corner-all ui-btn-a">Subscribe</button>
-          </form>
-        </ul>
-        <p>* Please Select the above categories to get specific updates about latest research and weekly health tips.</p>
-      </div>
-    </div>
     <!-- No user login-->
     {% else %}
     <center><a href="/login/" class="ui-btn ui-corner-all ui-shadow loginSignup">Login</a></center>
@@ -129,18 +109,16 @@
     </h4>
   </div>
 </div>
-           <!--form action="{% url 'patient' %}" class="review" id="{{pr.pk}}" method="POST">{% csrf_token %}
-           <li class="marg-l">* {{pr.review_text}}<button type="submit" ><i class="fa fa-times fa-1x"></i></button></li>
-         </form-->
 <script type="text/javascript">
 /* remove Review */
-$(document).ready(function() {
-  $('.review').click(function(ev) {
+var main = function() {
+  alert(1);
+  $('.review').click(function() {
     var warning = window.confirm("Are you sure you want to remove that Review ?");
     if (warning){
       $.ajax({
         type: "POST",
-        url: '/patient/',
+        url: "{% url 'patient' %}",
         context: this,
         data: {
           type_: "deleteReview",
@@ -160,14 +138,14 @@ $(document).ready(function() {
       });
     }
   });
-  /* updatereview */
-  $('.updatereview').click(function(ev) {
+/* updatereview */
+  $('.updatereview').click(function() {
     $.ajax({
       type: "POST",
-      url: '/patient/',
+      url: "{% url 'patient' %}",
       context: this,
       data: {
-        type_: "deleteReview",
+        type_: "updatereview",
         id: $(this).attr('id'),
         csrfmiddlewaretoken: '{{ csrf_token }}'
       },
@@ -179,14 +157,14 @@ $(document).ready(function() {
       dataType: 'json'
     });
   });
-  /* remove Prac */
-  $('.deletePrac').click(function(ev) {
+/* remove Prac */
+  $('.deletePrac').click(function() {
     var warning = window.confirm("Are you sure you want to remove that Practitioner from your favourite List ?");
     if (warning){
       $.ajax({
         type: "POST",
         context: this,
-        url: '/patient/',
+        url: "{% url 'patient' %}",
         context: this,
         data: {
           type_: "deletePrac",
@@ -202,9 +180,9 @@ $(document).ready(function() {
         },
       });
     }
-    ev.preventDefault();
   });
-});
+};
+$(document).ready(main);
 </script>
 </body>
 </html>

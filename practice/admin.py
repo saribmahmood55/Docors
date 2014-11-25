@@ -8,14 +8,7 @@ class CityAdmin(admin.ModelAdmin):
 
 
 class PracticeLocationAdmin(admin.ModelAdmin):
-	fieldsets = [
-		('Clinic/Hospital Name', {'fields': ['name']}),
-		('Street Address', {'fields': ['clinic_address']}),
-		('Select City', {'fields': ['city']}),
-		('Physical longitude', {'fields': ['lon']}),
-        ('Physical latitude', {'fields': ['lat']}),
-	]
-	list_display = ['name','pk','slug','clinic_address','lon','lat']
+	list_display = ['pk','name','slug','clinic_address','lon','lat']
 	search_fields = ['name']
 
 
@@ -29,16 +22,11 @@ class PracticeAdmin(admin.ModelAdmin):
         (None, {'fields': ['services']}),
         (None, {'fields': ['appointments_only']}),
 	]
-	list_display = ['practitioner','practice_location','contact_number','checkup_fee','appointments_only','modified','location']
+	list_display = ['pk','practitioner','practice_location','contact_number','checkup_fee','appointments_only','modified','location']
 	search_fields = ['practitioner__name']
 
 
 class PracticeTimingAdmin(admin.ModelAdmin):
-	fieldsets = (
-        (None, {
-            'fields': ('practitioner','practice','day', 'start_time','end_time')
-        }),
-    )
 	list_display = ['practitioner','practice','day', 'start_time','end_time']
 	list_filter = ['day']
 	search_fields = ['practitioner__name','practice__practice_location__name','day']

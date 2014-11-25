@@ -19,7 +19,7 @@ def index(request):
 		data['user'] = None
 	if request.method == "GET":
 		try:
-			data['specialities'] = Specialization.objects.order_by('slug')
+			data['specialities'] = Specialization.objects.order_by('human_name')
 			data['cities'] = City.objects.order_by('pk')
 		except Specialization.DoesNotExist:
 			raise Http404
@@ -35,7 +35,7 @@ def adv(request):
 		data['user'] = None
 	if request.method == "GET":
 		try:
-			data['specialities'] = Specialization.objects.order_by('slug')
+			data['specialities'] = Specialization.objects.order_by('human_name')
 			data['cities'] = City.objects.order_by('pk')
 		except Specialization.DoesNotExist:
 			raise Http404

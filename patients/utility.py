@@ -41,6 +41,12 @@ def deleteReview(review_id):
 	review.delete()
 	return True
 #
+def updateReview(review_id, review_text):
+	review = Review.review_objects.review(review_id)
+	review.update(review_text=review_text, review_date=auto_now)
+	return True
+
+#
 def excludedSpecialities(patient):
 	favt_spec = []
 	for spec in patient.interested_specialities.all():

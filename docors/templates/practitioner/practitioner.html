@@ -8,8 +8,8 @@
   <link rel="shortcut icon" href="{% static "icons/stethoscope.ico" %}" />
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
   <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.css" />
-  <script src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.js"></script>
-  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+  <script src="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.js"></script>
+  <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
   <link rel="stylesheet" href="{% static "style/style.css" %}"rel="stylesheet" type="text/css" />
 </head>
 
@@ -189,8 +189,8 @@
     </div>
   </div>
 <script type="text/javascript">
-  /* subscription */
-$(document).ready(function() {
+/* subscription */
+var events = function() {
   $('.subscription').submit(function(ev) {
     $.ajax({
       type: "POST",
@@ -219,90 +219,84 @@ $(document).ready(function() {
     });
     ev.preventDefault();
   });
-/*  Load timings */
-$('.timings').click(function(ev) {
-  $.ajax({
-    type: "GET",
-    url: $(this).attr('id'),
-    context: this,
-    success: function(data) {
-      var btn = $(this).closest('button').next().find('.loadbtn');
-      console.log(btn);
-      btn.hide();
-      $(this).prepend(data);
-      $(this).unbind('click');
-    },
-    dataType: 'html'
+  /*  Load timings */
+  $('.timings').click(function() {
+    $.ajax({
+      type: "GET",
+      url: $(this).attr('id'),
+      context: this,
+      success: function(data) {
+        /*var btn = $(this).closest('button').next().find('.loadbtn');
+        console.log(btn);*/
+        $('.loadbtn').hide();
+        $(this).prepend(data);
+        $(this).unbind('click');
+      },
+      dataType: 'html'
+    });
   });
-});
-/* favt	*/
-$('.favourite').click(function(ev) {
-  var doc = "{{data.favourite}}";
-  if (doc == "False")
+  /* favt	*/
+  $('.favourite').click(function() {
+    var doc = "{{data.favourite}}";
+    if (doc == "False")
+      $.ajax({
+        type: "POST",
+        url: '/patient/',
+        context: this,
+        data: { type_: "favourite", favt_slug: '{{data.practitioner.slug}}',csrfmiddlewaretoken: '{{ csrf_token }}'},
+        success: function(data) {
+          if (data.status_) {
+            $(this).hide();
+            $('#bookmark').append('<i class="fa fa-star fa-2x" title="added to Favourite List"></i>');
+          }
+        },
+        dataType: 'json',
+      });
+  });
+  /* up vote */
+  $('.up').click(function() {
     $.ajax({
       type: "POST",
-      url: '/patient/',
+      url: $(this).attr('id'),
       context: this,
-      data: { type_: "favourite", favt_slug: '{{data.practitioner.slug}}',csrfmiddlewaretoken: '{{ csrf_token }}'},
+      data: {
+        up: "up",
+        prac_slug: "{{data.practitioner.slug}}",
+        csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
       success: function(data) {
-        if (data.status_) {
-          $(this).hide();
-          $('#bookmark').append('<i class="fa fa-star fa-2x" title="added to Favourite List"></i>');
-        }
+        var up = $(this).next('.up_votes').text(data.up);
+        down = up.next('.down_votes');
+        up.text(data.up);
+        down.text(data.down);
+        $(this).unbind('click');
       },
       dataType: 'json',
     });
-});
-/* up vote */
-$('.up').click(function(ev) {
-  $.ajax({
-    type: "POST",
-    url: $(this).attr('id'),
-    context: this,
-    data: {
-      up: "up",
-      prac_slug: "{{data.practitioner.slug}}",
-      csrfmiddlewaretoken: '{{ csrf_token }}'
-    },
-    success: function(data) {
-      var up = $(this).next('.up_votes').text(data.up);
-      down = up.next('.down_votes');
-      up.text(data.up);
-      down.text(data.down);
-      $(this).unbind('click');
-    },
-    dataType: 'json',
   });
-});
-/* down vote */
-$('.down').click(function(ev) {
-  $.ajax({
-    type: "POST",
-    url: $(this).attr('id'),
-    context: this,
-    data: {
-      down: "down",
-      prac_slug: "{{data.practitioner.slug}}",
-      csrfmiddlewaretoken: '{{ csrf_token }}'
-    },
-    success: function(data) {
-      var down = $(this).prev('.down_votes');
-      var up = down.prev('.up_votes');
-      down.text(data.down);
-      up.text(data.up);
-      $(this).unbind('click');
-    },
-    dataType: 'json'
+  /* down vote */
+  $('.down').click(function() {
+    $.ajax({
+      type: "POST",
+      url: $(this).attr('id'),
+      context: this,
+      data: {
+        down: "down",
+        prac_slug: "{{data.practitioner.slug}}",
+        csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
+      success: function(data) {
+        var down = $(this).prev('.down_votes');
+        var up = down.prev('.up_votes');
+        down.text(data.down);
+        up.text(data.up);
+        $(this).unbind('click');
+      },
+      dataType: 'json'
+    });
   });
-});
-});
-        /*$(this).hide();
-        $(this).append('<div class="oneComment">
-          <span class="patientName inlineB">'data.patient'</span>
-          <span class="float-right inlineB commentDate"><i class="fa fa-clock-o marg-r"></i>{% now "jS F Y H:i" %}</span>
-          <span class="comment break marg-l">'data.review_text'</span>
-          </div>');
-        */
+};
+$(document).ready(events);
 </script>
 </body>
 </html>

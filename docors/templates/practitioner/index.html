@@ -44,7 +44,7 @@
         <select name="spec" required onchange="android()">
           <option value="">- Select Speciality -</option>
           {% for speciality in data.specialities.iterator %}
-          <option value={{speciality.slug}}>{{speciality.name}}</option>
+          <option value={{speciality.slug}}>{{speciality.human_name}}</option>
           {% endfor %}
         </select>
         </li>
