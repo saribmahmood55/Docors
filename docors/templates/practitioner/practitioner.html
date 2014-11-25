@@ -226,10 +226,7 @@ var events = function() {
       url: $(this).attr('id'),
       context: this,
       success: function(data) {
-        /*var btn = $(this).closest('button').next().find('.loadbtn');
-        console.log(btn);*/
-        $('.loadbtn').hide();
-        $(this).prepend(data);
+        $(this).append(data);
         $(this).unbind('click');
       },
       dataType: 'html'
