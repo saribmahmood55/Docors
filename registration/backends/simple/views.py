@@ -26,8 +26,11 @@ class RegistrationView(BaseRegistrationView):
         p.user = new_user
         p.save()
         #
+        print 'before'
         login(request, new_user)
+        print 'after before'
         signals.user_registered.send(sender=self.__class__,user=new_user,request=request)
+        print 'after signal'
         return new_user
 
     def registration_allowed(self, request):

@@ -36,24 +36,7 @@ class RegistrationManager(models.Manager):
 
     """
     def activate_user(self, activation_key):
-        """
-        Validate an activation key and activate the corresponding
-        ``User`` if valid.
-
-        If the key is valid and has not expired, return the ``User``
-        after activating.
-
-        If the key is not valid or has expired, return ``False``.
-
-        If the key is valid but the ``User`` is already active,
-        return ``False``.
-
-        To prevent reactivation of an account which has been
-        deactivated by site administrators, the activation key is
-        reset to the string constant ``RegistrationProfile.ACTIVATED``
-        after successful activation.
-
-        """
+        
         # Make sure the key we're trying conforms to the pattern of a
         # SHA1 hash; if it doesn't, no point trying to look it up in
         # the database.
@@ -71,8 +54,7 @@ class RegistrationManager(models.Manager):
                 return user
         return False
 
-    def create_inactive_user(self, username, email, password,
-                             site, send_email=True, request=None):
+    def create_inactive_user(self, username, email, password, site, send_email=True, request=None):
         """
         Create a new, inactive ``User``, generate a
         ``RegistrationProfile`` and email its activation key to the
@@ -85,7 +67,7 @@ class RegistrationManager(models.Manager):
 
         """
         new_user = UserModel().objects.create_user(username, email, password)
-        new_user.is_active = False
+        new_user.is_active = True
         new_user.save()
 
         registration_profile = self.create_profile(new_user)

@@ -16,7 +16,7 @@ class PractitionerAdmin(admin.ModelAdmin):
         ('status', {'fields': ['status']}),
         ('Speciality', {'fields': ['specialities']}),
 	]
-	list_display = ['pk','name','slug','credentials','Specialist_in','experience','status','modified']
+	list_display = ['name','credentials','Specialist_in','status','slug','experience','modified','pk']
 	search_fields = ['name']
 	inlines = [PracticeTimingInline]
 	
