@@ -14,7 +14,7 @@
 </head>
 
 <body>
-  <div data-role="page" data-title="{{data.practitioner.name}} | doctorsinfo.pk">
+  <div data-role="page" id="practitionerPage" data-title="{{data.practitioner.name}} | doctorsinfo.pk">
     <div data-role="header">
       <h1><a href="/" class="anchor-link" ><i class="fa fa-stethoscope fa-1x marg-r"></i>doctorsinfo.pk</a></h1>
       <div id="head">
@@ -27,9 +27,6 @@
       </div>
     </div>
     <div role="main" class="ui-content">
-    <div id="border-left"></div>
-    <div id="border-right"></div>
-
       <!-- Practitioner Details -->
       <div id="practitionerDetails">
         {% if not data.favourite %}
@@ -45,6 +42,7 @@
         <span><strong>Achievements: </strong>{{data.practitioner.achievements}}</span>
       </div>
 
+      <div id="contant">
       <!-- Practice-Location Details -->
       {% for pract in data.practice.iterator %}
       <div class="grid-name">
@@ -177,6 +175,7 @@
         </div>
       </div>
       {% endif %}
+      </div>
     </div>
     <!-- Footer Details -->
     <div class="foot" data-role="footer">
@@ -187,10 +186,9 @@
       <a href="https://plus.google.com/114638856531345672910" rel="publisher" target="_blank"><i class="fa fa-google-plus fa-1x"></i></a>
       </h4>
     </div>
-  </div>
 <script type="text/javascript">
 /* subscription */
-var events = function() {
+$(document).on("pageshow", "#practitionerPage", function () {
   $('.subscription').submit(function(ev) {
     $.ajax({
       type: "POST",
@@ -292,8 +290,8 @@ var events = function() {
       dataType: 'json'
     });
   });
-};
-$(document).ready(events);
+});
 </script>
+</div>
 </body>
 </html>

@@ -79,7 +79,7 @@ class PracticeManager(models.Manager):
 
 class Practice(models.Model):
     Practice_CHOICES = (
-        ('P', 'Private Clininc'),
+        ('P', 'Private Clininc/Residence'),
         ('H', 'Hospital'),
     )
     practice_type = models.CharField(max_length=1, choices=Practice_CHOICES, help_text="Practice Type")
