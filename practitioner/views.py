@@ -42,22 +42,6 @@ def adv(request):
 	return render_to_response('practitioner/advance.html', {'data': data}, context_instance=RequestContext(request))	
 
 
-def update(request):
-	if request.method == "POST":
-		type_ = request.POST.get('type_', None)
-		if type_ == "GeoLocation":
-			reply = {}
-			practitioner = request.POST.get('name', '')
-			practice = request.POST.get('practice', '')
-			lat = request.POST.get('lat', '')
-			lon = request.POST.get('lon', '')
-			print "doc: %s , loc: %s , lat: %s, lon: %s" % (practitioner, practice, lat, lon)
-			body = "Practitioner Name: "+practitioner+"\nPractice: "+practice+"\nLatitude: "+lat+"\nLongitude: "+lon
-			Email(practitioner, body)
-			reply['Status'] = True
-			return HttpResponse(json.dumps(reply), content_type="application/json")
-
-
 def registration(request):
 	data = {}
 	if request.user.is_authenticated():
@@ -65,6 +49,11 @@ def registration(request):
 	else:
 		data['user'] = None
 	if request.method == "GET":
+		try:
+			data['specialities'] = Specialization.objects.order_by('name')
+			data['cities'] = City.objects.order_by('pk')
+		except Specialization.DoesNotExist:
+			raise Http404
 		return render_to_response('practitioner/registration.html', {'data': data}, context_instance=RequestContext(request))
 	if request.method == "POST":
 		email, practitioner_name = None, None
@@ -109,3 +98,20 @@ def registration(request):
 		#send email
 		send_mail(subject, body, email, [recepient])
 		return render_to_response('practitioner/success.html',{'email': email}, context_instance=RequestContext(request))
+
+'''
+def update(request):
+if request.method == "POST":
+	type_ = request.POST.get('type_', None)
+	if type_ == "GeoLocation":
+		reply = {}
+		practitioner = request.POST.get('name', '')
+		practice = request.POST.get('practice', '')
+		lat = request.POST.get('lat', '')
+		lon = request.POST.get('lon', '')
+		print "doc: %s , loc: %s , lat: %s, lon: %s" % (practitioner, practice, lat, lon)
+		body = "Practitioner Name: "+practitioner+"\nPractice: "+practice+"\nLatitude: "+lat+"\nLongitude: "+lon
+		Email(practitioner, body)
+		reply['Status'] = True
+		return HttpResponse(json.dumps(reply), content_type="application/json")
+'''

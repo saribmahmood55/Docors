@@ -3,9 +3,12 @@ from patients.models import Patient
 from practice.models import Practice
 from practitioner.models import Practitioner
 from reviews.models import *
+from badwordsfilter import *
 #from django.contrib import messages
 
 def newReview(user, slug, review_text):
+	clean_text = badWordFilter(review_text)
+	print clean_text
 	patient = Patient.patient_objects.patient_details(user=user)
 	practitioner = Practitioner.prac_objects.practitioner_slug(slug)
 	pr = Review.objects.filter(patient=patient, practitioner=practitioner)
@@ -17,7 +20,7 @@ def newReview(user, slug, review_text):
 		pr = Review()
 		pr.practitioner = practitioner
 		pr.patient = patient
-		pr.review_text = review_text
+		pr.review_text = clean_text
 		pr.save()
 		return 1
 

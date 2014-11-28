@@ -25,11 +25,9 @@ class PracticeLocation(models.Model):
     lon = models.FloatField(null=True, blank=True)
     lat = models.FloatField(null=True, blank=True)
 
-
     def get_location(self):
         # Remember, longitude FIRST!
         return Point(self.lon, self.lat)
-
 
     def __unicode__(self):
         return self.name
@@ -50,12 +48,12 @@ class PracticeManager(models.Manager):
     def practice_lookup(self, city, spec, dist, lon, lat, name, day, wait):
         result, query = {}, None
         if lon == '' and lat == '':
-        	query = super(PracticeManager, self).filter(practitioner__specialities__slug=spec, practice_location__city__slug=city).distinct('practitioner')
-        	if name != '':
-    			query = query.filter(practitioner__name__icontains=name)
-    		if day != '':
-    			query = query.filter(practicetiming__day=day).distinct('practitioner')
-    		if wait == True:
+            query = super(PracticeManager, self).filter(practitioner__specialities__slug=spec, practice_location__city__slug=city).distinct('practitioner')
+            if name != '':
+                query = query.filter(practitioner__name__icontains=name)
+            if day != '':
+                query = query.filter(practicetiming__day=day).distinct('practitioner')
+    		if wait == 1:
     			query = query.filter(appointments_only=False)
         else:
         	print "spatial"
@@ -70,7 +68,7 @@ class PracticeManager(models.Manager):
     		if day != '':
     			query = query.filter(practicetiming__day=day).distinct('practitioner')
     			query = query.distance(current_point).order_by('practitioner')
-    		if wait == True:
+    		if wait == 1:
     			query = query.filter(appointments_only=False)
         
         result['practice_list'] = query

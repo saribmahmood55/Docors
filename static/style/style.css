@@ -18,13 +18,13 @@ h1 { font-size: 20px;}
 .loginSignup { margin: 30px auto;} .float-right{ float: right;} .float-left{ float: left;} .textCentre { text-align: center;}
 
 /* Index	*/
+.advsearch { height: 500px ! important; margin: 15px 300px !important;}
 #search { width: 580px; height: 350px; float: left; margin: 70px 300px; padding: 0px 20px; 
 	color: #ffffff; background-color: #455B70 !important; text-shadow: none;}
 #search select { float: left;} #search h2 { font-size: 18px; text-align: center;} 
 #search li button { float: right; width: 90px; height: 40px; color: #3eb249; padding: 0px;}
 #search .oneLine { width: 260px !important; display: inline-block; margin: 0px 10px;} 
 #search .online select { margin: 5px 0px;}
-.advsearch { height: 495px ! important; }
 
 /*#search-btn{	}*/
 .inline_ { display: inline; padding: 0px; margin: 0px; }
@@ -99,10 +99,11 @@ color: #ffffff; background-color: #455a64; text-shadow: none; }
 .favourite-pracs i { padding-right: 10px; float: right;}
 
 .ui-footer .ui-title { margin: 0px auto !important;}
-.foot h4 { width: 580px !important;} 
-.foot .get-listed { float: left; padding: 0px 30px 0px 10px !important;}
-.foot .educate { float: right; padding: 0px 0px 0px 70px !important;}
-.foot a { padding-left: 25px; text-decoration: none; color: #000 !important; font-size: 14px; }
+.foot h4 { width: 580px !important;} .foot a { padding-left: 25px; text-decoration: none; color: #000 !important; font-size: 14px; }
+.foot .footLinks { width: 580px; margin: 0px auto; height: 25px; padding: 10px 0px;}
+.foot a { text-decoration: none; color: #000 !important; font-size: 14px; }
+.foot .get-listed { float: left;} .foot .educate { float: right;}
+.foot .socialLinks { margin-left: 130px;} .socialLinks a { padding: 0px 15px;}
 
 /* For mobile : like samsung grand(480 * 800): Huawei*/
 @media screen and (max-width : 480px){
@@ -125,8 +126,9 @@ color: #ffffff; background-color: #455a64; text-shadow: none; }
 	.profile {  width: 230px; padding: 10px; }
 	.profile ul li span { display: block; float: left;}
 	.no-button { width: 10px; height: 10px; margin: 0px; padding: 0px; float: right; display: inline;}
-	.foot h4 { width: 320px !important; } .foot a { padding: 0px 10px 0px 10px;}
-	.foot .educate { padding: 0px 0px 0px 20px !important;}
+	
+	.foot .footLinks { width: 320px; } .foot .socialLinks { margin-left: 40px;} 
+	.socialLinks a { padding: 0px 10px;}
 }
 
 /* For iphone: */
@@ -155,9 +157,9 @@ color: #ffffff; background-color: #455a64; text-shadow: none; }
 	.profile {  width: 230px; padding: 10px; }
 	.profile ul li span { display: block; float: left;}
 	.no-button { width: 10px; height: 10px; margin: 0px; padding: 0px; float: right; display: inline;}
-	.foot h4 { width: 300px !important; } .foot a { padding: 0px 10px 0px 10px;}
-	.foot .educate { padding: 0px 0px 0px 10px !important;}
-	.foot .get-listed { padding: 0px 10px 0px 10px !important;}
+
+	.foot .footLinks { width: 300px; } .foot .socialLinks { margin-left: 35px;} 
+	.socialLinks a { padding: 0px 10px;}
 
 } 
 /* For ipad: */

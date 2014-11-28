@@ -5,11 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="shortcut icon" href="{% static "icons/stethoscope.ico" %}" />
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-  <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.css" />
   <script src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.js"></script>
+  <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.css" />
   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
   <link rel="stylesheet" href="{% static "style/style.css" %}" rel="stylesheet" type="text/css" />
-
 </head>
 
 <body>
@@ -31,7 +30,7 @@
         {% endif %}
       </div>
     </div>
-    <div role="main" class="ui-content container">
+    <div role="main" class="ui-content">
 
       <strong>Please provide the following details.<br></strong>
 
@@ -40,7 +39,7 @@
 
         Practitioner Name: <input type="text" name="practitioner_name" id="text-basic" placeholder="Dr. Ali Raza" required>
 
-        <label for="email">email address: (it will not be published, online)</label>
+        <label for="email">email address: (it will not be published online to everyone)</label>
         <input type="email" name="email" id="email" autocomplete="on" required>
 
         <label for="text-basic">Credentials.</label>
@@ -52,13 +51,17 @@
         <label for="text-basic">Experience in Years.</label>
         <input type="text" name="experience" placeholder="20" required>
 
-        <label for="text-basic">Specialized In:</label>
-        <input type="text" name="speciality" placeholder="Pediatrics, Family Medicine" required>
-
-        <strong>Clinic details.<br></strong>
+        <label for="speciality">Specialist Category</label>
+        <select name="speciality" required>
+          <option value="">- Select Speciality -</option>
+          {% for speciality in data.specialities.iterator %}
+          <option value={{speciality.slug}}>{{speciality.name}}</option>
+          {% endfor %}
+        </select>
+        <strong>Practice details.<br></strong>
 
         <select name="clinic-type1" id="select-native-3" required>
-          <option>Select Practise Type</option>
+          <option>- Select Practice Type -</option>
           <option value="P">Private Clinic/Residence</option>
           <option value="Tue">Hospital</option>
         </select>
@@ -66,11 +69,16 @@
         <label for="text-basic">Clinic/Hospital Name:</label>
         <input type="text" name="clinicName" placeholder="Dr. Ali Raza Clinic / Farooq Hospital." required>
 
-        <label for="text-basic">Adress:</label>
-        <input type="text" name="address" placeholder="Street Address" required>
+        <label for="text-basic">Street Adress:</label>
+        <input type="text" name="address" placeholder="125-H DHA, Phase II" required>
 
-        <label for="text-basic">City:</label>
-        <input type="text" name="city" required>
+        <label for="city">City</label>
+        <select name="city" required>
+          <option value="">- Select City -</option>
+          {% for city in data.cities.iterator %}
+          <option value="{{city.slug}}">{{city.name}}</option>
+          {% endfor %}
+        </select>
 
         <label for="tel">Contact Number:</label>
         <input type="tel" id="tel" name="number1" placeholder="03001234567, 04235000000" required >
@@ -114,8 +122,13 @@
           <label for="text-basic">Adress:</label>
           <input type="text" name="address2" placeholder="Street Address" >
 
-          <label for="text-basic">City:</label>
-          <input type="text" name="city2" >
+          <label for="city2">City</label>
+          <select name="city2" required>
+            <option value="">- Select City -</option>
+            {% for city in data.cities.iterator %}
+            <option value="{{city.slug}}">{{city.name}}</option>
+            {% endfor %}
+          </select>
 
           <label for="tel">Contact Number:</label>
           <input type="tel" id="tel" name="number2" placeholder="03001234567, 04235000000" >
@@ -124,7 +137,7 @@
           <input type="number" name="fee2" pattern="[0-9]*" id="number-pattern" placeholder="2000." required>
 
           <label for="textarea">Services offered on that Clinic/Hospital:</label>
-          <textarea cols="40" rows="8" name="services2" placeholder="Services Details" ></textarea>
+          <textarea cols="40" rows="8" name="services2" placeholder="125-H DHA, Phase II" ></textarea>
 
           <label for="text-basic">Select Appointments Criteria.</label>
           <select name="appointment2" id="select-native-3" required>
@@ -144,8 +157,8 @@
           <textarea cols="40" rows="8" name="timing2" placeholder="format: Monday 10:00am to 01:00pm" ></textarea>
         </div>
 
-        <button type="submit" style="width: 90px; height: 45px; color: #3eb249; margin: 0px auto;" class="ui-btn ui-shadow ui-corner-all">
-          Submit</button>
+        <button type="submit" style="float: right; width: 110px; height: 45px; color: #3eb249; margin: 0px auto;" class="ui-btn ui-shadow ui-corner-all">
+        Register</button>
 
         </form>
       </div>
@@ -154,11 +167,19 @@
         <h4>
           <a href="https://www.facebook.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook fa-1x"></i></a>
           <a href="mailto:doctorsinfo.pk@gmail.com"><i class="fa fa-envelope fa-1x"></i></a>
-          <a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i></a></h4>
-        </div>
+          <a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i></a>
+          <a href="https://plus.google.com/114638856531345672910" target="_blank"><i class="fa fa-google-plus fa-1x"></i></a>
+        </h4>
       </div>
-      <script type="text/javascript">
-        $( "#datepicker" ).datepicker();
-      </script>
+    </div>
+    <script type="text/javascript">
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-57178431-1', 'auto');
+      ga('send', 'pageview');
+    </script>
   </body>
   </html>

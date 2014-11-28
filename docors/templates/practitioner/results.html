@@ -30,11 +30,11 @@
          </p>
          {% load humanize %}
          {% if onePractitioner.distance.m > 0 %}
-         {% if onePractitioner.distance.m > 1000 %}
-         <p class="ui-li-aside"><strong>{{onePractitioner.distance.km|floatformat:2}}</strong> KM.</p>
-         {% else %}
-         <p class="ui-li-aside"><strong>{{onePractitioner.distance.m|intword}}</strong> m.</p>
-         {% endif %}
+          {% if onePractitioner.distance.m > 1000 %}
+          <p class="ui-li-aside"><strong>{{onePractitioner.distance.km|floatformat:2}}</strong> KM.</p>
+          {% else %}
+          <p class="ui-li-aside"><strong>{{onePractitioner.distance.m|intword}}</strong> m.</p>
+          {% endif %}
          {% else %}
          <p class="ui-li-aside">Fee: <strong>{{onePractitioner.checkup_fee}}</strong> rs.</p>
          {% endif %}
@@ -49,7 +49,9 @@
   <h4>
     <a href="https://www.facebook.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook fa-1x"></i></a>
     <a href="mailto:doctorsinfo.pk@gmail.com"><i class="fa fa-envelope fa-1x"></i></a>
-    <a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i></a></h4>
+    <a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i></a>
+    <a href="https://plus.google.com/114638856531345672910" target="_blank"><i class="fa fa-google-plus fa-1x"></i></a>
+  </h4>
   </div>
 </div>
 </body>

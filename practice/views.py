@@ -29,7 +29,7 @@ def practitoners(request):
 		lat = request.GET.get('lat', '')
 		name = str(request.GET.get('name', ''))
 		day = str(request.GET.get('day', ''))
-		wait = bool(request.GET.get('wait', False))
+		wait = int(request.GET.get('wait', 0))
 		#Search Request
 		try:
 			data['practice'] = Practice.practice_objects.practice_lookup(city, spec, dist, lon, lat, name, day, wait)
