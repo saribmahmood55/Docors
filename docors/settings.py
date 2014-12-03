@@ -17,6 +17,11 @@ ADMINS = (
     ('Asad Naeem', 'doctorsinfo.pk@gmail.com'),
 )
 
+#google recaptcha
+RECAPTCHA_PUBLIC_KEY = '6LcAdv4SAAAAAI2hi_VgcifchYmJFUNmxdfajJJO'
+RECAPTCHA_PRIVATE_KEY = '6LcAdv4SAAAAADhfTOFq09BVM8Kmi_15Go9v2caw'
+RECAPTCHA_USE_SSL = False
+
 #Sites
 SITE_ID = 1
 
@@ -24,6 +29,7 @@ SITE_ID = 1
 ACCOUNT_ACTIVATION_DAYS = 7
 REGISTRATION_OPEN = True
 LOGIN_REDIRECT_URL = '/'
+LOGOUT_URL = '/'
 
 #GMAIL
 EMAIL_HOST = 'smtp.gmail.com'
@@ -43,6 +49,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'django.contrib.gis',
+    'captcha',
     'registration',
     'practitioner',
     'patients',
@@ -70,9 +77,6 @@ WSGI_APPLICATION = 'docors.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/1.7/ref/settings/#databases
-# GEOS from buildpack
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',

@@ -4,9 +4,9 @@
   {% load static from staticfiles %}
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="shortcut icon" href="{% static "icons/stethoscope.ico" %}" />
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+  <script async src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
   <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.css" />
-  <script src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.js"></script>
+  <script async src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.js"></script>
   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
   <link rel="stylesheet" href="{% static "style/style.css" %}" rel="stylesheet" type="text/css" />
 </head>
@@ -63,7 +63,7 @@
                 <option value="Sun">Sunday</option>
               </select>
             </li>
-            <li class="oneLine">
+            <li class="float-right textCentre">
               <label for="wait">Checkup Allowed on Waiting:</label>
               <select class="waiting" name="wait" data-role="slider">
                 <option value="0">No</option>

@@ -1,51 +1,29 @@
 {% extends "registration/base.html" %}
-<!DOCTYPE html> 
-<html>
-<head>
-  {% load staticfiles %}
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="shortcut icon" href="{% static "icons/stethoscope.ico" %}" />
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-  <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.css" />
-  <script src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.js"></script>
-  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="{% static "style/style.css" %}"rel="stylesheet" type="text/css" />
-</head>
-<body>
+{% block title %}Log In | doctorsinfo.pk{% endblock %}
 {% block content %}
-<div data-role="page" data-title="Log In | doctorsinfo.pk">
-<div data-role="header">
-<h1><a href="/" class="anchor-link" ><i class="fa fa-stethoscope fa-1x marg-r"></i>doctorsinfo.pk</a></h1>
-</div>
-{% if form.errors %}
-<p class="error">Incorrect User Name or Password:</p>
-{% endif %}
-<form method="post" action="">{% csrf_token %}
-<dl>
-<dt>
-	<label for="id_username">Username:</label>{% if form.username.errors %} <span class="error">{{ form.username.errors|join:", " }}</span>{% endif %}</dt>
-<dd>{{ form.username }}</dd>
-<dt><label for="id_password">Password:</label>{% if form.password.errors %} <span class="error">{{ form.password.errors|join:", " }}</span>{% endif %}</dt>
-<dd>{{ form.password }}</dd>
-<dt>
-<input name="next" type="hidden" value="/">
-<input type="submit" value="Log in" /></dt>
-</dl>
-</form>
-<center><a href="/register/" class="ui-btn ui-corner-all ui-shadow loginSignup">Sign up.</a></center>
-<center><a href="/password/reset/" class="ui-btn ui-corner-all ui-shadow loginSignup">Forgot Password.</a></center>
+<center>
+  {% if form.errors %}
+  <p class="error">Incorrect User Name or Password:</p>
+  {% endif %}
+  <form method="post" action="" class="wide">{% csrf_token %}
+    <p>
+      <label for="id_username">Username: (alphanumeric)</label>
+      {% if form.username.errors %}
+      <p class="errors">{{ form.username.errors|join:", " }}</p>
+      {% endif %}
+      {{ form.username }}
+    </p>
+    <p>
+      <label for="id_password">Password: (alphanumeric)</label>
+      {% if form.password.errors %}
+      <p class="errors">{{ form.password.errors|join:", " }}</p>
+      {% endif %}
+      {{ form.password }}
+    </p>
+    <p><input name="next" type="hidden" value="/"></p>
+    <p class="submit"><input type="submit" value="Login &rarr;"></p>
+  </form>
+  <p><a href="/register/" class="ui-btn ui-corner-all ui-shadow loginSignup">Sign up.</a></p>
+  <p><a href="/password/reset/" class="ui-btn ui-corner-all ui-shadow loginSignup">Forgot Password.</a></p>
+</center>
 {% endblock %}
-
-{% block content-related %}
-<p>If you don't have an account, you can <a href="/register/">sign
-up</a> for one.</p>
-      <div class="foot" data-role="footer">
-      <h4>
-      <a href="https://www.facebook.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook fa-1x"></i></a>
-      <a href="mailto:doctorsinfo.pk@gmail.com"><i class="fa fa-envelope fa-1x"></i></a>
-      <a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i></a></h4>
-    </div>
-</div>
-{% endblock %}
-</body>
-</html>

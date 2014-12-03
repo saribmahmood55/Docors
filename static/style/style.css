@@ -6,31 +6,33 @@ ul a { list-style-type: none;}
 h1 { font-size: 20px;}
 /* General*/
 
-.container {width: 1170px; height: 535px; margin: 0px auto;}
+.container {width: 1170px; height: 535px;}
 #contant { margin: 0px auto !important;}
-#head { float: right; margin: -35px 20px 0px 0px; font-size: 16px; text-align: center;} #head a {padding: 0px 5px;}
+#head { float: right; margin: -35px 20px 0px 0px; font-size: 16px;} #head a {padding: 0px 5px;} #head h1 { text-align: center;}
 .anchor { color: #000 ! important; }
 .anchor-link {	text-decoration: none !important; color: #1B0A2A !important; font-size: 14px;}
 .anchor-link a:hover {	color: #ffffff; }
 #user { float:right; text-decoration: none; color: #000000; background-color: #DCEDC6;}
 .anchor-link-right {float:right; text-decoration: none !important; color: #000000 !important; font-size: 14px;}
 .anchor-link-left {	float:left; text-decoration: none !important; color: #000000 !important;  margin-top: 30px; font-size: 14px; }
-.loginSignup { margin: 30px auto;} .float-right{ float: right;} .float-left{ float: left;} .textCentre { text-align: center;}
+.loginSignup { margin: 30px auto;} .float-right{ float: right;} .float-left{ float: left;} 
+.textCentre { text-align: center;} .text_centre{ padding: 0px auto;}
 
 /* Index	*/
-.advsearch { height: 500px ! important; margin: 15px 300px !important;}
+.advsearch { height: 500px ! important; margin: 15px 300px;}
 #search { width: 580px; height: 350px; float: left; margin: 70px 300px; padding: 0px 20px; 
 	color: #ffffff; background-color: #455B70 !important; text-shadow: none;}
 #search select { float: left;} #search h2 { font-size: 18px; text-align: center;} 
 #search li button { float: right; width: 90px; height: 40px; color: #3eb249; padding: 0px;}
 #search .oneLine { width: 260px !important; display: inline-block; margin: 0px 10px;} 
 #search .online select { margin: 5px 0px;}
+/* Advance Search */
+#search .waitingOption { float: right;}
 
-/*#search-btn{	}*/
 .inline_ { display: inline; padding: 0px; margin: 0px; }
 .normalweight { font-weight: normal;}
-.marg-r{ padding-right: 10px; }  .marg-l{ padding-left: 10px; } .marg-b{ padding-right: 10px; } .marg-t{ padding-top: 10px; }
-.break { display: block;} .inlineB { display: inline-block;}
+.marg-r{ padding-right: 10px; }  .marg-l{ padding-left: 10px; } .marg-b{ padding-right: 10px; } .marg-t{ padding-top: 10px; } .margtb { padding: 10px 0px;}
+.break { display: block;} .inlineB { display: inline-block;} .Bold {font-weight: bold;} 
 
 /* Results */
 .results li:nth-child(odd):not(.ui-li-divider), .results li:nth-child(odd):not(.ui-li-divider) a { background-color: #ccccd5 !important; text-shadow: none;}
@@ -79,11 +81,18 @@ h1 { font-size: 20px;}
 .subscribe .subDesc { font-size: 14px; text-align: center;} .subscribe .privacy { font-size: 12px; text-align: center;}
 .subscribe button {	width: 120px; height: 40px; color: #3eb249 !important; margin: 10px auto; }
 
-/* Patient Profile	*/
-#update-btn{	float: right; width: 90px; height: 40px; color: #3eb249; margin: 0px auto; padding: 0px;}
+/* Register Preactitioner */
 
-.profile {	width: 100%; float: left; margin: 10px; font-weight: normal; clear: none; text-align: center;
-color: #ffffff; background-color: #455a64; text-shadow: none; }
+.registrationForm .register-btn { float: right; width: 280px; height: 45px; color: #3eb249; margin: 5px;}
+.registrationForm ul li { float: left; padding: 0px 10px; width: 280px; height: 90px;}
+.practitioner-info{ float: left; border: 1px solid #CCCCD5; margin: 5px; padding: 5px;}
+.practice-info { float: left; border: 1px solid #CCCCD5; margin: 5px; padding: 5px;}
+.practice-timing { float: left; border: 1px solid #CCCCD5; margin: 5px; padding: 5px; width: 50%;} 
+.captcha { float: left; border: 1px solid #CCCCD5; margin: 5px 0px 0px 35px; width: 45%;} 
+
+/* Patient Profile	*/
+#update-btn{float: right; width: 90px; height: 40px; color: #3eb249; margin: 0px auto; padding: 0px;}
+.profile {width: 100%; float: left; margin: 10px; font-weight: normal; clear: none; text-align: center; color: #ffffff; background-color: #455a64; text-shadow: none; }
 .profile span { padding-right: 10px; }
 
 .patient-reviews{	width: 320px; float: left; font-weight: normal; clear: none; background-color: #DCEDC6;}
@@ -120,15 +129,18 @@ color: #ffffff; background-color: #455a64; text-shadow: none; }
 	#search h2 { font-size: 16px; text-align: center;}
 	.advsearch { height: 480px !important; margin: 0px auto !important; }
 
+	/* Register Practitioner */
+	.practice-timing {width: 310px;} .captcha {width: 320px; margin: 5px;}
+	
 	.ui-listview .ui-li-aside { right: 1em !important;}
 	
 	#search .oneLine { width: 125px !important; margin: 0px 5px !important; padding: 0px !important;}
 	.profile {  width: 230px; padding: 10px; }
 	.profile ul li span { display: block; float: left;}
 	.no-button { width: 10px; height: 10px; margin: 0px; padding: 0px; float: right; display: inline;}
-	
 	.foot .footLinks { width: 320px; } .foot .socialLinks { margin-left: 40px;} 
 	.socialLinks a { padding: 0px 10px;}
+	.foot h4 { width: 320px !important;}
 }
 
 /* For iphone: */
@@ -157,9 +169,12 @@ color: #ffffff; background-color: #455a64; text-shadow: none; }
 	.profile {  width: 230px; padding: 10px; }
 	.profile ul li span { display: block; float: left;}
 	.no-button { width: 10px; height: 10px; margin: 0px; padding: 0px; float: right; display: inline;}
-
+	.foot h4 { width: 300px !important;}
 	.foot .footLinks { width: 300px; } .foot .socialLinks { margin-left: 35px;} 
 	.socialLinks a { padding: 0px 10px;}
+
+	/* Register Practitioner */
+	.practice-timing {width: 280px;} .captcha {width: 280px; margin: 5px;}
 
 } 
 /* For ipad: */
