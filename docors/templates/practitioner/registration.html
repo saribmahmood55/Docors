@@ -9,25 +9,25 @@
     <div class="practitioner-info">
       <ul>
         <li>
-          <label>Name *</label>{{ form.practitioner_name }}{{ form.practitioner_name.errors }}
+          {{ form.practitioner_name.errors }}{{form.practitioner_name.label_tag}}<span class="mandatory-star"> *</span>{{ form.practitioner_name }}
         </li>
         <li>
-          <label>Email *</label>{{ form.email }}{{ form.email.errors }}
+          {{ form.email.errors }}{{form.email.label_tag}}<span class="mandatory-star"> *</span>{{ form.email }}
         </li>
         <li>
-          <label>Credentials *</label>{{ form.credentials }}{{ form.credentials.errors }}
+          {{ form.credentials.errors }}{{form.credentials.label_tag}}<span class="mandatory-star"> *</span>{{ form.credentials }}
         </li>
         <li>
-          <label>Achievements</label>{{ form.achievements }}{{ form.achievements.errors }}
+          {{ form.achievements.errors }}{{form.achievements.label_tag}}{{ form.achievements }}
         </li>
         <li>
-          <label>Practice Experience *</label>{{ form.experience }}{{ form.experience.errors }}
+          {{ form.experience.errors }}{{form.experience.label_tag}}<span class="mandatory-star"> *</span>{{ form.experience }}
         </li>
         <li>
-          <label>Short Message for Patients.</label>{{ form.message }}{{ form.message.errors }}
+          {{ form.message.errors }}{{form.message.label_tag}}{{ form.message }}
         </li>
         <li>
-          <label>Speciality *</label>{{ form.specialities }}{{ form.specialities.errors }}
+          {{ form.specialities.errors }}{{form.specialities.label_tag}}<span class="mandatory-star"> *</span>{{ form.specialities }}
         </li>
       </ul>
     </div>
@@ -35,34 +35,34 @@
     <div class="practice-info">
       <ul>
         <li>
-          <label>Practice Type. *</label>{{ form.practice_type }}{{ form.practice_type.errors }}
+          {{ form.practice_type.errors }}{{form.practice_type.label_tag}}<span class="mandatory-star"> *</span>{{ form.practice_type }}
         </li>
         <li>
-          <label>Clinic/Hospital Name *</label>{{ form.practice_name }}{{ form.practice_name.errors }}
+          {{ form.practice_name.errors }}{{form.practice_name.label_tag}}<span class="mandatory-star"> *</span>{{ form.practice_name }}
         </li>
         <li>
-          <label>Contact Number(s). *</label>{{ form.contact_number }}{{ form.contact_number.errors }}
+          {{ form.contact_number.errors }}{{form.contact_number.label_tag}}<span class="mandatory-star"> *</span>{{ form.contact_number }}
         </li>
         <li>
-          <label>Checkup fee. *</label>{{ form.checkup_fee }}{{ form.checkup_fee.errors }}
+          {{ form.checkup_fee.errors }}{{form.checkup_fee.label_tag}}<span class="mandatory-star"> *</span>{{ form.checkup_fee }}
         </li>
         <li>
-          <label>Appointment Criteria. *</label>{{form.appointments_only}}{{form.appointments_only.errors}}
+          {{form.appointment.errors}}{{form.appointment.label_tag}}<span class="mandatory-star"> *</span>{{form.appointment}}
         </li>
         <li>
-          <label>Street Address *</label>{{ form.address }}{{ form.address.errors }}
+          {{ form.address.errors }}{{form.address.label_tag}}<span class="mandatory-star"> *</span>{{ form.address }}
         </li>
         <li>
-          <label>City *</label>{{ form.city }}{{ form.city.errors }}
+          {{ form.city.errors }}{{form.city.label_tag}}<span class="mandatory-star"> *</span>{{ form.city }}
         </li>
         <li>
-          <label>Physical Longitude</label>{{ form.lon }}{{ form.lon.errors }}
+          {{ form.lon.errors }}{{form.lon.label_tag}}{{ form.lon }}
         </li>
         <li>
-          <label>Physical Latitude</label>{{ form.lat }}{{ form.lat.errors }}
+          {{ form.lat.errors }}{{form.lat.label_tag}}{{ form.lat }}
         </li>
         <li>
-          <label>Services Offered.</label>{{ form.services }}{{ form.services.errors }}
+          {{ form.services.errors }}{{form.services.label_tag}}{{ form.services }}
         </li>
       </ul>
     </div>
@@ -70,21 +70,21 @@
     <div class="practice-timing">
       <ul>
         <li>
-          <label>From Day *</label>{{ form.day1 }}{{ form.day1.errors }}
+          {{ form.day_from.errors }}{{form.day_from.label_tag}}<span class="mandatory-star"> *</span>{{ form.day_from }}
         </li>
         <li>
-          <label>To Day *</label>{{ form.day2 }}{{ form.day2.errors }}
+          {{ form.day_to.errors }}{{form.day_to.label_tag}}<span class="mandatory-star"> *</span>{{ form.day_to }}
         </li>
         <li>
-          <label>Start Time. *</label>{{ form.start_time }}{{ form.start_time.errors }}
+          {{ form.start_time.errors }}{{form.start_time.label_tag}}<span class="mandatory-star"> *</span>{{ form.start_time }}
         </li>
         <li>
-          <label>End Time. *</label>{{ form.end_time }}{{ form.end_time.errors }}
+          {{ form.end_time.errors }}{{form.end_time.label_tag}}<span class="mandatory-star"> *</span>{{ form.end_time }}
         </li>
       </ul>
     </div>
     <div class="captcha">
-      <div class="float-right">{{ form.captcha }}{{ form.captcha.errors}}</div>
+      <div>{{ form.captcha }}{{ form.captcha.errors}}</div>
       <button type="submit" class="ui-btn ui-shadow ui-corner-all register-btn">Register</button>
     </div>
   </form>
@@ -92,6 +92,6 @@
 {% endblock %}      
 {% block underConstruction %}
 <script type="text/javascript">
-alert('This portion is under construction, Please Do not Register.');
+//alert('This portion is under construction, Please Do not Register.');
 </script>
 {% endblock %}

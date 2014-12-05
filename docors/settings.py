@@ -10,7 +10,7 @@ boolean = lambda value: bool(int(value))
 SECRET_KEY = 'zky%mapoo709@yv64h!ny#!7x8#&lh0o9nsfo++ny6+7gotp^r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = boolean(os.environ.get('DEBUG', 0))
+DEBUG = boolean(os.environ.get('DEBUG', 1))
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -29,7 +29,7 @@ SITE_ID = 1
 ACCOUNT_ACTIVATION_DAYS = 7
 REGISTRATION_OPEN = True
 LOGIN_REDIRECT_URL = '/'
-LOGOUT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 #GMAIL
 EMAIL_HOST = 'smtp.gmail.com'

@@ -3,6 +3,13 @@
 <head>
   {% load static from staticfiles %}
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="specialist doctors clinic information, practicing across pakistan" />
+  <meta content="best doctors, medics, doctors directory, health, pakistan, doctors in pakistan, lahore,specialist doctors in lahore, pediatrics, child specialist, gyne, gynecologist, psychiatrist, neurologist" name="keywords" />
+  <meta property="og:description" content="specialist doctors clinic information, practicing across pakistan"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="http://www.doctorsinfo.pk/"/>
+  <meta property="og:site_name" content="doctorsinfo.pk"/>
+  <link href="http://www.doctorsinfo.pk/" rel="canonical" />
   <link rel="shortcut icon" href="{% static "icons/stethoscope.ico" %}" />
   <script async src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
   <script async src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.js"></script>
@@ -11,7 +18,7 @@
   <link rel="stylesheet" href="{% static "style/style.css" %}" rel="stylesheet" type="text/css" />
 </head>
 <body>
-  <div data-role="page" id="basic" data-title="doctorsinfo.pk">
+  <div data-role="page" id="basic" data-title="doctorsinfo.pk | specialist doctors information across Pakistan">
     <div data-role="header">
       <h1><a href="/" class="anchor-link" ><i class="fa fa-stethoscope fa-1x marg-r"></i>doctorsinfo.pk</a></h1>
       <div id="head">
@@ -27,7 +34,7 @@
     <div role="main" class="ui-content container">
       <div id="search">
         <ul>
-          <li><h2>Find Specialist Doctors in your area.</h2></li>
+          <li><h2>Search Specialist Doctors in your area.</h2></li>
           <form action="{% url 'practitoners' %}" class="searchForm">
             <li><label for="city">City</label>
               <select name="city" required>

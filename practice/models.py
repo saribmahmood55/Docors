@@ -48,7 +48,7 @@ class PracticeManager(models.Manager):
     def practice_lookup(self, city, spec, dist, lon, lat, name, day, wait):
         result, query = {}, None
         if lon == '' and lat == '':
-            query = super(PracticeManager, self).filter(practitioner__specialities__slug=spec, practice_location__city__slug=city).distinct('practitioner')
+            query = super(PracticeManager, self).filter(practitioner__specialities__slug=spec,practitioner__status=True,practice_location__city__slug=city).distinct('practitioner')
             if name != '':
                 query = query.filter(practitioner__name__icontains=name)
             if day != '':
@@ -56,12 +56,11 @@ class PracticeManager(models.Manager):
     		if wait == 1:
     			query = query.filter(appointments_only=False)
         else:
-        	print "spatial"
         	current_point = geos.fromstr("POINT(%s %s)" % (lon, lat))
     		distance_from_point = {'km': dist}
     		query = Practice.gis.filter(location__distance_lte=(current_point, measure.D(**distance_from_point)))
     		query = query.distance(current_point).order_by('distance')
-    		query = query.filter(practitioner__specialities__slug=spec)
+    		query = query.filter(practitioner__specialities__slug=spec, practitioner__status=True)
     		#spatial name search
     		if name != '':
     			query = query.filter(practitioner__name__icontains=name)
@@ -101,7 +100,10 @@ class Practice(models.Model):
         verbose_name_plural = "Practice"
 
     def save(self, **kwargs):
-    	point = "POINT(%s %s)" % (self.practice_location.lon, self.practice_location.lat)
+        if slef.practice_location.lon != '' and self.practice_location.lat !='':
+            point = "POINT(%s %s)" % (self.practice_location.lon, self.practice_location.lat)
+        else:
+            point = POINT(00.00,00.00)
     	self.location = geos.fromstr(point)
         super(Practice, self).save()
 

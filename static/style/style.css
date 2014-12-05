@@ -82,13 +82,13 @@ h1 { font-size: 20px;}
 .subscribe button {	width: 120px; height: 40px; color: #3eb249 !important; margin: 10px auto; }
 
 /* Register Preactitioner */
-
-.registrationForm .register-btn { float: right; width: 280px; height: 45px; color: #3eb249; margin: 5px;}
+.registrationForm label { display: inline-block;} .registrationForm .mandatory-star { color: red;}
+.registrationForm .register-btn { width: 280px; height: 45px; color: #3eb249; margin: 20px auto 10px auto;}
 .registrationForm ul li { float: left; padding: 0px 10px; width: 280px; height: 90px;}
 .practitioner-info{ float: left; border: 1px solid #CCCCD5; margin: 5px; padding: 5px;}
 .practice-info { float: left; border: 1px solid #CCCCD5; margin: 5px; padding: 5px;}
-.practice-timing { float: left; border: 1px solid #CCCCD5; margin: 5px; padding: 5px; width: 50%;} 
-.captcha { float: left; border: 1px solid #CCCCD5; margin: 5px 0px 0px 35px; width: 45%;} 
+.practice-timing { float: left; border: 1px solid #CCCCD5; margin: 5px; padding: 5px;} 
+.captcha { float: right; margin: 10px 450px; display: block;} 
 
 /* Patient Profile	*/
 #update-btn{float: right; width: 90px; height: 40px; color: #3eb249; margin: 0px auto; padding: 0px;}
@@ -114,9 +114,8 @@ h1 { font-size: 20px;}
 .foot .get-listed { float: left;} .foot .educate { float: right;}
 .foot .socialLinks { margin-left: 130px;} .socialLinks a { padding: 0px 15px;}
 
-/* For mobile : like samsung grand(480 * 800): Huawei*/
+/* For mobile : like samsung grand(480 * 800): Huawei, Nexus 5*/
 @media screen and (max-width : 480px){
-	
 	h1 { font-size: 18px;}
 	p {	font-weight: normal;}
 	.container { width: 320px !important; height: 390px !important;}
@@ -127,22 +126,44 @@ h1 { font-size: 20px;}
 	#search { width: 280px !important; height: 320px; margin: 30px auto 0px auto; }
 	#search label { font-size: 12px; } #search a { font-size: 16px;}
 	#search h2 { font-size: 16px; text-align: center;}
-	.advsearch { height: 480px !important; margin: 0px auto !important; }
-
+	#search .oneLine { width: 100px !important;} 
+	.advsearch { height: 500px !important; margin: 0px auto !important; }
 	/* Register Practitioner */
-	.practice-timing {width: 310px;} .captcha {width: 320px; margin: 5px;}
-	
+	.registrationForm ul li { height: 90px;}
+	.captcha { margin: 10px !important;}
 	.ui-listview .ui-li-aside { right: 1em !important;}
-	
 	#search .oneLine { width: 125px !important; margin: 0px 5px !important; padding: 0px !important;}
 	.profile {  width: 230px; padding: 10px; }
 	.profile ul li span { display: block; float: left;}
 	.no-button { width: 10px; height: 10px; margin: 0px; padding: 0px; float: right; display: inline;}
-	.foot .footLinks { width: 320px; } .foot .socialLinks { margin-left: 40px;} 
-	.socialLinks a { padding: 0px 10px;}
+	.foot .footLinks { width: 250px; } .foot .socialLinks { margin-left: 30px !important;} .foot .educate { float: none;}
+	.socialLinks a { padding: 0px 15px;}
 	.foot h4 { width: 320px !important;}
 }
-
+/* For ipad, Nexus 7: */
+@media only screen and (max-width: 767px) {
+	h1 { font-size: 18px;}
+	p {	font-weight: normal;}
+	.container { width: 600px; height: 900px;}
+	.marg-l { padding-left: 5px;}
+	.anchor-link-right { float:right; text-decoration: none; color: #000000;  font-size: 12px;}
+	#head { margin: -15px 5px 0px 0px; font-size: 11px;} #head a { font-size: 12px; padding: 0px 2px;}
+	#search { width: 500px; height: 320px; margin: 30px auto 0px auto; }
+	#search label { font-size: 12px; } #search a { font-size: 16px;}
+	#search h2 { font-size: 16px; text-align: center;}
+	.advsearch { height: 480px !important; margin: 0px auto !important; }
+	/* Register Practitioner */
+	.registrationForm ul li { width: 250px; height: 110px;}
+	.captcha { margin: 10px 100px;}
+	.ui-listview .ui-li-aside { right: 1em !important;}
+	#search .oneLine { width: 125px !important; margin: 0px 5px !important; padding: 0px !important;}
+	.profile {  width: 500px; padding: 10px; }
+	.profile ul li span { display: block; float: left;}
+	.no-button { width: 10px; height: 10px; margin: 0px; padding: 0px; float: right; display: inline;}
+	.foot .footLinks { width: 600px; } .foot .socialLinks { margin-left: 40px;} 
+	.socialLinks a { padding: 0px 10px;}
+	.foot h4 { width: 600px !important;}
+}
 /* For iphone: */
 @media screen and (max-width : 320px){
 	h1 { font-size: 18px;}
@@ -156,46 +177,20 @@ h1 { font-size: 20px;}
 	#search label { font-size: 12px; }
 	#search .oneLine { width: 100px !important; margin: 0px 5px !important; padding: 0px !important;}
 	.advsearch { height: 460px !important; margin: 0px auto !important; }
-	
 	/* results	*/
 	.result { margin: 0px auto !important;} .result h4 { margin: 0px; padding: 10px; height: 20px;}
 	.ui-listview .ui-li-aside { right: 0.5em !important;} 
-	
 	/* practitioner */
 	.grid-name { width: 280px;} #practitionerDetails { width: 280px; } .clinic { width: 280px;} .clinic ul li span{ width: 250px; } 
 	.reviews{ width: 280px; } #reviewBox { width: 280px;} .map-marker { padding: 0px !important;}
-
 	/* Profile */
-	.profile {  width: 230px; padding: 10px; }
-	.profile ul li span { display: block; float: left;}
+	.profile {  width: 230px; padding: 10px; } .profile ul li span { display: block; float: left;}
 	.no-button { width: 10px; height: 10px; margin: 0px; padding: 0px; float: right; display: inline;}
-	.foot h4 { width: 300px !important;}
-	.foot .footLinks { width: 300px; } .foot .socialLinks { margin-left: 35px;} 
-	.socialLinks a { padding: 0px 10px;}
-
+	.foot h4 { width: 300px !important;}.foot .footLinks { width: 300px; } .foot .socialLinks { margin-left: 35px;} .socialLinks a { padding: 0px 10px;}
 	/* Register Practitioner */
 	.practice-timing {width: 280px;} .captcha {width: 280px; margin: 5px;}
-
 } 
-/* For ipad: */
-@media screen and (max-width : 768px){} 
-/* Responsive for mobile devices 
-@media only screen and (max-width: 767px) {
-	h1 { font-size: 18px;}
-	p {	font-weight: normal;}
-	.ui-content { width: 320px !important; height: 390px !important;}
-	.marg-l { padding-left: 5px;}
-	.anchor-link-right { float:right; text-decoration: none; color: #000000;  font-size: 12px;}
-	#search { width: 280px !important; height: 320px; margin: 30px auto 0px auto; }
-	#search label { font-size: 12px; } #search a { font-size: 16px;}
-	#search h2 { font-size: 16px; text-align: center;}
-	.advsearch { height: 460px !important; margin: 0px auto !important; }
-	
-	.profile {  width: 230px; padding: 10px; }
-	.profile ul li span { display: block; float: left;}
-	.no-button { width: 10px; height: 10px; margin: 0px; padding: 0px; float: right; display: inline;}
-	.foot h4 { width: 320px !important; } .foot a { padding: 0px 20px 0px 10px;}
-}
+/*
 .subscribe-spec{	width: 320px; float: left; font-weight: normal; clear: none; background-color: #DCEDC6;}
 .subscribe-spec span { margin-left: 35px; display: block;} 
 .subscribe-spec h2 { color: #000; text-align: center; font-size: 16px;}
