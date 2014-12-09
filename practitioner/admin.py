@@ -24,7 +24,7 @@ class PractitionerAdmin(admin.ModelAdmin):
 		return "\n".join([s.name for s in obj.specialities.all()])
 
 class SpecializationAdmin(admin.ModelAdmin):
-	list_display = ['name','human_name','slug']
+	list_display = ['name','human_name','SEO_name','slug']
 	list_filter = ['name']
 	search_fields = ['name']
 

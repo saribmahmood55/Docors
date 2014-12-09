@@ -6,7 +6,7 @@ ul a { list-style-type: none;}
 h1 { font-size: 20px;}
 /* General*/
 
-.container {width: 1170px; height: 535px;}
+.container {height: 535px;}
 #contant { margin: 0px auto !important;}
 #head { float: right; margin: -35px 20px 0px 0px; font-size: 16px;} #head a {padding: 0px 5px;} #head h1 { text-align: center;}
 .anchor { color: #000 ! important; }
@@ -18,23 +18,31 @@ h1 { font-size: 20px;}
 .loginSignup { margin: 30px auto;} .float-right{ float: right;} .float-left{ float: left;} 
 .textCentre { text-align: center;} .text_centre{ padding: 0px auto;}
 
-/* Index	*/
-.advsearch { height: 500px ! important; margin: 15px 300px;}
-#search { width: 580px; height: 350px; float: left; margin: 70px 300px; padding: 0px 20px; 
-	color: #ffffff; background-color: #455B70 !important; text-shadow: none;}
+/* Index pebble colors #9AA1FE, #56A2FF,#05E2B1, #001321,#003855 */
+.searchLabel { width: 540px; float: left; text-shadow: none; margin: 55px 50px 0px 325px;}
+.searchLabel h2 { height: 20px; background-color: #003855; font-size: 18px; color: #fff; text-align: center;  padding: 10px 0px; margin-bottom: 0px; }
+#search { width: 500px; height: 310px; float: left; margin: 0px; padding: 0px 20px; color: #ffffff; background-color: #455B70 !important; text-shadow: none;}
 #search select { float: left;} #search h2 { font-size: 18px; text-align: center;} 
 #search li button { float: right; width: 90px; height: 40px; color: #3eb249; padding: 0px;}
 #search .oneLine { width: 260px !important; display: inline-block; margin: 0px 10px;} 
 #search .online select { margin: 5px 0px;}
+.advsearch { height: 500px ! important; margin: 15px 300px !important;}
+
+.recentSearches { float: left; margin: 55px 0px; width: 320px; text-shadow: none;}
+.recentSearches h2 { height: 20px; font-size: 18px; background-color: #3eb249;color: #fff; text-align: center;  padding: 10px 0px; margin-bottom: 0px; }
+.searchResult { width: 320px; height: 310px; float: left; background-color: #e6e6e8; color: #000; text-align: center; overflow-x:auto;} 
+.searchResult ul li {display: block; } .searchResult ul li a { text-decoration: none; color: #08c; font-size: 15px; } 
+.searchResult ul li a:hover { color: #08c; text-decoration: underline;}
+
 /* Advance Search */
 #search .waitingOption { float: right;}
-
 .inline_ { display: inline; padding: 0px; margin: 0px; }
 .normalweight { font-weight: normal;}
 .marg-r{ padding-right: 10px; }  .marg-l{ padding-left: 10px; } .marg-b{ padding-right: 10px; } .marg-t{ padding-top: 10px; } .margtb { padding: 10px 0px;}
 .break { display: block;} .inlineB { display: inline-block;} .Bold {font-weight: bold;} 
 
 /* Results */
+.result {height: 535px;}
 .results li:nth-child(odd):not(.ui-li-divider), .results li:nth-child(odd):not(.ui-li-divider) a { background-color: #ccccd5 !important; text-shadow: none;}
 .ui-content .ui-listview-inset, .ui-panel-inner > .ui-listview-inset { margin: 0em 0em;}
 
@@ -118,15 +126,18 @@ h1 { font-size: 20px;}
 @media screen and (max-width : 480px){
 	h1 { font-size: 18px;}
 	p {	font-weight: normal;}
-	.container { width: 320px !important; height: 390px !important;}
+	.container { width: 320px !important; height: 100% !important;}
+	.result { height: 100% !important; }
 	.marg-l { padding-left: 5px;}
 	.anchor-link-right { float:right; text-decoration: none; color: #000000;  font-size: 12px;}
 	#head { margin: -15px 5px 0px 0px; font-size: 11px;}
 	#head a { font-size: 12px; padding: 0px 2px;}
-	#search { width: 280px !important; height: 320px; margin: 30px auto 0px auto; }
+	.searchLabel { width: 320px !important; margin: 10px 0px 0px 0px !important;} .searchLabel h2{ font-size: 16px;}
+	#search { width: 280px !important; margin: 0px !important; height: 290px !important;}
 	#search label { font-size: 12px; } #search a { font-size: 16px;}
 	#search h2 { font-size: 16px; text-align: center;}
 	#search .oneLine { width: 100px !important;} 
+	.recentSearches { margin: 0px !important;}
 	.advsearch { height: 500px !important; margin: 0px auto !important; }
 	/* Register Practitioner */
 	.registrationForm ul li { height: 90px;}
@@ -145,12 +156,14 @@ h1 { font-size: 20px;}
 	h1 { font-size: 18px;}
 	p {	font-weight: normal;}
 	.container { width: 600px; height: 900px;}
+	.result { height: 100% !important;}
 	.marg-l { padding-left: 5px;}
 	.anchor-link-right { float:right; text-decoration: none; color: #000000;  font-size: 12px;}
 	#head { margin: -15px 5px 0px 0px; font-size: 11px;} #head a { font-size: 12px; padding: 0px 2px;}
 	#search { width: 500px; height: 320px; margin: 30px auto 0px auto; }
 	#search label { font-size: 12px; } #search a { font-size: 16px;}
 	#search h2 { font-size: 16px; text-align: center;}
+	.recentSearches { margin: 15px auto 0px auto;}
 	.advsearch { height: 480px !important; margin: 0px auto !important; }
 	/* Register Practitioner */
 	.registrationForm ul li { width: 250px; height: 110px;}

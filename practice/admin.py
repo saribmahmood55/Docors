@@ -31,8 +31,12 @@ class PracticeTimingAdmin(admin.ModelAdmin):
 	list_filter = ['day']
 	search_fields = ['practitioner__name','practice__practice_location__name','day']
 
+class RecentSearchAdmin(admin.ModelAdmin):
+	list_display = ['speciality','city','hit_count']
+
 
 admin.site.register(City, CityAdmin)
 admin.site.register(PracticeLocation, PracticeLocationAdmin)
 admin.site.register(Practice, PracticeAdmin)
 admin.site.register(PracticeTiming, PracticeTimingAdmin)
+admin.site.register(RecentSearch, RecentSearchAdmin)

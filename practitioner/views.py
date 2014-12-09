@@ -24,6 +24,11 @@ def index(request):
 			data['cities'] = City.objects.order_by('pk')
 		except Specialization.DoesNotExist:
 			raise Http404
+		#Get Recent Searches
+		try:
+			data['recentSearches'] = RecentSearch.objects.order_by('-hit_count')
+		except RecentSearch.DoesNotExist:
+			raise Http404
 	return render_to_response('practitioner/index.html', {'data': data}, context_instance=RequestContext(request))
 
 

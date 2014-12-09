@@ -4,14 +4,19 @@
   {% load static from staticfiles %}
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="shortcut icon" href="{% static "icons/stethoscope.ico" %}" />
-  <script async src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+  <script language="JavaScript" src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+  <script>
+    $(document).bind("mobileinit", function(){
+      $.mobile.ajaxEnabled = false;
+    });
+  </script>
+  <script async language="JavaScript" src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.js"></script>
   <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.css" />
-  <script async src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.js"></script>
   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
   <link rel="stylesheet" href="{% static "style/style.css" %}" rel="stylesheet" type="text/css" />
 </head>
 <body>
-  <div data-role="page" id="advance" data-theme="a" data-title="advance search | specialist doctors information across Pakistan">
+  <div data-role="page" id="advance" data-theme="a" data-title="specialist doctors clinic information across Pakistan">
     <div data-role="header">
       <h1><a href="/" class="anchor-link" ><i class="fa fa-stethoscope fa-1x marg-r"></i>doctorsinfo.pk</a></h1>
       <div id="head">
@@ -27,7 +32,7 @@
     <div role="main" class="ui-content">
       <div id="search" class="advsearch">
         <ul>
-          <li><h2>Find Specialist Doctors in your area.</h2></li>
+          <li><h2>Search Specialist Doctors in your area.</h2></li>
           <form action="{% url 'practitoners' %}" class="searchForm">
             <li><label for="city">City</label>
               <select name="city" required>
@@ -87,7 +92,7 @@
         <a href="https://www.facebook.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook fa-1x"></i></a>
         <a href="mailto:doctorsinfo.pk@gmail.com"><i class="fa fa-envelope fa-1x"></i></a>
         <a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i></a>
-        <a href="https://plus.google.com/114638856531345672910" target="_blank"><i class="fa fa-google-plus fa-1x"></i></a>
+        <a href="https://plus.google.com/+DoctorsinfoPk" target="_blank"><i class="fa fa-google-plus fa-1x"></i></a>
       </h4>
     </div>
   </div>

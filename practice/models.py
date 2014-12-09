@@ -5,7 +5,6 @@ from django.contrib.gis.db import models as gis_models
 from django.contrib.gis import geos
 from django.contrib.gis import measure
 
-
 class City(models.Model):
     name = models.CharField(max_length=50)
     slug = AutoSlugField(populate_from='name', unique = True)
@@ -42,9 +41,7 @@ class PracticeManager(models.Manager):
     def practice_detail(self, slug):
         practice = super(PracticeManager, self).filter(practitioner__slug=slug)
         return practice
-
-
-    # Search request handling
+    # Basic Search request handling
     def practice_lookup(self, city, spec, dist, lon, lat, name, day, wait):
         result, query = {}, None
         if lon == '' and lat == '':
@@ -72,6 +69,13 @@ class PracticeManager(models.Manager):
         
         result['practice_list'] = query
         return result
+    # Recent Search Handling
+    def practice_recentlookups(self, city, spec):
+        result, query = {}, None
+        query = super(PracticeManager, self).filter(practitioner__specialities__slug=spec, practitioner__status=True, practice_location__city__slug=city).distinct('practitioner')
+        result['practice_list'] = query
+        return result
+
 
 
 class Practice(models.Model):
@@ -145,3 +149,14 @@ class PracticeTiming(models.Model):
 
     class Meta:
         verbose_name_plural = "Practice Timings"
+
+class RecentSearch(models.Model):
+    city = models.ForeignKey(City)
+    speciality = models.ForeignKey(Specialization)
+    hit_count = models.PositiveIntegerField(default=0)
+    
+    def __unicode__(self):
+        return "%s in %s" % (self.speciality.name, self.city.name)
+    
+    class Meta:
+        verbose_name_plural = "Recent Searches"

@@ -2,10 +2,11 @@ from django.shortcuts import render
 from patients.models import Patient
 from reviews.models import Review
 from practice.models import *
+from utility import *
 from practitioner.models import Practitioner
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
+from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response
-from django.template.loader import render_to_string
 from django.template import RequestContext
 
 def practice(request, practice_slug, practitioner_slug):
@@ -30,12 +31,29 @@ def practitoners(request):
 		name = str(request.GET.get('name', ''))
 		day = str(request.GET.get('day', ''))
 		wait = int(request.GET.get('wait', 0))
+		if lon == '' and lat == '':
+			return HttpResponseRedirect(reverse('recentSearch', kwargs={'speciality': spec, 'city': city}))
 		#Search Request
 		try:
 			data['practice'] = Practice.practice_objects.practice_lookup(city, spec, dist, lon, lat, name, day, wait)
+			updateRecentSearches(city, spec)
 		except Practice.DoesNotExist:
 			raise Http404
 
+	return render_to_response('practitioner/results.html', {'data': data}, context_instance=RequestContext(request))
+#recent Searches
+def recentSearch(request, speciality, city):
+	data = {}
+	if request.user.is_authenticated():
+		data['user'] = request.user
+	else:
+		data['user'] = None
+	if request.method == "GET":
+		try:
+			data['practice'] = Practice.practice_objects.practice_recentlookups(city, speciality)
+			updateRecentSearches(city, speciality)
+		except Practice.DoesNotExist:
+			raise Http404
 	return render_to_response('practitioner/results.html', {'data': data}, context_instance=RequestContext(request))
 
 # single practitioner details

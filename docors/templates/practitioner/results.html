@@ -4,18 +4,23 @@
   {% load staticfiles %}
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="shortcut icon" href="{% static "icons/stethoscope.ico" %}" />
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+  <script language="JavaScript" src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+  <script>
+    $(document).bind("mobileinit", function(){
+      $.mobile.ajaxEnabled = false;
+    });
+  </script>
+  <script async language="JavaScript" src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.js"></script>
   <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.css" />
-  <script src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.js"></script>
   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
   <link rel="stylesheet" href="{% static "style/style.css" %}"rel="stylesheet" type="text/css" />
 </head>
 <body>
-  <div data-role="page" data-title="doctorsinfo.pk">
+  <div data-role="page" data-title="Doctors Info. Pakistan">
    <div data-role="header">
    <h1><a href="/" class="anchor-link" ><i class="fa fa-stethoscope fa-1x marg-r"></i>doctorsinfo.pk</a></h1>
     </div>
-    <div role="main" class="ui-content container result">
+    <div role="main" class="ui-content result">
      <h4 class="textCentre">Search Results</h4>
      {% for onePractitioner in data.practice.practice_list.iterator %}
      <ul class="results" data-role="listview" data-inset="true">
@@ -50,7 +55,7 @@
     <a href="https://www.facebook.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook fa-1x"></i></a>
     <a href="mailto:doctorsinfo.pk@gmail.com"><i class="fa fa-envelope fa-1x"></i></a>
     <a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i></a>
-    <a href="https://plus.google.com/114638856531345672910" target="_blank"><i class="fa fa-google-plus fa-1x"></i></a>
+    <a href="https://plus.google.com/+DoctorsinfoPk" target="_blank"><i class="fa fa-google-plus fa-1x"></i></a>
   </h4>
   </div>
 </div>
