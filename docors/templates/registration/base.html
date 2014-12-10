@@ -16,8 +16,8 @@
 </head>
 <body>
   <div data-role="page" data-title="{% block title %}{% endblock %}">
-    <div data-role="header">
-      <h1><a href="/" class="anchor-link" ><i class="fa fa-stethoscope fa-1x marg-r"></i>doctorsinfo.pk</a></h1>
+    <div data-role="header" class="header1">
+      <span id="logo" data-role="none"><a href="/"><img height="35" src="{% static "icons/doctors.png" %}" alt="logo"/></a></span>
     </div>
     <div role="main" class="ui-content container">
       {% block content %}{% endblock %}
@@ -27,7 +27,7 @@
         <a href="https://www.facebook.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook fa-1x"></i></a>
         <a href="mailto:doctorsinfo.pk@gmail.com"><i class="fa fa-envelope fa-1x"></i></a>
         <a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i></a>
-        <a href="https://plus.google.com/114638856531345672910" target="_blank"><i class="fa fa-google-plus fa-1x"></i></a>
+        <a href="https://plus.google.com/114638856531345672910" rel="publisher" target="_blank"><i class="fa fa-google-plus fa-1x"></i></a>
       </h4>
     </div>
     {% block underConstruction %}{% endblock %}

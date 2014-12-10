@@ -6,33 +6,32 @@ ul a { list-style-type: none;}
 h1 { font-size: 20px;}
 /* General*/
 
-.container {height: 535px;}
-#contant { margin: 0px auto !important;}
-#head { float: right; margin: -35px 20px 0px 0px; font-size: 16px;} #head a {padding: 0px 5px;} #head h1 { text-align: center;}
-.anchor { color: #000 ! important; }
-.anchor-link {	text-decoration: none !important; color: #1B0A2A !important; font-size: 14px;}
-.anchor-link a:hover {	color: #ffffff; }
+.container {height: 535px;} .header1 { height: 40px; width: 100%;}
+#contant { margin: 0px auto !important;} #logo {margin-left: 340px;} #logo img { padding: 3px 0px;}  
+#head { float: right; font-size: 16px; margin-right: 30px; } #head a { padding: 10px 3px 0px 3px; display: inline-block;}
+.anchor-link {	text-decoration: none !important; color: #1B0A2A !important; font-size: 14px;} .anchor-link a:hover {color: #ffffff; }
 #user { float:right; text-decoration: none; color: #000000; background-color: #DCEDC6;}
 .anchor-link-right {float:right; text-decoration: none !important; color: #000000 !important; font-size: 14px;}
-.anchor-link-left {	float:left; text-decoration: none !important; color: #000000 !important;  margin-top: 30px; font-size: 14px; }
 .loginSignup { margin: 30px auto;} .float-right{ float: right;} .float-left{ float: left;} 
 .textCentre { text-align: center;} .text_centre{ padding: 0px auto;}
 
 /* Index pebble colors #9AA1FE, #56A2FF,#05E2B1, #001321,#003855 */
 .searchLabel { width: 540px; float: left; text-shadow: none; margin: 55px 50px 0px 325px;}
-.searchLabel h2 { height: 20px; background-color: #003855; font-size: 18px; color: #fff; text-align: center;  padding: 10px 0px; margin-bottom: 0px; }
-#search { width: 500px; height: 310px; float: left; margin: 0px; padding: 0px 20px; color: #ffffff; background-color: #455B70 !important; text-shadow: none;}
+.searchLabel h1 { height: 20px; background-color: #E6E6E8; font-size: 18px; color: #000; 
+	text-align: center;  padding: 10px 0px; margin-bottom: 0px; border-top: 2px solid #535455;}
+#search { width: 500px; height: 310px; float: left; margin: 0px; padding: 0px 20px; color: #ffffff; background-color: #525252 !important; text-shadow: none;}
 #search select { float: left;} #search h2 { font-size: 18px; text-align: center;} 
-#search li button { float: right; width: 90px; height: 40px; color: #3eb249; padding: 0px;}
+#search li button { float: right; width: 90px; height: 40px; color: #ED1C24; padding: 0px;}
+#search ul li .advance { text-decoration: none; color: #e6e6e8; padding-top: 30px; font-size: 15px; display: block;}
 #search .oneLine { width: 260px !important; display: inline-block; margin: 0px 10px;} 
 #search .online select { margin: 5px 0px;}
 .advsearch { height: 500px ! important; margin: 15px 300px !important;}
 
 .recentSearches { float: left; margin: 55px 0px; width: 320px; text-shadow: none;}
-.recentSearches h2 { height: 20px; font-size: 18px; background-color: #3eb249;color: #fff; text-align: center;  padding: 10px 0px; margin-bottom: 0px; }
+.recentSearches h2 { height: 20px; font-size: 18px; background-color: #525252;color: #fff; text-align: center;  padding: 10px 0px; margin-bottom: 0px; }
 .searchResult { width: 320px; height: 310px; float: left; background-color: #e6e6e8; color: #000; text-align: center; overflow-x:auto;} 
-.searchResult ul li {display: block; } .searchResult ul li a { text-decoration: none; color: #08c; font-size: 15px; } 
-.searchResult ul li a:hover { color: #08c; text-decoration: underline;}
+.searchResult ul li {display: block; } .searchResult ul li a { text-decoration: none; color: #000 !important; font-size: 15px; } 
+.searchResult ul li a:hover { color: #fff; text-decoration: underline;}
 
 /* Advance Search */
 #search .waitingOption { float: right;}
@@ -67,22 +66,18 @@ h1 { font-size: 20px;}
 .clinic .day  { float: left; width: 25px; padding-right: 15px; } .clinic .start { float: none; width: 25px; padding: 0px 10px; } 
 .clinic .end { float: right; width: 25px;}
 .clinic .description { float: left; width: 25px; padding-right: 35px;}
-
 .map-marker { float: right; padding: 10px 0px 10px 0px;}
 .modified { float: left; padding-top: 20px; } .modified span { padding-left: 5px; font-size: 14px;}
-
 .reviews { width: 320px; float: left; overflow-x:auto; font-weight: normal; clear: none; background-color: #e6e6e8; color: #000;}
 .oneComment { background-color:  #ccccd5; margin: 10px; padding: 5px 5px;}
 .oneComment .commentDate { font-size: 12px !important;}
 .no_review_msg { display: inline-block; padding: 5px 50px; font-weight: bold; color: #4b555d;}
 .patientName {font-weight: bold; color: #4285f4; padding-bottom: 5px; } .patientName {font-size: 12px;}
 .comment {font-size: 14px;}
-.reviewBox { width: 310px; font-weight: normal; margin: 0px 5px; font-size: 14px; height: 80px; }
-.up { padding: 10px 10px 0px 0px;} 
+.reviewBox { width: 310px; font-weight: normal; margin: 0px 5px; font-size: 14px; height: 80px; }.up { padding: 10px 10px 0px 0px;} 
 
 #post-review-btn{	width: 60px; height: 30px; color: #3eb249; float: right; padding: 0px; margin-top: 0px;}
 .small-font {font-size: 13px;}
-
 .subscribe { width: 320px; float: left; background-color: #e6e6e8; color: #000;} .subscribe ul li {display: block;}
 .subscribe ul li i { float: left; width: 10px; padding: 15px 15px 0px 10px;} 
 .subscribe ul li span{ float: left; width: 280px !important;}
@@ -124,20 +119,14 @@ h1 { font-size: 20px;}
 
 /* For mobile : like samsung grand(480 * 800): Huawei, Nexus 5*/
 @media screen and (max-width : 480px){
-	h1 { font-size: 18px;}
+	h1 { font-size: 16px;}
 	p {	font-weight: normal;}
 	.container { width: 320px !important; height: 100% !important;}
-	.result { height: 100% !important; }
-	.marg-l { padding-left: 5px;}
-	.anchor-link-right { float:right; text-decoration: none; color: #000000;  font-size: 12px;}
-	#head { margin: -15px 5px 0px 0px; font-size: 11px;}
-	#head a { font-size: 12px; padding: 0px 2px;}
-	.searchLabel { width: 320px !important; margin: 10px 0px 0px 0px !important;} .searchLabel h2{ font-size: 16px;}
-	#search { width: 280px !important; margin: 0px !important; height: 290px !important;}
-	#search label { font-size: 12px; } #search a { font-size: 16px;}
-	#search h2 { font-size: 16px; text-align: center;}
-	#search .oneLine { width: 100px !important;} 
-	.recentSearches { margin: 0px !important;}
+	.result { height: 100% !important; }.marg-l { padding-left: 5px;}
+	#logo {margin-left: 20px;} .anchor-link-right { float:right; text-decoration: none; color: #000000;  font-size: 12px;}
+	.searchLabel { width: 320px !important; margin: 10px 0px 0px 0px !important;} .searchLabel h1 { font-size: 16px;}
+	#search { width: 280px !important; margin: 0px !important; height: 290px !important;} #search label { font-size: 12px; } 
+	#search .oneLine { width: 100px !important;} .recentSearches { margin: 0px !important;}
 	.advsearch { height: 500px !important; margin: 0px auto !important; }
 	/* Register Practitioner */
 	.registrationForm ul li { height: 90px;}
@@ -146,23 +135,23 @@ h1 { font-size: 20px;}
 	#search .oneLine { width: 125px !important; margin: 0px 5px !important; padding: 0px !important;}
 	.profile {  width: 230px; padding: 10px; }
 	.profile ul li span { display: block; float: left;}
-	.no-button { width: 10px; height: 10px; margin: 0px; padding: 0px; float: right; display: inline;}
-	.foot .footLinks { width: 250px; } .foot .socialLinks { margin-left: 30px !important;} .foot .educate { float: none;}
-	.socialLinks a { padding: 0px 15px;}
-	.foot h4 { width: 320px !important;}
+	.no-button { width: 10px; height: 10px; margin: 0px; padding: 0px; float: right; display: inline;} 
+	.ui-footer .ui-title { margin: 0px auto !important;}
+	.foot h4 { width: 320px !important;} .foot .footLinks { width: 250px; } .foot .socialLinks { margin-left: 30px !important;} 
+	.foot .educate { float: none;} .socialLinks a { padding: 0px 15px;}
 }
 /* For ipad, Nexus 7: */
 @media only screen and (max-width: 767px) {
-	h1 { font-size: 18px;}
+	h1 { font-size: 16px;}
 	p {	font-weight: normal;}
 	.container { width: 600px; height: 900px;}
 	.result { height: 100% !important;}
 	.marg-l { padding-left: 5px;}
 	.anchor-link-right { float:right; text-decoration: none; color: #000000;  font-size: 12px;}
-	#head { margin: -15px 5px 0px 0px; font-size: 11px;} #head a { font-size: 12px; padding: 0px 2px;}
+	#head { margin-right: 10px; font-size: 11px;}
 	#search { width: 500px; height: 320px; margin: 30px auto 0px auto; }
 	#search label { font-size: 12px; } #search a { font-size: 16px;}
-	#search h2 { font-size: 16px; text-align: center;}
+	#search h1 { font-size: 15px; text-align: center;}
 	.recentSearches { margin: 15px auto 0px auto;}
 	.advsearch { height: 480px !important; margin: 0px auto !important; }
 	/* Register Practitioner */
@@ -175,7 +164,7 @@ h1 { font-size: 20px;}
 	.no-button { width: 10px; height: 10px; margin: 0px; padding: 0px; float: right; display: inline;}
 	.foot .footLinks { width: 600px; } .foot .socialLinks { margin-left: 40px;} 
 	.socialLinks a { padding: 0px 10px;}
-	.foot h4 { width: 600px !important;}
+	/*.foot h4 { width: 600px !important;}*/
 }
 /* For iphone: */
 @media screen and (max-width : 320px){
