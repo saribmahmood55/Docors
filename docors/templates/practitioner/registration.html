@@ -1,97 +1,116 @@
 {% extends "registration/base.html" %}
 {% block title %}Register Practitioner | Doctors Info. Pakistan{% endblock %}
-
-{% block content %}
-<div class="registrationForm">
-  <center><span class="Bold margtb inlineB">Please provide the following details.</span></center>
-  <span class="Bold margtb break">Practitioner details.</span>
-  <form action="" method="POST">{% csrf_token %}
-    <div class="practitioner-info">
-      <ul>
-        <li>
-          {{ form.practitioner_name.errors }}{{form.practitioner_name.label_tag}}<span class="mandatory-star"> *</span>{{ form.practitioner_name }}
-        </li>
-        <li>
-          {{ form.email.errors }}{{form.email.label_tag}}<span class="mandatory-star"> *</span>{{ form.email }}
-        </li>
-        <li>
-          {{ form.credentials.errors }}{{form.credentials.label_tag}}<span class="mandatory-star"> *</span>{{ form.credentials }}
-        </li>
-        <li>
-          {{ form.achievements.errors }}{{form.achievements.label_tag}}{{ form.achievements }}
-        </li>
-        <li>
-          {{ form.experience.errors }}{{form.experience.label_tag}}<span class="mandatory-star"> *</span>{{ form.experience }}
-        </li>
-        <li>
-          {{ form.message.errors }}{{form.message.label_tag}}{{ form.message }}
-        </li>
-        <li>
-          {{ form.specialities.errors }}{{form.specialities.label_tag}}<span class="mandatory-star"> *</span>{{ form.specialities }}
-        </li>
+{% block leftMenu %}
+<div class="menu">
+  <div class="icon-close"><img src="{{ STATIC_URL }}icons/close.png"></div>
+  <ul>
+    {% if not data.user.is_authenticated %}
+    <li><a href="{% url 'auth_login' %}">Login</a>
+      <li><a href="{% url 'registration_register' %}">Register</a></li>
+      {% endif %}
+      <li><a href="{% url 'registration' %}"><i class="fa fa-list-alt fa-1x"></i>get listed as a Doctor!</a></li>
+      <li><a href="#"><i class="fa fa-lightbulb-o fa-1x"></i>educate yourself.</a></li>
+      <li><a href="mailto:doctorsinfo.pk@gmail.com" target="_blank"><i class="fa fa-envelope fa-1x"></i>Contact Doctors Info.</a></li>
+      <li><a href="https://www.facebook.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook fa-1x"></i>facebook</a></li>
+      <li><a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i>twitter</a></li>
+      <li><a href="https://plus.google.com/+DoctorsinfoPk" rel="publisher" target="_blank"><i class="fa fa-google-plus fa-1x"></i>google+</a></li>
+      <li class="extraLinks"><a class="mezino" href="http://mezino.com"><img src="{{ STATIC_URL }}icons/mezino.png"></a>
       </ul>
     </div>
-    <span class="Bold margtb break">Practice Location Details</span>
-    <div class="practice-info">
-      <ul>
-        <li>
-          {{ form.practice_type.errors }}{{form.practice_type.label_tag}}<span class="mandatory-star"> *</span>{{ form.practice_type }}
-        </li>
-        <li>
-          {{ form.practice_name.errors }}{{form.practice_name.label_tag}}<span class="mandatory-star"> *</span>{{ form.practice_name }}
-        </li>
-        <li>
-          {{ form.contact_number.errors }}{{form.contact_number.label_tag}}<span class="mandatory-star"> *</span>{{ form.contact_number }}
-        </li>
-        <li>
-          {{ form.checkup_fee.errors }}{{form.checkup_fee.label_tag}}<span class="mandatory-star"> *</span>{{ form.checkup_fee }}
-        </li>
-        <li>
-          {{form.appointment.errors}}{{form.appointment.label_tag}}<span class="mandatory-star"> *</span>{{form.appointment}}
-        </li>
-        <li>
-          {{ form.address.errors }}{{form.address.label_tag}}<span class="mandatory-star"> *</span>{{ form.address }}
-        </li>
-        <li>
-          {{ form.city.errors }}{{form.city.label_tag}}<span class="mandatory-star"> *</span>{{ form.city }}
-        </li>
-        <li>
-          {{ form.lon.errors }}{{form.lon.label_tag}}{{ form.lon }}
-        </li>
-        <li>
-          {{ form.lat.errors }}{{form.lat.label_tag}}{{ form.lat }}
-        </li>
-        <li>
-          {{ form.services.errors }}{{form.services.label_tag}}{{ form.services }}
-        </li>
-      </ul>
+    <div class="icon-menu"><i class="fa fa-bars"></i></div>
+{% endblock %}
+    {% block content %}
+    <div class="registrationForm">
+      <center><span class="Bold margtb inlineB">Please provide the following details.</span></center>
+      <span class="Bold margtb break">Practitioner details.</span>
+      <form action="" method="POST">{% csrf_token %}
+        <div class="practitioner-info">
+          <ul>
+            <li>
+              {{ form.practitioner_name.errors }}{{form.practitioner_name.label_tag}}<span class="mandatory-star"> *</span>{{ form.practitioner_name }}
+            </li>
+            <li>
+              {{ form.email.errors }}{{form.email.label_tag}}<span class="mandatory-star"> *</span>{{ form.email }}
+            </li>
+            <li>
+              {{ form.credentials.errors }}{{form.credentials.label_tag}}<span class="mandatory-star"> *</span>{{ form.credentials }}
+            </li>
+            <li>
+              {{ form.achievements.errors }}{{form.achievements.label_tag}}{{ form.achievements }}
+            </li>
+            <li>
+              {{ form.experience.errors }}{{form.experience.label_tag}}<span class="mandatory-star"> *</span>{{ form.experience }}
+            </li>
+            <li>
+              {{ form.message.errors }}{{form.message.label_tag}}{{ form.message }}
+            </li>
+            <li>
+              {{ form.specialities.errors }}{{form.specialities.label_tag}}<span class="mandatory-star"> *</span>{{ form.specialities }}
+            </li>
+          </ul>
+        </div>
+        <span class="Bold margtb break">Practice Location Details</span>
+        <div class="practice-info">
+          <ul>
+            <li>
+              {{ form.practice_type.errors }}{{form.practice_type.label_tag}}<span class="mandatory-star"> *</span>{{ form.practice_type }}
+            </li>
+            <li>
+              {{ form.practice_name.errors }}{{form.practice_name.label_tag}}<span class="mandatory-star"> *</span>{{ form.practice_name }}
+            </li>
+            <li>
+              {{ form.contact_number.errors }}{{form.contact_number.label_tag}}<span class="mandatory-star"> *</span>{{ form.contact_number }}
+            </li>
+            <li>
+              {{ form.checkup_fee.errors }}{{form.checkup_fee.label_tag}}<span class="mandatory-star"> *</span>{{ form.checkup_fee }}
+            </li>
+            <li>
+              {{form.appointment.errors}}{{form.appointment.label_tag}}<span class="mandatory-star"> *</span>{{form.appointment}}
+            </li>
+            <li>
+              {{ form.address.errors }}{{form.address.label_tag}}<span class="mandatory-star"> *</span>{{ form.address }}
+            </li>
+            <li>
+              {{ form.city.errors }}{{form.city.label_tag}}<span class="mandatory-star"> *</span>{{ form.city }}
+            </li>
+            <li>
+              {{ form.lon.errors }}{{form.lon.label_tag}}{{ form.lon }}
+            </li>
+            <li>
+              {{ form.lat.errors }}{{form.lat.label_tag}}{{ form.lat }}
+            </li>
+            <li>
+              {{ form.services.errors }}{{form.services.label_tag}}{{ form.services }}
+            </li>
+          </ul>
+        </div>
+        <span class="Bold margtb break">Practice Timing Details</span>
+        <div class="practice-timing">
+          <ul>
+            <li>
+              {{ form.day_from.errors }}{{form.day_from.label_tag}}<span class="mandatory-star"> *</span>{{ form.day_from }}
+            </li>
+            <li>
+              {{ form.day_to.errors }}{{form.day_to.label_tag}}<span class="mandatory-star"> *</span>{{ form.day_to }}
+            </li>
+            <li>
+              {{ form.start_time.errors }}{{form.start_time.label_tag}}<span class="mandatory-star"> *</span>{{ form.start_time }}
+            </li>
+            <li>
+              {{ form.end_time.errors }}{{form.end_time.label_tag}}<span class="mandatory-star"> *</span>{{ form.end_time }}
+            </li>
+          </ul>
+        </div>
+        <div class="captcha">
+          <div>{{ form.captcha }}{{ form.captcha.errors}}</div>
+          <button type="submit" class="ui-btn ui-shadow ui-corner-all register-btn">Register</button>
+        </div>
+      </form>
     </div>
-    <span class="Bold margtb break">Practice Timing Details</span>
-    <div class="practice-timing">
-      <ul>
-        <li>
-          {{ form.day_from.errors }}{{form.day_from.label_tag}}<span class="mandatory-star"> *</span>{{ form.day_from }}
-        </li>
-        <li>
-          {{ form.day_to.errors }}{{form.day_to.label_tag}}<span class="mandatory-star"> *</span>{{ form.day_to }}
-        </li>
-        <li>
-          {{ form.start_time.errors }}{{form.start_time.label_tag}}<span class="mandatory-star"> *</span>{{ form.start_time }}
-        </li>
-        <li>
-          {{ form.end_time.errors }}{{form.end_time.label_tag}}<span class="mandatory-star"> *</span>{{ form.end_time }}
-        </li>
-      </ul>
-    </div>
-    <div class="captcha">
-      <div>{{ form.captcha }}{{ form.captcha.errors}}</div>
-      <button type="submit" class="ui-btn ui-shadow ui-corner-all register-btn">Register</button>
-    </div>
-  </form>
-</div>
-{% endblock %}      
-{% block underConstruction %}
-<script type="text/javascript">
-//alert('This portion is under construction, Please Do not Register.');
-</script>
+    {% endblock %}      
+    {% block underConstruction %}
+    <script type="text/javascript">
+    alert('This portion is under construction, Please Do not Register.');
+    </script>
+    <script async language="JavaScript" src="{{ STATIC_URL }}js/menu.js"></script>
 {% endblock %}

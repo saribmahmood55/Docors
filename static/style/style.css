@@ -49,7 +49,7 @@ padding-bottom: 3px;  padding-left: 20px;  padding-top: 3px; display: block;}
 .break { display: block;} .inlineB { display: inline-block;} .Bold {font-weight: bold;} 
 
 /* Results */
-.result {height: 535px; padding: 0em 20em;}
+.result {height: 535px; padding: 0em 14em;}
 .results li:nth-child(odd):not(.ui-li-divider), .results li:nth-child(odd):not(.ui-li-divider) a { background-color: #ccccd5 !important; text-shadow: none;}
 .ui-content .ui-listview-inset, .ui-panel-inner > .ui-listview-inset { margin: 0em 0em;}
 /* Practitioner details */
@@ -116,14 +116,6 @@ padding-bottom: 3px;  padding-left: 20px;  padding-top: 3px; display: block;}
 .favourite-pracs a { padding: 0px 0px 0px 10px; display: inline-block; margin: 0px;} 
 .favourite-pracs h2 { color: #000; text-align: center; font-size: 16px;}
 .favourite-pracs i { padding-right: 10px; float: right;}
-
-.ui-footer .ui-title { margin: 0px auto !important;}
-.foot h4 { width: 580px !important;} .foot a { padding-left: 25px; text-decoration: none; color: #000 !important; font-size: 14px; }
-.foot .footLinks { width: 580px; margin: 0px auto; height: 25px; padding: 10px 0px;}
-.foot a { text-decoration: none; color: #000 !important; font-size: 14px; }
-.foot .get-listed { float: left;} .foot .educate { float: right;}
-.foot .socialLinks { margin-left: 130px;} .socialLinks a { padding: 0px 15px;}
-
 /* For mobile : like samsung grand(480 * 800): Huawei, Nexus 5*/
 @media screen and (max-width : 480px){
 	h1 { font-size: 16px;}
@@ -148,9 +140,6 @@ padding-bottom: 3px;  padding-left: 20px;  padding-top: 3px; display: block;}
 	.profile {  width: 230px; padding: 10px; }
 	.profile ul li span { display: block; float: left;}
 	.no-button { width: 10px; height: 10px; margin: 0px; padding: 0px; float: right; display: inline;} 
-	.ui-footer .ui-title { margin: 0px auto !important;}
-	.foot h4 { width: 320px !important;} .foot .footLinks { width: 250px; } .foot .socialLinks { margin-left: 30px !important;} 
-	.foot .educate { float: none;} .socialLinks a { padding: 0px 15px;}
 }
 /* For ipad, Nexus 7: */
 @media only screen and (max-width: 767px) {
@@ -174,9 +163,6 @@ padding-bottom: 3px;  padding-left: 20px;  padding-top: 3px; display: block;}
 	.profile {  width: 500px; padding: 10px; }
 	.profile ul li span { display: block; float: left;}
 	.no-button { width: 10px; height: 10px; margin: 0px; padding: 0px; float: right; display: inline;}
-	.foot .footLinks { width: 600px; } .foot .socialLinks { margin-left: 40px;} 
-	.socialLinks a { padding: 0px 10px;}
-	/*.foot h4 { width: 600px !important;}*/
 }
 /* For iphone: */
 @media screen and (max-width : 320px){
