@@ -31,6 +31,8 @@ def practitoners(request):
 		name = str(request.GET.get('name', ''))
 		day = str(request.GET.get('day', ''))
 		wait = int(request.GET.get('wait', 0))
+		data['spec'] = spec
+		data['city'] = city
 		if lon == '' and lat == '':
 			return HttpResponseRedirect(reverse('recentSearch', kwargs={'speciality': spec, 'city': city}))
 		#Search Request
@@ -43,7 +45,7 @@ def practitoners(request):
 	return render_to_response('practitioner/results.html', {'data': data}, context_instance=RequestContext(request))
 #recent Searches
 def recentSearch(request, speciality, city):
-	data = {}
+	data = {'city': city, 'spec': speciality}
 	if request.user.is_authenticated():
 		data['user'] = request.user
 	else:

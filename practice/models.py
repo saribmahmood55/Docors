@@ -1,4 +1,5 @@
 from django.db import models
+from sorl.thumbnail import ImageField
 from practitioner.models import *
 from autoslug import AutoSlugField
 from django.contrib.gis.db import models as gis_models
@@ -86,6 +87,7 @@ class Practice(models.Model):
     practice_type = models.CharField(max_length=1, choices=Practice_CHOICES, help_text="Practice Type")
     practice_location = models.ForeignKey(PracticeLocation)
     practitioner = models.ForeignKey(Practitioner)
+    practice_photo = models.ImageField(upload_to='practice/photo/',blank=True, null=True)
     contact_number = models.CharField(max_length=100)
     checkup_fee = models.PositiveIntegerField()
     services = models.TextField(null=True, blank=True)
@@ -104,10 +106,7 @@ class Practice(models.Model):
         verbose_name_plural = "Practice"
 
     def save(self, **kwargs):
-        if slef.practice_location.lon != '' and self.practice_location.lat !='':
-            point = "POINT(%s %s)" % (self.practice_location.lon, self.practice_location.lat)
-        else:
-            point = POINT(00.00,00.00)
+        point = "POINT(%s %s)" % (self.practice_location.lon, self.practice_location.lat)
     	self.location = geos.fromstr(point)
         super(Practice, self).save()
 

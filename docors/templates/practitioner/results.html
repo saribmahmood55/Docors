@@ -2,6 +2,7 @@
   <html>
   <head>
     {% load staticfiles %}
+    {% load humanize %}
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="{% static "icons/stethoscope.ico" %}" />
     <script language="JavaScript" src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
@@ -45,19 +46,18 @@
           </div>
 
           <div itemscope itemtype="http://schema.org/Physician" role="main" class="ui-content result">
-           <h4 class="textCentre">Search Results</h4>
+           <h1 class="textCentre">{{data.spec|title}} in {{data.city|title}}</h1>
            {% for onePractitioner in data.practice.practice_list.iterator %}
            <ul class="results" data-role="listview" data-inset="true">
             <li>
               <a href="{% url 'practitioner' onePractitioner.practitioner.slug %}" class="anchor-link" >
-                <h1 itemprop="name">{{onePractitioner.practitioner.name}}</h1>
+                <h2 itemprop="name">{{onePractitioner.practitioner.name}}</h2>
                 <p ><strong>{{onePractitioner.practitioner.credentials}}</strong></p>
                 <p>Specialized in: 
                  {% for speciality in onePractitioner.practitioner.specialities.all.iterator %}
                  <span itemprop="medicalSpecialty">{{speciality.name}}</span>
                  {% endfor %}
                </p>
-               {% load humanize %}
                {% if onePractitioner.distance.m > 0 %}
                {% if onePractitioner.distance.m > 1000 %}
                <p class="ui-li-aside"><strong>{{onePractitioner.distance.km|floatformat:2}}</strong> KM.</p>

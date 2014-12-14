@@ -17,12 +17,13 @@ class PracticeAdmin(admin.ModelAdmin):
 		(None, {'fields': ['practitioner']}),
 		(None, {'fields': ['practice_location']}),
 		(None, {'fields': ['practice_type']}),
+		(None, {'fields': ['practice_photo']}),
         (None, {'fields': ['contact_number']}),
         (None, {'fields': ['checkup_fee']}),
         (None, {'fields': ['services']}),
         (None, {'fields': ['appointments_only']}),
 	]
-	list_display = ['pk','practitioner','practice_location','contact_number','checkup_fee','appointments_only','modified','location']
+	list_display = ['practitioner','pk','practice_location','contact_number','checkup_fee','appointments_only','modified','location']
 	search_fields = ['practitioner__name']
 
 

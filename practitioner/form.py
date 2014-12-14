@@ -1,4 +1,5 @@
 from django import forms
+from sorl.thumbnail import ImageField
 from django.forms.widgets import Input
 from captcha.fields import ReCaptchaField
 from practitioner.models import *
@@ -30,6 +31,7 @@ class PractitionerForm(forms.Form):
 	lat = forms.FloatField(label='Physical latitude.')
     #Practice
 	practice_type = forms.ChoiceField(choices = Practice_CHOICES, label="Practice Type", initial='3', required = True)
+	practice_photo = forms.ImageField(label='Photo of your Clinic Outspace.')
 	contact_number = forms.CharField(max_length=100,label="Contact Number(s)",widget=forms.TextInput(attrs={'placeholder': '04235100000 03214000111'}))
 	checkup_fee = forms.IntegerField(widget=forms.TextInput(attrs={'placeholder': '1500'}), label="Checkup fee." )
 	services = forms.CharField(max_length=500, widget=forms.Textarea, label="Services offered")

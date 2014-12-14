@@ -4,6 +4,7 @@
 <head>
   {% load staticfiles %}
   {% load humanize %}
+  {% load thumbnail %}
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="shortcut icon" href="{% static "icons/stethoscope.ico" %}" />
   <script language="JavaScript" src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
@@ -56,12 +57,16 @@
         <span class="silver-img"><i class="fa fa-star fa-2x" title="Already on Favourite List"></i></span>
         {% endif %}
         <h1 itemprop="name"><i class="fa fa-user-md fa-1x marg-r"></i>{{data.practitioner.name}}</h1>
-        <span>{{data.practitioner.credentials}}</span>
+        <span class="credentials">{{data.practitioner.credentials}}</span>
         Specialized in: {% for speciality in data.practitioner.specialities.all.iterator %}
-        <span style="display: inline-block;" itemprop="medicalSpecialty">{{speciality.name}}</span>
+        <span class="specialities" itemprop="medicalSpecialty">{{speciality.name}}</span>
         {% endfor %}
-        {% if data.practitioner.experience %}<span>Experience: <strong>{{data.practitioner.experience}} years.</strong></span>{% endif %}
-        {% if data.practitioner.achievements %}<span><strong>Achievements: </strong>{{data.practitioner.achievements}}</span>{% endif %}
+        {% if data.practitioner.experience %}
+        <span class="exp">Experience: <strong>{{data.practitioner.experience}} years.</strong></span>
+        {% endif %}
+        {% if data.practitioner.achievements %}
+        <span class="achievements"><strong>Achievements: </strong>{{data.practitioner.achievements}}</span>
+        {% endif %}
       </div>
 
       <div id="contant">

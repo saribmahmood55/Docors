@@ -5,7 +5,7 @@ ul li {list-style-type: none; display: inline;}
 ul a { list-style-type: none;}
 h1 { font-size: 20px;}
 /* General*/
-.container {height: 535px;} .header1 { height: 40px; width: 100%;} #contant { margin: 0px auto !important;}
+.header1 { height: 40px; width: 100%;} #contant { margin: 0px auto !important;}
 #logo {margin-left: 185px;} #logo img { padding: 3px 0px;}  
 #head { float: right; font-size: 16px; margin-right: 30px; } #head a { padding: 10px 3px 0px 3px; display: inline-block;}
 .anchor-link {	text-decoration: none !important; color: #1B0A2A !important; font-size: 14px;} .anchor-link a:hover {color: #ffffff; }
@@ -18,9 +18,9 @@ h1 { font-size: 20px;}
 .menu ul {  border-top: 1px solid #636366;  list-style: none;  margin: 0;  padding: 0;}
 .menu li {  border-bottom: 1px solid #636366;  font-family: 'Open Sans', sans-serif;  line-height: 45px; 
 padding-bottom: 3px;  padding-left: 20px;  padding-top: 3px; display: block;}
-.menu a {  color: #fff !important;  font-size: 15px;  text-decoration: none !important; display: block; text-shadow: none;}
-.menu a:hover {  color: #E6E6E8 !important; text-shadow: none;} .menu i { width: 15px; padding-right: 10px;} menu .mezino { padding: 5px 0px !important;}
-.icon-close {  cursor: pointer;  padding-left: 10px;  padding-top: 10px;}
+.menu a {  color: #fff !important;  font-size: 13px;  text-decoration: none !important; display: block; text-shadow: none;}
+.menu a:hover {  color: #E6E6E8 !important; text-shadow: none;} .menu i { width: 15px; padding-right: 5px;} 
+.menu .mezino { padding-top: 10px; height: 40px;} .icon-close {  cursor: pointer;  padding-left: 150px;  padding-top: 10px;}
 .icon-menu {  float: left; color: #ED1C24; font-size: 30px; padding: 0px 0px 0px 10px;  text-decoration: none;}
 /* Index*/
 .searchLabel { width: 540px; float: left; text-shadow: none; margin: 55px 50px 0px 210px;}
@@ -37,7 +37,7 @@ padding-bottom: 3px;  padding-left: 20px;  padding-top: 3px; display: block;}
 .recentSearches { float: left; margin: 55px 0px; width: 320px; text-shadow: none;}
 .recentSearches h2 { height: 20px; font-size: 18px; background-color: #525252;color: #fff; text-align: center;  border-top: 2px solid #E6E6E8;
 	padding: 10px 0px; margin-bottom: 0px; }
-.searchResult { width: 320px; height: 310px; float: left; background-color: #e6e6e8; color: #000; text-align: center; overflow-x:auto;} 
+.searchResult { float: left; width: 320px; background-color: #e6e6e8; color: #000; text-align: center; overflow-x:auto;} 
 .searchResult ul li {display: block; } .searchResult ul li a { text-decoration: none; color: #000 !important; font-size: 15px; } 
 .searchResult ul li a:hover { color: #fff; text-decoration: underline;}
 
@@ -54,7 +54,7 @@ padding-bottom: 3px;  padding-left: 20px;  padding-top: 3px; display: block;}
 .ui-content .ui-listview-inset, .ui-panel-inner > .ui-listview-inset { margin: 0em 0em;}
 /* Practitioner details */
 #practitionerDetails{ padding: 0; float: none;	text-align: center; margin: 10px auto; font-weight: normal;}
-#practitionerDetails span { display: block;}
+#practitionerDetails span { display: block; font-size: 14px;} #practitionerDetails .specialities { display: inline-block;} 
 .silver-img { float: right;}
 
 .grid-name { float: left; margin: 0px 10px 0px 0px; width: 320px;  text-shadow: none;}
@@ -62,7 +62,7 @@ padding-bottom: 3px;  padding-left: 20px;  padding-top: 3px; display: block;}
 	height: 20px; padding: 10px 0px; margin-bottom: 0px;}
 .grid-name h3 { color: #000; text-align: center; font-size: 14px; padding: 0px; margin: 0px;}
 
-.clinic{width: 290px; float: left; padding: 0px 15px 0px 15px; margin-bottom: 20px; 
+.clinic { width: 290px; float: left; padding: 0px 15px 0px 15px; margin-bottom: 20px; 
 	font-weight: normal; clear: none; color: #000; background-color: #ccccd5;}
 
 .clinic ul li { padding-right: 20px;  display: block; width: 100%;} .clinic button { width: 200px; margin: 0px auto; color: #4b555d !important;}
@@ -142,27 +142,33 @@ padding-bottom: 3px;  padding-left: 20px;  padding-top: 3px; display: block;}
 	.no-button { width: 10px; height: 10px; margin: 0px; padding: 0px; float: right; display: inline;} 
 }
 /* For ipad, Nexus 7: */
-@media only screen and (max-width: 767px) {
-	h1 { font-size: 16px;}
-	p {	font-weight: normal;}
-	.container { width: 600px; height: 900px;}
-	.result { height: 100% !important;}
-	.marg-l { padding-left: 5px;}
-	.anchor-link-right { float:right; text-decoration: none; color: #000000;  font-size: 12px;}
-	#head { margin-right: 10px; font-size: 11px;}
-	#search { width: 500px; height: 320px; margin: 30px auto 0px auto; }
-	#search label { font-size: 12px; } #search a { font-size: 16px;}
-	#search h1 { font-size: 15px; text-align: center;}
-	.recentSearches { margin: 15px auto 0px auto;}
-	.advsearch { height: 480px !important; margin: 0px auto !important; }
+@media screen and (device-width: 601px) and (device-height: 906px) and (-webkit-min-device-pixel-ratio: 1.331) and (-webkit-max-device-pixel-ratio: 1.332){
+	h1 { font-size: 16px;}	p {	font-weight: normal;}
+	.container { width: 550px !important; height: 100% !important;}
+	.result { height: 100% !important; }.marg-l { padding-left: 5px;}
+	#head {font-size: 14px; margin-right: 5px; }
+	#logo {margin-left: 175px;} .anchor-link-right { float:right; text-decoration: none; color: #000000;  font-size: 12px;}
+	.searchLabel { width: 550px !important; margin: 10px 0px 30px 10px !important;} .searchLabel h1 { font-size: 16px;}
+	#search { width: 510px !important; margin: 0px !important; height: 300px !important;} #search label { font-size: 14px; } 
+	#search .oneLine { width: 100px !important;} .recentSearches { width: 550px; margin: 0px 10px !important; } 
+	.recentSearches h2 { width: 550px; color: #000; background-color: #E6E6E8; border-top: 2px solid #535455 !important;} 
+	.searchResult { width: 550px; background-color: #535455; height: 100%;} .searchResult ul li a { font-size: 16px; color: #E6E6E8 !important;}
+	.advsearch { height: 500px !important; margin: 0px auto !important; } 
+	/*	Results */
+	.result { padding: 0em 1em; height: 350px !important;}
 	/* Register Practitioner */
 	.registrationForm ul li { width: 250px; height: 110px;}
 	.captcha { margin: 10px 100px;}
 	.ui-listview .ui-li-aside { right: 1em !important;}
 	#search .oneLine { width: 125px !important; margin: 0px 5px !important; padding: 0px !important;}
+	/* Profile */
 	.profile {  width: 500px; padding: 10px; }
-	.profile ul li span { display: block; float: left;}
+	.profile ul li span { display: inline-block; float: left;}
 	.no-button { width: 10px; height: 10px; margin: 0px; padding: 0px; float: right; display: inline;}
+	.tab-name { width: 520px; margin: 0px 0px 0px 20px;}
+	.patient-reviews{ width: 500px; margin: 0px 0px 20px 0px;}
+	.patient-reviews i { padding-right: 20px;}
+	.favourite-pracs{ width: 500px; margin: 0px 0px 20px 0px;}
 }
 /* For iphone: */
 @media screen and (max-width : 320px){
@@ -191,6 +197,7 @@ padding-bottom: 3px;  padding-left: 20px;  padding-top: 3px; display: block;}
 	.practice-timing {width: 280px;} .captcha {width: 280px; margin: 5px;}
 } 
 /*
+@media only screen and (max-width: 767px)
 .subscribe-spec{	width: 320px; float: left; font-weight: normal; clear: none; background-color: #DCEDC6;}
 .subscribe-spec span { margin-left: 35px; display: block;} 
 .subscribe-spec h2 { color: #000; text-align: center; font-size: 16px;}

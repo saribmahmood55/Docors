@@ -118,19 +118,3 @@ def registration(request):
 	else:
 		practitioner_form = PractitionerForm()
 	return render_to_response('practitioner/registration.html', {'form': practitioner_form}, context_instance=RequestContext(request))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
