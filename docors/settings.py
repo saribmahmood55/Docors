@@ -132,6 +132,7 @@ ALLOWED_HOSTS = ['*']
 #BASE_DIR = os.path.dirname(os.path.dirname(__file__))   # <-- docors/...
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 TEMPLATE_DIRS = (
@@ -147,3 +148,4 @@ if DEBUG:
     STATIC_ROOT = 'staticfiles'
 else:
     STATIC_ROOT = '/home/asad/docors/static/'
+    MEDIA_ROOT = '/home/asad/docors/media/'

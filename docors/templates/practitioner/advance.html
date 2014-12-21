@@ -23,12 +23,12 @@
         <div class="icon-close"><img src="{% static "icons/close.png" %}"></div>
         <ul>
           {% if not data.user.is_authenticated %}
-          <li><a href="{% url 'auth_login' %}">Login</a>
-            <li><a href="{% url 'registration_register' %}">Register</a></li>
+          <li><a class="login" href="{% url 'auth_login' %}">Login</a>
+            <a class="signUp" href="{% url 'registration_register' %}">Register</a></li>
             {% endif %}
             <li><a href="{% url 'registration' %}"><i class="fa fa-list-alt fa-1x"></i>get listed as a Doctor!</a></li>
             <li><a href="#"><i class="fa fa-lightbulb-o fa-1x"></i>educate yourself.</a></li>
-            <li><a href="mailto:doctorsinfo.pk@gmail.com" target="_blank"><i class="fa fa-envelope fa-1x"></i>Contact Doctors Info.</a></li>
+            <li><a target="_top" href="mailto:doctorsinfo.pk@gmail.com"><i class="fa fa-envelope fa-1x"></i>Contact Doctors Info.</a></li>
             <li><a href="https://www.facebook.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook fa-1x"></i>facebook</a></li>
             <li><a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i>twitter</a></li>
             <li><a href="https://plus.google.com/+DoctorsinfoPk" rel="publisher" target="_blank"><i class="fa fa-google-plus fa-1x"></i>google+</a></li>

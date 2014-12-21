@@ -1,135 +1,135 @@
 <!DOCTYPE html>
 <html>
 <head>
-  {% load static from staticfiles %}
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="specialist doctors clinic information, practicing across pakistan" />
-  <meta content="best doctors, medics, doctors directory, health, pakistan, doctors in pakistan, lahore,specialist doctors in lahore, pediatrics, child specialist, gyne, gynecologist, psychiatrist, neurologist" name="keywords" />
-  <meta name="google-site-verification" content="4eQap4DygfxsfuocwBZAZxmS3eXhMVhwlo2KQ47S7-Q" />
-  <meta property="og:description" content="specialist doctors clinic information, practicing across pakistan"/>
-  <meta property="fb:app_id" content="753672898036503"/>
-  <meta property="og:image" content="http://www.doctorsinfo.pk/static/icons/stethoscope.png"/>
-  <meta property="og:type" content="website"/>
-  <meta property="og:url" content="http://www.doctorsinfo.pk/"/>
-  <meta property="og:site_name" content="doctorsinfo.pk"/>
-  <link href="http://www.doctorsinfo.pk/" rel="canonical" />
-  <link rel="shortcut icon" href="{% static "icons/stethoscope.ico" %}" />
-  <script language="JavaScript" src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-  <script>
-    $(document).bind("mobileinit", function(){
-      $.mobile.ajaxEnabled = false;
-      $.mobile.pushStateEnabled = false;
-    });
-  </script>
-  <script async language="JavaScript" src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.js"></script>
-  <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.css" />
-  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="{% static "style/style.css" %}" rel="stylesheet" type="text/css" />
+{% load static from staticfiles %}
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="specialist doctors clinic information, practicing across pakistan" />
+<meta content="best doctors, medics, doctors directory, health, pakistan, doctors in pakistan, lahore,specialist doctors in lahore, pediatrics, child specialist, gyne, gynecologist, psychiatrist, neurologist" name="keywords" />
+<meta name="google-site-verification" content="4eQap4DygfxsfuocwBZAZxmS3eXhMVhwlo2KQ47S7-Q" />
+<meta property="og:description" content="specialist doctors clinic information, practicing across pakistan"/>
+<meta property="fb:app_id" content="753672898036503"/>
+<meta property="og:image" content="http://www.doctorsinfo.pk/static/icons/stethoscope.png"/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="http://www.doctorsinfo.pk/"/>
+<meta property="og:site_name" content="doctorsinfo.pk"/>
+<link href="http://www.doctorsinfo.pk/" rel="canonical" />
+<link rel="shortcut icon" href="{% static "icons/stethoscope.ico" %}" />
+<script language="JavaScript" src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script>
+  $(document).bind("mobileinit", function(){
+    $.mobile.ajaxEnabled = false;
+    $.mobile.pushStateEnabled = false;
+  });
+</script>
+<script async language="JavaScript" src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.js"></script>
+<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.css" />
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{% static "style/style.css" %}" rel="stylesheet" type="text/css" />
 </head>
 <body>
-  <div data-role="page" id="basic" data-title="specialist doctors clinic information across Pakistan">
-    <div data-role="header" class="header1">
-      <div class="menu">
-        <div class="icon-close"><img src="{% static "icons/close.png" %}"></div>
+<div data-role="page" id="basic" data-title="specialist doctors clinic information across Pakistan">
+  <div data-role="header" class="header1">
+    <div class="menu">
+      <div class="icon-close"><img src="{% static "icons/close.png" %}"></div>
+      <ul>
+        {% if not data.user.is_authenticated %}
+        <li><a class="login" href="{% url 'auth_login' %}">Login</a>
+        <a class="signUp" href="{% url 'registration_register' %}">Register</a></li>
+        {% endif %}
+        <li><a href="{% url 'registration' %}"><i class="fa fa-list-alt fa-1x"></i>get listed as a Doctor!</a></li>
+        <li><a href="#"><i class="fa fa-lightbulb-o fa-1x"></i>educate yourself.</a></li>
+        <li><a target="_top" href="mailto:doctorsinfo.pk@gmail.com"><i class="fa fa-envelope fa-1x"></i>Contact Doctors Info.</a></li>
+        <li><a href="https://www.facebook.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook fa-1x"></i>facebook</a></li>
+        <li><a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i>twitter</a></li>
+        <li><a href="https://plus.google.com/+DoctorsinfoPk" rel="publisher" target="_blank"><i class="fa fa-google-plus fa-1x"></i>google+</a></li>
+        <li class="extraLinks"><a class="mezino" href="http://mezino.com"><img src="{% static "icons/mezino.png" %}"></a>
+      </ul>
+    </div>
+    <div class="icon-menu"><i class="fa fa-bars"></i></div>
+    <span id="logo" data-role="none"><a href="/"><img height="35" src="{% static "icons/doctors.png" %}" alt="logo"/></a></span>
+    <div id="head">
+      {% if data.user.is_authenticated %}
+      <a href="{% url 'patient' %}" class="anchor-link"><i class="fa fa-user fa-1x marg-r"></i>{{data.user.username}}</a>
+      {% endif %}
+    </div>
+  </div>
+  <div role="main" class="ui-content container">
+    <div class="searchLabel">
+      <h1>Search Specialist Doctors in your area.</h1>
+      <div id="search">
         <ul>
-          {% if not data.user.is_authenticated %}
-          <li><a href="{% url 'auth_login' %}">Login</a>
-          <li><a href="{% url 'registration_register' %}">Register</a></li>
-          {% endif %}
-          <li><a href="{% url 'registration' %}"><i class="fa fa-list-alt fa-1x"></i>get listed as a Doctor!</a></li>
-          <li><a href="#"><i class="fa fa-lightbulb-o fa-1x"></i>educate yourself.</a></li>
-          <li><a target="_top" href="mailto:doctorsinfo.pk@gmail.com"><i class="fa fa-envelope fa-1x"></i>Contact Doctors Info.</a></li>
-          <li><a href="https://www.facebook.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook fa-1x"></i>facebook</a></li>
-          <li><a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i>twitter</a></li>
-          <li><a href="https://plus.google.com/+DoctorsinfoPk" rel="publisher" target="_blank"><i class="fa fa-google-plus fa-1x"></i>google+</a></li>
-          <li class="extraLinks"><a class="mezino" href="http://mezino.com"><img src="{% static "icons/mezino.png" %}"></a>
+          <form action="{% url 'practitoners' %}" class="searchForm">
+            <li><label for="city">City</label>
+              <select name="city" required>
+                <option value="">- Select City -</option>
+                {% for city in data.cities.iterator %}
+                <option value="{{city.slug}}">{{city.name}}</option>
+                {% endfor %}
+              </select>
+            </li>
+            <li>
+              <label for="spec">Specialist Category</label>
+              <select name="spec" required onchange="android()">
+                <option value="">- Select Speciality -</option>
+                {% for speciality in data.specialities.iterator %}
+                <option value={{speciality.slug}}>{{speciality.human_name}}</option>
+                {% endfor %}
+              </select>
+            </li>
+            <li>
+              <label for="dist">Search a Specialist in Kilometer radius.</label>
+              <input type="range" name="dist" oninput="geo()" onchange="geo()" value="0" min="0" max="30" data-highlight="true">
+              <input type="hidden" name="lon" id= "lon">
+              <input type="hidden" name="lat" id= "lat">
+            </li>
+            <li><button type="submit" class="ui-btn ui-shadow ui-corner-all">Search</button></li>
+            <li><a class="advance" href="{% url 'adv' %}">advance search >></a></li>
+          </form>
         </ul>
       </div>
-      <div class="icon-menu"><i class="fa fa-bars"></i></div>
-      <span id="logo" data-role="none"><a href="/"><img height="35" src="{% static "icons/doctors.png" %}" alt="logo"/></a></span>
-      <div id="head">
-        {% if data.user.is_authenticated %}
-        <a href="{% url 'patient' %}" class="anchor-link"><i class="fa fa-user fa-1x marg-r"></i>{{data.user.username}}</a>
-        {% endif %}
-      </div>
     </div>
-    <div role="main" class="ui-content container">
-      <div class="searchLabel">
-        <h1>Search Specialist Doctors in your area.</h1>
-        <div id="search">
-          <ul>
-            <form action="{% url 'practitoners' %}" class="searchForm">
-              <li><label for="city">City</label>
-                <select name="city" required>
-                  <option value="">- Select City -</option>
-                  {% for city in data.cities.iterator %}
-                  <option value="{{city.slug}}">{{city.name}}</option>
-                  {% endfor %}
-                </select>
-              </li>
-              <li>
-                <label for="spec">Specialist Category</label>
-                <select name="spec" required onchange="android()">
-                  <option value="">- Select Speciality -</option>
-                  {% for speciality in data.specialities.iterator %}
-                  <option value={{speciality.slug}}>{{speciality.human_name}}</option>
-                  {% endfor %}
-                </select>
-              </li>
-              <li>
-                <label for="dist">Search a Specialist in Kilometer radius.</label>
-                <input type="range" name="dist" oninput="geo()" onchange="geo()" value="0" min="0" max="30" data-highlight="true">
-                <input type="hidden" name="lon" id= "lon">
-                <input type="hidden" name="lat" id= "lat">
-              </li>
-              <li><button type="submit" class="ui-btn ui-shadow ui-corner-all">Search</button></li>
-              <li><a class="advance" href="{% url 'adv' %}">advance search >></a></li>
-            </form>
+    <div class="recentSearches">
+      <h2>Recent Searches</h2>
+      <div class="searchResult">
+        <ul>
+          {% for recent in data.recentSearches.iterator %}
+          <li><strong><a href="{% url 'recentSearch' recent.speciality.slug recent.city.slug %}">
+            {{recent.speciality.SEO_name}} in {{recent.city.name}}</a></strong></li>
+            {% endfor %}
           </ul>
         </div>
       </div>
-      <div class="recentSearches">
-        <h2>Recent Searches</h2>
-        <div class="searchResult">
-          <ul>
-            {% for recent in data.recentSearches.iterator %}
-            <li><strong><a href="{% url 'recentSearch' recent.speciality.slug recent.city.slug %}">
-              {{recent.speciality.SEO_name}} in {{recent.city.name}}</a></strong></li>
-              {% endfor %}
-            </ul>
-          </div>
-        </div>
-      </div>
-      <script async language="JavaScript" src="{% static "js/menu.js" %}"></script>
-      <script type="text/javascript">
-        function android(){
-          if( /Android/i.test(navigator.userAgent)) {
-            alert("* In order to search clinics nearby your current location.\n\n* Kindly turn on 'Location Services' from your android settings.");
-          }
-        }
-        function showPosition(position) {
-          if (position.coords.latitude != '' && position.coords.longitude != ''){
-            $('#lon').val(position.coords.latitude);
-            $('#lat').val(position.coords.longitude);
-          }
-        }
-        function geo(){
-          if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(showPosition);
-          }
-          else {
-            alert("Sorry We are unable to detect your geo location.");
-          }
-        }
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', 'UA-57178431-1', 'auto');
-        ga('require', 'displayfeatures');
-        ga('send', 'pageview');
-      </script>
     </div>
-  </body>
-  </html>
+    <script async language="JavaScript" src="{% static "js/menu.js" %}"></script>
+    <script type="text/javascript">
+      function android(){
+        if( /Android/i.test(navigator.userAgent)) {
+          alert("* In order to search clinics nearby your current location.\n\n* Kindly turn on 'Location Services' from your android settings.");
+        }
+      }
+      function showPosition(position) {
+        if (position.coords.latitude != '' && position.coords.longitude != ''){
+          $('#lon').val(position.coords.latitude);
+          $('#lat').val(position.coords.longitude);
+        }
+      }
+      function geo(){
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(showPosition);
+        }
+        else {
+          alert("Sorry We are unable to detect your geo location.");
+        }
+      }
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-57178431-1', 'auto');
+      ga('require', 'displayfeatures');
+      ga('send', 'pageview');
+    </script>
+  </div>
+</body>
+</html>

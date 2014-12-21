@@ -1,335 +1,334 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-  {% load staticfiles %}
-  {% load humanize %}
-  {% load thumbnail %}
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="shortcut icon" href="{% static "icons/stethoscope.ico" %}" />
-  <script language="JavaScript" src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-  <script>
-    $(document).bind("mobileinit", function(){
-      $.mobile.ajaxEnabled = false;
-      $.mobile.pushStateEnabled = false;
-    });
-  </script>
-  <script async language="JavaScript" src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.js"></script>
-  <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.css" />
-  <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="{% static "style/style.css" %}"rel="stylesheet" type="text/css" />
+{% load staticfiles %}
+{% load humanize %}
+{% load thumbnail %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="shortcut icon" href="{% static "icons/stethoscope.ico" %}" />
+<script language="JavaScript" src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script>
+  $(document).bind("mobileinit", function(){
+    $.mobile.ajaxEnabled = false;
+    $.mobile.pushStateEnabled = false;
+  });
+</script>
+<script async language="JavaScript" src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.js"></script>
+<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.css" />
+<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{% static "style/style.css" %}"rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-  <div data-role="page" id="practitionerPage" data-title="{{data.practitioner.name}} Doctors Info. Pakistan">
-    <div data-role="header" class="header1">
-      <div class="menu">
-        <div class="icon-close"><img src="{% static "icons/close.png" %}"></div>
-        <ul>
-          {% if not data.user.is_authenticated %}
-          <li><a href="{% url 'auth_login' %}">Login</a>
-          <li><a href="{% url 'registration_register' %}">Register</a></li>
-          {% endif %}
-          <li><a href="{% url 'registration' %}"><i class="fa fa-list-alt fa-1x"></i>get listed as Doctor!</a></li>
-          <li><a href="#"><i class="fa fa-lightbulb-o fa-1x"></i>educate yourself.</a></li>
-          <li><a href="mailto:doctorsinfo.pk@gmail.com" target="_blank"><i class="fa fa-envelope fa-1x"></i>Contact Doctors Info.</a></li>
-          <li><a href="https://www.facebook.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook fa-1x"></i>facebook</a></li>
-          <li><a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i>twitter</a></li>
-          <li><a href="https://plus.google.com/+DoctorsinfoPk" rel="publisher" target="_blank"><i class="fa fa-google-plus fa-1x"></i>google+</a></li>
-          <li class="extraLinks"><a class="mezino" href="http://mezino.com"><img src="{% static "icons/mezino.png" %}"></a>
-        </ul>
-      </div>
-      <div class="icon-menu"><i class="fa fa-bars"></i></div>
-      <span id="logo" data-role="none"><a href="/"><img height="35" src="{% static "icons/doctors.png" %}" alt="logo"/></a></span>
-      <div id="head">
-        {% if data.user.is_authenticated %}
-        <a href="{% url 'patient' %}" class="anchor-link"><i class="fa fa-user fa-1x marg-r"></i>{{data.user.username}}</a>
+<div data-role="page" id="practitionerPage" data-title="{{data.practitioner.name}} Doctors Info. Pakistan">
+  <div data-role="header" class="header1">
+    <div class="menu">
+      <div class="icon-close"><img src="{% static "icons/close.png" %}"></div>
+      <ul>
+        {% if not data.user.is_authenticated %}
+        <li><a class="login" href="{% url 'auth_login' %}">Login</a>
+        <a class="signUp" href="{% url 'registration_register' %}">Register</a></li>
         {% endif %}
-      </div>
+        <li><a href="{% url 'registration' %}"><i class="fa fa-list-alt fa-1x"></i>get listed as a Doctor!</a></li>
+        <li><a href="#"><i class="fa fa-lightbulb-o fa-1x"></i>educate yourself.</a></li>
+        <li><a target="_top" href="mailto:doctorsinfo.pk@gmail.com"><i class="fa fa-envelope fa-1x"></i>Contact Doctors Info.</a></li>
+        <li><a href="https://www.facebook.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook fa-1x"></i>facebook</a></li>
+        <li><a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i>twitter</a></li>
+        <li><a href="https://plus.google.com/+DoctorsinfoPk" rel="publisher" target="_blank"><i class="fa fa-google-plus fa-1x"></i>google+</a></li>
+        <li class="extraLinks"><a class="mezino" href="http://mezino.com"><img src="{% static "icons/mezino.png" %}"></a>
+      </ul>
+    </div>
+    <div class="icon-menu"><i class="fa fa-bars"></i></div>
+    <span id="logo" data-role="none"><a href="/"><img height="35" src="{% static "icons/doctors.png" %}" alt="logo"/></a></span>
+    <div id="head">
+      {% if data.user.is_authenticated %}
+      <a href="{% url 'patient' %}" class="anchor-link"><i class="fa fa-user fa-1x marg-r"></i>{{data.user.username}}</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div itemscope itemtype="http://schema.org/Physician" role="main" class="ui-content container">
+    <!-- Practitioner Details -->
+    <div id="practitionerDetails">
+      {% if not data.favourite %}
+      <span id="bookmark" class="silver-img"><i class="fa fa-star-o fa-2x favourite" title="add to favourite list"></i></span>
+      {% else %}
+      <span class="silver-img"><i class="fa fa-star fa-2x" title="Already on Favourite List"></i></span>
+      {% endif %}
+      <h1 itemprop="name"><i class="fa fa-user-md fa-1x marg-r"></i>{{data.practitioner.name}}</h1>
+      <span class="credentials">{{data.practitioner.credentials}}</span>
+      Specialized in: {% for speciality in data.practitioner.specialities.all.iterator %}
+      <span class="specialities" itemprop="medicalSpecialty">{{speciality.name}}</span>
+      {% endfor %}
+      {% if data.practitioner.experience %}
+      <span class="exp">Experience: <strong>{{data.practitioner.experience}} years.</strong></span>
+      {% endif %}
+      {% if data.practitioner.achievements %}
+      <span class="achievements"><strong>Achievements: </strong>{{data.practitioner.achievements}}</span>
+      {% endif %}
     </div>
 
-    <div itemscope itemtype="http://schema.org/Physician" role="main" class="ui-content container">
-      <!-- Practitioner Details -->
-      <div id="practitionerDetails">
-        {% if not data.favourite %}
-        <span id="bookmark" class="silver-img"><i class="fa fa-star-o fa-2x favourite" title="add to favourite list"></i></span>
+    <div id="contant">
+      <!-- Practice-Location Details -->
+      {% for pract in data.practice.iterator %}
+      <div class="grid-name">
+        {% ifequal pract.practice_type "P" %}
+        <h2 style="background-color: #4b555d;"><span itemprop="name">{{pract.practitioner.name}}</span></h2>
         {% else %}
-        <span class="silver-img"><i class="fa fa-star fa-2x" title="Already on Favourite List"></i></span>
-        {% endif %}
-        <h1 itemprop="name"><i class="fa fa-user-md fa-1x marg-r"></i>{{data.practitioner.name}}</h1>
-        <span class="credentials">{{data.practitioner.credentials}}</span>
-        Specialized in: {% for speciality in data.practitioner.specialities.all.iterator %}
-        <span class="specialities" itemprop="medicalSpecialty">{{speciality.name}}</span>
-        {% endfor %}
-        {% if data.practitioner.experience %}
-        <span class="exp">Experience: <strong>{{data.practitioner.experience}} years.</strong></span>
-        {% endif %}
-        {% if data.practitioner.achievements %}
-        <span class="achievements"><strong>Achievements: </strong>{{data.practitioner.achievements}}</span>
-        {% endif %}
-      </div>
-
-      <div id="contant">
-        <!-- Practice-Location Details -->
-        {% for pract in data.practice.iterator %}
-        <div class="grid-name">
-          {% ifequal pract.practice_type "P" %}
-          <h2 style="background-color: #4b555d;"><span itemprop="name">{{pract.practitioner.name}}</span></h2>
-          {% else %}
-          <h2 style="background-color: #4b555d;"><span itemprop="hospitalAffiliation">{{pract.practice_location.name}}</span></h2>
-          {% endifequal %}
-          <div class="clinic">
-            <!-- Load Clinic Timings -->
-            <ul>
-              <div class="timings" id="/practice/{{pract.practice_location.slug}}/{{pract.practitioner.slug}}/">
-                {% include "practitioner/clinictimings.html" %}
-                <li>
-                  <button type="submit" class="ui-btn ui-shadow ui-corner-all loadbtn">Practice Timings.</button>
-                </li>
-              </div>
-              <!-- Load Clinic Timings -->
-              <br>
-              <li><i class="fa fa-money" title="Checkup Fee."></i><span itemprop="priceRange"><strong>{{pract.checkup_fee}}/- PKR</strong></span></li>
-              <li><i class="fa fa-phone"></i><span itemprop="telephone"><u>{{pract.contact_number}}</u></span></li>
-              <li><i class="fa fa-calendar" title="Appointment Only or Waiting"></i>{% if pract.appointments_only %}<span>Appointment Required: <b>Yes.</b></span>{% else %}<span>Checkup on Waiting: <b>Yes.</b></span>{% endif %}</li>
-              <li><i class="fa fa-location-arrow"></i>
-                <span class="address" itemprop="location">{{pract.practice_location.clinic_address}}, {{pract.practice_location.city.name}}.</span>
+        <h2 style="background-color: #4b555d;"><span itemprop="hospitalAffiliation">{{pract.practice_location.name}}</span></h2>
+        {% endifequal %}
+        <div class="clinic">
+          <!-- Load Clinic Timings -->
+          <ul>
+            <div class="timings" id="/practice/{{pract.practice_location.slug}}/{{pract.practitioner.slug}}/">
+              {% include "practitioner/clinictimings.html" %}
+              <li>
+                <button type="submit" class="ui-btn ui-shadow ui-corner-all loadbtn">Practice Timings.</button>
               </li>
-              {% if data.pract.services %}
-              <li><i class="fa fa-medkit fa-1x" title="Services Offered."></i>
-                <span class="services" itemprop="availableService">{{pract.services}}</span>
-              </li>
-              {% endif %}
-            </ul>
-            <div class="modified"><img src="{% static "icons/mod.png" %}"height="18" width="18" title="Last Updated"/>
-              <span>{{pract.modified|naturaltime}}</span></div>
-              <!-- Lat Long -->
-              {% if pract.practice_location.lat and pract.practice_location.lon %}
-              <a itemprop="hasMap" href="http://maps.google.com/maps?q={{pract.practice_location.lon}},{{pract.practice_location.lat}}" target="_blank" class="anchor-link-right map-marker" ><i style="padding: 0px 0px 10px 0px;" class="fa fa-map-marker fa-3x"></i></a>
-              {% endif %}
             </div>
+            <!-- Load Clinic Timings -->
+            <br>
+            <li><i class="fa fa-money" title="Checkup Fee."></i><span itemprop="priceRange"><strong>{{pract.checkup_fee}}/- PKR</strong></span></li>
+            <li><i class="fa fa-phone"></i><span itemprop="telephone"><u>{{pract.contact_number}}</u></span></li>
+            <li><i class="fa fa-calendar" title="Appointment Only or Waiting"></i>{% if pract.appointments_only %}<span>Appointment Required: <b>Yes.</b></span>{% else %}<span>Checkup on Waiting: <b>Yes.</b></span>{% endif %}</li>
+            <li><i class="fa fa-location-arrow"></i>
+              <span class="address" itemprop="location">{{pract.practice_location.clinic_address}}, {{pract.practice_location.city.name}}.</span>
+            </li>
+            {% if data.pract.services %}
+            <li><i class="fa fa-medkit fa-1x" title="Services Offered."></i>
+              <span class="services" itemprop="availableService">{{pract.services}}</span>
+            </li>
+            {% endif %}
+          </ul>
+          <div class="modified"><img src="{% static "icons/mod.png" %}"height="18" width="18" title="Last Updated"/>
+            <span>{{pract.modified|naturaltime}}</span></div>
+            <!-- Lat Long -->
+            {% if pract.practice_location.lat and pract.practice_location.lon %}
+            <a itemprop="hasMap" href="http://maps.google.com/maps?q={{pract.practice_location.lon}},{{pract.practice_location.lat}}" target="_blank" class="anchor-link-right map-marker" ><i style="padding: 0px 0px 10px 0px;" class="fa fa-map-marker fa-3x"></i></a>
+            {% endif %}
           </div>
-          {% endfor %}
+        </div>
+        {% endfor %}
 
-          <!-- Practitioner Reviews Details -->
-          <div class="grid-name">
-            <h2 style="background-color: #4b555d;">Practice Reviews</h2>
-            <div class="reviews">
-              {% if data.reviews.exists %} 
-              <!-- Post new Reviews, user loged in & Reviews exists -->
-              {% if data.user.is_authenticated %}
-              <form class="reviewBox" action="{% url 'addReview' %}" method="POST" class="inline_">{% csrf_token %}
-                <textarea cols="8" rows="8" name="review_text" required></textarea>
-                <button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Post</button>
-              </form>
-              {% endif %}
-              {% for pr in data.reviews.iterator %}
-              <!-- Load Reviews, user loged in, Reviews exists-->
-              {% if data.user.is_authenticated %}
-              <!--Load Reviews with up-down votes -->
+        <!-- Practitioner Reviews Details -->
+        <div class="grid-name">
+          <h2 style="background-color: #4b555d;">Practice Reviews</h2>
+          <div class="reviews">
+            {% if data.reviews.exists %} 
+            <!-- Post new Reviews, user loged in & Reviews exists -->
+            {% if data.user.is_authenticated %}
+            <form class="reviewBox" action="{% url 'addReview' %}" method="POST" class="inline_">{% csrf_token %}
+              <textarea cols="8" rows="8" name="review_text" required></textarea>
+              <button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Post</button>
+            </form>
+            {% endif %}
+            {% for pr in data.reviews.iterator %}
+            <!-- Load Reviews, user loged in, Reviews exists-->
+            {% if data.user.is_authenticated %}
+            <!--Load Reviews with up-down votes -->
+            <div class="oneComment">
+              <span class="patientName inlineB">{% if pr.patient.user.get_full_name %}
+                {{pr.patient.user.get_full_name}}{% else %}{{pr.patient}}{% endif %}</span>
+                <span class="commentDate float-right inlineB"><i class="fa fa-clock-o marg-r"></i>{{pr.review_date|naturaltime}}</span>
+                <span itemprop="review" class="comment break marg-l">{{pr.review_text}}</span>
+                <!-- review upVote-->
+                <i class="fa fa-thumbs-o-up up" id="/review/{{pr.pk}}/"></i>
+                <span class="up_votes marg-r">{{pr.up_votes}}</span>-
+                <span class="down_votes marg-l">{{pr.down_votes}}</span>
+                <!-- review downVote-->
+                <i class="fa fa-thumbs-o-down marg-l down" id="/review/{{pr.pk}}/"></i>
+              </div>
+              <!-- No user login and reviews exists-->
+              {% else %}
               <div class="oneComment">
                 <span class="patientName inlineB">{% if pr.patient.user.get_full_name %}
                   {{pr.patient.user.get_full_name}}{% else %}{{pr.patient}}{% endif %}</span>
-                  <span class="commentDate float-right inlineB"><i class="fa fa-clock-o marg-r"></i>{{pr.review_date|naturaltime}}</span>
+                  <span class="float-right inlineB commentDate"><i class="fa fa-clock-o marg-r"></i>{{pr.review_date|naturaltime}}</span>
                   <span itemprop="review" class="comment break marg-l">{{pr.review_text}}</span>
-                  <!-- review upVote-->
-                  <i class="fa fa-thumbs-o-up up" id="/review/{{pr.pk}}/"></i>
-                  <span class="up_votes marg-r">{{pr.up_votes}}</span>-
-                  <span class="down_votes marg-l">{{pr.down_votes}}</span>
-                  <!-- review downVote-->
-                  <i class="fa fa-thumbs-o-down marg-l down" id="/review/{{pr.pk}}/"></i>
+                  <span class="up_votes inlineB">agree. {{pr.up_votes}} - </span>
+                  <span class="down_votes inlineB">{{pr.down_votes}}  diagree.</span>
                 </div>
+                {% endif %}
+                {% endfor %}
+                {% if not data.user.is_authenticated %}
                 <!-- No user login and reviews exists-->
-                {% else %}
-                <div class="oneComment">
-                  <span class="patientName inlineB">{% if pr.patient.user.get_full_name %}
-                    {{pr.patient.user.get_full_name}}{% else %}{{pr.patient}}{% endif %}</span>
-                    <span class="float-right inlineB commentDate"><i class="fa fa-clock-o marg-r"></i>{{pr.review_date|naturaltime}}</span>
-                    <span itemprop="review" class="comment break marg-l">{{pr.review_text}}</span>
-                    <span class="up_votes inlineB">agree. {{pr.up_votes}} - </span>
-                    <span class="down_votes inlineB">{{pr.down_votes}}  diagree.</span>
-                  </div>
-                  {% endif %}
-                  {% endfor %}
-                  {% if not data.user.is_authenticated %}
-                  <!-- No user login and reviews exists-->
-                  <a href="#popupMenu" data-rel="popup" data-transition="slideup" class="anchor-link-right marg-t" >add review..</a>
-                  <div data-role="popup" id="popupMenu" data-theme="b">
-                    <ul data-role="listview" data-inset="true" style="min-width:210px;">
-                      <li><a href="/login/" >Login</a></li>
-                      <li><a href="/register/" >Sign Up</a></li>
-                    </ul>
-                  </div>
-                  {% endif %}
-                  <!-- No user login and reviews exists-->
-                  {% else %}
-                  {% if data.user.is_authenticated %}
-                  <!-- user login and no review exists-->
-                  <span class="no_review_msg">No reviews yet, Make One.</span>
-                  <form class="reviewBox" action="{% url 'addReview' %}" method="POST" class="inline_">{% csrf_token %}
-                    <textarea cols="8" rows="8" name="review_text" required></textarea>
-                    <button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Post</button>
-                  </form>
-                  {% else %}
-                  <!-- Post new Review / no user login-->
-                  <span class="marg-l break"><strong>No reviews yet.</strong></span>
-                  <a href="#popupMenu" data-rel="popup" data-transition="slideup" class="anchor-link-right marg-t" >add review..</a>
-                  <div data-role="popup" id="popupMenu" data-theme="b">
-                    <ul data-role="listview" data-inset="true" style="min-width:210px;">
-                      <li><a href="/login/" >Login</a></li>
-                      <li><a href="/register/" >Sign Up</a></li>
-                    </ul>
-                  </div>
-                  {% endif %}
-                  {% endif %}
-                </div>
-              </div>
-
-              <!-- News Letter -->
-              {% if not data.user.is_authenticated %}
-              <div class="grid-name">
-                <h2 style="background-color: #4285F4;">Subscribe</h2>
-                <div class="subscribe">
-                  <ul>
-                    <li class="subDesc">Get important updates about<br><strong>{{data.practitioner.name}}</strong></li>
-                    <form class="subscription" action="{% url 'subscribe' %}" method="POST" >{% csrf_token %}
-                      <li><input type="hidden" name="slug" value="{{data.practitioner.slug}}"></li>
-                      <li><i class="fa fa-envelope"></i><span><input type="email" name="email" autocomplete="on" placeholder="your email" /></span></li>
-                      <li class="textCentre break">OR</li>
-                      <li><i class="fa fa-mobile fa-2x"></i><span><input type="tel" id="tel" name="mobile" minlength="10" placeholder="03001234567" /></span></li>
-                      <button type="submit" class="ui-btn ui-corner-all ui-btn-a">Subscribe</button>
-                    </form>
-                    <li class="privacy">100% Privacy. We don't spam.</li>
+                <a href="#popupMenu" data-rel="popup" data-transition="slideup" class="anchor-link-right marg-t" >add review..</a>
+                <div data-role="popup" id="popupMenu" data-theme="b">
+                  <ul data-role="listview" data-inset="true" style="min-width:210px;">
+                    <li><a href="/login/" >Login</a></li>
+                    <li><a href="/register/" >Sign Up</a></li>
                   </ul>
                 </div>
+                {% endif %}
+                <!-- No user login and reviews exists-->
+                {% else %}
+                {% if data.user.is_authenticated %}
+                <!-- user login and no review exists-->
+                <span class="no_review_msg">No reviews yet, Make One.</span>
+                <form class="reviewBox" action="{% url 'addReview' %}" method="POST" class="inline_">{% csrf_token %}
+                  <textarea cols="8" rows="8" name="review_text" required></textarea>
+                  <button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Post</button>
+                </form>
+                {% else %}
+                <!-- Post new Review / no user login-->
+                <span class="marg-l break"><strong>No reviews yet.</strong></span>
+                <a href="#popupMenu" data-rel="popup" data-transition="slideup" class="anchor-link-right marg-t" >add review..</a>
+                <div data-role="popup" id="popupMenu" data-theme="b">
+                  <ul data-role="listview" data-inset="true" style="min-width:210px;">
+                    <li><a href="/login/" >Login</a></li>
+                    <li><a href="/register/" >Sign Up</a></li>
+                  </ul>
+                </div>
+                {% endif %}
+                {% endif %}
               </div>
-              {% endif %}
             </div>
+
+            <!-- News Letter -->
+            {% if not data.user.is_authenticated %}
+            <div class="grid-name">
+              <h2 style="background-color: #4285F4;">Subscribe</h2>
+              <div class="subscribe">
+                <ul>
+                  <li class="subDesc">Get important updates about<br><strong>{{data.practitioner.name}}</strong></li>
+                  <form class="subscription" action="{% url 'subscribe' %}" method="POST" >{% csrf_token %}
+                    <li><input type="hidden" name="slug" value="{{data.practitioner.slug}}"></li>
+                    <li><i class="fa fa-envelope"></i><span><input type="email" name="email" autocomplete="on" placeholder="your email" /></span></li>
+                    <li class="textCentre break">OR</li>
+                    <li><i class="fa fa-mobile fa-2x"></i><span><input type="tel" id="tel" name="mobile" minlength="10" placeholder="03001234567" /></span></li>
+                    <button type="submit" class="ui-btn ui-corner-all ui-btn-a">Subscribe</button>
+                  </form>
+                  <li class="privacy">100% Privacy. We don't spam.</li>
+                </ul>
+              </div>
+            </div>
+            {% endif %}
           </div>
-          <!-- Footer Details >
-          <div class="foot" data-role="footer">
-            <h4>
-              <a class="get-listed" href="{% url 'registration' %}">get listed!</a>
-              <a href="https://www.facebook.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook fa-1x"></i></a>
-              <a href="mailto:doctorsinfo.pk@gmail.com" target="_blank"><i class="fa fa-envelope fa-1x"></i></a>
-              <a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i></a>
-              <a href="https://plus.google.com/+DoctorsinfoPk" rel="publisher" target="_blank"><i class="fa fa-google-plus fa-1x"></i></a>
-              <a class="educate" href="#">educate</a>
-            </h4>
-          </div-->
-          <script type="text/javascript">
-            /*google analytics */
-            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-            ga('create', 'UA-57178431-1', 'auto');
-            ga('require', 'displayfeatures');
-            ga('send', 'pageview');
-            /* subscription */
-            $(document).on("pageshow", "#practitionerPage", function () {
-              $('.subscription').submit(function(ev) {
-                $.ajax({
-                  type: "POST",
-                  url: $(this).attr('action'),
-                  context: this,
-                  data: { slug: '{{data.practitioner.slug}}', email: $('input[name="email"]').val(), mobile: $('input[name="mobile"]').val(), 
-                  csrfmiddlewaretoken: '{{ csrf_token }}'},
-                  success: function(data){
-                    alert(data.msg);
-                  },
-                  dataType: 'json',
-                });
-                ev.preventDefault();
+        </div>
+        <!-- Footer Details >
+        <div class="foot" data-role="footer">
+          <h4>
+            <a class="get-listed" href="{% url 'registration' %}">get listed!</a>
+            <a href="https://www.facebook.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook fa-1x"></i></a>
+            <a href="mailto:doctorsinfo.pk@gmail.com" target="_blank"><i class="fa fa-envelope fa-1x"></i></a>
+            <a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i></a>
+            <a href="https://plus.google.com/+DoctorsinfoPk" rel="publisher" target="_blank"><i class="fa fa-google-plus fa-1x"></i></a>
+            <a class="educate" href="#">educate</a>
+          </h4>
+        </div-->
+        <script type="text/javascript">
+          /*google analytics */
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+          ga('create', 'UA-57178431-1', 'auto');
+          ga('require', 'displayfeatures');
+          ga('send', 'pageview');
+          /* subscription */
+          $(document).on("pageshow", "#practitionerPage", function () {
+            $('.subscription').submit(function(ev) {
+              $.ajax({
+                type: "POST",
+                url: $(this).attr('action'),
+                context: this,
+                data: { slug: '{{data.practitioner.slug}}', email: $('input[name="email"]').val(), mobile: $('input[name="mobile"]').val(), 
+                csrfmiddlewaretoken: '{{ csrf_token }}'},
+                success: function(data){
+                  alert(data.msg);
+                },
+                dataType: 'json',
               });
-              /* new Review */
-              $('.reviewBox').submit(function(ev) {
-                $.ajax({
-                  type: "POST",
-                  url: $(this).attr('action'),
-                  context: this,
-                  data: { slug: '{{data.practitioner.slug}}', review_text: $('textarea[name="review_text"]').val(), csrfmiddlewaretoken: '{{ csrf_token }}'},
-                  success: function(data){
-                    if (data.msg != 1){ alert(data.msg);} else { location.reload();} 
-                  },
-                  dataType: 'json',
-                });
-                ev.preventDefault();
+              ev.preventDefault();
+            });
+            /* new Review */
+            $('.reviewBox').submit(function(ev) {
+              $.ajax({
+                type: "POST",
+                url: $(this).attr('action'),
+                context: this,
+                data: { slug: '{{data.practitioner.slug}}', review_text: $('textarea[name="review_text"]').val(), csrfmiddlewaretoken: '{{ csrf_token }}'},
+                success: function(data){
+                  if (data.msg != 1){ alert(data.msg);} else { location.reload();} 
+                },
+                dataType: 'json',
               });
-              /*  Load timings */
-              $('.timings').click(function() {
-                $.ajax({
-                  type: "GET",
-                  url: $(this).attr('id'),
-                  context: this,
-                  success: function(data) {
-                    $(this).append(data);
-                    $(this).unbind('click');
-                  },
-                  dataType: 'html'
-                });
-              });
-              /* favt	*/
-              $('.favourite').click(function() {
-                var doc = "{{data.favourite}}";
-                if (doc == "False")
-                  $.ajax({
-                    type: "POST",
-                    url: '/patient/',
-                    context: this,
-                    data: { type_: "favourite", favt_slug: '{{data.practitioner.slug}}',csrfmiddlewaretoken: '{{ csrf_token }}'},
-                    success: function(data) {
-                      if (data.status_) {
-                        $(this).hide();
-                        $('#bookmark').append('<i class="fa fa-star fa-2x" title="added to Favourite List"></i>');
-                      }
-                    },
-                    dataType: 'json',
-                  });
-              });
-              /* up vote */
-              $('.up').click(function() {
-                $.ajax({
-                  type: "POST",
-                  url: $(this).attr('id'),
-                  context: this,
-                  data: {
-                    up: "up",
-                    prac_slug: "{{data.practitioner.slug}}",
-                    csrfmiddlewaretoken: '{{ csrf_token }}'
-                  },
-                  success: function(data) {
-                    var up = $(this).next('.up_votes').text(data.up);
-                    down = up.next('.down_votes');
-                    up.text(data.up);
-                    down.text(data.down);
-                    $(this).unbind('click');
-                  },
-                  dataType: 'json',
-                });
-              });
-              /* down vote */
-              $('.down').click(function() {
-                $.ajax({
-                  type: "POST",
-                  url: $(this).attr('id'),
-                  context: this,
-                  data: {
-                    down: "down",
-                    prac_slug: "{{data.practitioner.slug}}",
-                    csrfmiddlewaretoken: '{{ csrf_token }}'
-                  },
-                  success: function(data) {
-                    var down = $(this).prev('.down_votes');
-                    var up = down.prev('.up_votes');
-                    down.text(data.down);
-                    up.text(data.up);
-                    $(this).unbind('click');
-                  },
-                  dataType: 'json'
-                });
+              ev.preventDefault();
+            });
+            /*  Load timings */
+            $('.timings').click(function() {
+              $.ajax({
+                type: "GET",
+                url: $(this).attr('id'),
+                context: this,
+                success: function(data) {
+                  $(this).append(data);
+                  $(this).unbind('click');
+                },
+                dataType: 'html'
               });
             });
+            /* favt	*/
+            $('.favourite').click(function() {
+              var doc = "{{data.favourite}}";
+              if (doc == "False")
+                $.ajax({
+                  type: "POST",
+                  url: '/patient/',
+                  context: this,
+                  data: { type_: "favourite", favt_slug: '{{data.practitioner.slug}}',csrfmiddlewaretoken: '{{ csrf_token }}'},
+                  success: function(data) {
+                    if (data.status_) {
+                      $(this).hide();
+                      $('#bookmark').append('<i class="fa fa-star fa-2x" title="added to Favourite List"></i>');
+                    }
+                  },
+                  dataType: 'json',
+                });
+            });
+            /* up vote */
+            $('.up').click(function() {
+              $.ajax({
+                type: "POST",
+                url: $(this).attr('id'),
+                context: this,
+                data: {
+                  up: "up",
+                  prac_slug: "{{data.practitioner.slug}}",
+                  csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function(data) {
+                  var up = $(this).next('.up_votes').text(data.up);
+                  down = up.next('.down_votes');
+                  up.text(data.up);
+                  down.text(data.down);
+                  $(this).unbind('click');
+                },
+                dataType: 'json',
+              });
+            });
+            /* down vote */
+            $('.down').click(function() {
+              $.ajax({
+                type: "POST",
+                url: $(this).attr('id'),
+                context: this,
+                data: {
+                  down: "down",
+                  prac_slug: "{{data.practitioner.slug}}",
+                  csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function(data) {
+                  var down = $(this).prev('.down_votes');
+                  var up = down.prev('.up_votes');
+                  down.text(data.down);
+                  up.text(data.up);
+                  $(this).unbind('click');
+                },
+                dataType: 'json'
+              });
+            });
+          });
 </script>
 <script async language="JavaScript" src="{% static "js/menu.js" %}"></script>
 </div>

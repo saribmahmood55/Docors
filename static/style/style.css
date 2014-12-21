@@ -17,8 +17,9 @@ h1 { font-size: 20px;}
 .menu { background: #202024 url(../icons/black-thread.png) repeat left top; left: -210px;  height: 100%;  position: fixed;  width: 210px; z-index: 9999;}
 .menu ul {  border-top: 1px solid #636366;  list-style: none;  margin: 0;  padding: 0;}
 .menu li {  border-bottom: 1px solid #636366;  font-family: 'Open Sans', sans-serif;  line-height: 45px; 
-padding-bottom: 3px;  padding-left: 20px;  padding-top: 3px; display: block;}
-.menu a {  color: #fff !important;  font-size: 13px;  text-decoration: none !important; display: block; text-shadow: none;}
+padding-bottom: 3px;  padding-left: 20px;  padding-top: 3px; display: block;} .menu .login {border-right: 1px solid #636366; padding-right: 40px;}
+.menu .signUp {padding-left: 30px;}
+.menu a {  color: #fff !important;  font-size: 13px;  text-decoration: none !important; display: inline-block; text-shadow: none;}
 .menu a:hover {  color: #E6E6E8 !important; text-shadow: none;} .menu i { width: 15px; padding-right: 5px;} 
 .menu .mezino { padding-top: 10px; height: 40px;} .icon-close {  cursor: pointer;  padding-left: 150px;  padding-top: 10px;}
 .icon-menu {  float: left; color: #ED1C24; font-size: 30px; padding: 0px 0px 0px 10px;  text-decoration: none;}
