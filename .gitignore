@@ -7,6 +7,12 @@ __pycache__/
 # C extensions
 *.so
 
+# Virtualenv
+.Python
+bin
+lib
+include
+
 # Distribution / packaging
 .Python
 venv
