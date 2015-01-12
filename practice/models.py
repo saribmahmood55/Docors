@@ -87,7 +87,7 @@ class Practice(models.Model):
     practice_type = models.CharField(max_length=1, choices=Practice_CHOICES, help_text="Practice Type")
     practice_location = models.ForeignKey(PracticeLocation)
     practitioner = models.ForeignKey(Practitioner)
-    practice_photo = models.ImageField(upload_to='practice/photo/',blank=True, null=True)
+    practice_photo = models.ImageField(upload_to='practice/', blank=True, null=True)
     contact_number = models.CharField(max_length=100)
     checkup_fee = models.PositiveIntegerField()
     services = models.TextField(null=True, blank=True)

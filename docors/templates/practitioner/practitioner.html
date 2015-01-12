@@ -80,6 +80,7 @@
         <div class="clinic">
           <!-- Load Clinic Timings -->
           <ul>
+          <li><img src="{{pract.practice_photo.url}}" width="280" height="150" title="{{pract.practice_location.name}}"></li>
             <div class="timings" id="/practice/{{pract.practice_location.slug}}/{{pract.practitioner.slug}}/">
               {% include "practitioner/clinictimings.html" %}
               <li>
@@ -100,7 +101,7 @@
             </li>
             {% endif %}
           </ul>
-          <div class="modified"><img src="{% static "icons/mod.png" %}"height="18" width="18" title="Last Updated"/>
+          <div class="modified"><img src="{% static "icons/mod.png" %}" height="18" width="18" title="Last Updated" />
             <span>{{pract.modified|naturaltime}}</span></div>
             <!-- Lat Long -->
             {% if pract.practice_location.lat and pract.practice_location.lon %}
