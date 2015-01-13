@@ -10,7 +10,7 @@ boolean = lambda value: bool(int(value))
 SECRET_KEY = 'zky%mapoo709@yv64h!ny#!7x8#&lh0o9nsfo++ny6+7gotp^r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = boolean(os.environ.get('DEBUG', 1))
+DEBUG = boolean(os.environ.get('DEBUG', 0))
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -38,6 +38,11 @@ EMAIL_HOST_PASSWORD = 'qtmtzmguforqkfkt'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
+#Water Marker
+WATERMARKING_QUALITY = 50
+WATERMARK_OBSCURE_ORIGINAL = False
+WATERMARK_RANDOM_POSITION_ONCE = False
+
 # Application definition
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -51,11 +56,11 @@ INSTALLED_APPS = (
     'django.contrib.gis',
     'captcha',
     'registration',
-    'sorl.thumbnail',
+    'watermarker',
     'practitioner',
     'patients',
     'practice',
-    'reviews'
+    'reviews',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -132,6 +137,7 @@ ALLOWED_HOSTS = ['*']
 #BASE_DIR = os.path.dirname(os.path.dirname(__file__))   # <-- docors/...
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -150,5 +156,3 @@ if DEBUG:
 else:
     STATIC_ROOT = '/home/asad/docors/static/'
     MEDIA_ROOT = '/home/asad/docors/media/'
-
-

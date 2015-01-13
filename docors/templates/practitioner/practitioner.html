@@ -3,7 +3,6 @@
 <head>
 {% load staticfiles %}
 {% load humanize %}
-{% load thumbnail %}
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="shortcut icon" href="{% static "icons/stethoscope.ico" %}" />
 <script language="JavaScript" src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
@@ -78,9 +77,8 @@
         <h2 style="background-color: #4b555d;"><span itemprop="hospitalAffiliation">{{pract.practice_location.name}}</span></h2>
         {% endifequal %}
         <div class="clinic">
-          <!-- Load Clinic Timings -->
           <ul>
-          <li><img src="{{pract.practice_photo.url}}" width="280" height="150" title="{{pract.practice_location.name}}"></li>
+            <!-- Load Clinic Timings -->
             <div class="timings" id="/practice/{{pract.practice_location.slug}}/{{pract.practitioner.slug}}/">
               {% include "practitioner/clinictimings.html" %}
               <li>
@@ -89,6 +87,16 @@
             </div>
             <!-- Load Clinic Timings -->
             <br>
+          {% if pract.practice_photo %}
+          <li>
+          <a href="#popupNYC" data-rel="popup" data-position-to="window" data-transition="fade">
+          <img class="popphoto" src="{{pract.practice_photo.url}}" title="{{pract.practice_location.name}}" style="width:50%; margin: 0px 75px;"></a>
+          <div data-role="popup" id="popupNYC" data-overlay-theme="b" data-theme="b" data-corners="false">
+          <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+          <img class="popphoto" src="{{pract.practice_photo.url}}" title="{{pract.practice_location.name}}" style="max-height:512px;" >
+          </div>
+          </li>
+          {% endif %}
             <li><i class="fa fa-money" title="Checkup Fee."></i><span itemprop="priceRange"><strong>{{pract.checkup_fee}}/- PKR</strong></span></li>
             <li><i class="fa fa-phone"></i><span itemprop="telephone"><u>{{pract.contact_number}}</u></span></li>
             <li><i class="fa fa-calendar" title="Appointment Only or Waiting"></i>{% if pract.appointments_only %}<span>Appointment Required: <b>Yes.</b></span>{% else %}<span>Checkup on Waiting: <b>Yes.</b></span>{% endif %}</li>

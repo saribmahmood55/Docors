@@ -8,12 +8,12 @@ django-autoslug==1.7.2
 django-autoslug-field==0.2.3
 django-recaptcha==1.0.2
 django-toolbelt==0.0.1
+django-watermark==0.1.6rc1
 ecdsa==0.11
 gunicorn==19.1.1
 paramiko==1.15.1
 psycopg2==2.5.4
 pycrypto==2.6.1
-sorl-thumbnail==11.12.1b
 static3==0.5.1
 whitenoise==1.0.3
 wsgiref==0.1.2

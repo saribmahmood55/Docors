@@ -1,5 +1,4 @@
 from django.db import models
-from sorl.thumbnail import ImageField
 from practitioner.models import *
 from autoslug import AutoSlugField
 from django.contrib.gis.db import models as gis_models

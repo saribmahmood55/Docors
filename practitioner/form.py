@@ -1,5 +1,4 @@
 from django import forms
-from sorl.thumbnail import ImageField
 from django.forms.widgets import Input
 from captcha.fields import ReCaptchaField
 from practitioner.models import *
