@@ -146,6 +146,7 @@ TEMPLATE_DIRS = (
 )
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'project_static'),
     )
@@ -154,5 +155,5 @@ if DEBUG:
     STATIC_ROOT = 'staticfiles'
     MEDIA_ROOT = '/home/asad/docors/media/'
 else:
-    STATIC_ROOT = '/home/asad/docors/static/'
+    STATIC_ROOT = '/home/asad/docors/project_static/'
     MEDIA_ROOT = '/home/asad/docors/media/'
