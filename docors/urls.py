@@ -17,10 +17,10 @@ urlpatterns = patterns('',
     url(r'^password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', 'django.contrib.auth.views.password_reset_confirm', {'post_reset_redirect' : '/password/done/'}),
     url(r'^password/done/$', 'django.contrib.auth.views.password_reset_complete'),
 )
-if not settings.DEBUG:
+if settings.DEBUG:
     urlpatterns += patterns('',
-        (r'^static/media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT, 'show_indexes':True}),
-        )
+        (r'^media/(?P<path>.*)$', 'django.views.static.serve', { 'document_root': settings.MEDIA_ROOT, 'show_indexes':True}),
+    )
     urlpatterns += patterns('',
         (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT, 'show_indexes':True}),
         )
