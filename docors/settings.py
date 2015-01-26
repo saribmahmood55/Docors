@@ -10,7 +10,7 @@ boolean = lambda value: bool(int(value))
 SECRET_KEY = 'zky%mapoo709@yv64h!ny#!7x8#&lh0o9nsfo++ny6+7gotp^r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = boolean(os.environ.get('DEBUG', 0))
+DEBUG = boolean(os.environ.get('DEBUG', 1))
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -147,12 +147,12 @@ TEMPLATE_DIRS = (
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-STATICFILES_DIRS = []
-
-print STATICFILES_DIRS
+STATICFILES_DIRS = [
+    '/home/asad/docors/project_static'
+]
 
 if DEBUG:
-    STATIC_ROOT = 'staticfiles'
+    STATIC_ROOT = '/home/asad/docors/static/'
     MEDIA_ROOT = '/home/asad/docors/media/'
 else:
     STATIC_ROOT = '/home/asad/docors/static/'
