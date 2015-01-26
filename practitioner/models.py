@@ -29,7 +29,7 @@ class Practitioner(models.Model):
     achievements = models.TextField(null=True, blank=True)
     experience = models.PositiveIntegerField(help_text="Number of years")
     message = models.TextField(max_length=140, null=True, blank=True)
-    status = models.BooleanField(default=True)
+    status = models.BooleanField(default=False)
     specialities = models.ManyToManyField(Specialization)
     modified = models.DateTimeField(auto_now=True)
 

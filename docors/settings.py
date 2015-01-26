@@ -10,7 +10,7 @@ boolean = lambda value: bool(int(value))
 SECRET_KEY = 'zky%mapoo709@yv64h!ny#!7x8#&lh0o9nsfo++ny6+7gotp^r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = boolean(os.environ.get('DEBUG', 1))
+DEBUG = boolean(os.environ.get('DEBUG', 0))
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -18,10 +18,10 @@ ADMINS = (
 )
 
 #google recaptcha
+
 RECAPTCHA_PUBLIC_KEY = '6LcAdv4SAAAAAI2hi_VgcifchYmJFUNmxdfajJJO'
 RECAPTCHA_PRIVATE_KEY = '6LcAdv4SAAAAADhfTOFq09BVM8Kmi_15Go9v2caw'
 RECAPTCHA_USE_SSL = False
-
 #Sites
 SITE_ID = 1
 
@@ -56,7 +56,7 @@ INSTALLED_APPS = (
     'django.contrib.gis',
     'captcha',
     'registration',
-    'watermarker',
+    'sorl.thumbnail',
     'practitioner',
     'patients',
     'practice',

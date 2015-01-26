@@ -1,6 +1,7 @@
 from django.db import models
 from practitioner.models import *
 from autoslug import AutoSlugField
+from sorl.thumbnail import ImageField
 from django.contrib.gis.db import models as gis_models
 from django.contrib.gis import geos
 from django.contrib.gis import measure
@@ -86,7 +87,7 @@ class Practice(models.Model):
     practice_type = models.CharField(max_length=1, choices=Practice_CHOICES, help_text="Practice Type")
     practice_location = models.ForeignKey(PracticeLocation)
     practitioner = models.ForeignKey(Practitioner)
-    practice_photo = models.ImageField(upload_to='practice/', blank=True, null=True)
+    practice_photo = ImageField(upload_to='practice/', blank=True, null=True)
     contact_number = models.CharField(max_length=100)
     checkup_fee = models.PositiveIntegerField()
     services = models.TextField(null=True, blank=True)
@@ -121,22 +122,14 @@ class PracticeTimingManager(models.Manager):
         return practice_timings
 
 class PracticeTiming(models.Model):
-    DAYS = (
-        ('Mon', 'Monday'), ('Tue', 'Tuesday'), ('Wed', 'Wednesday'), ('Thu', 'Thursday'), ('Fri', 'Friday'),('Sat', 'Saturday'),('Sun', 'Sunday')
-        )
-    TIME = (
-        ('7', '07:00am'), ('7.5', '07:30am'),('8', '08:00am'),('8.5', '08:30am'),('9', '09:00am'),('9.5', '09:30am'),('10', '10:00am'),('10.5', '10:30am'),('11', '11:00am'),('11.5', '11:30am'),
-        ('12', '12:00pm'),('12.5', '12:30pm'),('13', '01:00pm'),('13.5', '01:30pm'),('14', '02:00pm'),('14.5', '02:30am'),('15', '03:00pm'),('15.5', '03:30pm'),
-        ('16', '04:00pm'),('16.5', '04:30pm'),('17', '05:00pm'),('17.5', '05:30pm'),('18', '06:00pm'),('18.5', '06:30pm'),('19', '07:00pm'),('19.5', '07:30pm'),
-        ('20', '08:00pm'),('20.5', '08:30pm'),('21', '09:00pm'),('21.5', '09:30pm'),('22', '10:00pm'),('22.5', '10:30pm'),('23', '11:00pm'),('23.5', '11:30pm'),
-        ('0', '12:00am'), ('0.5', '12:30am'), ('1', "01:00am"), ('2', '02:00am'), ('2.5', "02:30am")
-        )
+    DAYS = (('1', 'Monday'), ('2', 'Tuesday'), ('3', 'Wednesday'), ('4', 'Thursday'), ('5', 'Friday'),('6', 'Saturday'),('7', 'Sunday'),)
+    TIME = (('0', '07:00am'), ('1', '07:30am'),('2', '08:00am'),('3', '08:30am'),('4', '09:00am'),('5', '09:30am'),('6', '10:00am'),('7', '10:30am'),('8', '11:00am'),('9', '11:30am'),('10', '12:00pm'),('11', '12:30pm'),('12', '01:00pm'),('13', '01:30pm'),('14', '02:00pm'),('15', '02:30am'),('16', '03:00pm'),('17', '03:30pm'),('18', '04:00pm'),('19', '04:30pm'),('20', '05:00pm'),('21', '05:30pm'),('22', '06:00pm'),('23', '06:30pm'),('24', '07:00pm'),('25', '07:30pm'),('26', '08:00pm'),('27', '08:30pm'),('28', '09:00pm'),('29', '09:30pm'),('30', '10:00pm'),('31', '10:30pm'),('32', '11:00pm'),('33', '11:30pm'),('34', '12:00am'), ('35', '12:30am'), ('36', "01:00am"), ('37', '02:00am'), ('38', "02:30am"),)
     
     practitioner = models.ForeignKey(Practitioner)
     practice = models.ForeignKey(Practice)
-    day = models.CharField(max_length=3, choices=DAYS, help_text="Select Day.")
-    start_time = models.CharField(max_length=5, choices=TIME, help_text="Select starting Time for Clininc.")
-    end_time = models.CharField(max_length=5, choices=TIME, help_text="Select ending Time for Clininc.")
+    day = models.CharField(max_length=1, choices=DAYS, help_text="Select Day.")
+    start_time = models.CharField(max_length=2, choices=TIME, help_text="Select starting Time for Clininc.")
+    end_time = models.CharField(max_length=2, choices=TIME, help_text="Select ending Time for Clininc.")
 
     #Custom Managers
     objects = models.Manager()

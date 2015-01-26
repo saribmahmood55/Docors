@@ -1,29 +1,13 @@
 {% extends "registration/base.html" %}
-{% block title %}Register Practitioner | Doctors Info. Pakistan{% endblock %}
-{% block leftMenu %}
-<div class="menu">
-  <div class="icon-close"><img src="{{ STATIC_URL }}icons/close.png"></div>
-  <ul>
-    {% if not data.user.is_authenticated %}
-    <li><a href="{% url 'auth_login' %}">Login</a>
-      <li><a href="{% url 'registration_register' %}">Register</a></li>
-      {% endif %}
-      <li><a href="{% url 'registration' %}"><i class="fa fa-list-alt fa-1x"></i>get listed as a Doctor!</a></li>
-      <li><a href="#"><i class="fa fa-lightbulb-o fa-1x"></i>educate yourself.</a></li>
-      <li><a href="mailto:doctorsinfo.pk@gmail.com" target="_blank"><i class="fa fa-envelope fa-1x"></i>Contact Doctors Info.</a></li>
-      <li><a href="https://www.facebook.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook fa-1x"></i>facebook</a></li>
-      <li><a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i>twitter</a></li>
-      <li><a href="https://plus.google.com/+DoctorsinfoPk" rel="publisher" target="_blank"><i class="fa fa-google-plus fa-1x"></i>google+</a></li>
-      <li class="extraLinks"><a class="mezino" href="http://mezino.com"><img src="{{ STATIC_URL }}icons/mezino.png"></a>
-      </ul>
-    </div>
-    <div class="icon-menu"><i class="fa fa-bars"></i></div>
+{% block reCaptcha %}
+<script src='https://www.google.com/recaptcha/api.js'></script>
 {% endblock %}
-    {% block content %}
+{% block title %}Register Practitioner | Doctors Info. Pakistan{% endblock %}
+{% block content %}
     <div class="registrationForm">
       <center><span class="Bold margtb inlineB">Please provide the following details.</span></center>
       <span class="Bold margtb break">Practitioner details.</span>
-      <form action="" method="POST">{% csrf_token %}
+      <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
         <div class="practitioner-info">
           <ul>
             <li>
@@ -68,7 +52,7 @@
               {{form.appointment.errors}}{{form.appointment.label_tag}}<span class="mandatory-star"> *</span>{{form.appointment}}
             </li>
             <li>
-              {{ form.practice_photo.errors }}{{form.practice_photo.label_tag}}<span class="mandatory-star"> *</span>{{ form.practice_photo }}
+              {{ form.practice_photo.errors }}{{form.practice_photo.label_tag}}{{ form.practice_photo }}
             </li>
             <li>
               {{ form.address.errors }}{{form.address.label_tag}}<span class="mandatory-star"> *</span>{{ form.address }}
@@ -77,14 +61,9 @@
               {{ form.city.errors }}{{form.city.label_tag}}<span class="mandatory-star"> *</span>{{ form.city }}
             </li>
             <li>
-              {{ form.lon.errors }}{{form.lon.label_tag}}{{ form.lon }}
-            </li>
-            <li>
-              {{ form.lat.errors }}{{form.lat.label_tag}}{{ form.lat }}
-            </li>
-            <li>
               {{ form.services.errors }}{{form.services.label_tag}}{{ form.services }}
             </li>
+            {{ form.lat }}{{ form.lon }}
           </ul>
         </div>
         <span class="Bold margtb break">Practice Timing Details</span>
@@ -105,15 +84,25 @@
           </ul>
         </div>
         <div class="captcha">
-          <div>{{ form.captcha }}{{ form.captcha.errors}}</div>
+        <div class="g-recaptcha" data-sitekey="6LcAdv4SAAAAAI2hi_VgcifchYmJFUNmxdfajJJO"></div>
           <button type="submit" class="ui-btn ui-shadow ui-corner-all register-btn">Register</button>
         </div>
       </form>
     </div>
-    {% endblock %}      
-    {% block underConstruction %}
-    <script type="text/javascript">
-    alert('This portion is under construction, Please Do not Register.');
-    </script>
-    <script async language="JavaScript" src="{{ STATIC_URL }}js/menu.js"></script>
+{% endblock %}
+{% block autoGeoLocation %}
+<script type="text/javascript">
+  $(document).ready(function(){ 
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition);
+    }
+    else {
+      alert("Sorry We are unable to detect your geo location.");
+    }
+    function showPosition(position) {
+      $('#id_lon').val(position.coords.latitude);
+      $('#id_lat').val(position.coords.longitude);
+    }
+  });
+</script>
 {% endblock %}

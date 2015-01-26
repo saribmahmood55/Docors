@@ -16,16 +16,30 @@
   <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.css" />
   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
   <link rel="stylesheet" href="{% static "style/style.css" %}"rel="stylesheet" type="text/css" />
-  <style type="text/css">
-    p { width: 250px;}
-  </style>
+  {% block reCaptcha %}{% endblock %}
 </head>
 <body>
   <div data-role="page" data-title="{% block title %}{% endblock %}">
-    <div data-role="header" class="header1">
-      {% block leftMenu %}{% endblock %}
-      <span id="logo" data-role="none"><a href="/"><img height="35" src="{% static "icons/doctors.png" %}" alt="logo"/></a></span>
+  <div data-role="header" class="header1">
+    <div class="menu">
+      <div class="icon-close"><img src="{{ STATIC_URL }}icons/close.png"></div>
+      <ul>
+        {% if not data.user.is_authenticated %}
+        <li><a href="{% url 'auth_login' %}">Login</a>
+        <li><a href="{% url 'registration_register' %}">Register</a></li>
+        {% endif %}
+        <li><a href="{% url 'registration' %}"><i class="fa fa-list-alt fa-1x"></i>get listed as a Doctor!</a></li>
+        <li><a href="#"><i class="fa fa-lightbulb-o fa-1x"></i>educate yourself.</a></li>
+        <li><a href="mailto:doctorsinfo.pk@gmail.com" target="_blank"><i class="fa fa-envelope fa-1x"></i>Contact Doctors Info.</a></li>
+        <li><a href="https://www.facebook.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook fa-1x"></i>facebook</a></li>
+        <li><a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i>twitter</a></li>
+        <li><a href="https://plus.google.com/+DoctorsinfoPk" rel="publisher" target="_blank"><i class="fa fa-google-plus fa-1x"></i>google+</a></li>
+        <li class="extraLinks"><a class="mezino" href="http://mezino.com"><img src="{{ STATIC_URL }}icons/mezino.png"></a>
+      </ul>
     </div>
+    <div class="icon-menu"><i class="fa fa-bars"></i></div>
+    <span id="logo" data-role="none"><a href="/"><img height="35" src="{% static "icons/doctors.png" %}" alt="logo"/></a></span>
+  </div>
     <div role="main" class="ui-content">
       {% block content %}{% endblock %}
     </div>
@@ -39,6 +53,8 @@
       ga('require', 'displayfeatures');
       ga('send', 'pageview');
     </script>
+    <script async language="JavaScript" src="{% static "js/menu.js" %}"></script>
+    {% block autoGeoLocation %}{% endblock %}
     </div>
   </body>
   </html>

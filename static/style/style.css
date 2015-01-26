@@ -5,6 +5,7 @@ ul li {list-style-type: none; display: inline;}
 ul a { list-style-type: none;}
 h1 { font-size: 20px;}
 /* General*/
+.form_p {width: 250px;}
 .header1 { height: 40px; width: 100%;} #contant { margin: 0px auto !important;}
 #logo {margin-left: 185px;} #logo img { padding: 3px 0px;}  
 #head { float: right; font-size: 16px; margin-right: 30px; } #head a { padding: 10px 3px 0px 3px; display: inline-block;}

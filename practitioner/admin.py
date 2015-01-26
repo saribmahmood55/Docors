@@ -9,14 +9,14 @@ class PracticeTimingInline(admin.TabularInline):
 class PractitionerAdmin(admin.ModelAdmin):
 	fieldsets = [
 		('Doctor/Practitioner Name', {'fields': ['name']}),
+		('status', {'fields': ['status']}),
         ('Degrees/Credentials', {'fields': ['credentials']}),
         ('Achievements', {'fields': ['achievements']}),
         ('Experience', {'fields': ['experience']}),
         ('Short Message', {'fields': ['message']}),
-        ('status', {'fields': ['status']}),
         ('Speciality', {'fields': ['specialities']}),
 	]
-	list_display = ['name','credentials','Specialist_in','status','slug','experience','modified','pk']
+	list_display = ['name','slug','credentials','Specialist_in','status','experience','modified','pk']
 	search_fields = ['name']
 	inlines = [PracticeTimingInline]
 	

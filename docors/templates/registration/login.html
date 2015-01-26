@@ -3,17 +3,17 @@
 {% block content %}
 <center>
 {% if form.errors %}
-<p class="error">Incorrect User Name or Password:</p>
+<p style="width: 250px;" class="error">Incorrect User Name or Password:</p>
 {% endif %}
 <form method="post" action="" class="wide">{% csrf_token %}
-  <p tyle="text-align: center;">
+  <p style="text-align: center; width: 250px;">
     <label for="id_username">Username</label>
     {% if form.username.errors %}
     <p class="errors">{{ form.username.errors|join:", " }}</p>
     {% endif %}
     {{ form.username }}
   </p>
-  <p style="text-align: center;">
+  <p style="text-align: center; width: 250px;">
     <label for="id_password">Password</label>
     {% if form.password.errors %}
     <p class="errors">{{ form.password.errors|join:", " }}</p>
@@ -21,9 +21,9 @@
     {{ form.password }}
   </p>
   <p><input name="next" type="hidden" value="/"></p>
-  <p class="submit"><input type="submit" value="Login &rarr;"></p>
+  <p style="width: 250px;" class="submit"><input type="submit" value="Login &rarr;"></p>
 </form>
-<p><a href="/password/reset/" class="ui-btn ui-corner-all ui-shadow loginSignup">Forgot Password.</a></p>
-  <p><a href="/register/" class="ui-btn ui-corner-all ui-shadow loginSignup">Sign up.</a></p>
+<p style="width: 250px;"><a href="/password/reset/" class="ui-btn ui-corner-all ui-shadow loginSignup">Forgot Password.</a></p>
+<p style="width: 250px;"><a href="/register/" class="ui-btn ui-corner-all ui-shadow loginSignup">Sign up.</a></p>
 </center>
 {% endblock %}
