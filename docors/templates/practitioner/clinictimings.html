@@ -5,7 +5,7 @@
 		<span class="description"><strong>Open</strong></span>
 		<span class="description"><strong>Closes</strong></span><br>
 		{% endif %}
-	<span class="day">{{time.day}}</span>
+	<span class="day">{{time.get_day_display}}</span>
 	<span class="start">{{time.get_start_time_display}}</span>
 	<span class"end">{{time.get_end_time_display}}</span><br>
 	{% endfor %}
