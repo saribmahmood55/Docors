@@ -16,6 +16,7 @@ include
 # Distribution / packaging
 .Python
 venv
+project_static
 build/
 media/
 develop-eggs/

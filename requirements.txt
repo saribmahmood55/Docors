@@ -14,6 +14,8 @@ gunicorn==19.1.1
 paramiko==1.15.1
 psycopg2==2.5.4
 pycrypto==2.6.1
+requests==2.5.1
+sorl-thumbnail==12.2
 static3==0.5.1
 whitenoise==1.0.3
 wsgiref==0.1.2

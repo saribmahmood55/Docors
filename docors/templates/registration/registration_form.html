@@ -1,44 +1,44 @@
 {% extends "registration/base.html" %}
-{% block title %}Register User | doctorsinfo.pk{% endblock %}
+{% block title %}Register User | Doctos Info. Pakistan{% endblock %}
 {% block content %}
   <center>
   {% if form.errors %}
-  <p class="errors">Please correct the errors below: {{ form.non_field_errors }}</p>
+  <p class="errors form_p">Please correct the errors below: {{ form.non_field_errors }}</p>
   {% endif %}
 
-  <h1>Register at doctorsinfo.pk</h1>
+  <h1>New to Doctos Info. Pakistan? Sign up</h1>
   
   <form method="post" action="" class="wide">
 	{% csrf_token %}
-    <p>
-      <label for="id_username">Username: (alphanumeric)</label>
+    <p class="form_p">
+      <label for="id_username">Username<span style="color: red;"> *</span></label>
       {% if form.username.errors %}
-        <p class="errors">{{ form.username.errors.as_text }}</p>
+        <p class="errors form_p">{{ form.username.errors.as_text }}</p>
       {% endif %}
       {{ form.username }}
     </p>
-    <p>
-      <label for="id_email">Email address:</label>
+    <p class="form_p">
+      <label for="id_email">Email<span style="color: red;"> *</span></label>
       {% if form.email.errors %}
-        <p class="errors">{{ form.email.errors.as_text }}</p>
+        <p class="errors form_p">{{ form.email.errors.as_text }}</p>
       {% endif %}
       {{ form.email }}
     </p>
-    <p>
-      <label for="id_password1">Password: (alphanumeric)</label>
+    <p class="form_p">
+      <label for="id_password1">Password<span style="color: red;"> *</span></label>
       {% if form.password1.errors %}
-        <p class="errors">{{ form.password1.errors.as_text }}</p>
+        <p class="errors form_p">{{ form.password1.errors.as_text }}</p>
       {% endif %}
       {{ form.password1 }}
     </p>
-    <p>
-      <label for="id_password2">Re-type Password:</label>
+    <p class="form_p">
+      <label for="id_password2">Re-type Password:<span style="color: red;"> *</span></label>
       {% if form.password2.errors %}
-        <p class="errors">{{ form.password2.errors.as_text }}</p>
+        <p class="errors form_p">{{ form.password2.errors.as_text }}</p>
       {% endif %}
       {{ form.password2 }}
     </p>
-    <p class="submit"><input type="submit" value="Register &rarr;"></p>
+    <p class="submit form_p"><input type="submit" value="Register &rarr;"></p>
   </form>
   </center>
 {% endblock %}
