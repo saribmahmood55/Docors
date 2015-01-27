@@ -96,7 +96,6 @@ def registration(request):
 				pt.save()
 			#send email
 			conformation_mail(practitioner)
-			print 'email sent' 
 			return render_to_response('practitioner/success.html',{'email': email}, context_instance=RequestContext(request))
 		else:
 			print 're-captcha errors', form.errors
