@@ -79,21 +79,20 @@
         {% endifequal %}
         <div class="clinic">
           <ul>
-            <!-- Load Clinic Timings -->
+            <!-- Load Clinic Timings start -->
             <div class="timings" id="/practice/{{pract.practice_location.slug}}/{{pract.practitioner.slug}}/">
               {% include "practitioner/clinictimings.html" %}
               <li>
                 <button type="submit" class="ui-btn ui-shadow ui-corner-all loadbtn">Practice Timings.</button>
               </li>
             </div>
-            <!-- Load Clinic Timings -->
+            <!-- Load Clinic Timings end -->
             <br>
-        <!-- Load practice_photo -->
-        <!-- Load practice_photo -->
+        <!-- Load practice_photo start -->
           {% if pract.practice_photo %}
           <li>
-          <a href="#practicePic" data-rel="popup" data-position-to="window" data-transition="fade">
           {% thumbnail pract.practice_photo "300x200" crop="smart" as im %}
+          <a href="#practicePic" data-rel="popup" data-position-to="window" data-transition="fade">
           <img class="popphoto" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" title="{{pract.practice_location.name}}"></a>
           <div data-role="popup" id="practicePic" data-overlay-theme="b" data-theme="b" data-corners="false">
           <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
@@ -102,8 +101,7 @@
           {% endthumbnail %}
           </li>
           {% endif %}
-        <!-- Load practice_photo -->
-        <!-- Load practice_photo -->
+        <!-- Load practice_photo end -->
             <li><i class="fa fa-money" title="Checkup Fee."></i><span itemprop="priceRange"><strong>{{pract.checkup_fee}}/- PKR</strong></span></li>
             <li><i class="fa fa-phone"></i><span itemprop="telephone"><u>{{pract.contact_number}}</u></span></li>
             <li><i class="fa fa-calendar" title="Appointment Only or Waiting"></i>{% if pract.appointments_only %}<span>Appointment Required: <b>Yes.</b></span>{% else %}<span>Checkup on Waiting: <b>Yes.</b></span>{% endif %}</li>

@@ -54,7 +54,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'django.contrib.gis',
-    'captcha',
     'registration',
     'sorl.thumbnail',
     'practitioner',
