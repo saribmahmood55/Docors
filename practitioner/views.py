@@ -95,7 +95,7 @@ def registration(request):
 				pt = PracticeTiming(practitioner=practitioner, practice=practice, day=day+1, start_time=start_time, end_time=end_time)
 				pt.save()
 			#send email
-			conformation_mail(practitioner)
+			confirmation_mail(practitioner)
 			return render_to_response('practitioner/success.html',{'email': email}, context_instance=RequestContext(request))
 		else:
 			print 're-captcha errors', form.errors
