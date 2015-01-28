@@ -3,6 +3,7 @@ from patients.models import Patient
 from reviews.models import Review
 from practice.models import *
 from practitioner.form import PractitionerForm
+from practitioner.tasks import confirmation_mail
 from utility import *
 from django.http import Http404
 from django.shortcuts import render_to_response
@@ -95,7 +96,8 @@ def registration(request):
 				pt = PracticeTiming(practitioner=practitioner, practice=practice, day=day+1, start_time=start_time, end_time=end_time)
 				pt.save()
 			#send email
-			confirmation_mail(practitioner)
+			email_details = {'name': practitioner_name, 'email': email, 'slug': practitioner.slug}
+			confirmation_mail.delay(email_details)
 			return render_to_response('practitioner/success.html',{'email': email}, context_instance=RequestContext(request))
 		else:
 			print 're-captcha errors', form.errors

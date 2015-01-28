@@ -16,12 +16,21 @@ TEMPLATE_DEBUG = DEBUG
 ADMINS = (
     ('Asad Naeem', 'anrana744@gmail.com'),
 )
+#Celery configuration
+
+# using serializer name
+CELERY_ACCEPT_CONTENT = [u'application/json',u'application/x-python-serialize',u'json']
+BROKER_URL = 'amqp://asadnaeem:asad0321@localhost:5672/vir_host'
+CELERY_TIMEZONE = 'Asia/Karachi'
+CELERY_ENABLE_UTC = True
+CELERY_IGNORE_RESULT = False
+#BROKER_URL = 'amqp://%(proj_name)s:%(admin_pass)s@127.0.0.1:5672/%(proj_name)s'
 
 #google recaptcha
-
 RECAPTCHA_PUBLIC_KEY = '6LcAdv4SAAAAAI2hi_VgcifchYmJFUNmxdfajJJO'
 RECAPTCHA_PRIVATE_KEY = '6LcAdv4SAAAAADhfTOFq09BVM8Kmi_15Go9v2caw'
 RECAPTCHA_USE_SSL = False
+
 #Sites
 SITE_ID = 1
 
