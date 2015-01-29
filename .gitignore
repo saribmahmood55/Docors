@@ -49,6 +49,9 @@ htmlcov/
 nosetests.xml
 coverage.xml
 
+#
+supervisord.conf
+
 # Translations
 *.mo
 *.pot
