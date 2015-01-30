@@ -16,6 +16,7 @@ include
 # Distribution / packaging
 .Python
 venv
+sentryvenv
 build/
 media/
 develop-eggs/
