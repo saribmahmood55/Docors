@@ -47,7 +47,7 @@ class PracticeManager(models.Manager):
     # Search by Practitioner Name
     def practitioner_name(self, name):
         result = {}
-        result['practice_list'] = super(PracticeManager, self).filter(practitioner__name__icontains=name, practitioner__status=True)
+        result['practice_list'] = super(PracticeManager, self).filter(practitioner__name__icontains=name, practitioner__status=True).distinct('practitioner')
         return result
 
     # Basic Search request handling
