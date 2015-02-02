@@ -42,11 +42,19 @@ class PracticeManager(models.Manager):
     def practice_detail(self, slug):
         practice = super(PracticeManager, self).filter(practitioner__slug=slug)
         return practice
+
+    
+    # Search by Practitioner Name
+    def practitioner_name(self, name):
+        result = {}
+        result['practice_list'] = super(PracticeManager, self).filter(practitioner__name__icontains=name, practitioner__status=True)
+        return result
+
     # Basic Search request handling
     def practice_lookup(self, city, spec, dist, lon, lat, name, day, wait):
         result, query = {}, None
         if lon == '' and lat == '':
-            query = super(PracticeManager, self).filter(practitioner__specialities__slug=spec,practitioner__status=True,practice_location__city__slug=city).distinct('practitioner')
+            query = super(PracticeManager, self).filter(practitioner__specialities__slug=spec, practitioner__status=True, practice_location__city__slug=city).distinct('practitioner')
             if name != '':
                 query = query.filter(practitioner__name__icontains=name)
             if day != '':
@@ -76,7 +84,6 @@ class PracticeManager(models.Manager):
         query = super(PracticeManager, self).filter(practitioner__specialities__slug=spec, practitioner__status=True, practice_location__city__slug=city).distinct('practitioner')
         result['practice_list'] = query
         return result
-
 
 
 class Practice(models.Model):

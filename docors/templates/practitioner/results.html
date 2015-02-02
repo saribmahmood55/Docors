@@ -46,7 +46,11 @@
           </div>
 
           <div itemscope itemtype="http://schema.org/Physician" role="main" class="ui-content result">
-           <h1 class="textCentre">{{data.spec|title}} in {{data.city|title}}</h1>
+          {% if data.spec and data.city %}
+          <h1 class="textCentre">{{data.spec|title}} in {{data.city|title}}</h1>
+          {% else %}
+          <h1 class="textCentre">Search Results</h1>
+          {% endif %}
            {% for onePractitioner in data.practice.practice_list.iterator %}
            <ul class="results" data-role="listview" data-inset="true">
             <li>

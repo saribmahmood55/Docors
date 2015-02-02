@@ -82,7 +82,7 @@ padding-bottom: 3px;  padding-left: 20px;  padding-top: 3px; display: block;} .m
 .oneComment .commentDate { font-size: 12px !important;}
 .no_review_msg { display: inline-block; padding: 5px 50px; font-weight: bold; color: #4b555d;}
 .patientName {font-weight: bold; color: #4285f4; padding-bottom: 5px; } .patientName {font-size: 12px;}
-.comment {font-size: 14px;}
+.comment {font-size: 14px; text-decoration: underline;}
 .reviewBox { width: 310px; font-weight: normal; margin: 0px 5px; font-size: 14px; height: 80px; }.up { padding: 10px 10px 0px 0px;} 
 
 #post-review-btn{	width: 60px; height: 30px; color: #3eb249; float: right; padding: 0px; margin-top: 0px;}

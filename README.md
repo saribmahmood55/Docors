@@ -1,4 +1,5 @@
 docors
 ======
 
-docors2014
+Doctors Info. Pakistan
+http://doctorsinfo.pk

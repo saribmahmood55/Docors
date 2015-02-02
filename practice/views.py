@@ -15,6 +15,23 @@ def practice(request, practice_slug, practitioner_slug):
 	return render_to_response('practitioner/clinictimings.html', {'Timing': Timing}, context_instance=RequestContext(request))
 
 
+#Search by Name
+def practitioner_name(request):
+	data = {}
+	if request.user.is_authenticated():
+		data['user'] = request.user
+	else:
+		data['user'] = None
+	if request.method == "GET":
+		name = str(request.GET.get('name', ''))
+		print name
+		try:
+			data['practice'] = Practice.practice_objects.practitioner_name(name)
+		except Practice.DoesNotExist:
+			raise Http404
+	return render_to_response('practitioner/results.html', {'data': data}, context_instance=RequestContext(request))
+
+
 #handle search request
 def practitoners(request):
 	data = {}
@@ -43,6 +60,8 @@ def practitoners(request):
 			raise Http404
 
 	return render_to_response('practitioner/results.html', {'data': data}, context_instance=RequestContext(request))
+
+
 #recent Searches
 def recentSearch(request, speciality, city):
 	data = {'city': city, 'spec': speciality}
