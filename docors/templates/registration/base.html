@@ -5,6 +5,7 @@
   {% load staticfiles %}
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="shortcut icon" href="{% static "icons/stethoscope.ico" %}" />
+  {% block seoTags %}{% endblock %}
   <script language="JavaScript" src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
   <script>
     $(document).bind("mobileinit", function(){
@@ -39,11 +40,12 @@
     </div>
     <div class="icon-menu"><i class="fa fa-bars"></i></div>
     <span id="logo" data-role="none"><a href="/"><img height="35" src="{% static "icons/doctors.png" %}" alt="logo"/></a></span>
+    {% block loggedInUser %}{% endblock %}
   </div>
-    <div role="main" class="ui-content">
+    <div role="main" class="ui-content {% block containerClass %}{% endblock %}">
       {% block content %}{% endblock %}
     </div>
-    {% block underConstruction %}{% endblock %}
+    {% block customScript %}{% endblock %}
     <script type="text/javascript">
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
