@@ -7,7 +7,8 @@ class Html5EmailInput(Input):
     input_type = 'email'
 
 class PractitionerForm(forms.Form):
-	
+
+	PHYSICIAN_CHOICES = ( ('1', 'Trainee'), ('2', 'Specialist'),)
 	Practice_CHOICES = ((u'P', u'Clininc/Residence'),(u'H', u'Hospital'),)
 	Appointment_Option = ((u'True', u'Strictly on Appointment.'),(u'False', u'Checkup allowed on Waiting.'),)
 	DAYS = (('1', 'Monday'), ('2', 'Tuesday'), ('3', 'Wednesday'), ('4', 'Thursday'), ('5', 'Friday'),('6', 'Saturday'),('7', 'Sunday'),)
@@ -15,7 +16,8 @@ class PractitionerForm(forms.Form):
 	
 	#practitioner	
 	practitioner_name = forms.CharField(max_length=100, required=True, label="Name.")
-	email = forms.EmailField(label= "Email (never sold or spammed)", max_length=75, required=True, widget=Html5EmailInput())
+	email = forms.EmailField(label= "Email (Never be sold or spammed)", max_length=75, required=True, widget=Html5EmailInput())
+	physician_type = forms.ChoiceField(choices = PHYSICIAN_CHOICES, label="Physician type", initial='1', required = True)
 	credentials = forms.CharField(max_length=500, required=True, label="Credentials.", widget=forms.TextInput(attrs={'placeholder': 'MBBS, DABIM, MRCP, FRCP, FRCS, FACP'}))
 	achievements = forms.CharField(max_length=800, required=False, label='Achievements.', widget=forms.Textarea(attrs={'placeholder': 'education, research work, training & achievements'}))
 	experience = forms.IntegerField(label='Practice experience in years.', required=True)

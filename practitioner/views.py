@@ -53,18 +53,18 @@ def registration(request):
 			#practitioner
 			practitioner_name = form.cleaned_data['practitioner_name']
 			email = form.cleaned_data['email']
+			p_type = form.cleaned_data['physician_type']
 			credentials = form.cleaned_data['credentials']
 			achievements = form.cleaned_data['achievements']
 			experience = form.cleaned_data['experience']
 			message = form.cleaned_data['message']
 			spec = form.cleaned_data['specialities']
 			# Create practitioner
-			practitioner = Practitioner(name=practitioner_name, email=email, credentials=credentials, achievements=achievements, experience=experience, 
+			practitioner = Practitioner(name=practitioner_name, email=email, credentials=credentials, physician_type=p_type, achievements=achievements, experience=experience,
 				message=message, status=False)
 			practitioner.save()
 			speciality = Specialization.objects.get(pk=spec)
 			practitioner.specialities.add(speciality)
-			
 			#PracticeLocation
 			practice_name = form.cleaned_data['practice_name']
 			address = form.cleaned_data['address']

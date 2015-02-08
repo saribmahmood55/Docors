@@ -40,7 +40,7 @@ padding-bottom: 3px;  padding-left: 20px;  padding-top: 3px; display: block;} .m
 .recentSearches h2 { height: 20px; font-size: 18px; background-color: #525252;color: #fff; text-align: center;  border-top: 2px solid #E6E6E8;
 	padding: 10px 0px; margin-bottom: 0px; }
 .searchResult { float: left; width: 320px; background-color: #e6e6e8; color: #000; text-align: center; overflow-x:auto;} 
-.searchResult ul li {display: block; } .searchResult ul li a { text-decoration: none; color: #000 !important; font-size: 15px; } 
+.searchResult ul li {display: block; } .searchResult ul li a { text-decoration: none; color: #293D3D !important; font-size: 15px; } 
 .searchResult ul li a:hover { color: #fff; text-decoration: underline;}
 
 /* Advance Search */
