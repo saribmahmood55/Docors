@@ -36,13 +36,15 @@ $	virtualenv venv
 ```sh
 $	git clone https://asdi744@bitbucket.org/asdi744/docors.git
 ```
-7. Activate virtual environment:
+7. Activate virtual environment and install packages from requirements.txt:
+```sh
 $	source venv/bin/activate
-
+$	pip install -r requirements.txt
+```
 8. Syncdb
 ```sh
 $	python manage.py syncdb
-````
+```
 9. Run Migration:
 ```sh
 $	python manage.py migrate
