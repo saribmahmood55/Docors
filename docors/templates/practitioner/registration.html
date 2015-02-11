@@ -69,10 +69,10 @@
             <li>
               <a href="#popupCloseRight" data-rel="popup" class="ui-btn ui-corner-all ui-shadow ui-btn-inline" style="color: #00B848; margin-top: 35px;">
               Show on Map</a>
-              <div data-role="popup" id="popupCloseRight" class="ui-content" style="max-width: 600px">
+              <div data-role="popup" id="popupCloseRight" class="ui-content" style="max-width: 700px">
                 <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-                 <p>Drag the marker to appropriate location and Close that Dialog.</p>
-                 <div style="width: 580px; height: 400px;" id="myMap"></div>
+                 <p>Drag the marker to appropriate location on map and close that Dialog.</p>
+                 <div style="width: 680px; height: 500px;" id="myMap"></div>
               </div>
             </li>
             {{ form.lat }}{{ form.lon }}
@@ -126,9 +126,8 @@
     geocoder.geocode({'latLng': myLatlng }, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
         if (results[0]) {
-          $('#address').val(results[0].formatted_address);
-          $('#latitude').val(marker.getPosition().lat());
-          $('#longitude').val(marker.getPosition().lng());
+          $('#id_lon').val(marker.getPosition().lat());
+          $('#id_lat').val(marker.getPosition().lng());
           infowindow.setContent(results[0].formatted_address);
           infowindow.open(map, marker);
         }
@@ -138,9 +137,9 @@
       geocoder.geocode({'latLng': marker.getPosition()}, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
           if (results[0]) {
-            console.log("Lat: "+marker.getPosition().lat()+" Lon: "+marker.getPosition().lng())
             $('#id_lon').val(marker.getPosition().lat());
             $('#id_lat').val(marker.getPosition().lng());
+            //console.log($('#id_lon').val()+" , "+$('#id_lat').val());
             infowindow.setContent(results[0].formatted_address);
             infowindow.open(map, marker);
           }
