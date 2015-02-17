@@ -19,6 +19,14 @@ def subscribe(request):
 			return HttpResponse(json.dumps(data), content_type="application/json")
 	return HttpResponseRedirect(reverse('practitioner', kwargs={'slug': slug}))
 
+def educate(request):
+	data = {}
+	if request.user.is_authenticated():
+		data['user'] = request.user
+	else:
+		data['user'] = None
+	if request.method == 'GET':
+		return render_to_response('patients/educate.html', {'data': data}, context_instance=RequestContext(request))
 
 def patient(request):
 	data = {}

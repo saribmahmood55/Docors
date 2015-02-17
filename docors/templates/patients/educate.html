@@ -1,0 +1,48 @@
+{% extends "registration/base.html" %}
+{% block title %}Who is my Doctor ?| www.doctorsinfo.pk{% endblock %}
+{% block loggedInUser %}
+{% if data.user.is_authenticated %}
+<div id="head">
+  <a href="{% url 'patient' %}" class="anchor-link"><i class="fa fa-user fa-1x marg-r"></i>{{data.user.username}}</a>
+</div>
+{% endif %}
+{% endblock %}
+{% block containerClass %}container{% endblock %}
+{% block content %}
+<div class="ui-grid-a">
+	<div class="ui-block-a">
+		<div class="ui-bar ui-bar-a">
+			<h3>Which doctor, should i consult ?</h3>
+		</div>
+		<p>
+		Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+		Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+		Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+		</p>
+	</div>
+	<div class="ui-block-b">
+		<div class="ui-bar ui-bar-a">
+			<h3>Which doctor, should i consult ?</h3>
+		</div>
+		<p>
+		Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+		Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+		Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+		</p>
+	</div>
+</div>
+{% endblock %}
+<div data-role="footer" style="overflow:hidden;">
+	<h4 style="text-align:center;">Doctors info. Pakistan</h4>
+	<div data-role="navbar">
+		<ul>
+		<li><a href="{% url 'registration' %}"><i class="fa fa-list-alt fa-1x"></i>get listed as a Doctor!</a></li>
+        <li><a href="{% url 'WhoIsMyDoctor' %}"><i class="fa fa-lightbulb-o fa-1x"></i>Know your doctor</a></li>
+        <li><a href="mailto:doctorsinfo.pk@gmail.com" target="_blank"><i class="fa fa-envelope fa-1x"></i>Contact Us</a></li>
+        <li><a href="https://www.facebook.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook fa-1x"></i>facebook</a></li>
+        <li><a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i>twitter</a></li>
+        <li><a href="https://plus.google.com/+DoctorsinfoPk" rel="publisher" target="_blank"><i class="fa fa-google-plus fa-1x"></i>google+</a></li>
+        <li class="extraLinks"><a class="mezino" href="http://mezino.com"><img src="{{ STATIC_URL }}icons/mezino.png"></a>
+		</ul>
+	</div>
+</div>

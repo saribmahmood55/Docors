@@ -25,7 +25,7 @@ def index(request):
 			raise Http404
 		#Get Recent Searches
 		try:
-			data['recentSearches'] = RecentSearch.objects.order_by('-hit_count')
+			data['recentSearches'] = RecentSearch.objects.order_by('-hit_count')[:5]
 		except RecentSearch.DoesNotExist:
 			raise Http404
 	return render_to_response('practitioner/index.html', {'data': data}, context_instance=RequestContext(request))

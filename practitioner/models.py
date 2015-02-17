@@ -25,6 +25,7 @@ class Practitioner(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField(max_length=75, null=True, blank=True)
     recommendation = models.PositiveIntegerField(default=0)
+    not_recommended = models.PositiveIntegerField(default=0)
     slug = AutoSlugField(populate_from='name', unique = True)
     credentials = models.TextField()
     physician_type = models.PositiveSmallIntegerField(choices = PHYSICIAN_CHOICES, help_text="Physician type", null=True, blank=True)

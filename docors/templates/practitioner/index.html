@@ -44,12 +44,6 @@
             {% endfor %}
           </select>
         </li>
-        <li>
-          <label for="dist">Search a Specialist in Kilometer radius.</label>
-          <input type="range" name="dist" oninput="geo()" onchange="geo()" value="0" min="0" max="30" data-highlight="true">
-          <input type="hidden" name="lon" id= "lon">
-          <input type="hidden" name="lat" id= "lat">
-        </li>
         <li><button type="submit" class="ui-btn ui-shadow ui-corner-all">Search</button></li>
         <li><a class="advance" href="{% url 'adv' %}">advance search >></a></li>
       </form>
@@ -72,27 +66,4 @@
       </ul>
     </div>
   </div>
-  {% endblock %}
-  {% block customScript %}
-  <script type="text/javascript">
-    function android(){
-      if( /Android/i.test(navigator.userAgent)) {
-        alert("* In order to search clinics nearby your current location.\n\n* Kindly turn on 'Location Services' from your android settings.");
-      }
-    }
-    function showPosition(position) {
-      if (position.coords.latitude != '' && position.coords.longitude != ''){
-        $('#lon').val(position.coords.latitude);
-        $('#lat').val(position.coords.longitude);
-      }
-    }
-    function geo(){
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-      }
-      else {
-        alert("Sorry We are unable to detect your geo location.");
-      }
-    }
-  </script>
-  {% endblock %}
+{% endblock %}

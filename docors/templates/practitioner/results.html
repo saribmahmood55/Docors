@@ -53,8 +53,8 @@
           {% else %}
           <h1 class="textCentre">Search Results</h1>
           {% endif %}
+          <ul class="results" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Doctor name..." data-inset="true">
            {% for onePractitioner in data.practice.practice_list.iterator %}
-           <ul class="results" data-role="listview" data-inset="true">
             <li>
               <a href="{% url 'practitioner' onePractitioner.practitioner.slug %}" class="anchor-link" >
                 <h2 itemprop="name">{{onePractitioner.practitioner.name}}</h2>
@@ -79,8 +79,8 @@
            </li>
            {% empty %}
            <li><p class="textCentre"><strong>Sorry, No results found. Search again.</strong></p></li>
-         </ul>
          {% endfor %}
+         </ul>
        </div>
      </div>
      <script async language="JavaScript" src="{% static "js/menu.js" %}"></script>

@@ -28,13 +28,15 @@ padding-bottom: 3px;  padding-left: 20px;  padding-top: 3px; display: block;} .m
 .searchLabel { width: 540px; float: left; text-shadow: none; margin: 55px 50px 0px 210px;}
 .searchLabel h1 { height: 20px; background-color: #E6E6E8; font-size: 18px; color: #000; 
 	text-align: center;  padding: 10px 0px; margin-bottom: 0px; border-top: 2px solid #535455;}
-#search { width: 500px; height: 310px; float: left; margin: 0px; padding: 0px 20px; color: #ffffff; background-color: #525252 !important; text-shadow: none;}
+#search { width: 500px; float: left; margin: 0px; padding: 0px 20px; color: #ffffff; background-color: #525252 !important; text-shadow: none;}
 #search select { float: left;} #search h2 { font-size: 18px; text-align: center;} 
 #search li button { float: right; width: 90px; height: 40px; color: #ED1C24; padding: 0px;}
 #search ul li .advance { text-decoration: none; color: #e6e6e8; padding-top: 30px; font-size: 15px; display: block;}
 #search .oneLine { width: 260px !important; display: inline-block; margin: 0px 10px;} 
 #search .online select { margin: 5px 0px;}
-.advsearch { height: 500px ! important; margin: 15px 300px !important;}
+.advsearch { height: 520px ! important; margin: 15px 300px !important;}
+.advsearch h1 { height: 20px; background-color: #E6E6E8; font-size: 18px; color: #000; 
+	text-align: center;  padding: 10px 0px; margin-bottom: 0px; border-top: 2px solid #535455;}
 
 .recentSearches { float: left; margin: 55px 0px; width: 320px; text-shadow: none;}
 .recentSearches h2 { height: 20px; font-size: 18px; background-color: #525252;color: #fff; text-align: center;  border-top: 2px solid #E6E6E8;
@@ -127,7 +129,7 @@ padding-bottom: 3px;  padding-left: 20px;  padding-top: 3px; display: block;} .m
 	#head {font-size: 14px; margin-right: 5px; } .menu .extraLinks {display: none !important;}
 	#logo {margin-left: 20px;} .anchor-link-right { float:right; text-decoration: none; color: #000000;  font-size: 12px;}
 	.searchLabel { width: 320px !important; margin: 10px 0px 0px 0px !important;} .searchLabel h1 { font-size: 16px;}
-	#search { width: 280px !important; margin: 0px !important; height: 290px !important;} #search label { font-size: 12px; } 
+	#search { width: 280px !important; margin: 0px !important;} #search label { font-size: 12px; } 
 	#search .oneLine { width: 100px !important;} .recentSearches { margin: 0px !important; } 
 	.recentSearches h2 { color: #000; background-color: #E6E6E8; border-top: 2px solid #535455 !important;} 
 	.searchResult { background-color: #535455; height: 100%;} .searchResult ul li a { color: #E6E6E8 !important;}
@@ -151,7 +153,7 @@ padding-bottom: 3px;  padding-left: 20px;  padding-top: 3px; display: block;} .m
 	#head {font-size: 14px; margin-right: 5px; }
 	#logo {margin-left: 175px;} .anchor-link-right { float:right; text-decoration: none; color: #000000;  font-size: 12px;}
 	.searchLabel { width: 550px !important; margin: 10px 0px 30px 10px !important;} .searchLabel h1 { font-size: 16px;}
-	#search { width: 510px !important; margin: 0px !important; height: 300px !important;} #search label { font-size: 14px; } 
+	#search { width: 510px !important; margin: 0px !important; } #search label { font-size: 14px; } 
 	#search .oneLine { width: 100px !important;} .recentSearches { width: 550px; margin: 0px 10px !important; } 
 	.recentSearches h2 { width: 550px; color: #000; background-color: #E6E6E8; border-top: 2px solid #535455 !important;} 
 	.searchResult { width: 550px; background-color: #535455; height: 100%;} .searchResult ul li a { font-size: 16px; color: #E6E6E8 !important;}
@@ -180,7 +182,7 @@ padding-bottom: 3px;  padding-left: 20px;  padding-top: 3px; display: block;} .m
 	.marg-l { padding-left: 5px;}
 	.anchor-link-right { float:right; text-decoration: none; color: #000000;  font-size: 12px;}
 	#head { font-size: 12px; margin: -30px 20px 0px 0px;}
-	#search { width: 240px !important; height: 330px; margin: 0px 0px 10px 0px; } 
+	#search { width: 240px !important; margin: 0px 0px 10px 0px; } 
 	#search h2 { font-size: 13px; text-align: center;} #search a { font-size: 13px;}
 	#search label { font-size: 12px; }
 	#search .oneLine { width: 100px !important; margin: 0px 5px !important; padding: 0px !important;}
