@@ -5,6 +5,7 @@ from sorl.thumbnail import ImageField
 from django.contrib.gis.db import models as gis_models
 from django.contrib.gis import geos
 from django.contrib.gis import measure
+from django.core.urlresolvers import reverse
 
 class City(models.Model):
     name = models.CharField(max_length=50)
@@ -88,8 +89,8 @@ class PracticeManager(models.Manager):
 
 class Practice(models.Model):
     Practice_CHOICES = (
-        ('P', 'Private Clininc/Residence'),
-        ('H', 'Hospital'),
+        ('P', 'Private Clinic/Residence'),
+        ('H', 'Hospital/Medical Complex'),
     )
     practice_type = models.CharField(max_length=1, choices=Practice_CHOICES, help_text="Practice Type")
     practice_location = models.ForeignKey(PracticeLocation)
@@ -117,6 +118,8 @@ class Practice(models.Model):
     	self.location = geos.fromstr(point)
         super(Practice, self).save()
 
+    def get_absolute_url(self):
+        return reverse('practitioner', args=[self.practitioner.slug])
 
 #Custom Manager
 class PracticeTimingManager(models.Manager):

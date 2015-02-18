@@ -47,10 +47,13 @@ EMAIL_HOST_PASSWORD = 'qtmtzmguforqkfkt'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-#Water Marker
-WATERMARKING_QUALITY = 50
-WATERMARK_OBSCURE_ORIGINAL = False
-WATERMARK_RANDOM_POSITION_ONCE = False
+#haystack
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': os.path.join(os.path.dirname(__file__), 'whoosh_index'),
+    },
+}
 
 # Application definition
 INSTALLED_APPS = (
@@ -64,6 +67,7 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
     'django.contrib.gis',
     'raven.contrib.django.raven_compat',
+    'haystack',
     'registration',
     'sorl.thumbnail',
     'practitioner',

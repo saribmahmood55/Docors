@@ -44,7 +44,7 @@
     <span id="logo" data-role="none"><a href="/"><img height="35" src="{% static "icons/doctors.png" %}" alt="logo"/></a></span>
     {% block loggedInUser %}{% endblock %}
   </div>
-    <div role="main" class="ui-content {% block containerClass %}{% endblock %}">
+    <div itemscope itemtype="{% block seoItemTags %}{% endblock %}" role="main" class="ui-content {% block containerClass %}{% endblock %}">
       {% block content %}{% endblock %}
     </div>
     {% block customScript %}{% endblock %}

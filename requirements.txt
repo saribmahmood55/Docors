@@ -7,6 +7,7 @@ dj-static==0.0.6
 Django==1.7
 django-autoslug==1.7.2
 django-autoslug-field==0.2.3
+django-haystack==2.3.1
 django-toolbelt==0.0.1
 django-watermark==0.1.6rc1
 ecdsa==0.11
@@ -23,3 +24,4 @@ requests==2.5.1
 sorl-thumbnail==12.2
 static3==0.5.1
 whitenoise==1.0.3
+Whoosh==2.6.0

@@ -55,7 +55,7 @@
       {% else %}
       <span class="silver-img"><i class="fa fa-star fa-2x" title="Already on Favourite List"></i></span>
       {% endif %}
-      <h1 itemprop="name"><i class="fa fa-user-md fa-1x marg-r"></i>{{data.practitioner.name}}</h1>
+      <h1 itemprop="name"><i class="fa fa-user-md fa-1x marg-r"></i>{{data.practitioner.get_title_display}}{{data.practitioner.name}}</h1>
       <span class="credentials">{{data.practitioner.credentials}}</span>
       Specialized in: {% for speciality in data.practitioner.specialities.all.iterator %}
       <span class="specialities" itemprop="medicalSpecialty">{{speciality.name}}</span>
@@ -73,7 +73,7 @@
       {% for pract in data.practice.iterator %}
       <div class="grid-name">
         {% ifequal pract.practice_type "P" %}
-        <h2 style="background-color: #4b555d;"><span itemprop="name">{{pract.practitioner.name}}</span></h2>
+        <h2 style="background-color: #4b555d;"><span itemprop="name">{{pract.practitioner.get_title_display}}{{pract.practitioner.name}}</span></h2>
         {% else %}
         <h2 style="background-color: #4b555d;"><span itemprop="hospitalAffiliation">{{pract.practice_location.name}}</span></h2>
         {% endifequal %}

@@ -21,7 +21,10 @@ class PractitionerManager(models.Manager):
 
 
 class Practitioner(models.Model):
-    PHYSICIAN_CHOICES = ( ('1', 'Trainee'), ('2', 'Specialist'),)
+    PHYSICIAN_CHOICES = ( (1, 'Trainee'), (2, 'Specialist'),)
+    TITLE = ( (1, 'Dr. '), (2, 'Prof. '), (3, 'Prof. Dr. '),)
+
+    title = models.PositiveSmallIntegerField(choices = TITLE, null=True, blank=True)
     name = models.CharField(max_length=100)
     email = models.EmailField(max_length=75, null=True, blank=True)
     recommendation = models.PositiveIntegerField(default=0)

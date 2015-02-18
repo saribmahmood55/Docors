@@ -1,89 +1,47 @@
-  <!DOCTYPE html> 
-  <html>
-  <head>
-    {% load staticfiles %}
-    {% load humanize %}
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="{% static "icons/stethoscope.ico" %}" />
-    <script language="JavaScript" src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-    <script>
-      $(document).bind("mobileinit", function(){
-        $.mobile.ajaxEnabled = false;
-        $.mobile.pushStateEnabled = false;
-      });
-    </script>
-    <script async language="JavaScript" src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.js"></script>
-    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.css" />
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{% static "style/style.css" %}"rel="stylesheet" type="text/css" />
-  </head>
-  <body>
-    <div data-role="page" data-title="Doctors Info. Pakistan">
-      <div data-role="header" class="header1">
-        <div class="menu">
-          <div class="icon-close"><img src="{% static "icons/close.png" %}"></div>
-          <ul>
-            {% if not data.user.is_authenticated %}
-            <li>
-              <a class="login" href="{% url 'auth_login' %}">Login</a>
-              <a class="signUp" href="{% url 'registration_register' %}">Register</a>
-            </li>
-            {% endif %}
-              <li><a href="{% url 'registration' %}"><i class="fa fa-list-alt fa-1x"></i>get listed as a Doctor!</a></li>
-              <li><a href="#"><i class="fa fa-lightbulb-o fa-1x"></i>educate yourself.</a></li>
-              <li><a target="_top" href="mailto:doctorsinfo.pk@gmail.com"><i class="fa fa-envelope fa-1x"></i>Contact Doctors Info.</a></li>
-              <li><a href="https://www.facebook.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook fa-1x"></i>facebook</a></li>
-              <li><a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i>twitter</a></li>
-              <li><a href="https://plus.google.com/+DoctorsinfoPk" rel="publisher" target="_blank"><i class="fa fa-google-plus fa-1x"></i>google+</a></li>
-              <li class="extraLinks"><a class="mezino" href="http://mezino.com"><img src="{% static "icons/mezino.png" %}"></a>
-              </ul>
-            </div>
-            <div class="icon-menu"><i class="fa fa-bars"></i></div>
-            <span id="logo" data-role="none"><a href="/"><img height="35" src="{% static "icons/doctors.png" %}" alt="logo"/></a></span>
-            <div id="head">
-              {% if data.user.is_authenticated %}
-              <a href="{% url 'patient' %}" class="anchor-link"><i class="fa fa-user fa-1x marg-r"></i>{{data.user.username}}</a>
-              {% endif %}
-            </div>
-          </div>
-
-          <div itemscope itemtype="http://schema.org/Physician" role="main" class="ui-content result">
-          {% if data.spec and data.city %}
-          <h1 class="textCentre">{{data.spec|title}} in {{data.city|title}}</h1>
-          {% else %}
-          <h1 class="textCentre">Search Results</h1>
-          {% endif %}
-          <ul class="results" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Doctor name..." data-inset="true">
-           {% for onePractitioner in data.practice.practice_list.iterator %}
-            <li>
-              <a href="{% url 'practitioner' onePractitioner.practitioner.slug %}" class="anchor-link" >
-                <h2 itemprop="name">{{onePractitioner.practitioner.name}}</h2>
-                <p ><strong>{{onePractitioner.practitioner.credentials}}</strong></p>
-                <p>Specialized in: 
-                 {% for speciality in onePractitioner.practitioner.specialities.all.iterator %}
-                 <span itemprop="medicalSpecialty">{{speciality.name}}</span>
-                 {% endfor %}
-               </p>
-               {% if onePractitioner.distance.m > 0 %}
-               {% if onePractitioner.distance.m > 1000 %}
-               <p class="ui-li-aside"><strong>{{onePractitioner.distance.km|floatformat:2}}</strong> KM.</p>
-               {% else %}
-               <p class="ui-li-aside"><strong>{{onePractitioner.distance.m|intword}}</strong> m.</p>
-               {% endif %}
-               {% else %}
-               <p class="ui-li-aside">Fees: <span itemprop="priceRange"><strong>{{onePractitioner.checkup_fee}}/-</strong></span>
-                 <span itemprop="currenciesAccepted" class="currency">PKR</span>
-               </p>
-               {% endif %}
-             </a>
-           </li>
-           {% empty %}
-           <li><p class="textCentre"><strong>Sorry, No results found. Search again.</strong></p></li>
-         {% endfor %}
-         </ul>
-       </div>
-     </div>
-     <script async language="JavaScript" src="{% static "js/menu.js" %}"></script>
-   </div>
- </body>
- </html>
+{% extends "registration/base.html" %}
+{% load humanize %}
+{% block title %}Doctorsinfo.pk | Find a Doctor, Review Doctor, Doctor Ratings{% endblock %}
+{% block loggedInUser %}
+{% if data.user.is_authenticated %}
+<div id="head">
+  <a href="{% url 'patient' %}" class="anchor-link"><i class="fa fa-user fa-1x marg-r"></i>{{data.user.username}}</a>
+</div>
+{% endif %}
+{% endblock %}
+{% block containerClass %}result{% endblock %}
+{% block seoItemTags %}http://schema.org/Physician{% endblock %}
+{% block content %}
+{% if data.spec and data.city %}
+<h1 class="textCentre">{{data.spec|title}} in {{data.city|title}}</h1>
+{% else %}
+<h1 class="textCentre">Search Results</h1>
+{% endif %}
+<ul class="results" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Doctor name..." data-inset="true">
+ {% for onePractitioner in data.practice.practice_list.iterator %}
+ <li>
+  <a href="{% url 'practitioner' onePractitioner.practitioner.slug %}" class="anchor-link" >
+    <h2 itemprop="name">{{onePractitioner.practitioner.get_title_display}}{{onePractitioner.practitioner.name}}</h2>
+    <p ><strong>{{onePractitioner.practitioner.credentials}}</strong></p>
+    <p>Specialized in: 
+     {% for speciality in onePractitioner.practitioner.specialities.all.iterator %}
+     <span itemprop="medicalSpecialty">{{speciality.name}}</span>
+     {% endfor %}
+   </p>
+   {% if onePractitioner.distance.m > 0 %}
+   {% if onePractitioner.distance.m > 1000 %}
+   <p class="ui-li-aside"><strong>{{onePractitioner.distance.km|floatformat:2}}</strong> KM.</p>
+   {% else %}
+   <p class="ui-li-aside"><strong>{{onePractitioner.distance.m|intword}}</strong> m.</p>
+   {% endif %}
+   {% else %}
+   <p class="ui-li-aside">Fees: <span itemprop="priceRange"><strong>{{onePractitioner.checkup_fee}}/-</strong></span>
+     <span itemprop="currenciesAccepted" class="currency">PKR</span>
+   </p>
+   {% endif %}
+ </a>
+</li>
+{% empty %}
+<li><p class="textCentre"><strong>Sorry, No results found. Search again.</strong></p></li>
+{% endfor %}
+</ul>
+{% endblock %}

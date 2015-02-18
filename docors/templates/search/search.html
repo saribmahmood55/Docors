@@ -1,0 +1,39 @@
+{% extends "registration/base.html" %}
+{% block title %}Doctorsinfo.pk | Find a Doctor, Review Doctor, Doctor Ratings{% endblock %}
+{% block content %}
+<center>
+<div itemscope itemtype="http://schema.org/Physician" role="main" class="ui-content result">
+{% if query %}
+<h1 class="textCentre">Search Results for "{{query}}"</h1>
+<ul class="results" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Doctor name..." data-inset="true">
+    {% for result in page.object_list %}
+    <li>
+    <a href="{{ result.object.get_absolute_url }}" class="anchor-link" >
+        <h2 itemprop="name">{{ result.object.practitioner.get_title_display }}{{ result.object.practitioner.name }}</h2>
+        <p><strong>{{result.object.practice_location.name}}</strong></p>
+        <p>Category: 
+        {% for speciality in result.object.practitioner.specialities.all.iterator %}
+        <span itemprop="medicalSpecialty">{{speciality.SEO_name}}</span>
+        {% endfor %}
+        </p>
+    </a>
+    </li>
+    {% empty %}
+    <p>No results found.</p>
+    {% endfor %}
+</ul>
+    {% if page.has_previous or page.has_next %}
+    <div>
+    {% if page.has_previous %}
+    <a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; Previous{% if page.has_previous %}</a>
+    {% endif %}|
+    {% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Next &raquo;{% if page.has_next %}</a>{% endif %}
+    </div>
+    {% endif %}
+    {% else %}
+    <h2>Search Results</h2>
+    <p>There is no query, please enter any keyword to search</p>
+    {% endif %}
+</div>
+</center>
+{% endblock %}
