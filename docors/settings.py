@@ -190,9 +190,10 @@ STATICFILES_DIRS = [
 if DEBUG:
     STATIC_ROOT = '/home/asad/docors/static/'
     MEDIA_ROOT = '/home/asad/docors/media/'
-    RAVEN_CONFIG = {
-    'dsn': 'http://c7fc802b8e3d4fbeac0fe47e9f9d0569:3a6d3bac8f8d4136945877a2b7c3ebe1@sentry.localhost/2',
-    }
+    
 else:
     STATIC_ROOT = '/home/asad/docors/static/'
     MEDIA_ROOT = '/home/asad/docors/media/'
+    RAVEN_CONFIG = {
+    'dsn': 'http://c7fc802b8e3d4fbeac0fe47e9f9d0569:3a6d3bac8f8d4136945877a2b7c3ebe1@sentry.localhost/2',
+    }
