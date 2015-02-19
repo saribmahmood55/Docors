@@ -55,6 +55,11 @@ HAYSTACK_CONNECTIONS = {
     },
 }
 
+#Raven
+RAVEN_CONFIG = {
+    'dsn': 'http://c7fc802b8e3d4fbeac0fe47e9f9d0569:3a6d3bac8f8d4136945877a2b7c3ebe1@sentry.localhost/2',
+    }
+
 # Application definition
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -194,6 +199,3 @@ if DEBUG:
 else:
     STATIC_ROOT = '/home/asad/docors/static/'
     MEDIA_ROOT = '/home/asad/docors/media/'
-    RAVEN_CONFIG = {
-    'dsn': 'http://c7fc802b8e3d4fbeac0fe47e9f9d0569:3a6d3bac8f8d4136945877a2b7c3ebe1@sentry.localhost/2',
-    }
