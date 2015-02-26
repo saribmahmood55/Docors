@@ -189,7 +189,7 @@ TEMPLATE_DIRS = (
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 STATICFILES_DIRS = [
-    '/home/asad/docors/project_static'
+	os.path.join(BASE_DIR, "static")
 ]
 
 if DEBUG:
