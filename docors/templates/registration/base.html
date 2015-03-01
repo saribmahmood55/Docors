@@ -11,10 +11,10 @@
       	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<link rel="shortcut icon" href="{% static "icons/stethoscope.ico" %}" />
-
+{% block replaceCSS %}
       	<!-- /// font icons  /// -->
       	<link rel="stylesheet" type="text/css" href="{% static "assets/fonts/fontawesome/css/font-awesome.min.css" %}">
-      	<link rel="stylesheet" type="text/css" href="{% static "assets/fonts/linecons/css/linecons.css" %}">
+      	{% block login_fontCSS %}<link rel="stylesheet" type="text/css" href="{% static "assets/fonts/linecons/css/linecons.css" %}">{% endblock %}
       	<!-- ///  google fonts  /// -->
       	<link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
       	<!-- ///  animate.css  /// -->
@@ -24,13 +24,15 @@
       	<!-- ///  bootstrap.css  /// -->
       	<link rel="stylesheet" type="text/css" href="{% static "bootstrap-3.1.1/css/bootstrap.css" %}">      
       	<!-- ///  main CSS file  /// -->        
-      	<link rel="stylesheet" type="text/css" href="{% static "assets/css/main.css" %}"> 
+      	<link rel="stylesheet" type="text/css" href="{% static "assets/css/main.css" %}">
+{% endblock %}
+	{% block pageSpecificCSS %}{% endblock %}
   
   	{% block seoTags %}{% endblock %}
-  	<script language="JavaScript" src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
   	{% block reCaptcha %}{% endblock %}
+	{% block customStylesheet %}{% endblock %}
 </head>
-<body class="remove-scroll">
+<body class="remove-scroll {% block extraBodyClass %}{% endblock %}">
     <!-- ///  preloader  /// -->
     <div class="preloader">
       <img src="{% static "assets/img/loader.GIF" %}" class="loader" alt="">
@@ -52,13 +54,14 @@
           <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-collapse" id="navbar-collapse">
             <ul class="nav navbar-nav navbar-right" id="nav">
+	      <li class="{% block homeClass %}{% endblock %}"><a href="/">Home</a></li>
 		{% if not data.user.is_authenticated %}
-              <li class="active"><a href="#home">Login</a></li>
-              <li><a href="#schedule">Register</a></li>
+              <li class="{% block loginClass %}{% endblock %}"><a href="{% url 'auth_login' %}">Login</a></li>
+              <li class="{% block registerClass %}{% endblock %}"><a href="{% url 'registration_register' %}">Register</a></li>
 		{% endif %}
-              <li><a href="#ourLocation">Get Listed as a Doctor</a></li>
-              <li><a href="#schedule">Know Your Doctor</a></li>
-              <li><a href="#multimedia">Contact Us</a></li>
+              <li class="{% block registrationClass %}{% endblock %}"><a href="{% url 'registration' %}">Get Listed as a Doctor</a></li>
+              <li class="{% block doctorClass %}{% endblock %}"><a href="{% url 'WhoIsMyDoctor' %}">Know Your Doctor</a></li>
+              <li class="{% block contactClass %}{% endblock %}"><a href="mailto:doctorsinfo.pk@gmail.com" target="_blank">Contact Us</a></li>
             </ul>
           </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
@@ -70,9 +73,10 @@
     </div>
     <!-- ///  start script  /// -->
     <!-- ///  libs  /// -->
+    {% block replaceJS %}
     <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>        
     <script src="{% static "assets/js/libs/modernizr-latest.js" %}"></script>        
-    <script src="{% static "assets/js/libs/jquery-1.11.0.min.js" %}"></script>     
+    <script src="{% static "assets/js/libs/jquery-1.11.0.min.js" %}"></script>
     <script src="{% static "bootstrap-3.1.1/js/bootstrap.min.js" %}"></script>   
     <!-- ///  plugins  /// -->
     <script src="{% static "assets/js/plugins/fitvids/jquery.fitvids.js" %}"></script>
@@ -85,6 +89,9 @@
     <script src="{% static "assets/js/plugins/validator/jquery.form-validator.min.js" %}"></script>
     <script src="{% static "assets/js/plugins/wow/wow.min.js" %}"></script>        
     <script src="{% static "assets/js/main.js" %}"></script>
+    {% endblock %}
+    {% block pageSpecificJS %}{% endblock %}
+
     <!-- ///  google analytics  /// -->
     {% block customScript %}{% endblock %}
     <script type="text/javascript">

@@ -13,6 +13,7 @@
 <link href="http://www.doctorsinfo.pk/" rel="canonical" />
 {% endblock %}
 {% block title %}Doctorsinfo.pk | Find a Doctor, Review Doctor, Doctor Ratings{% endblock %}
+{% block homeClass %}active{% endblock %}
 {% block loggedInUser %}
 {% if data.user.is_authenticated %}
 <div id="head">
@@ -43,11 +44,22 @@
           <!-- ///  end text section  /// -->
           <!-- ///  begin search form  /// -->
           <div class="col-md-4 col-md-offset-2 wow fadeInUp" data-wow-duration="2s">
-            <div class="register">
-		<form role="form" action="{% url 'practitoners' %}" id="searchForm">
+	     <div class="register">
+		<form method="get" action="{% url 'haystack_search' %}" >
+		    <div class="input-group">
+			<input type="search" id="regPhone" name="q" data-validation="required" class="form-control input-lg" placeholder="Doctor, Hospital, Specialty" style="font-size:15px;">
+		    	<span class="input-group-btn">
+		    	   <button type="submit" class="btn btn-empty btn-lg">Search</button>
+			</span>
+		    <!--<button style="color: #ed1c24;" type="submit" class="ui-btn ui-shadow ui-corner-all">Search</button>-->
+		    </div>
+		</form>
+            </div>            
+		<div class="register">
+		<form role="form" data-toggle="validator" action="{% url 'practitoners' %}" id="searchForm">
 		<div class="form-group">                      
                   <select id="cityName" data-validation="required" class="form-control btn-group-lg selectpicker" name="city" data-style="btn-empty">
-                    <option value="" disabled selected>- Select City -</option>
+                    <option value="" disabled selected>Select City</option>
 		    {% for city in data.cities.iterator %}
 		    <option value="{{city.slug}}">{{city.name}}</option>
 		    {% endfor %}
@@ -55,9 +67,9 @@
                 </div> 
                 <div class="form-group">                      
                   <select id="specialityName" data-validation="required" class="form-control btn-group-lg selectpicker" name="spec" data-style="btn-empty">
-                    <option value="" disabled selected>- Select Speciality -</option>
+                    <option value="" disabled selected>Select Speciality</option>
 		    {% for speciality in data.specialities.iterator %}
-		    <option value={{speciality.slug}}>{{speciality.human_name}}</option>
+		    <option value="{{speciality.slug}}">{{speciality.human_name}}</option>
 		    {% endfor %}
                   </select>
                 </div>                    
