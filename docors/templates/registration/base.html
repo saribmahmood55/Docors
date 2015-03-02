@@ -21,10 +21,12 @@
       	<link rel="stylesheet" type="text/css" href="{% static "assets/css/plugins/animate/animate.css" %}">
       	<!-- ///  bootstrap-select.css /// -->
       	<link rel="stylesheet" type="text/css" href="{% static "assets/css/plugins/select/bootstrap-select.css" %}">
-      	<!-- ///  bootstrap.css  /// -->
+{% block orderChangeCSS %}      	
+	<!-- ///  bootstrap.css  /// -->
       	<link rel="stylesheet" type="text/css" href="{% static "bootstrap-3.1.1/css/bootstrap.css" %}">      
       	<!-- ///  main CSS file  /// -->        
       	<link rel="stylesheet" type="text/css" href="{% static "assets/css/main.css" %}">
+{% endblock %}
 {% endblock %}
 	{% block pageSpecificCSS %}{% endblock %}
   
