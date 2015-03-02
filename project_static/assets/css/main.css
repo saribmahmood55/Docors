@@ -7,6 +7,9 @@
     font-size: 12px;
   }
 }
+.main-header {
+  height:61px;
+}
 /************************************************
 *** navigation ***
 ************************************************/
@@ -533,7 +536,7 @@ fieldset[disabled] .btn-link:focus {
 .promo {
   background-repeat: no-repeat;
   background-position: center center;
-  margin-top: 61px;
+  /*margin-top: 61px;*/
   position: relative;
 }
 .promo .color-correction {

@@ -67,7 +67,7 @@
         $(".selectpicker").selectpicker()
       }
     }
-    // A jQuery plugin for the navigation on one-page sites
+    /* A jQuery plugin for the navigation on one-page sites
     function navigation() {
       if ($.fn.onePageNav && $("#nav").length) {
         $('#nav').onePageNav({
@@ -78,7 +78,7 @@
           easing: 'swing'
         })
       }
-    }
+    }*/
     // Date countdown plugin for jQuery
     function countdown() {
       var count = $('#countdown');
@@ -141,6 +141,12 @@
         }
       })
 
+	$.validate({
+        form: '#searchForm',
+        validateOnBlur: false,
+        addSuggestions: false,
+      })
+
       var messageForError = $(".help-block");
       $.validate({
         form: "#subscribeForm",
@@ -180,10 +186,10 @@
         responsiveVideo()
         googleMap()
         selectpicker()
-        navigation()
+        //navigation()
         countdown()
         placeholderIE()
-        validateAndSend()
+        //validateAndSend()
         wow()
         app()       
       }
