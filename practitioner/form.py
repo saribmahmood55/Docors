@@ -9,7 +9,7 @@ class Html5EmailInput(Input):
 class PractitionerForm(forms.Form):
 
 	PHYSICIAN_CHOICES = ( ('1', 'Trainee'), ('2', 'Specialist'),)
-	Practice_CHOICES = ((u'P', u'Clininc/Residence'),(u'H', u'Hospital'),)
+	Practice_CHOICES = ((u'P', u'Clinic/Residence'),(u'H', u'Hospital'),(u'M', u'Medical Complex'),)
 	Appointment_Option = ((u'True', u'Strictly on Appointment.'),(u'False', u'Checkup allowed on Waiting.'),)
 	DAYS = (('1', 'Monday'), ('2', 'Tuesday'), ('3', 'Wednesday'), ('4', 'Thursday'), ('5', 'Friday'),('6', 'Saturday'),('7', 'Sunday'),)
 	TIME = (('0', '07:00am'), ('1', '07:30am'),('2', '08:00am'),('3', '08:30am'),('4', '09:00am'),('5', '09:30am'),('6', '10:00am'),('7', '10:30am'),('8', '11:00am'),('9', '11:30am'),('10', '12:00pm'),('11', '12:30pm'),('12', '01:00pm'),('13', '01:30pm'),('14', '02:00pm'),('15', '02:30am'),('16', '03:00pm'),('17', '03:30pm'),('18', '04:00pm'),('19', '04:30pm'),('20', '05:00pm'),('21', '05:30pm'),('22', '06:00pm'),('23', '06:30pm'),('24', '07:00pm'),('25', '07:30pm'),('26', '08:00pm'),('27', '08:30pm'),('28', '09:00pm'),('29', '09:30pm'),('30', '10:00pm'),('31', '10:30pm'),('32', '11:00pm'),('33', '11:30pm'),('34', '12:00am'), ('35', '12:30am'), ('36', "01:00am"), ('37', '02:00am'), ('38', "02:30am"),)
@@ -26,12 +26,12 @@ class PractitionerForm(forms.Form):
 	#Practice Location
 	practice_name = forms.CharField(max_length=50, required=True, label='Name.')
 	address = forms.CharField(max_length=500, required=True, label='Street address.', widget=forms.Textarea(attrs={'placeholder': '82-XX, DHA'}))
+	photo = forms.ImageField(label='Photo of your clinic outer space.', required=False)
 	city = forms.ChoiceField(choices = [(r.id, r) for r in City.objects.order_by('pk')], label="City.",required = True)
 	lon = forms.CharField(label='Physical longitude.', widget=forms.HiddenInput(), required=False)
 	lat = forms.CharField(label='Physical latitude.', widget=forms.HiddenInput(), required=False)
 	#Practice
 	practice_type = forms.ChoiceField(choices = Practice_CHOICES, label="Practice type", initial='3', required = True)
-	practice_photo = forms.ImageField(label='Photo of your clinic outer space.', required=False)
 	contact_number = forms.CharField(max_length=100, label="Contact number(s)",widget=forms.TextInput(attrs={'placeholder': '04235100000 03214000111'}), required=True)
 	checkup_fee = forms.IntegerField(widget=forms.TextInput(attrs={'placeholder': '1500'}), label="Checkup fee in Pak rupees." )
 	services = forms.CharField(max_length=800, widget=forms.Textarea, label="Services offered", required=False)

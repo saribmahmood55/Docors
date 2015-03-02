@@ -14,7 +14,7 @@ DEBUG = boolean(os.environ.get('DEBUG', 1))
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    ('Asad Naeem', 'anrana744@gmail.com'),
+    ('Asad Naeem', 'doctorsinfo.pk@gmail.com'),
 )
 #Celery configuration
 
@@ -55,10 +55,6 @@ HAYSTACK_CONNECTIONS = {
     },
 }
 
-#Raven
-RAVEN_CONFIG = {
-    'dsn': 'http://c7fc802b8e3d4fbeac0fe47e9f9d0569:3a6d3bac8f8d4136945877a2b7c3ebe1@sentry.localhost/2',
-    }
 
 # Application definition
 INSTALLED_APPS = (
@@ -71,7 +67,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'django.contrib.gis',
-    'raven.contrib.django.raven_compat',
     'haystack',
     'registration',
     'sorl.thumbnail',
@@ -109,52 +104,6 @@ DATABASES = {
         'PASSWORD': 'asad0321',
         'HOST': 'localhost',
     }
-}
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': True,
-    'root': {
-        'level': 'WARNING',
-        'handlers': ['sentry'],
-    },
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        }
-    },
-    'formatters': {
-        'verbose': {
-            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
-        },
-    },
-    'handlers': {
-        'sentry': {
-            'level': 'ERROR',
-            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
-        },
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'verbose'
-        }
-    },
-    'loggers': {
-        'django.db.backends': {
-            'level': 'ERROR',
-            'handlers': ['console'],
-            'propagate': False,
-        },
-        'raven': {
-            'level': 'DEBUG',
-            'handlers': ['console'],
-            'propagate': False,
-        },
-        'sentry.errors': {
-            'level': 'DEBUG',
-            'handlers': ['console'],
-            'propagate': False,
-        },
-    },
 }
 
 # Internationalization

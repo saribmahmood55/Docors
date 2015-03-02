@@ -68,22 +68,22 @@ def registration(request):
 			#PracticeLocation
 			practice_name = form.cleaned_data['practice_name']
 			address = form.cleaned_data['address']
+			photo = form.cleaned_data['practice_photo']
 			city_id = form.cleaned_data['city']
 			city = City.objects.get(pk=city_id)
 			lon = form.cleaned_data['lon']
 			lat = form.cleaned_data['lat']
 			#create PracticeLocation
-			practice_location = PracticeLocation(name=practice_name, clinic_address=address, city=city, lon=lon, lat=lat)
+			practice_location = PracticeLocation(name=practice_name, clinic_address=address, photo=photo, city=city, lon=lon, lat=lat)
 			practice_location.save()
 			#Practice
 			practice_type = form.cleaned_data['practice_type']
-			practice_photo = form.cleaned_data['practice_photo']
 			contact_number = form.cleaned_data['contact_number']
 			checkup_fee = form.cleaned_data['checkup_fee']
 			services = form.cleaned_data['services']
 			appointment = form.cleaned_data['appointment']
 			#Create Practice
-			practice = Practice(practice_type=practice_type, practice_photo = practice_photo, practice_location=practice_location, practitioner=practitioner, 
+			practice = Practice(practice_type=practice_type, practice_location=practice_location, practitioner=practitioner, 
 				contact_number=contact_number, checkup_fee=checkup_fee, services=services, appointments_only=appointment)
 			practice.save()
 			#PracticeTiming

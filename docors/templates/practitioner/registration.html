@@ -1,152 +1,154 @@
-{% extends "registration/base.html" %}
-{% block reCaptcha %}
+{% extends "registration/base.html" %} {% block reCaptcha %}
 <script src='https://www.google.com/recaptcha/api.js'></script>
-{% endblock %}
-{% block title %}Register Practitioner | Doctors Info. Pakistan{% endblock %}
-{% block content %}
-    <div class="registrationForm">
-      <center><span class="Bold margtb inlineB">Please provide the following details.</span></center>
-      <span class="Bold margtb break">Practitioner details.</span>
-      <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+{% endblock %} {% block title %}Register Practitioner | Doctors Info. Pakistan{% endblock %} {% block content %}
+<div class="registrationForm">
+    <center><span class="Bold margtb inlineB">Please provide the following details.</span>
+    </center>
+    <span class="Bold margtb break">Practitioner details.</span>
+    <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
         <div class="practitioner-info">
-          <ul>
-            <li>
-              {{ form.practitioner_name.errors }}{{form.practitioner_name.label_tag}}<span class="mandatory-star"> *</span>{{ form.practitioner_name }}
-            </li>
-            <li>
-              {{ form.email.errors }}{{form.email.label_tag}}<span class="mandatory-star"> *</span>{{ form.email }}
-            </li>
-            <li>
-              {{ form.physician_type.errors }}{{form.physician_type.label_tag}}<span class="mandatory-star"> *</span>{{ form.physician_type }}
-            </li>
-            <li>
-              {{ form.specialities.errors }}{{form.specialities.label_tag}}<span class="mandatory-star"> *</span>{{ form.specialities }}
-            </li>
-            <li>
-              {{ form.credentials.errors }}{{form.credentials.label_tag}}<span class="mandatory-star"> *</span>{{ form.credentials }}
-            </li>
-            <li>
-              {{ form.achievements.errors }}{{form.achievements.label_tag}}{{ form.achievements }}
-            </li>
-            <li>
-              {{ form.experience.errors }}{{form.experience.label_tag}}<span class="mandatory-star"> *</span>{{ form.experience }}
-            </li>
-            <li>
-              {{ form.message.errors }}{{form.message.label_tag}}{{ form.message }}
-            </li>
-          </ul>
+            <ul>
+                <li>
+                    {{ form.practitioner_name.errors }}{{form.practitioner_name.label_tag}}<span class="mandatory-star"> *</span>{{ form.practitioner_name }}
+                </li>
+                <li>
+                    {{ form.email.errors }}{{form.email.label_tag}}<span class="mandatory-star"> *</span>{{ form.email }}
+                </li>
+                <li>
+                    {{ form.physician_type.errors }}{{form.physician_type.label_tag}}<span class="mandatory-star"> *</span>{{ form.physician_type }}
+                </li>
+                <li>
+                    {{ form.specialities.errors }}{{form.specialities.label_tag}}<span class="mandatory-star"> *</span>{{ form.specialities }}
+                </li>
+                <li>
+                    {{ form.credentials.errors }}{{form.credentials.label_tag}}<span class="mandatory-star"> *</span>{{ form.credentials }}
+                </li>
+                <li>
+                    {{ form.achievements.errors }}{{form.achievements.label_tag}}{{ form.achievements }}
+                </li>
+                <li>
+                    {{ form.experience.errors }}{{form.experience.label_tag}}<span class="mandatory-star"> *</span>{{ form.experience }}
+                </li>
+                <li>
+                    {{ form.message.errors }}{{form.message.label_tag}}{{ form.message }}
+                </li>
+            </ul>
         </div>
         <span class="Bold margtb break">Practice Location Details</span>
         <div class="practice-info">
-          <ul>
-            <li>
-              {{ form.practice_type.errors }}{{form.practice_type.label_tag}}<span class="mandatory-star"> *</span>{{ form.practice_type }}
-            </li>
-            <li>
-              {{ form.practice_name.errors }}{{form.practice_name.label_tag}}<span class="mandatory-star"> *</span>{{ form.practice_name }}
-            </li>
-            <li>
-              {{ form.contact_number.errors }}{{form.contact_number.label_tag}}<span class="mandatory-star"> *</span>{{ form.contact_number }}
-            </li>
-            <li>
-              {{ form.checkup_fee.errors }}{{form.checkup_fee.label_tag}}<span class="mandatory-star"> *</span>{{ form.checkup_fee }}
-            </li>
-            <li>
-              {{form.appointment.errors}}{{form.appointment.label_tag}}<span class="mandatory-star"> *</span>{{form.appointment}}
-            </li>
-            <li>
-              {{ form.practice_photo.errors }}{{form.practice_photo.label_tag}}{{ form.practice_photo }}
-            </li>
-            <li>
-              {{ form.services.errors }}{{form.services.label_tag}}{{ form.services }}
-            </li>
-            <li>
-              {{ form.city.errors }}{{form.city.label_tag}}<span class="mandatory-star"> *</span>{{ form.city }}
-            </li>
-            <li>
-              {{ form.address.errors }}{{form.address.label_tag}}<span class="mandatory-star"> *</span>{{ form.address }}
-            </li>
-            <li>
-              <a href="#popupCloseRight" data-rel="popup" class="ui-btn ui-corner-all ui-shadow ui-btn-inline" style="color: #00B848; margin-top: 35px;">
+            <ul>
+                <li>
+                    {{ form.practice_type.errors }}{{form.practice_type.label_tag}}<span class="mandatory-star"> *</span>{{ form.practice_type }}
+                </li>
+                <li>
+                    {{ form.practice_name.errors }}{{form.practice_name.label_tag}}<span class="mandatory-star"> *</span>{{ form.practice_name }}
+                </li>
+                <li>
+                    {{ form.contact_number.errors }}{{form.contact_number.label_tag}}<span class="mandatory-star"> *</span>{{ form.contact_number }}
+                </li>
+                <li>
+                    {{ form.checkup_fee.errors }}{{form.checkup_fee.label_tag}}<span class="mandatory-star"> *</span>{{ form.checkup_fee }}
+                </li>
+                <li>
+                    {{form.appointment.errors}}{{form.appointment.label_tag}}<span class="mandatory-star"> *</span>{{form.appointment}}
+                </li>
+                <li>
+                    {{ form.photo.errors }}{{form.photo.label_tag}}{{ form.photo }}
+                </li>
+                <li>
+                    {{ form.services.errors }}{{form.services.label_tag}}{{ form.services }}
+                </li>
+                <li>
+                    {{ form.city.errors }}{{form.city.label_tag}}<span class="mandatory-star"> *</span>{{ form.city }}
+                </li>
+                <li>
+                    {{ form.address.errors }}{{form.address.label_tag}}<span class="mandatory-star"> *</span>{{ form.address }}
+                </li>
+                <li>
+                    <a href="#popupCloseRight" data-rel="popup" class="ui-btn ui-corner-all ui-shadow ui-btn-inline" style="color: #00B848; margin-top: 35px;">
               Show on Map</a>
-              <div data-role="popup" id="popupCloseRight" class="ui-content" style="max-width: 700px">
-                <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-                 <p>Drag the marker to appropriate location on map and close that Dialog.</p>
-                 <div style="width: 680px; height: 500px;" id="myMap"></div>
-              </div>
-            </li>
-            {{ form.lat }}{{ form.lon }}
-          </ul>
+                    <div data-role="popup" id="popupCloseRight" class="ui-content" style="max-width: 700px">
+                        <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                        <p>Drag the marker to appropriate location on map and close that Dialog.</p>
+                        <div style="width: 680px; height: 500px;" id="myMap"></div>
+                    </div>
+                </li>
+                {{ form.lat }}{{ form.lon }}
+            </ul>
         </div>
         <span class="Bold margtb break">Practice Timing Details</span>
         <div class="practice-timing">
-          <ul>
-            <li>
-              {{ form.day_from.errors }}{{form.day_from.label_tag}}<span class="mandatory-star"> *</span>{{ form.day_from }}
-            </li>
-            <li>
-              {{ form.day_to.errors }}{{form.day_to.label_tag}}<span class="mandatory-star"> *</span>{{ form.day_to }}
-            </li>
-            <li>
-              {{ form.start_time.errors }}{{form.start_time.label_tag}}<span class="mandatory-star"> *</span>{{ form.start_time }}
-            </li>
-            <li>
-              {{ form.end_time.errors }}{{form.end_time.label_tag}}<span class="mandatory-star"> *</span>{{ form.end_time }}
-            </li>
-          </ul>
+            <ul>
+                <li>
+                    {{ form.day_from.errors }}{{form.day_from.label_tag}}<span class="mandatory-star"> *</span>{{ form.day_from }}
+                </li>
+                <li>
+                    {{ form.day_to.errors }}{{form.day_to.label_tag}}<span class="mandatory-star"> *</span>{{ form.day_to }}
+                </li>
+                <li>
+                    {{ form.start_time.errors }}{{form.start_time.label_tag}}<span class="mandatory-star"> *</span>{{ form.start_time }}
+                </li>
+                <li>
+                    {{ form.end_time.errors }}{{form.end_time.label_tag}}<span class="mandatory-star"> *</span>{{ form.end_time }}
+                </li>
+            </ul>
         </div>
         <div class="captcha">
-        <div class="g-recaptcha" data-sitekey="6LcAdv4SAAAAAI2hi_VgcifchYmJFUNmxdfajJJO"></div>
-          <button type="submit" class="ui-btn ui-shadow ui-corner-all register-btn">Register</button>
+            <div class="g-recaptcha" data-sitekey="6LcAdv4SAAAAAI2hi_VgcifchYmJFUNmxdfajJJO"></div>
+            <button type="submit" class="ui-btn ui-shadow ui-corner-all register-btn">Register</button>
         </div>
-      </form>
-    </div>
-{% endblock %}
-{% block customScript %}
+    </form>
+</div>
+{% endblock %} {% block customScript %}
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
-<script type="text/javascript"> 
-  var map;
-  var marker;
-  var myLatlng = new google.maps.LatLng(31.519191, 74.326237);
-  var geocoder = new google.maps.Geocoder();
-  var infowindow = new google.maps.InfoWindow();
-  function initialize(){
+<script type="text/javascript">
+var map;
+var marker;
+var myLatlng = new google.maps.LatLng(31.519191, 74.326237);
+var geocoder = new google.maps.Geocoder();
+var infowindow = new google.maps.InfoWindow();
+
+function initialize() {
     var mapOptions = {
-      zoom: 12,
-      center: myLatlng,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
+        zoom: 12,
+        center: myLatlng,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     map = new google.maps.Map(document.getElementById("myMap"), mapOptions);
     marker = new google.maps.Marker({
-      map: map,
-      position: myLatlng,
-      draggable: true 
-    });     
+        map: map,
+        position: myLatlng,
+        draggable: true
+    });
 
-    geocoder.geocode({'latLng': myLatlng }, function(results, status) {
-      if (status == google.maps.GeocoderStatus.OK) {
-        if (results[0]) {
-          $('#id_lon').val(marker.getPosition().lat());
-          $('#id_lat').val(marker.getPosition().lng());
-          infowindow.setContent(results[0].formatted_address);
-          infowindow.open(map, marker);
+    geocoder.geocode({
+        'latLng': myLatlng
+    }, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            if (results[0]) {
+                $('#id_lon').val(marker.getPosition().lat());
+                $('#id_lat').val(marker.getPosition().lng());
+                infowindow.setContent(results[0].formatted_address);
+                infowindow.open(map, marker);
+            }
         }
-      }
     });
     google.maps.event.addListener(marker, 'dragend', function() {
-      geocoder.geocode({'latLng': marker.getPosition()}, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-          if (results[0]) {
-            $('#id_lon').val(marker.getPosition().lat());
-            $('#id_lat').val(marker.getPosition().lng());
-            //console.log($('#id_lon').val()+" , "+$('#id_lat').val());
-            infowindow.setContent(results[0].formatted_address);
-            infowindow.open(map, marker);
-          }
-        }
-      });
+        geocoder.geocode({
+            'latLng': marker.getPosition()
+        }, function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                if (results[0]) {
+                    $('#id_lon').val(marker.getPosition().lat());
+                    $('#id_lat').val(marker.getPosition().lng());
+                    //console.log($('#id_lon').val()+" , "+$('#id_lat').val());
+                    infowindow.setContent(results[0].formatted_address);
+                    infowindow.open(map, marker);
+                }
+            }
+        });
     });
-  }
-  google.maps.event.addDomListener(window, 'load', initialize);
+}
+google.maps.event.addDomListener(window, 'load', initialize);
 </script>
 {% endblock %}
