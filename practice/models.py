@@ -21,6 +21,7 @@ class City(models.Model):
 class PracticeLocation(models.Model):
     name = models.CharField(max_length=50)
     slug = AutoSlugField(populate_from='name', unique = True)
+    photo = ImageField(upload_to='practice/', blank=True, null=True)
     clinic_address = models.TextField()
     city = models.ForeignKey(City)
     lon = models.FloatField(null=True, blank=True)
@@ -90,12 +91,12 @@ class PracticeManager(models.Manager):
 class Practice(models.Model):
     Practice_CHOICES = (
         ('P', 'Private Clinic/Residence'),
-        ('H', 'Hospital/Medical Complex'),
+        ('H', 'Hospital'),
+        ('M', 'Medical Complex'),
     )
     practice_type = models.CharField(max_length=1, choices=Practice_CHOICES, help_text="Practice Type")
     practice_location = models.ForeignKey(PracticeLocation)
     practitioner = models.ForeignKey(Practitioner)
-    practice_photo = ImageField(upload_to='practice/', blank=True, null=True)
     contact_number = models.CharField(max_length=100)
     checkup_fee = models.PositiveIntegerField()
     services = models.TextField(null=True, blank=True)

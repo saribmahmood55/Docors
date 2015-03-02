@@ -5,6 +5,7 @@ from patients.models import Patient
 
 # Create your models here.
 #custom Manager
+
 class ReviewManager(models.Manager):
 
     def review(self, review_ID):
