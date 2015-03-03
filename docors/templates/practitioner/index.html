@@ -37,11 +37,10 @@
                 <div class="register">
                     <form method="get" action="{% url 'haystack_search' %}">
                         <div class="input-group">
-                            <input type="search" id="regPhone" name="q" data-validation="required" class="form-control input-lg" placeholder="Doctor, Hospital, Specialty" style="font-size:15px;">
+                            <input type="search" id="regPhone" name="q" required class="form-control input-lg" placeholder="Doctor, Specialty or Hospital" style="font-size:15px;">
                             <span class="input-group-btn">
-             <button type="submit" class="btn btn-empty btn-lg">Search</button>
-      </span>
-                            <!--<button style="color: #ed1c24;" type="submit" class="ui-btn ui-shadow ui-corner-all">Search</button>-->
+                                   <button type="submit" class="btn btn-lg btn-success">Search</button>
+                               </span>
                         </div>
                     </form>
                 </div>
@@ -63,7 +62,7 @@
                                 {% endfor %}
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-empty btn-block btn-lg">Search for Doctor</button>
+                        <button type="submit" class="btn btn-block btn-lg btn-success">Search for Doctor</button>
                     </form>
                 </div>
             </div>

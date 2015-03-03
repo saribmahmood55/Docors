@@ -52,3 +52,9 @@ class ReviewStats(models.Model):
 
     class Meta:
         verbose_name_plural = 'Reviews Status'
+
+class Recommendations(models.Model):
+    practitioner = models.ForeignKey(Practitioner)
+    patient = models.ForeignKey(Patient)
+    value = models.BooleanField(default=False)
+    time = models.DateTimeField(auto_now_add=True)
