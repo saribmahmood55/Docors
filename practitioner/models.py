@@ -13,6 +13,14 @@ class Specialization(models.Model):
     class Meta:
         verbose_name_plural = "Specialities"
 
+class Degree(models.Model):
+    name = models.CharField(max_length=25)
+    points = models.PositiveSmallIntegerField(default=0)
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = "Degrees"
 
 class PractitionerManager(models.Manager):
 
@@ -36,6 +44,7 @@ class Practitioner(models.Model):
     experience = models.PositiveIntegerField(help_text="Number of years")
     message = models.TextField(max_length=140, null=True, blank=True)
     status = models.BooleanField(default=False)
+    degrees = models.ManyToManyField(Degree)
     specialities = models.ManyToManyField(Specialization)
     modified = models.DateTimeField(auto_now=True)
 

@@ -16,18 +16,29 @@ class PractitionerAdmin(admin.ModelAdmin):
         ('Experience', {'fields': ['experience']}),
         ('Short Message', {'fields': ['message']}),
         ('Speciality', {'fields': ['specialities']}),
+        ('Degrees', {'fields': ['degrees']}),
 	]
-	list_display = ['name','title','slug','credentials','physician_type','Specialist_in','status','experience','modified','pk']
+	list_display = ['name','title','slug','credentials','Degrees_list','Specialist_in','status','experience','modified','pk']
 	search_fields = ['name']
 	inlines = [PracticeTimingInline]
 	
 	def Specialist_in(self, obj):
 		return "\n".join([s.name for s in obj.specialities.all()])
 
+	def Degrees_list(self, obj):
+		return "\n".join([d.name for d in obj.degrees.all()])
+
 class SpecializationAdmin(admin.ModelAdmin):
 	list_display = ['name','human_name','SEO_name','slug']
 	list_filter = ['name']
 	search_fields = ['name']
 
+class DegreeAdmin(admin.ModelAdmin):
+	list_display = ['name','points']
+	list_filter = ['name']
+	search_fields = ['name']
+
+
 admin.site.register(Practitioner, PractitionerAdmin)
 admin.site.register(Specialization, SpecializationAdmin)
+admin.site.register(Degree, DegreeAdmin)
