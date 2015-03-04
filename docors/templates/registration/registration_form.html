@@ -1,79 +1,89 @@
-{% extends "registration/login_base.html" %}
-{% block loginClass %}active{% endblock %}
-{% block login_content %}
-<!-- BEGIN LOGIN FORM -->
-{% if form.errors %}
-<div class="alert alert-warning" style="color: #911;background-color: #fcdede;border-color: #d2b2b2;">
-	<a href="#" class="close" data-dismiss="alert">&times;</a>
-	Incorrect User Name or Password
-</div>
-{% endif %}
-<form class="form-vertical login-form" action="" method="post">{% csrf_token %}
-	<h3 class="form-title">Login to your account</h3>
-	<div class="alert alert-error hide">
-		<button class="close" data-dismiss="alert"></button>
-		<span>Enter any username and password.</span>
-	</div>
-	<input name="next" type="hidden" value="/">
-	<div class="control-group">
-		<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
-		<label class="control-label visible-ie8 visible-ie9">Username</label>
-		<div class="controls">
-			<div class="input-icon left">
-				<i class="icon-user"></i>
-				{{form.username}}
-			</div>
-			{% if form.username.errors %}
-				<label for="id_password" class="help-inline help-small no-left-padding">{{ form.username.errors|join:", " }}</label>
-			{% endif %}
-		</div>
-	</div>
-	<div class="control-group">
-		<label class="control-label visible-ie8 visible-ie9">Password</label>
-		<div class="controls">
-			<div class="input-icon left">
-				<i class="icon-lock"></i>
-				{{form.password}}
-			</div>
-			{% if form.password.errors %}
-				<label for="id_password" class="help-inline help-small no-left-padding">{{ form.password.errors}}</label>
-			{% endif %}
-		</div>
-	</div>
-	<div class="form-actions">
-		<label class="checkbox">
-		<input type="checkbox" name="remember" value="1"/> Remember me
-		</label>
-		<button type="submit" class="btn blue pull-right">
-		Login <i class="m-icon-swapright m-icon-white"></i>
-		</button>            
-	</div>
-	<div class="forget-password">
-		<h4>Forgot your password ?</h4>
-		<p>
-			No Worries, click <a href="javascript:;"  id="forget-password">here</a>
-			to reset.
-		</p>
-	</div>
-	<div class="create-account">
-		<p>
-			Don't have an account yet ?&nbsp; 
-			<a href="javascript:;" id="register-btn" >Create an account</a>
-		</p>
-	</div>
-</form>
-<!-- END LOGIN FORM --> 
+{% extends "registration/login_base.html" %} {% block registerClass %}active{% endblock %} {% block login_content %}
+	<div class="row">
+
+        	<div class="col-md-6">
+        		
+        		<div class="register-info-wraper">
+        			<div id="register-info">
+        			
+        				<h1>You are just few seconds away from getting started with DoctorsInfo.</h1>
+        			
+        				<ul dir="rtl">
+        					<li>Find specialized doctors in your area</li>
+        					<li>Find authentic Hospitals in your area</li>
+        					<li>Rate/Review doctors and hospitals</li>
+        					<li>Find out what other people have to say</li>
+        				</ul>
+        				
+        			</div>
+        		</div>
+
+        	</div>
+
+        	<div class="col-md-6">
+        		<div id="register-wraper">
+        		    <form id="register-form" class="form patient_register" method="post" action="">{% csrf_token %}
+        		        <legend>Register to <span class="blue">DoctorsInfo</span></legend>
+        		    
+        		        <div class="body">
+					<div class="col-md-12">
+						<div class="form-group">
+							<!-- username -->
+							<label>Username</label>
+							{{form.username}}
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group">
+							<!-- email -->
+							<label>E-mail</label>
+							{{form.email}}
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group">
+							<!-- password -->
+							<label>Password</label>
+							{{form.password1}}
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group">
+							<!-- retype password -->
+							<label>Re-type Password</label>
+							{{form.password2}}
+						</div>
+					</div>
+
+        		        </div>
+        		    
+        		        <div class="footer">
+				    <div class="checkbox">
+  					<label>
+						<input type="checkbox" value="" id="inlineCheckbox1" value="option1" style="float:none;">
+    						I agree to the terms and conditions
+  					</label>
+				    </div>
+        		            
+        		            <button type="submit" class="btn btn-success">Register</button>
+        		        </div>
+        		    </form>
+        		</div>
+        	</div>
+
+        </div>
+{% endblock %}
+
+{% block login_footer %}
+      <div class="col-md-6">Alread have an account? <a href="/login/" class="btn btn-black">Sign in</a></div>
+      <div class="col-md-6">Not a Patient? <a href="/registration/" class="btn btn-black">Get listed as a Doctor</a></div>
 {% endblock %}
 
 {% block customScript %}
-     <script type="text/javascript">
-      $(document).ready(function(){
-	$("#id_username").addClass("m-wrap");
-	$("#id_username").attr("placeholder","Username");
-	$("#id_password").addClass("m-wrap");
-	$("#id_password").attr("placeholder","Password");
-      });
-    </script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("input").addClass("form-control");
+		$("input[type='checkbox']").removeClass("form-control");
+	});
+</script>
 {% endblock %}
-
-

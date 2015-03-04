@@ -29,6 +29,7 @@ class RegistrationForm(forms.Form):
     registration backend.
 
     """
+    error_css_class = 'has-error'
     required_css_class = 'required'
 
     username = forms.RegexField(regex=r'^[\w.@+-]+$',

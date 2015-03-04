@@ -8,6 +8,9 @@ class Html5EmailInput(Input):
 
 class PractitionerForm(forms.Form):
 
+	error_css_class = 'has-error'
+	required_css_class = 'required'
+
 	PHYSICIAN_CHOICES = ( ('1', 'Trainee'), ('2', 'Specialist'),)
 	Practice_CHOICES = ((u'P', u'Clinic/Residence'),(u'H', u'Hospital'),(u'M', u'Medical Complex'),)
 	Appointment_Option = ((u'True', u'Strictly on Appointment.'),(u'False', u'Checkup allowed on Waiting.'),)
@@ -16,7 +19,7 @@ class PractitionerForm(forms.Form):
 	
 	#practitioner	
 	practitioner_name = forms.CharField(max_length=100, required=True, label="Name.")
-	email = forms.EmailField(label= "Email (Never be sold or spammed)", max_length=75, required=True, widget=Html5EmailInput())
+	email = forms.EmailField(label= "Email", max_length=75, required=True, widget=Html5EmailInput())
 	physician_type = forms.ChoiceField(choices = PHYSICIAN_CHOICES, label="Physician type", initial='1', required = True)
 	credentials = forms.CharField(max_length=500, required=True, label="Credentials.", widget=forms.TextInput(attrs={'placeholder': 'MBBS, DABIM, MRCP, FRCP, FRCS, FACP'}))
 	achievements = forms.CharField(max_length=800, required=False, label='Achievements.', widget=forms.Textarea(attrs={'placeholder': 'education, research work, training & achievements'}))

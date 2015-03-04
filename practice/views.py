@@ -4,10 +4,11 @@ from reviews.models import Review
 from practice.models import *
 from utility import *
 from practitioner.models import Practitioner
-from django.http import Http404, HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+import json
 
 def practice(request, practice_slug, practitioner_slug):
 	if request.method == "GET":
@@ -30,6 +31,15 @@ def practitioner_name(request):
 		except Practice.DoesNotExist:
 			raise Http404
 	return render_to_response('practitioner/results.html', {'data': data}, context_instance=RequestContext(request))
+
+#get all hospitals
+def practice_hospitals(request):
+	hospital_options = '<select id="id_practice_name" name="practice_name" class="form-control" onchange="change_hospital_name()"><option value="" disabled selected>Please Select from the list</option>'
+	q = Practice.objects.filter(practice_type='H')
+	for single_row in q:
+		hospital_options = hospital_options + '<option value="' + single_row.practice_location.slug + '">' + single_row.practice_location.name + '</option>'
+	hospital_options = hospital_options + '<option value="other">Other</option></select>'
+	return HttpResponse(json.dumps(hospital_options),content_type="application/json")
 
 
 #handle search request
