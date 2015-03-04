@@ -1,154 +1,240 @@
-{% extends "registration/base.html" %} {% block reCaptcha %}
-<script src='https://www.google.com/recaptcha/api.js'></script>
-{% endblock %} {% block title %}Register Practitioner | Doctors Info. Pakistan{% endblock %} {% block content %}
-<div class="registrationForm">
-    <center><span class="Bold margtb inlineB">Please provide the following details.</span>
-    </center>
-    <span class="Bold margtb break">Practitioner details.</span>
-    <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
-        <div class="practitioner-info">
-            <ul>
-                <li>
-                    {{ form.practitioner_name.errors }}{{form.practitioner_name.label_tag}}<span class="mandatory-star"> *</span>{{ form.practitioner_name }}
-                </li>
-                <li>
-                    {{ form.email.errors }}{{form.email.label_tag}}<span class="mandatory-star"> *</span>{{ form.email }}
-                </li>
-                <li>
-                    {{ form.physician_type.errors }}{{form.physician_type.label_tag}}<span class="mandatory-star"> *</span>{{ form.physician_type }}
-                </li>
-                <li>
-                    {{ form.specialities.errors }}{{form.specialities.label_tag}}<span class="mandatory-star"> *</span>{{ form.specialities }}
-                </li>
-                <li>
-                    {{ form.credentials.errors }}{{form.credentials.label_tag}}<span class="mandatory-star"> *</span>{{ form.credentials }}
-                </li>
-                <li>
-                    {{ form.achievements.errors }}{{form.achievements.label_tag}}{{ form.achievements }}
-                </li>
-                <li>
-                    {{ form.experience.errors }}{{form.experience.label_tag}}<span class="mandatory-star"> *</span>{{ form.experience }}
-                </li>
-                <li>
-                    {{ form.message.errors }}{{form.message.label_tag}}{{ form.message }}
-                </li>
-            </ul>
+{% extends "registration/login_base.html" %} {% block registerClass %}active{% endblock %} {% block login_content %}
+	<div class="row">
+
+        	<div class="col-md-6">
+        		
+        		<div class="register-info-wraper">
+        			<div id="register-info">
+        			
+        				<h1>You are just few steps away to list yourself with DoctorsInfo.</h1>
+        			
+        				<ul dir="rtl">
+        					<li>Stand out from the crowd by completing your profile</li>
+        					<li>Find out what people have to say</li>
+        					<li>Join the featured list and make yourself prominent</li>
+        					<li>Your information will be safe with us</li>
+        				</ul>
+        				
+        			</div>
+        		</div>
+
+        	</div>
+
+        	<div class="col-md-6">
+        		<div id="register-wraper">
+        		    <form id="register-form" class="form">
+				
+        		        <legend>Register to <span class="blue">DoctorsInfo</span></legend>
+        		    
+        		        <div class="body">
+					<div class="box box-success">
+						<div class="box-header with-border">
+							<h3 class="box-title">Practitioner details</h3>
+						</div>
+						<div class="box-body">
+							<div class="row">
+								<div class="col-md-6"><div class="form-group">
+									<label>{{form.practitioner_name.label_tag}}</label>
+									{{form.practitioner_name}}</div>
+								</div>
+								<!-- email -->
+								<div class="col-md-6"><div class="form-group">
+									<label>{{form.email.label_tag}}</label>
+									{{form.email}}</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6"><div class="form-group">
+									<label>{{form.physician_type.label_tag}}</label>
+									{{form.physician_type}}</div>
+								</div>
+								<div class="col-md-6"><div class="form-group">
+									<label>{{form.specialities.label_tag}}</label>
+									{{form.specialities}}</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6"><div class="form-group">
+									<label>{{form.credentials.label_tag}}</label>
+									{{form.credentials}}</div>
+								</div>
+								<div class="col-md-6"><div class="form-group">
+									<label>{{form.experience.label_tag}}</label>
+									{{form.experience}}</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12"><div class="form-group">
+									<label>{{form.achievements.label_tag}}</label>
+									{{form.achievements}}</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12"><div class="form-group">
+									<label>{{form.message.label_tag}}</label>
+									{{form.message}}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="box box-success">
+						<div class="box-header with-border">
+							<h3 class="box-title">Practitioner Location details</h3>
+						</div>
+						<div class="box-body">
+							<div class="row">
+								<div class="col-md-12"><div class="form-group">
+									<label>{{form.practice_type.label_tag}}</label>
+									{{form.practice_type}}</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12"><div class="form-group practice_type_div">
+									<label>{{form.practice_name.label_tag}}</label>
+									{{form.practice_name}}</div>
+								</div>
+							</div>
+							<div class="row practice_location_hide">
+								<div class="col-md-6"><div class="form-group">
+									<label>{{form.address.label_tag}}</label>
+									{{form.address}}</div>
+								</div>
+								<div class="col-md-6"><div class="form-group">
+									<label>{{form.city.label_tag}}</label>
+									{{form.city}}</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6"><div class="form-group">
+									<label>{{form.services.label_tag}}</label>
+									{{form.services}}</div>
+								</div>
+								<div class="col-md-6"><div class="form-group">
+									<label>{{form.appointment.label_tag}}</label>
+									{{form.appointment}}</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6"><div class="form-group">
+									<label>{{form.checkup_fee.label_tag}}</label>
+									{{form.checkup_fee}}</div>
+								</div>
+								<div class="col-md-6"><div class="form-group">
+									<label>{{form.contact_number.label_tag}}</label>
+									{{form.contact_number}}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="box box-success">
+						<div class="box-header with-border">
+							<h3 class="box-title">Practitioner Timing details</h3>
+						</div>
+						<div class="box-body">
+							<div class="row">
+								<div class="col-md-6"><div class="form-group">
+									<label>{{form.day_from.label_tag}}</label>
+									{{form.day_from}}</div>
+								</div>
+								<div class="col-md-6"><div class="form-group">
+									<label>{{form.day_to.label_tag}}</label>
+									{{form.day_to}}</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6"><div class="form-group">
+									<label>{{form.start_time.label_tag}}</label>
+									{{form.start_time}}</div>
+								</div>
+								<div class="col-md-6"><div class="form-group">
+									<label>{{form.end_time.label_tag}}</label>
+									{{form.end_time}}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+        		        </div>
+        		    
+        		        <div class="footer">
+				    <div class="checkbox">
+  					<label>
+						<input type="checkbox" value="" id="inlineCheckbox1" value="option1" style="float:none;">
+    						I agree to the terms and conditions
+  					</label>
+				    </div>
+        		            
+        		            <button type="submit" class="btn btn-success">Register</button>
+        		        </div>
+        		    </form>
+        		</div>
+        	</div>
+
         </div>
-        <span class="Bold margtb break">Practice Location Details</span>
-        <div class="practice-info">
-            <ul>
-                <li>
-                    {{ form.practice_type.errors }}{{form.practice_type.label_tag}}<span class="mandatory-star"> *</span>{{ form.practice_type }}
-                </li>
-                <li>
-                    {{ form.practice_name.errors }}{{form.practice_name.label_tag}}<span class="mandatory-star"> *</span>{{ form.practice_name }}
-                </li>
-                <li>
-                    {{ form.contact_number.errors }}{{form.contact_number.label_tag}}<span class="mandatory-star"> *</span>{{ form.contact_number }}
-                </li>
-                <li>
-                    {{ form.checkup_fee.errors }}{{form.checkup_fee.label_tag}}<span class="mandatory-star"> *</span>{{ form.checkup_fee }}
-                </li>
-                <li>
-                    {{form.appointment.errors}}{{form.appointment.label_tag}}<span class="mandatory-star"> *</span>{{form.appointment}}
-                </li>
-                <li>
-                    {{ form.photo.errors }}{{form.photo.label_tag}}{{ form.photo }}
-                </li>
-                <li>
-                    {{ form.services.errors }}{{form.services.label_tag}}{{ form.services }}
-                </li>
-                <li>
-                    {{ form.city.errors }}{{form.city.label_tag}}<span class="mandatory-star"> *</span>{{ form.city }}
-                </li>
-                <li>
-                    {{ form.address.errors }}{{form.address.label_tag}}<span class="mandatory-star"> *</span>{{ form.address }}
-                </li>
-                <li>
-                    <a href="#popupCloseRight" data-rel="popup" class="ui-btn ui-corner-all ui-shadow ui-btn-inline" style="color: #00B848; margin-top: 35px;">
-              Show on Map</a>
-                    <div data-role="popup" id="popupCloseRight" class="ui-content" style="max-width: 700px">
-                        <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-                        <p>Drag the marker to appropriate location on map and close that Dialog.</p>
-                        <div style="width: 680px; height: 500px;" id="myMap"></div>
-                    </div>
-                </li>
-                {{ form.lat }}{{ form.lon }}
-            </ul>
-        </div>
-        <span class="Bold margtb break">Practice Timing Details</span>
-        <div class="practice-timing">
-            <ul>
-                <li>
-                    {{ form.day_from.errors }}{{form.day_from.label_tag}}<span class="mandatory-star"> *</span>{{ form.day_from }}
-                </li>
-                <li>
-                    {{ form.day_to.errors }}{{form.day_to.label_tag}}<span class="mandatory-star"> *</span>{{ form.day_to }}
-                </li>
-                <li>
-                    {{ form.start_time.errors }}{{form.start_time.label_tag}}<span class="mandatory-star"> *</span>{{ form.start_time }}
-                </li>
-                <li>
-                    {{ form.end_time.errors }}{{form.end_time.label_tag}}<span class="mandatory-star"> *</span>{{ form.end_time }}
-                </li>
-            </ul>
-        </div>
-        <div class="captcha">
-            <div class="g-recaptcha" data-sitekey="6LcAdv4SAAAAAI2hi_VgcifchYmJFUNmxdfajJJO"></div>
-            <button type="submit" class="ui-btn ui-shadow ui-corner-all register-btn">Register</button>
-        </div>
-    </form>
-</div>
-{% endblock %} {% block customScript %}
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+{% endblock %}
+
+{% block login_footer %}
+      <div class="col-md-6">Alread have an account? <a href="/login/" class="btn btn-black">Sign in</a></div>
+      <div class="col-md-6">Not a Doctor? <a href="/register/" class="btn btn-black">Get listed as a Patient</a></div>
+{% endblock %}
+
+{% block customScript %}
 <script type="text/javascript">
-var map;
-var marker;
-var myLatlng = new google.maps.LatLng(31.519191, 74.326237);
-var geocoder = new google.maps.Geocoder();
-var infowindow = new google.maps.InfoWindow();
+	
+	function change_hospital_name(){
+		if($("#id_practice_name").val() == "other"){
+			$(".practice_location_hide").fadeIn('slow');
+		}else{
+			$(".practice_location_hide").fadeOut('slow');
+		}
+	};
 
-function initialize() {
-    var mapOptions = {
-        zoom: 12,
-        center: myLatlng,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-    map = new google.maps.Map(document.getElementById("myMap"), mapOptions);
-    marker = new google.maps.Marker({
-        map: map,
-        position: myLatlng,
-        draggable: true
-    });
+	$(document).ready(function(){
+		$("input").addClass("form-control");
+		$("input[type='checkbox']").removeClass("form-control");
+		
+		$("textarea").addClass("input-huge").addClass("form-control");
+		$("select").addClass("form-control");
 
-    geocoder.geocode({
-        'latLng': myLatlng
-    }, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-            if (results[0]) {
-                $('#id_lon').val(marker.getPosition().lat());
-                $('#id_lat').val(marker.getPosition().lng());
-                infowindow.setContent(results[0].formatted_address);
-                infowindow.open(map, marker);
-            }
-        }
-    });
-    google.maps.event.addListener(marker, 'dragend', function() {
-        geocoder.geocode({
-            'latLng': marker.getPosition()
-        }, function(results, status) {
-            if (status == google.maps.GeocoderStatus.OK) {
-                if (results[0]) {
-                    $('#id_lon').val(marker.getPosition().lat());
-                    $('#id_lat').val(marker.getPosition().lng());
-                    //console.log($('#id_lon').val()+" , "+$('#id_lat').val());
-                    infowindow.setContent(results[0].formatted_address);
-                    infowindow.open(map, marker);
-                }
-            }
-        });
-    });
-}
-google.maps.event.addDomListener(window, 'load', initialize);
+		$("#id_practice_type").change(function(){
+			if($(this).val() == "H"){
+				$.ajax({
+					type : 'GET',
+					url : '/practice_hospitals/',
+					data: {},
+					success : function (d) {
+						$("#id_practice_name").remove();
+						$(".practice_type_div").append(d);
+					},
+					error : function errorHandler(jqXHR, exception) {
+						$('.loading_state').remove();
+						if (jqXHR.status === 0) {
+							alert('Not connect.\n Verify Network.');
+						} else if (jqXHR.status == 404) {
+							alert('Requested page not found. [404]');
+						} else if (jqXHR.status == 500) {
+							alert('Internal Server Error [500].');
+						} else if (exception === 'parsererror') {
+							alert('Requested JSON parse failed.');
+						} else if (exception === 'timeout') {
+							alert('Time out error.');
+						} else if (exception === 'abort') {
+							alert('Ajax request aborted.');
+						} else {
+							alert('Uncaught Error.\n' + jqXHR.responseText);
+						}
+	
+					}
+				});
+			}else{
+				$("#id_practice_name").remove();
+				$(".practice_type_div").append('<input id="id_practice_name" maxlength="50" name="practice_name" type="text" class="form-control">');
+				$(".practice_location_hide").fadeIn('slow');
+			}
+		});
+
+	});
 </script>
 {% endblock %}

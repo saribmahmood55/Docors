@@ -1,26 +1,30 @@
 {% extends "registration/login_base.html" %} {% block loginClass %}active{% endblock %} {% block login_content %}
-{% if form.errors %}
-{% block customStylesheet %}<style>#login-wrapper{height:410px;}</style>{% endblock %}
-{% endif %}
 <!-- BEGIN LOGIN FORM -->
+<div class="row">
+	<div class="col-md-5 col-md-offset-3">
+	<div id="login-wraper">
 	{% if form.errors %}
-        <div id="login-wraper" class="with-error">
 	<div class="alert alert-warning" style="color: #911;background-color: #fcdede;border-color: #d2b2b2;">
 		<a href="#" class="close" data-dismiss="alert">&times;</a>
 		Incorrect User Name or Password
 	</div>
-	{% else %}
-	<div id="login-wraper">
 	{% endif %}
             <form class="form login-form" action="" method="post">{% csrf_token %}
                 <legend>Sign in to <span class="blue">DoctorsInfo</span></legend>
             
                 <div class="body">
-                    <label>Username</label>
-                    {{form.username}}
-                    
-                    <label>Password</label>
-                    {{form.password}}
+			<div class="row">
+				<div class="col-md-12">
+		                    <label>Username</label>
+                		    {{form.username}}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+		                    <label>Password</label>
+                		    {{form.password}}
+				</div>
+			</div>
                 </div>
             
                 <div class="footer">
@@ -33,9 +37,19 @@
             
             </form>
         </div>
+</div>
+</div>
 {% endblock %}
 
 {% block login_footer %}
-      Don't have an account yet? <a href="register.html" class="btn btn-black">Register</a>
+      Don't have an account yet? <a href="/register/" class="btn btn-black">Register</a>
 {% endblock %}
 
+{% block customScript %}
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("input").addClass("form-control");
+		$("input[type='checkbox']").removeClass("form-control");
+	});
+</script>
+{% endblock %}
