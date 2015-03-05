@@ -1,0 +1,82 @@
+[{
+    "fields": {
+        "description": "This is the primary qualitfication required for a doctor.",
+        "points": 5,
+        "name": "MBBS",
+        "color_code": "#FFB80B"
+    },
+    "model": "practitioner.degree",
+    "pk": 1
+}, {
+    "fields": {
+        "description": "This is the primary qualitfication required for a doctor.",
+        "points": 5,
+        "name": "MD",
+        "color_code": "#FFB80B"
+    },
+    "model": "practitioner.degree",
+    "pk": 2
+}, {
+    "fields": {
+        "description": "UK, Europe",
+        "points": 5,
+        "name": "FRCS",
+        "color_code": "#FFB708"
+    },
+    "model": "practitioner.degree",
+    "pk": 3
+}, {
+    "fields": {
+        "description": "UK, Europe",
+        "points": 5,
+        "name": "FRCP",
+        "color_code": "#FFB708"
+    },
+    "model": "practitioner.degree",
+    "pk": 4
+}, {
+    "fields": {
+        "description": "UK, Europe",
+        "points": 5,
+        "name": "MRCS",
+        "color_code": "#FFB708"
+    },
+    "model": "practitioner.degree",
+    "pk": 5
+}, {
+    "fields": {
+        "description": "UK, Europe",
+        "points": 5,
+        "name": "MRCP",
+        "color_code": "#FFB708"
+    },
+    "model": "practitioner.degree",
+    "pk": 6
+}, {
+    "fields": {
+        "description": "Pakistan",
+        "points": 5,
+        "name": "FCPS",
+        "color_code": "#008585"
+    },
+    "model": "practitioner.degree",
+    "pk": 7
+}, {
+    "fields": {
+        "description": "Pakistan",
+        "points": 5,
+        "name": "MCPS",
+        "color_code": "#008585"
+    },
+    "model": "practitioner.degree",
+    "pk": 8
+}, {
+    "fields": {
+        "description": "American",
+        "points": 10,
+        "name": "Diplomate American Board",
+        "color_code": "#5ACF66"
+    },
+    "model": "practitioner.degree",
+    "pk": 9
+}]

@@ -18,7 +18,7 @@ class PractitionerAdmin(admin.ModelAdmin):
         ('Speciality', {'fields': ['specialities']}),
         ('Degrees', {'fields': ['degrees']}),
 	]
-	list_display = ['name','title','slug','credentials','Degrees_list','Specialist_in','status','experience','modified','pk']
+	list_display = ['name','title','gender','Degrees_list','Specialist_in','status','experience','modified','pk']
 	search_fields = ['name']
 	inlines = [PracticeTimingInline]
 	
@@ -34,7 +34,7 @@ class SpecializationAdmin(admin.ModelAdmin):
 	search_fields = ['name']
 
 class DegreeAdmin(admin.ModelAdmin):
-	list_display = ['name','points']
+	list_display = ['name','points','color_code','description']
 	list_filter = ['name']
 	search_fields = ['name']
 

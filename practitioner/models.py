@@ -14,8 +14,11 @@ class Specialization(models.Model):
         verbose_name_plural = "Specialities"
 
 class Degree(models.Model):
-    name = models.CharField(max_length=25)
+    name = models.CharField(max_length=50)
     points = models.PositiveSmallIntegerField(default=0)
+    color_code = models.CharField(max_length=10, null=True, blank=True)
+    description = models.CharField(max_length=250, null=True, blank=True)
+
     def __unicode__(self):
         return self.name
 
@@ -31,9 +34,11 @@ class PractitionerManager(models.Manager):
 class Practitioner(models.Model):
     PHYSICIAN_CHOICES = ( (1, 'Trainee'), (2, 'Specialist'),)
     TITLE = ( (1, 'Dr. '), (2, 'Prof. '), (3, 'Prof. Dr. '),)
+    GENDER = ( ('M', 'Male'),('F', 'Female'),)
 
     title = models.PositiveSmallIntegerField(choices = TITLE, null=True, blank=True)
     name = models.CharField(max_length=100)
+    gender = models.CharField(max_length=1, choices=GENDER, default='M')
     email = models.EmailField(max_length=75, null=True, blank=True)
     recommendation = models.PositiveIntegerField(default=0)
     not_recommended = models.PositiveIntegerField(default=0)
