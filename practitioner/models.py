@@ -1,5 +1,6 @@
 from django.db import models
 from autoslug import AutoSlugField
+from sorl.thumbnail import ImageField
 
 class Specialization(models.Model):
     name = models.CharField(max_length=100)
@@ -39,18 +40,21 @@ class Practitioner(models.Model):
     title = models.PositiveSmallIntegerField(choices = TITLE, null=True, blank=True)
     name = models.CharField(max_length=100)
     gender = models.CharField(max_length=1, choices=GENDER, default='M')
+    year_of_birth = models.PositiveIntegerField(default=0)
+    photo = ImageField(upload_to='practitioner/', blank=True, null=True)
     email = models.EmailField(max_length=75, null=True, blank=True)
-    recommendation = models.PositiveIntegerField(default=0)
-    not_recommended = models.PositiveIntegerField(default=0)
-    slug = AutoSlugField(populate_from='name', unique = True)
-    credentials = models.TextField()
-    physician_type = models.PositiveSmallIntegerField(choices = PHYSICIAN_CHOICES, help_text="Physician type", null=True, blank=True)
-    achievements = models.TextField(null=True, blank=True)
     experience = models.PositiveIntegerField(help_text="Number of years")
+    physician_type = models.PositiveSmallIntegerField(choices = PHYSICIAN_CHOICES, help_text="Physician type", null=True, blank=True)
+    achievements = models.TextField(null=True, blank=True)    
     message = models.TextField(max_length=140, null=True, blank=True)
-    status = models.BooleanField(default=False)
     degrees = models.ManyToManyField(Degree)
     specialities = models.ManyToManyField(Specialization)
+
+    slug = AutoSlugField(populate_from='name', unique = True)
+    status = models.BooleanField(default=False)
+    education_marks = models.PositiveIntegerField(default=0)
+    recommendation = models.PositiveIntegerField(default=0)
+    not_recommended = models.PositiveIntegerField(default=0)
     modified = models.DateTimeField(auto_now=True)
 
     #Manager

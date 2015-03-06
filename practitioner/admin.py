@@ -11,14 +11,16 @@ class PractitionerAdmin(admin.ModelAdmin):
 		('Title', {'fields': ['title']}),
 		('Name', {'fields': ['name']}),
 		('status', {'fields': ['status']}),
-        ('Degrees/Credentials', {'fields': ['credentials']}),
         ('Achievements', {'fields': ['achievements']}),
         ('Experience', {'fields': ['experience']}),
+        ('Year of Birth', {'fields': ['year_of_birth']}),
+        ('Gender', {'fields': ['gender']}),
+        ('Thumbnail Photo ', {'fields': ['photo']}),
         ('Short Message', {'fields': ['message']}),
         ('Speciality', {'fields': ['specialities']}),
         ('Degrees', {'fields': ['degrees']}),
 	]
-	list_display = ['name','title','gender','Degrees_list','Specialist_in','status','experience','modified','pk']
+	list_display = ['name','title','gender','Degrees_list','year_of_birth','experience','Specialist_in','pk']
 	search_fields = ['name']
 	inlines = [PracticeTimingInline]
 	

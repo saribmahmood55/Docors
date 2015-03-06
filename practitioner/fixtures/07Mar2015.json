@@ -153,64 +153,82 @@
     "pk": 18
 }, {
     "fields": {
+        "description": "This is the primary qualitfication required for a doctor.",
         "points": 5,
-        "name": "MBBS"
+        "name": "MBBS",
+        "color_code": "#FFB80B"
     },
     "model": "practitioner.degree",
     "pk": 1
 }, {
     "fields": {
+        "description": "This is the primary qualitfication required for a doctor.",
         "points": 5,
-        "name": "MD"
+        "name": "MD",
+        "color_code": "#FFB80B"
     },
     "model": "practitioner.degree",
     "pk": 2
 }, {
     "fields": {
+        "description": "UK, Europe",
         "points": 5,
-        "name": "FRCS"
+        "name": "FRCS",
+        "color_code": "#FFB708"
     },
     "model": "practitioner.degree",
     "pk": 3
 }, {
     "fields": {
+        "description": "UK, Europe",
         "points": 5,
-        "name": "FRCP"
+        "name": "FRCP",
+        "color_code": "#FFB708"
     },
     "model": "practitioner.degree",
     "pk": 4
 }, {
     "fields": {
+        "description": "UK, Europe",
         "points": 5,
-        "name": "MRCS"
+        "name": "MRCS",
+        "color_code": "#FFB708"
     },
     "model": "practitioner.degree",
     "pk": 5
 }, {
     "fields": {
+        "description": "UK, Europe",
         "points": 5,
-        "name": "MRCP"
+        "name": "MRCP",
+        "color_code": "#FFB708"
     },
     "model": "practitioner.degree",
     "pk": 6
 }, {
     "fields": {
+        "description": "Pakistan",
         "points": 5,
-        "name": "FCPS"
+        "name": "FCPS",
+        "color_code": "#008585"
     },
     "model": "practitioner.degree",
     "pk": 7
 }, {
     "fields": {
+        "description": "Pakistan",
         "points": 5,
-        "name": "MCPS"
+        "name": "MCPS",
+        "color_code": "#008585"
     },
     "model": "practitioner.degree",
     "pk": 8
 }, {
     "fields": {
+        "description": "American",
         "points": 10,
-        "name": "Diplomate American Board"
+        "name": "Diplomate American Board",
+        "color_code": "#5ACF66"
     },
     "model": "practitioner.degree",
     "pk": 9
@@ -220,15 +238,18 @@
         "status": true,
         "name": "Mohammad Anwar",
         "title": 1,
-        "specialities": [1],
+        "gender": "M",
         "modified": "2015-03-04T21:09:55.381Z",
+        "recommendation": 0,
+        "specialities": [1],
+        "education_marks": 0,
         "experience": 20,
         "slug": "dr-mohammad-anwar",
         "physician_type": 2,
-        "degrees": [1, 9],
+        "year_of_birth": 0,
         "not_recommended": 0,
-        "recommendation": 0,
-        "credentials": "MBBS, DABP (USA), FAAP (USA)",
+        "photo": "",
+        "degrees": [9, 1],
         "message": "",
         "email": null
     },
@@ -240,15 +261,18 @@
         "status": true,
         "name": "Tahir Masood Ahmad",
         "title": 2,
-        "specialities": [1],
+        "gender": "M",
         "modified": "2015-03-04T21:09:30.733Z",
+        "recommendation": 0,
+        "specialities": [1],
+        "education_marks": 0,
         "experience": 15,
         "slug": "prof-tahir-masood-ahmad",
         "physician_type": 2,
-        "degrees": [1, 2, 7, 8],
+        "year_of_birth": 0,
         "not_recommended": 0,
-        "recommendation": 0,
-        "credentials": "MBBS, MCPS, MD, FCPS",
+        "photo": "",
+        "degrees": [7, 8, 2, 1],
         "message": "",
         "email": null
     },
@@ -260,15 +284,18 @@
         "status": true,
         "name": "Masood Sadiq",
         "title": 1,
-        "specialities": [1],
+        "gender": "M",
         "modified": "2015-03-04T21:08:43.326Z",
+        "recommendation": 0,
+        "specialities": [1],
+        "education_marks": 0,
         "experience": 10,
         "slug": "dr-masood-sadiq",
         "physician_type": 2,
-        "degrees": [1, 4, 6],
+        "year_of_birth": 0,
         "not_recommended": 0,
-        "recommendation": 0,
-        "credentials": "MBBS (Pb), DCH (Glasgow), MRCP (UK), FRCPCH, FRCP (Edinburgh)",
+        "photo": "",
+        "degrees": [6, 4, 1],
         "message": "",
         "email": null
     },
@@ -280,15 +307,18 @@
         "status": true,
         "name": "Mudassir S. Sheikh",
         "title": 1,
-        "specialities": [2],
+        "gender": "M",
         "modified": "2015-03-04T21:07:27.804Z",
+        "recommendation": 0,
+        "specialities": [2],
+        "education_marks": 0,
         "experience": 23,
         "slug": "dr-mudassir-s-sheikh",
         "physician_type": 2,
-        "degrees": [2, 9],
+        "year_of_birth": 0,
         "not_recommended": 0,
-        "recommendation": 0,
-        "credentials": "MD, FACP, FACG, DABIM(USA), DABGE(USA)",
+        "photo": "",
+        "degrees": [9, 2],
         "message": "",
         "email": null
     },
@@ -300,15 +330,18 @@
         "status": true,
         "name": "Arif Qayyum Khan",
         "title": 3,
-        "specialities": [2],
+        "gender": "M",
         "modified": "2015-03-04T21:04:13.711Z",
+        "recommendation": 0,
+        "specialities": [2],
+        "education_marks": 0,
         "experience": 10,
         "slug": "prof-dr-arif-qayyum-khan",
         "physician_type": 2,
-        "degrees": [1, 9],
+        "year_of_birth": 0,
         "not_recommended": 0,
-        "recommendation": 0,
-        "credentials": "MBBS, FACP, FRCP, FACG, DABIM, DABGE",
+        "photo": "",
+        "degrees": [9, 1],
         "message": "Out of Country.",
         "email": null
     },
@@ -320,15 +353,18 @@
         "status": true,
         "name": "Syed S. Hasnain",
         "title": 1,
+        "gender": "M",
+        "modified": "2015-03-06T19:48:24.139Z",
+        "recommendation": 0,
         "specialities": [2],
-        "modified": "2015-03-04T21:03:03.635Z",
+        "education_marks": 0,
         "experience": 20,
         "slug": "dr-syed-s-hasnain",
         "physician_type": 2,
-        "degrees": [1, 2, 8],
+        "year_of_birth": 1963,
         "not_recommended": 0,
-        "recommendation": 0,
-        "credentials": "M.B.B.S, M.D(U.S.A), M.C.P.S (Pak), F.A.C.P (U.S.A), F.A.C.G (U.S.A)",
+        "photo": "",
+        "degrees": [8, 2, 1],
         "message": "available",
         "email": "anrana744@gmail.com"
     },
