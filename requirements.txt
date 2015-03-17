@@ -24,3 +24,7 @@ sorl-thumbnail==12.2
 static3==0.5.1
 whitenoise==1.0.3
 Whoosh==2.6.0
+python-openid==2.2.5
+oauthlib==0.7.2
+requests-oauthlib==0.4.2
+django-allauth==0.19.1
