@@ -8,6 +8,7 @@ from utility import *
 from django.http import Http404
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from django.utils.safestring import mark_safe
 import json
 
 
@@ -49,19 +50,18 @@ def adv(request):
 def registration(request):
 	if request.method == 'POST':
 		form = PractitionerForm(request.POST, request.FILES)
-		if form.is_valid() and validReCaptcha(request):
+		if form.is_valid():
 			#practitioner
 			practitioner_name = form.cleaned_data['practitioner_name']
 			email = form.cleaned_data['email']
 			p_type = form.cleaned_data['physician_type']
-			credentials = form.cleaned_data['credentials']
+			credentials = '';#form.cleaned_data['credentials']
 			achievements = form.cleaned_data['achievements']
 			experience = form.cleaned_data['experience']
 			message = form.cleaned_data['message']
 			spec = form.cleaned_data['specialities']
 			# Create practitioner
-			practitioner = Practitioner(name=practitioner_name, email=email, credentials=credentials, physician_type=p_type, achievements=achievements, experience=experience,
-				message=message, status=False)
+			practitioner = Practitioner(name=practitioner_name, email=email, credentials=credentials, physician_type=p_type, achievements=achievements, experience=experience, message=message, status=False)
 			practitioner.save()
 			speciality = Specialization.objects.get(pk=spec)
 			practitioner.specialities.add(speciality)
@@ -103,4 +103,6 @@ def registration(request):
 			print 're-captcha errors', form.errors
 	else:
 		form = PractitionerForm()
-	return render_to_response('practitioner/registration.html', {'form': form}, context_instance=RequestContext(request))
+	degrees = Degree.objects.all()
+	degree_name = [deg.name for deg in degrees]
+	return render_to_response('practitioner/registration.html', {'form': form,'degree_list':degree_name}, context_instance=RequestContext(request))

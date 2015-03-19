@@ -1,5 +1,6 @@
 {% extends "registration/base.html" %} {% block title %}Log In | Doctors Info, Pakistan{% endblock %} {% load staticfiles %} {% block pageSpecificCSS %}
 	<link rel="stylesheet" href="{% static "assets/login/css/typica-login.css" %}">
+	<link rel="stylesheet" href="{% static "assets/login/css/bootstrap-tagsinput.css" %}">
 {% endblock %}
 
 {% block customStylesheet %}
@@ -22,6 +23,8 @@
 
 {% block pageSpecificJS %}
 	<script src="{% static "assets/login/js/backstretch.min.js" %}"></script>
+	<script src="{% static "assets/login/js/bootstrap-tagsinput.min.js" %}"></script>
+	<script src="{% static "assets/login/js/bootstrap3-typeahead.min.js" %}"></script>
 {% endblock %}
 
 {% block customScript %}

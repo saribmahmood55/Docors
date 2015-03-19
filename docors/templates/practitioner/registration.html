@@ -1,28 +1,9 @@
 {% extends "registration/login_base.html" %} {% block registerClass %}active{% endblock %} {% block login_content %}
 	<div class="row">
 
-        	<div class="col-md-6">
-        		
-        		<div class="register-info-wraper">
-        			<div id="register-info">
-        			
-        				<h1>You are just few steps away to list yourself with DoctorsInfo.</h1>
-        			
-        				<ul dir="rtl">
-        					<li>Stand out from the crowd by completing your profile</li>
-        					<li>Find out what people have to say</li>
-        					<li>Join the featured list and make yourself prominent</li>
-        					<li>Your information will be safe with us</li>
-        				</ul>
-        				
-        			</div>
-        		</div>
-
-        	</div>
-
-        	<div class="col-md-6">
+        	<div class="col-md-8">
         		<div id="register-wraper">
-        		    <form id="register-form" class="form">
+        		    <form id="register-form" class="form" action="" method="post">{% csrf_token %}
 				
         		        <legend>Register to <span class="blue">DoctorsInfo</span></legend>
         		    
@@ -33,30 +14,47 @@
 						</div>
 						<div class="box-body">
 							<div class="row">
-								<div class="col-md-6"><div class="form-group">
+								<div class="col-md-2"><div class="form-group">
+									<label>{{form.practitioner_title.label_tag}}</label>
+									{{form.practitioner_title}}</div>
+								</div>
+								<div class="col-md-4"><div class="form-group">
 									<label>{{form.practitioner_name.label_tag}}</label>
 									{{form.practitioner_name}}</div>
 								</div>
-								<!-- email -->
-								<div class="col-md-6"><div class="form-group">
-									<label>{{form.email.label_tag}}</label>
-									{{form.email}}</div>
+								<div class="col-md-3"><div class="form-group">
+									<label>{{form.practitioner_gender.label_tag}}</label>
+									{{form.practitioner_gender}}</div>
+								</div>
+								<div class="col-md-3"><div class="form-group">
+									<label>{{form.year_of_birth.label_tag}}</label>
+									{{form.year_of_birth}}</div>
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-md-6"><div class="form-group">
+								<div class="col-md-4"><div class="form-group">
+									<label>{{form.email.label_tag}}</label>
+									{{form.email}}</div>
+								</div>
+								<div class="col-md-4"><div class="form-group">
 									<label>{{form.physician_type.label_tag}}</label>
 									{{form.physician_type}}</div>
 								</div>
-								<div class="col-md-6"><div class="form-group">
+								<div class="col-md-4"><div class="form-group">
 									<label>{{form.specialities.label_tag}}</label>
 									{{form.specialities}}</div>
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-md-6"><div class="form-group">
+								<div class="col-md-12"><div class="form-group">
 									<label>{{form.credentials.label_tag}}</label>
 									{{form.credentials}}</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6"><div class="form-group">
+									<label>{{form.experience.label_tag}}</label>
+									{{form.experience}}</div>
 								</div>
 								<div class="col-md-6"><div class="form-group">
 									<label>{{form.experience.label_tag}}</label>
@@ -64,13 +62,11 @@
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-md-12"><div class="form-group">
+								<div class="col-md-6"><div class="form-group">
 									<label>{{form.achievements.label_tag}}</label>
 									{{form.achievements}}</div>
 								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-12"><div class="form-group">
+								<div class="col-md-6"><div class="form-group">
 									<label>{{form.message.label_tag}}</label>
 									{{form.message}}</div>
 								</div>
@@ -84,13 +80,11 @@
 						</div>
 						<div class="box-body">
 							<div class="row">
-								<div class="col-md-12"><div class="form-group">
+								<div class="col-md-6"><div class="form-group">
 									<label>{{form.practice_type.label_tag}}</label>
 									{{form.practice_type}}</div>
 								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-12"><div class="form-group practice_type_div">
+								<div class="col-md-6"><div class="form-group practice_type_div">
 									<label>{{form.practice_name.label_tag}}</label>
 									{{form.practice_name}}</div>
 								</div>
@@ -106,21 +100,21 @@
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-md-6"><div class="form-group">
+								<div class="col-md-4"><div class="form-group">
 									<label>{{form.services.label_tag}}</label>
 									{{form.services}}</div>
 								</div>
-								<div class="col-md-6"><div class="form-group">
+								<div class="col-md-4"><div class="form-group">
 									<label>{{form.appointment.label_tag}}</label>
 									{{form.appointment}}</div>
 								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-6"><div class="form-group">
+								<div class="col-md-4"><div class="form-group">
 									<label>{{form.checkup_fee.label_tag}}</label>
 									{{form.checkup_fee}}</div>
 								</div>
-								<div class="col-md-6"><div class="form-group">
+							</div>
+							<div class="row">
+								<div class="col-md-12"><div class="form-group">
 									<label>{{form.contact_number.label_tag}}</label>
 									{{form.contact_number}}</div>
 								</div>
@@ -134,21 +128,19 @@
 						</div>
 						<div class="box-body">
 							<div class="row">
-								<div class="col-md-6"><div class="form-group">
+								<div class="col-md-3"><div class="form-group">
 									<label>{{form.day_from.label_tag}}</label>
 									{{form.day_from}}</div>
 								</div>
-								<div class="col-md-6"><div class="form-group">
+								<div class="col-md-3"><div class="form-group">
 									<label>{{form.day_to.label_tag}}</label>
 									{{form.day_to}}</div>
 								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-6"><div class="form-group">
+								<div class="col-md-3"><div class="form-group">
 									<label>{{form.start_time.label_tag}}</label>
 									{{form.start_time}}</div>
 								</div>
-								<div class="col-md-6"><div class="form-group">
+								<div class="col-md-3"><div class="form-group">
 									<label>{{form.end_time.label_tag}}</label>
 									{{form.end_time}}</div>
 								</div>
@@ -172,6 +164,25 @@
         		</div>
         	</div>
 
+        	<div class="col-md-4">
+        		
+        		<div class="register-info-wraper">
+        			<div id="register-info">
+        			
+        				<h1 style="text-align:left;">You are just few steps away to list yourself with DoctorsInfo.</h1>
+        			
+        				<ul dir="rtl" style="margin-right:0px;text-align:left;list-style:none;">
+        					<li>Stand out from the crowd by completing your profile</li>
+        					<li>Find out what people have to say</li>
+        					<li>Join the featured list and make yourself prominent</li>
+        					<li>Your information will be safe with us</li>
+        				</ul>
+        				
+        			</div>
+        		</div>
+
+        	</div>
+
         </div>
 {% endblock %}
 
@@ -182,6 +193,12 @@
 
 {% block customScript %}
 <script type="text/javascript">
+
+	
+	var data_source = Array();
+	{% for p in degree_list %}
+	data_source.push("{{p}}");
+	{% endfor %}
 	
 	function change_hospital_name(){
 		if($("#id_practice_name").val() == "other"){
@@ -194,9 +211,20 @@
 	$(document).ready(function(){
 		$("input").addClass("form-control");
 		$("input[type='checkbox']").removeClass("form-control");
+		$("input[type='number']").attr("min","0");
 		
 		$("textarea").addClass("input-huge").addClass("form-control");
 		$("select").addClass("form-control");
+
+		autosize($('textarea'));
+
+		$('#id_credentials').tagsinput({
+			typeahead: {
+				source: data_source
+			},
+			freeInput: false
+		});
+
 
 		$("#id_practice_type").change(function(){
 			if($(this).val() == "H"){
