@@ -6,9 +6,13 @@ class CityAdmin(admin.ModelAdmin):
 	list_filter = ['name']
 	search_fields = ['name']
 
+class CheckupFeeAdmin(admin.ModelAdmin):
+	list_display = ['amount']
+	list_filter = ['amount']
+
 
 class PracticeLocationAdmin(admin.ModelAdmin):
-	list_display = ['pk','name','slug','clinic_address','lon','lat']
+	list_display = ['pk','name','slug','contact_number','clinic_address','lon','lat']
 	search_fields = ['name']
 
 
@@ -17,13 +21,11 @@ class PracticeAdmin(admin.ModelAdmin):
 		(None, {'fields': ['practitioner']}),
 		(None, {'fields': ['practice_location']}),
 		(None, {'fields': ['practice_type']}),
-		(None, {'fields': ['practice_photo']}),
-        (None, {'fields': ['contact_number']}),
-        (None, {'fields': ['checkup_fee']}),
+        (None, {'fields': ['fee']}),
         (None, {'fields': ['services']}),
         (None, {'fields': ['appointments_only']}),
 	]
-	list_display = ['practitioner','pk','practice_location','contact_number','checkup_fee','appointments_only','modified','location']
+	list_display = ['practitioner','pk','practice_location','fee','appointments_only','modified','location']
 	search_fields = ['practitioner__name']
 
 
@@ -37,6 +39,7 @@ class RecentSearchAdmin(admin.ModelAdmin):
 
 
 admin.site.register(City, CityAdmin)
+admin.site.register(CheckupFee, CheckupFeeAdmin)
 admin.site.register(PracticeLocation, PracticeLocationAdmin)
 admin.site.register(Practice, PracticeAdmin)
 admin.site.register(PracticeTiming, PracticeTimingAdmin)

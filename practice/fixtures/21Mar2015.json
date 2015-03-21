@@ -7,7 +7,56 @@
     "pk": 1
 }, {
     "fields": {
+        "amount": 500
+    },
+    "model": "practice.checkupfee",
+    "pk": 2
+}, {
+    "fields": {
+        "amount": 800
+    },
+    "model": "practice.checkupfee",
+    "pk": 3
+}, {
+    "fields": {
+        "amount": 1000
+    },
+    "model": "practice.checkupfee",
+    "pk": 4
+}, {
+    "fields": {
+        "amount": 1200
+    },
+    "model": "practice.checkupfee",
+    "pk": 5
+}, {
+    "fields": {
+        "amount": 1500
+    },
+    "model": "practice.checkupfee",
+    "pk": 6
+}, {
+    "fields": {
+        "amount": 2000
+    },
+    "model": "practice.checkupfee",
+    "pk": 7
+}, {
+    "fields": {
+        "amount": 2500
+    },
+    "model": "practice.checkupfee",
+    "pk": 8
+}, {
+    "fields": {
+        "amount": 3000
+    },
+    "model": "practice.checkupfee",
+    "pk": 9
+}, {
+    "fields": {
         "city": 1,
+        "contact_number": "04235863008",
         "name": "Dr. Mohammad Anwar's Private Clinic",
         "photo": "",
         "lon": 31.5048678,
@@ -20,6 +69,7 @@
 }, {
     "fields": {
         "city": 1,
+        "contact_number": "04235869567",
         "name": "Prof. Tahir Masood Ahmed Private Clininc",
         "photo": "",
         "lon": 31.4956102,
@@ -32,6 +82,7 @@
 }, {
     "fields": {
         "city": 1,
+        "contact_number": "04235201918",
         "name": "Dr. Masood Sadiq Private Clinic",
         "photo": "",
         "lon": 31.481998,
@@ -44,6 +95,7 @@
 }, {
     "fields": {
         "city": 1,
+        "contact_number": "03014445445",
         "name": "Digestive Disease Center",
         "photo": "",
         "lon": 31.502684,
@@ -56,6 +108,7 @@
 }, {
     "fields": {
         "city": 1,
+        "contact_number": "042111171819",
         "name": "National Hospital & Medical Center, Defence",
         "photo": "",
         "lon": 31.4842,
@@ -68,6 +121,7 @@
 }, {
     "fields": {
         "city": 1,
+        "contact_number": "03008446404, 04235716667, 04235716668",
         "name": "Advance Gastrology & Liver Centre",
         "photo": "",
         "lon": 31.53492,
@@ -80,6 +134,7 @@
 }, {
     "fields": {
         "city": 1,
+        "contact_number": "04235759131 03008168955",
         "name": "Dr. Syed S. Hasnain Private Clinic",
         "photo": "",
         "lon": 31.5546061,
@@ -91,9 +146,8 @@
     "pk": 19
 }, {
     "fields": {
-        "contact_number": "04235863008",
         "practitioner": 1,
-        "checkup_fee": 1500,
+        "fee": 6,
         "practice_location": 1,
         "practice_type": "P",
         "modified": "2014-11-25T12:45:23.703Z",
@@ -105,9 +159,8 @@
     "pk": 1
 }, {
     "fields": {
-        "contact_number": "04235869567",
         "practitioner": 2,
-        "checkup_fee": 1500,
+        "fee": 6,
         "practice_location": 2,
         "practice_type": "P",
         "modified": "2014-11-25T13:03:06.884Z",
@@ -119,9 +172,8 @@
     "pk": 2
 }, {
     "fields": {
-        "contact_number": "04235201918",
         "practitioner": 3,
-        "checkup_fee": 1500,
+        "fee": 6,
         "practice_location": 3,
         "practice_type": "P",
         "modified": "2015-01-21T09:19:48.121Z",
@@ -133,9 +185,8 @@
     "pk": 3
 }, {
     "fields": {
-        "contact_number": "03014445445",
         "practitioner": 4,
-        "checkup_fee": 1500,
+        "fee": 6,
         "practice_location": 4,
         "practice_type": "P",
         "modified": "2014-11-25T13:54:18.299Z",
@@ -147,9 +198,8 @@
     "pk": 4
 }, {
     "fields": {
-        "contact_number": "042111171819",
         "practitioner": 4,
-        "checkup_fee": 2000,
+        "fee": 7,
         "practice_location": 5,
         "practice_type": "H",
         "modified": "2014-11-25T13:55:14.618Z",
@@ -161,9 +211,8 @@
     "pk": 5
 }, {
     "fields": {
-        "contact_number": "03008446404, 04235716667, 04235716668",
         "practitioner": 5,
-        "checkup_fee": 2000,
+        "fee": 7,
         "practice_location": 6,
         "practice_type": "P",
         "modified": "2014-11-25T14:10:33.943Z",
@@ -175,9 +224,8 @@
     "pk": 6
 }, {
     "fields": {
-        "contact_number": "04235759131 03008168955",
         "practitioner": 18,
-        "checkup_fee": 2000,
+        "fee": 7,
         "practice_location": 19,
         "practice_type": "P",
         "modified": "2015-01-26T14:07:35.122Z",

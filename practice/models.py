@@ -17,10 +17,19 @@ class City(models.Model):
     class Meta:
         verbose_name_plural = "Cities"
 
+class CheckupFee(models.Model):
+    amount = models.PositiveSmallIntegerField()
+    
+    def __unicode__(self):
+        return str(self.amount)
+    
+    class Meta:
+        verbose_name_plural = "CheckupFee"
 
 class PracticeLocation(models.Model):
     name = models.CharField(max_length=50)
     slug = AutoSlugField(populate_from='name', unique = True)
+    contact_number = models.CharField(max_length=150, null=True, blank=True)
     photo = ImageField(upload_to='practice/', blank=True, null=True)
     clinic_address = models.TextField()
     city = models.ForeignKey(City)
@@ -97,12 +106,11 @@ class Practice(models.Model):
     practice_type = models.CharField(max_length=1, choices=Practice_CHOICES, help_text="Practice Type")
     practice_location = models.ForeignKey(PracticeLocation)
     practitioner = models.ForeignKey(Practitioner)
-    contact_number = models.CharField(max_length=100)
-    checkup_fee = models.PositiveIntegerField()
+    fee = models.ForeignKey(CheckupFee, null=True, blank=True)
     services = models.TextField(null=True, blank=True)
     appointments_only = models.BooleanField(default=True)
-    modified = models.DateTimeField(auto_now=True)
     location = gis_models.PointField(geography=True, blank=True, null=True)
+    modified = models.DateTimeField(auto_now=True)
     
     objects = models.Manager()
     gis = gis_models.GeoManager()
