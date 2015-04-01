@@ -1,6 +1,9 @@
 from practice.models import *
-from practice.serializers import PracticeSerializer
+from practice.serializers import PracticeSerializer, CitySerializer, CheckupFeeSerializer
 from rest_framework import generics
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.renderers import JSONRenderer
 from django.shortcuts import render
 from patients.models import Patient
 from reviews.models import Review
@@ -19,6 +22,31 @@ class PracticeList(generics.ListCreateAPIView):
 class PracticeDetail(generics.RetrieveUpdateDestroyAPIView):
 	queryset = Practice.objects.all()
 	serializer_class = PracticeSerializer
+
+class CityList(generics.ListCreateAPIView):
+	queryset = City.objects.all()
+	serializer_class = CitySerializer
+
+class CityDetail(generics.RetrieveUpdateDestroyAPIView):
+	queryset = City.objects.all()
+	serializer_class = CitySerializer
+
+class CheckupFeeList(generics.ListCreateAPIView):
+	queryset = CheckupFee.objects.all()
+	serializer_class = CheckupFeeSerializer
+
+class CheckupFeeDetail(generics.RetrieveUpdateDestroyAPIView):
+	queryset = CheckupFee.objects.all()
+	serializer_class = CheckupFeeSerializer
+
+class PracticeTypeList(APIView):
+	def get(self, request, format=None):
+		practice_types = [
+			{"P":"Private Clinic/Residence"}, 
+			{"H":"Hospital"}, 
+			{"M":"Medical Complex"}
+		]
+		return Response(practice_types)
 
 def practice(request, practice_slug, practitioner_slug):
 	if request.method == "GET":
