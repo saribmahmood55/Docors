@@ -1,7 +1,9 @@
+from practice.models import *
+from practice.serializers import PracticeSerializer
+from rest_framework import generics
 from django.shortcuts import render
 from patients.models import Patient
 from reviews.models import Review
-from practice.models import *
 from utility import *
 from practitioner.models import Practitioner
 from django.http import Http404, HttpResponseRedirect, HttpResponse
@@ -9,6 +11,14 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 import json
+
+class PracticeList(generics.ListCreateAPIView):
+	queryset = Practice.objects.all()
+	serializer_class = PracticeSerializer
+
+class PracticeDetail(generics.RetrieveUpdateDestroyAPIView):
+	queryset = Practice.objects.all()
+	serializer_class = PracticeSerializer
 
 def practice(request, practice_slug, practitioner_slug):
 	if request.method == "GET":

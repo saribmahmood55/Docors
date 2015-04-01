@@ -1,4 +1,6 @@
 from practitioner.models import *
+from practitioner.serializers import PractitionerSerializer
+from rest_framework import generics
 from patients.models import Patient
 from reviews.models import Review
 from practice.models import *
@@ -11,6 +13,13 @@ from django.template import RequestContext
 from django.utils.safestring import mark_safe
 import json
 
+class PractitionerList(generics.ListCreateAPIView):
+	queryset = Practitioner.objects.all()
+	serializer_class = PractitionerSerializer
+
+class PractitionerDetail(generics.RetrieveUpdateDestroyAPIView):
+	queryset = Practitioner.objects.all()
+	serializer_class = PractitionerSerializer
 
 def index(request):
 	data = {}

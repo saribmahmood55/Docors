@@ -1,4 +1,6 @@
 from patients.models import Patient
+from patients.serializers import PatientSerializer
+from rest_framework import generics
 from reviews.models import *
 from utility import *
 from django.http import Http404, HttpResponse, HttpResponseRedirect
@@ -6,6 +8,14 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 import json
+
+class PatientList(generics.ListCreateAPIView):
+	queryset = Patient.objects.all()
+	serializer_class = PatientSerializer
+
+class PatientDetail(generics.RetrieveUpdateDestroyAPIView):
+	queryset = Patient.objects.all()
+	serializer_class = PatientSerializer
 
 def subscribe(request):
 	slug = None

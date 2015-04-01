@@ -82,6 +82,8 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.twitter',
+    #django REST Api
+    'rest_framework'
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -112,9 +114,9 @@ LOGIN_REDIRECT_URL = '/'
 SOCIALACCOUNT_QUERY_EMAIL = True
 SOCIALACCOUNT_PROVIDERS = {
     'facebook': {
-        'SCOPE': ['email'],
+        'SCOPE': ['email', 'user_birthday'],
         'METHOD': 'oauth2',
-        'VERIFIED_EMAIL': False
+        'VERIFIED_EMAIL': True
     }
 }
 
