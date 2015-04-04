@@ -130,7 +130,7 @@ WSGI_APPLICATION = 'docors.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'geodjango',
+        'NAME': 'Rana_Gujjar',
         'USER': 'asadrana',
         'PASSWORD': 'asad0321',
         'HOST': 'localhost',

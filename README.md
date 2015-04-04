@@ -7,20 +7,20 @@
 $	sudo apt-get install postgresql-9.3
 ```
 
-2. Create database with name 'geodjango':
+2. Create database with name 'Rana_Gujjar':
 ```sh
 $	sudo -su postgres
-$	createdb geodjango
+$	createdb Rana_Gujjar
 ```
-3. Creating postgis extension inside a standard database, we just created i.e 'geodjango', adding a new user and granting privileges to new user:
+3. Creating postgis extension inside a standard database, we just created i.e 'Rana_Gujjar', adding a new user and granting privileges to new user:
 ```sh
-$	sudo -u postgres psql geodjango
+$	sudo -u postgres psql Rana_Gujjar
 ```
 psql commands:
 ```sh
 CREATE EXTENSION postgis;
 CREATE USER asadrana WITH PASSWORD 'asad0321';
-GRANT ALL PRIVILEGES ON DATABASE "geodjango" to asadrana;
+GRANT ALL PRIVILEGES ON DATABASE "Rana_Gujjar" to asadrana;
 \q
 ```
 
