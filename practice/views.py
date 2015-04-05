@@ -41,12 +41,14 @@ class CheckupFeeDetail(generics.RetrieveUpdateDestroyAPIView):
 
 class PracticeTypeList(APIView):
 	def get(self, request, format=None):
-		practice_types = [
-			{"P":"Private Clinic/Residence"}, 
-			{"H":"Hospital"}, 
-			{"M":"Medical Complex"}
-		]
+		practice_types = [ {"P":"Private Clinic/Residence"}, {"H":"Hospital"}, {"M":"Medical Complex"} ]
 		return Response(practice_types)
+
+
+class DayList(APIView):
+	def get(self, request, format=None):
+		day_list = [ {"1":"Monday"}, {"2":"Tuesday"}, {"3":"Wedneday"}, {"4":"Thursday"}, {"5":"Friday"}, {"6":"Saturday"}, {"7":"Sunday"} ]
+		return Response(day_list)
 
 def practice(request, practice_slug, practitioner_slug):
 	if request.method == "GET":
