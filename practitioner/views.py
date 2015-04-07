@@ -1,6 +1,8 @@
 from practitioner.models import *
-from practitioner.serializers import PractitionerSerializer
+from practitioner.serializers import PractitionerSerializer, SpecializationSerializer, DegreeSerializer
 from rest_framework import generics
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from patients.models import Patient
 from reviews.models import Review
 from practice.models import *
@@ -20,6 +22,47 @@ class PractitionerList(generics.ListCreateAPIView):
 class PractitionerDetail(generics.RetrieveUpdateDestroyAPIView):
 	queryset = Practitioner.objects.all()
 	serializer_class = PractitionerSerializer
+
+class SpecializationList(generics.ListCreateAPIView):
+	queryset = Specialization.objects.all()
+	serializer_class = SpecializationSerializer
+
+class SpecializationDetail(generics.RetrieveUpdateDestroyAPIView):
+	queryset = Specialization.objects.all()
+	serializer_class = SpecializationSerializer
+
+class DegreeList(generics.ListCreateAPIView):
+	queryset = Degree.objects.all()
+	serializer_class = DegreeSerializer
+
+class DegreeDetail(generics.RetrieveUpdateDestroyAPIView):
+	queryset = Degree.objects.all()
+	serializer_class = DegreeSerializer
+
+class PhysicianTypeList(APIView):
+	def get(self, request, format=None):
+		physician_types = [
+			{"id":1,"value":"1","title":"Trainee"}, 
+			{"id":2,"value":"2","title":"Specialist"}
+		]
+		return Response(physician_types)
+
+class PhysicianTitleList(APIView):
+	def get(self, request, format=None):
+		title_types = [
+			{"id":1,"value":"1","title":"Dr. "}, 
+			{"id":2,"value":"2","title":"Prof. "},
+			{"id":3,"value":"3","title":"Prof. Dr. "}
+		]
+		return Response(title_types)
+
+class PhysicianGenderList(APIView):
+	def get(self, request, format=None):
+		gender_types = [
+			{"id":1,"value":"M","title":"Male"}, 
+			{"id":2,"value":"F","title":"Female"},
+		]
+		return Response(gender_types)
 
 def index(request):
 	data = {}

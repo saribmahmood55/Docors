@@ -5,6 +5,13 @@ from practitioner import views
 urlpatterns = [
 	url(r'^practitioners/$', views.PractitionerList.as_view()),
 	url(r'^practitioners/(?P<pk>[0-9]+)/$', views.PractitionerDetail.as_view()),
+	url(r'^specializations/$', views.SpecializationList.as_view()),
+	url(r'^specializations/(?P<pk>[0-9]+)/$', views.SpecializationDetail.as_view()),
+	url(r'^degrees/$', views.DegreeList.as_view()),
+	url(r'^degrees/(?P<pk>[0-9]+)/$', views.DegreeDetail.as_view()),
+	url(r'^physiciantypes/$', views.PhysicianTypeList.as_view()),
+	url(r'^physiciantitles/$', views.PhysicianTitleList.as_view()),
+	url(r'^physiciangenders/$', views.PhysicianGenderList.as_view()),
 	url(r'^$', views.index, name='index'),
 	url(r'^adv', views.adv, name='adv'),
 	url(r'^registration', views.registration, name='registration'),

@@ -3,7 +3,6 @@ from practice.serializers import PracticeSerializer, CitySerializer, CheckupFeeS
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.renderers import JSONRenderer
 from django.shortcuts import render
 from patients.models import Patient
 from reviews.models import Review
@@ -42,9 +41,9 @@ class CheckupFeeDetail(generics.RetrieveUpdateDestroyAPIView):
 class PracticeTypeList(APIView):
 	def get(self, request, format=None):
 		practice_types = [
-			{"P":"Private Clinic/Residence"}, 
-			{"H":"Hospital"}, 
-			{"M":"Medical Complex"}
+			{"id":1,"value":"P","title":"Private Clinic/Residence"}, 
+			{"id":2,"value":"H","title":"Hospital"}, 
+			{"id":3,"value":"M","title":"Medical Complex"}
 		]
 		return Response(practice_types)
 
