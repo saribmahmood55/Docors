@@ -10,7 +10,7 @@ class PracticeSerializer(serializers.ModelSerializer):
 class CitySerializer(serializers.ModelSerializer):
 	class Meta:
 		model = City
-		fields = ('id', 'name', 'slug')
+		fields = ('id', 'name')
 
 class CheckupFeeSerializer(serializers.ModelSerializer):
 	class Meta:

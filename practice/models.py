@@ -142,13 +142,12 @@ class PracticeTimingManager(models.Manager):
 
 class PracticeTiming(models.Model):
     DAYS = (('1', 'Mon'), ('2', 'Tue'), ('3', 'Wed'), ('4', 'Thu'), ('5', 'Fri'),('6', 'Sat'),('7', 'Sun'),)
-    TIME = (('0', '07:00am'), ('1', '07:30am'),('2', '08:00am'),('3', '08:30am'),('4', '09:00am'),('5', '09:30am'),('6', '10:00am'),('7', '10:30am'),('8', '11:00am'),('9', '11:30am'),('10', '12:00pm'),('11', '12:30pm'),('12', '01:00pm'),('13', '01:30pm'),('14', '02:00pm'),('15', '02:30am'),('16', '03:00pm'),('17', '03:30pm'),('18', '04:00pm'),('19', '04:30pm'),('20', '05:00pm'),('21', '05:30pm'),('22', '06:00pm'),('23', '06:30pm'),('24', '07:00pm'),('25', '07:30pm'),('26', '08:00pm'),('27', '08:30pm'),('28', '09:00pm'),('29', '09:30pm'),('30', '10:00pm'),('31', '10:30pm'),('32', '11:00pm'),('33', '11:30pm'),('34', '12:00am'), ('35', '12:30am'), ('36', "01:00am"), ('37', '02:00am'), ('38', "02:30am"),)
     
     practitioner = models.ForeignKey(Practitioner)
     practice = models.ForeignKey(Practice)
     day = models.CharField(max_length=1, choices=DAYS, help_text="Select Day.")
-    start_time = models.CharField(max_length=2, choices=TIME, help_text="Select starting Time for Clininc.")
-    end_time = models.CharField(max_length=2, choices=TIME, help_text="Select ending Time for Clininc.")
+    start_time = models.TimeField(help_text="Select starting Time for Clininc.", auto_now_add=False, null=True, blank=True)
+    end_time = models.TimeField(help_text="Select ending Time for Clininc.", auto_now_add=False, null=True, blank=True)
 
     #Custom Managers
     objects = models.Manager()

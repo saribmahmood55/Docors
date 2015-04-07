@@ -146,8 +146,21 @@
     "pk": 19
 }, {
     "fields": {
-        "practitioner": 1,
+        "city": 1,
+        "contact_number": "04236662921 04236662931",
+        "name": "Dr. Muhammad Nazir Private Clinic",
+        "photo": "",
+        "lon": 31.490678,
+        "clinic_address": "Shareef Market Bus Stop, Walton Cantt.",
+        "lat": 74.369847,
+        "slug": "dr-muhammad-nazir-private-clinic"
+    },
+    "model": "practice.practicelocation",
+    "pk": 20
+}, {
+    "fields": {
         "fee": 6,
+        "practitioner": 1,
         "practice_location": 1,
         "practice_type": "P",
         "modified": "2014-11-25T12:45:23.703Z",
@@ -159,8 +172,8 @@
     "pk": 1
 }, {
     "fields": {
-        "practitioner": 2,
         "fee": 6,
+        "practitioner": 2,
         "practice_location": 2,
         "practice_type": "P",
         "modified": "2014-11-25T13:03:06.884Z",
@@ -172,8 +185,8 @@
     "pk": 2
 }, {
     "fields": {
-        "practitioner": 3,
         "fee": 6,
+        "practitioner": 3,
         "practice_location": 3,
         "practice_type": "P",
         "modified": "2015-01-21T09:19:48.121Z",
@@ -185,8 +198,8 @@
     "pk": 3
 }, {
     "fields": {
-        "practitioner": 4,
         "fee": 6,
+        "practitioner": 4,
         "practice_location": 4,
         "practice_type": "P",
         "modified": "2014-11-25T13:54:18.299Z",
@@ -198,8 +211,8 @@
     "pk": 4
 }, {
     "fields": {
-        "practitioner": 4,
         "fee": 7,
+        "practitioner": 4,
         "practice_location": 5,
         "practice_type": "H",
         "modified": "2014-11-25T13:55:14.618Z",
@@ -211,8 +224,8 @@
     "pk": 5
 }, {
     "fields": {
-        "practitioner": 5,
         "fee": 7,
+        "practitioner": 5,
         "practice_location": 6,
         "practice_type": "P",
         "modified": "2014-11-25T14:10:33.943Z",
@@ -224,8 +237,8 @@
     "pk": 6
 }, {
     "fields": {
-        "practitioner": 18,
         "fee": 7,
+        "practitioner": 18,
         "practice_location": 19,
         "practice_type": "P",
         "modified": "2015-01-26T14:07:35.122Z",
@@ -237,439 +250,502 @@
     "pk": 16
 }, {
     "fields": {
-        "start_time": "8",
+        "fee": 3,
+        "practitioner": 19,
+        "practice_location": 20,
+        "practice_type": "P",
+        "modified": "2015-04-03T18:43:25.095Z",
+        "location": "POINT (31.4906779999999991 74.3698469999999929)",
+        "services": "",
+        "appointments_only": true
+    },
+    "model": "practice.practice",
+    "pk": 17
+}, {
+    "fields": {
+        "start_time": "11:00:00",
         "practice": 1,
         "practitioner": 1,
         "day": "1",
-        "end_time": "14"
+        "end_time": "14:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 1
 }, {
     "fields": {
-        "start_time": "22",
+        "start_time": "18:00:00",
         "practice": 1,
         "practitioner": 1,
         "day": "1",
-        "end_time": "28"
+        "end_time": "21:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 2
 }, {
     "fields": {
-        "start_time": "8",
+        "start_time": "11:00:00",
         "practice": 1,
         "practitioner": 1,
         "day": "2",
-        "end_time": "14"
+        "end_time": "14:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 3
 }, {
     "fields": {
-        "start_time": "8",
+        "start_time": "11:00:00",
         "practice": 1,
         "practitioner": 1,
         "day": "3",
-        "end_time": "14"
+        "end_time": "14:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 4
 }, {
     "fields": {
-        "start_time": "22",
+        "start_time": "18:00:00",
         "practice": 1,
         "practitioner": 1,
         "day": "3",
-        "end_time": "28"
+        "end_time": "21:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 5
 }, {
     "fields": {
-        "start_time": "8",
+        "start_time": "11:00:00",
         "practice": 1,
         "practitioner": 1,
         "day": "5",
-        "end_time": "14"
+        "end_time": "14:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 6
 }, {
     "fields": {
-        "start_time": "22",
+        "start_time": "18:00:00",
         "practice": 1,
         "practitioner": 1,
         "day": "5",
-        "end_time": "28"
+        "end_time": "21:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 7
 }, {
     "fields": {
-        "start_time": "8",
+        "start_time": "11:00:00",
         "practice": 1,
         "practitioner": 1,
         "day": "6",
-        "end_time": "14"
+        "end_time": "14:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 8
 }, {
     "fields": {
-        "start_time": "20",
+        "start_time": "17:00:00",
         "practice": 2,
         "practitioner": 2,
         "day": "1",
-        "end_time": "30"
+        "end_time": "22:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 9
 }, {
     "fields": {
-        "start_time": "20",
+        "start_time": "17:00:00",
         "practice": 2,
         "practitioner": 2,
         "day": "2",
-        "end_time": "30"
+        "end_time": "21:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 10
 }, {
     "fields": {
-        "start_time": "20",
+        "start_time": "17:00:00",
         "practice": 2,
         "practitioner": 2,
         "day": "3",
-        "end_time": "30"
+        "end_time": "22:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 11
 }, {
     "fields": {
-        "start_time": "20",
+        "start_time": "17:00:00",
         "practice": 2,
         "practitioner": 2,
         "day": "4",
-        "end_time": "30"
+        "end_time": "22:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 12
 }, {
     "fields": {
-        "start_time": "20",
+        "start_time": "17:00:00",
         "practice": 2,
         "practitioner": 2,
         "day": "5",
-        "end_time": "30"
+        "end_time": "22:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 13
 }, {
     "fields": {
-        "start_time": "20",
+        "start_time": "17:00:00",
         "practice": 2,
         "practitioner": 2,
         "day": "6",
-        "end_time": "30"
+        "end_time": "22:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 14
 }, {
     "fields": {
-        "start_time": "20",
+        "start_time": "17:00:00",
         "practice": 3,
         "practitioner": 3,
         "day": "1",
-        "end_time": "28"
+        "end_time": "21:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 15
 }, {
     "fields": {
-        "start_time": "20",
+        "start_time": "17:00:00",
         "practice": 3,
         "practitioner": 3,
         "day": "2",
-        "end_time": "28"
+        "end_time": "21:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 16
 }, {
     "fields": {
-        "start_time": "20",
+        "start_time": "17:00:00",
         "practice": 3,
         "practitioner": 3,
         "day": "3",
-        "end_time": "28"
+        "end_time": "21:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 17
 }, {
     "fields": {
-        "start_time": "20",
+        "start_time": "17:00:00",
         "practice": 3,
         "practitioner": 3,
         "day": "4",
-        "end_time": "28"
+        "end_time": "21:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 18
 }, {
     "fields": {
-        "start_time": "20",
+        "start_time": "17:00:00",
         "practice": 3,
         "practitioner": 3,
         "day": "5",
-        "end_time": "28"
+        "end_time": "21:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 19
 }, {
     "fields": {
-        "start_time": "20",
+        "start_time": "17:00:00",
         "practice": 3,
         "practitioner": 3,
         "day": "6",
-        "end_time": "28"
+        "end_time": "21:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 20
 }, {
     "fields": {
-        "start_time": "2",
+        "start_time": "08:00:00",
         "practice": 4,
         "practitioner": 4,
         "day": "1",
-        "end_time": "8"
+        "end_time": "11:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 21
 }, {
     "fields": {
-        "start_time": "26",
+        "start_time": "20:00:00",
         "practice": 4,
         "practitioner": 4,
         "day": "1",
-        "end_time": "30"
+        "end_time": "22:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 22
 }, {
     "fields": {
-        "start_time": "2",
+        "start_time": "08:00:00",
         "practice": 4,
         "practitioner": 4,
         "day": "2",
-        "end_time": "8"
+        "end_time": "11:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 23
 }, {
     "fields": {
-        "start_time": "2",
+        "start_time": "08:00:00",
         "practice": 4,
         "practitioner": 4,
         "day": "3",
-        "end_time": "8"
+        "end_time": "11:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 24
 }, {
     "fields": {
-        "start_time": "26",
+        "start_time": "20:00:00",
         "practice": 4,
         "practitioner": 4,
         "day": "3",
-        "end_time": "30"
+        "end_time": "22:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 25
 }, {
     "fields": {
-        "start_time": "2",
+        "start_time": "08:00:00",
         "practice": 4,
         "practitioner": 4,
         "day": "4",
-        "end_time": "8"
+        "end_time": "11:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 26
 }, {
     "fields": {
-        "start_time": "2",
+        "start_time": "08:00:00",
         "practice": 4,
         "practitioner": 4,
         "day": "5",
-        "end_time": "8"
+        "end_time": "11:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 27
 }, {
     "fields": {
-        "start_time": "9",
+        "start_time": "11:30:00",
         "practice": 5,
         "practitioner": 4,
         "day": "1",
-        "end_time": "12"
+        "end_time": "13:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 28
 }, {
     "fields": {
-        "start_time": "9",
+        "start_time": "11:30:00",
         "practice": 5,
         "practitioner": 4,
         "day": "2",
-        "end_time": "12"
+        "end_time": "13:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 29
 }, {
     "fields": {
-        "start_time": "9",
+        "start_time": "11:30:00",
         "practice": 5,
         "practitioner": 4,
         "day": "3",
-        "end_time": "12"
+        "end_time": "13:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 30
 }, {
     "fields": {
-        "start_time": "9",
+        "start_time": "11:30:00",
         "practice": 5,
         "practitioner": 4,
         "day": "4",
-        "end_time": "12"
+        "end_time": "13:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 31
 }, {
     "fields": {
-        "start_time": "9",
+        "start_time": "11:30:00",
         "practice": 5,
         "practitioner": 4,
         "day": "5",
-        "end_time": "12"
+        "end_time": "13:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 32
 }, {
     "fields": {
-        "start_time": "20",
+        "start_time": "17:00:00",
         "practice": 6,
         "practitioner": 5,
         "day": "1",
-        "end_time": "30"
+        "end_time": "22:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 33
 }, {
     "fields": {
-        "start_time": "20",
+        "start_time": "17:00:00",
         "practice": 6,
         "practitioner": 5,
         "day": "2",
-        "end_time": "30"
+        "end_time": "22:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 34
 }, {
     "fields": {
-        "start_time": "20",
+        "start_time": "17:00:00",
         "practice": 6,
         "practitioner": 5,
         "day": "3",
-        "end_time": "30"
+        "end_time": "22:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 35
 }, {
     "fields": {
-        "start_time": "20",
+        "start_time": "17:00:00",
         "practice": 6,
         "practitioner": 5,
         "day": "4",
-        "end_time": "30"
+        "end_time": "22:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 36
 }, {
     "fields": {
-        "start_time": "20",
+        "start_time": "17:00:00",
         "practice": 6,
         "practitioner": 5,
         "day": "5",
-        "end_time": "30"
+        "end_time": "22:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 37
 }, {
     "fields": {
-        "start_time": "20",
+        "start_time": "17:00:00",
         "practice": 6,
         "practitioner": 5,
         "day": "6",
-        "end_time": "30"
+        "end_time": "22:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 38
 }, {
     "fields": {
-        "start_time": "20",
+        "start_time": "17:00:00",
         "practice": 16,
         "practitioner": 18,
         "day": "1",
-        "end_time": "26"
+        "end_time": "20:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 69
 }, {
     "fields": {
-        "start_time": "20",
+        "start_time": "17:00:00",
         "practice": 16,
         "practitioner": 18,
         "day": "2",
-        "end_time": "26"
+        "end_time": "20:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 70
 }, {
     "fields": {
-        "start_time": "20",
+        "start_time": "17:00:00",
         "practice": 16,
         "practitioner": 18,
         "day": "3",
-        "end_time": "26"
+        "end_time": "20:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 71
 }, {
     "fields": {
-        "start_time": "20",
+        "start_time": "17:00:00",
         "practice": 16,
         "practitioner": 18,
         "day": "4",
-        "end_time": "26"
+        "end_time": "20:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 72
 }, {
     "fields": {
-        "start_time": "20",
+        "start_time": "17:00:00",
         "practice": 16,
         "practitioner": 18,
         "day": "5",
-        "end_time": "26"
+        "end_time": "20:00:00"
     },
     "model": "practice.practicetiming",
     "pk": 73
 }, {
     "fields": {
+        "start_time": "19:30:00",
+        "practice": 17,
+        "practitioner": 19,
+        "day": "1",
+        "end_time": "22:00:00"
+    },
+    "model": "practice.practicetiming",
+    "pk": 74
+}, {
+    "fields": {
+        "start_time": "19:30:00",
+        "practice": 17,
+        "practitioner": 19,
+        "day": "2",
+        "end_time": "22:00:00"
+    },
+    "model": "practice.practicetiming",
+    "pk": 75
+}, {
+    "fields": {
+        "start_time": "19:30:00",
+        "practice": 17,
+        "practitioner": 19,
+        "day": "3",
+        "end_time": "22:00:00"
+    },
+    "model": "practice.practicetiming",
+    "pk": 76
+}, {
+    "fields": {
+        "start_time": "19:30:00",
+        "practice": 17,
+        "practitioner": 19,
+        "day": "4",
+        "end_time": "22:00:00"
+    },
+    "model": "practice.practicetiming",
+    "pk": 77
+}, {
+    "fields": {
+        "start_time": "19:30:00",
+        "practice": 17,
+        "practitioner": 19,
+        "day": "5",
+        "end_time": "22:00:00"
+    },
+    "model": "practice.practicetiming",
+    "pk": 78
+}, {
+    "fields": {
         "city": 1,
         "speciality": 1,
-        "hit_count": 166
+        "hit_count": 170
     },
     "model": "practice.recentsearch",
     "pk": 1

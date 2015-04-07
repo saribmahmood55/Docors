@@ -47,6 +47,12 @@ class PracticeTypeList(APIView):
 		]
 		return Response(practice_types)
 
+
+class DayList(APIView):
+	def get(self, request, format=None):
+		day_list = [ {"1":"Monday"}, {"2":"Tuesday"}, {"3":"Wedneday"}, {"4":"Thursday"}, {"5":"Friday"}, {"6":"Saturday"}, {"7":"Sunday"} ]
+		return Response(day_list)
+
 def practice(request, practice_slug, practitioner_slug):
 	if request.method == "GET":
 		Timing = PracticeTiming.pt_objects.practice_timings(practice_slug, practitioner_slug)

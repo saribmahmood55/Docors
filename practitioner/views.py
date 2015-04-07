@@ -1,5 +1,11 @@
 from practitioner.models import *
+<<<<<<< HEAD
 from practitioner.serializers import PractitionerSerializer, SpecializationSerializer, DegreeSerializer
+=======
+from practitioner.serializers import PractitionerSerializer
+from rest_framework.views import APIView
+from rest_framework.response import Response
+>>>>>>> 4d46b361de63297ecbc44678d172c5c98b877cf9
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -15,9 +21,21 @@ from django.template import RequestContext
 from django.utils.safestring import mark_safe
 import json
 
+
 class PractitionerList(generics.ListCreateAPIView):
 	queryset = Practitioner.objects.all()
 	serializer_class = PractitionerSerializer
+
+
+class PractitionerTileList(APIView):
+	def get(self, request, format=None):
+		practitioner_title = [
+			{"1" : "Dr. "}, 
+			{"2" : "Prof. "}, 
+			{"3" : "Prof. Dr. "}
+		]
+		return Response(practitioner_title)
+
 
 class PractitionerDetail(generics.RetrieveUpdateDestroyAPIView):
 	queryset = Practitioner.objects.all()

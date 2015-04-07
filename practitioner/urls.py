@@ -4,6 +4,7 @@ from practitioner import views
 
 urlpatterns = [
 	url(r'^practitioners/$', views.PractitionerList.as_view()),
+	url(r'^practitioner-title/$', views.PractitionerTileList.as_view()),
 	url(r'^practitioners/(?P<pk>[0-9]+)/$', views.PractitionerDetail.as_view()),
 	url(r'^specializations/$', views.SpecializationList.as_view()),
 	url(r'^specializations/(?P<pk>[0-9]+)/$', views.SpecializationDetail.as_view()),
