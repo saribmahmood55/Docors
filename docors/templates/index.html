@@ -1,0 +1,128 @@
+{% extends "base.html" %} {% block seoTags %}
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="specialist doctors clinic information, practicing across pakistan" />
+<meta content="best doctors, medics, doctors directory, health, pakistan, doctors in pakistan, lahore,specialist doctors in lahore, pediatrics, child specialist, gyne, gynecologist, psychiatrist, neurologist" name="keywords" />
+<meta name="google-site-verification" content="4eQap4DygfxsfuocwBZAZxmS3eXhMVhwlo2KQ47S7-Q" />
+<meta property="og:description" content="specialist doctors clinic information, practicing across pakistan" />
+<meta property="fb:app_id" content="753672898036503" />
+<meta property="og:image" content="http://www.doctorsinfo.pk/static/icons/stethoscope.png" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://www.doctorsinfo.pk/" />
+<meta property="og:site_name" content="doctorsinfo.pk" />
+<link href="http://www.doctorsinfo.pk/" rel="canonical" /> {% endblock %}
+{% block title %}Doctorsinfo.pk | Find a Doctor, Review Doctor, Doctor Ratings{% endblock %}
+
+		{% block content %}
+		<!-- Start Middle Content -->
+		<section class="main-section">
+			
+			<div class="color-correction"></div>
+
+			<div class="container">
+				
+				<div class="row row-space-100-0">
+					<div class="text-center" style="color:white;">
+						<h2>Lorem Ipsum Dummy text will be changed later</h2>
+					</div>
+					<div class="text-center" style="color:white;">
+						typesetting industry. Lorem Ipsum
+					</div>
+				</div>
+
+				<div class="row row-space-100-0">
+					<div class="col-md-6 col-md-offset-3">
+						<form role="form">
+							<div class="input-group input-group-lg">
+								<input type="text" class="form-control main-search-bar" placeholder="Doctor Name, Speciality or Hospital">
+								<span class="input-group-btn">
+	                    			<button class="btn btn-danger btn-flat" type="button">Search</button>
+	                    		</span>
+							</div>
+						</form>
+					</div>
+				</div>
+
+			</div>
+
+		</section>
+		<!-- End Middle Content -->
+
+		<section class="secondary-section">
+			<div class="container">
+				<div class="col-md-10 col-md-offset-1">
+					<div class="row row-space-15-0-0-15">
+						<div class="text-left">
+							<h4>Select by Speciality</h4>
+						</div>
+					</div>
+					<div class="row row-space-0-0-25-0">
+						<div class="col-md-5">
+							<select class="form-control">
+								<option value="" disabled selected>Select City</option>
+							</select>
+						</div>
+						<div class="col-md-5">
+							<select class="form-control">
+								<option value="" disabled selected>Select City</option>
+							</select>
+						</div>
+						<div class="col-md-2">
+							<button class="btn btn-danger btn-flat">Search For Doctor</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		{% load staticfiles %}
+		<section class="bottom-section">
+			<div class="container">
+				<div class="col-md-10 col-md-offset-1">
+
+					<div class="row">
+						<div class="col-md-6 bottom-section-left">
+							<div class="row">
+								<div class="bottom-section-left-img text-center">
+									<img src="{% static 'assets/img/doctor.png' %}" alt="Doctor"/>
+								</div>
+								<div class="bottom-section-left-heading text-center">
+									<h3>Doctor For You</h3>
+								</div>
+								<div class="bottom-section-left-hr">
+									<hr align="center" width="50%">
+									<hr align="center" width="50%">
+								</div>
+								<div class="bottom-section-left-paragraph text-center">
+									<p class="text-center">It is a long established fact that a reader will be distracted by the readable content of a page. The point of using Lorem Ipsum is that it has a more-or-less normal.</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6 bottom-section-right">
+							<div class="row">
+								<div class="bottom-section-right-img text-center">
+									<img src="{% static 'assets/img/kit.png' %}" alt="Doctor"/>
+								</div>
+								<div class="bottom-section-right-heading text-center">
+									<h3>Hospital For You</h3>
+								</div>
+								<div class="bottom-section-right-hr">
+									<hr align="center" width="50%">
+									<hr align="center" width="50%">
+								</div>
+								<div class="bottom-section-right-paragraph">
+									<p class="text-center">It is a long established fact that a reader will be distracted by the readable content of a page. The point of using Lorem Ipsum is that it has a more-or-less normal.</p>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</section>
+
+		<footer class="footer custom-footer">
+			<div class="container">
+				<p class="text-muted text-center">Lorem Ipsum is simply a dummy text of printing and typesetting industry. Now worry we wil change it later</p>
+			</div>
+		</footer>
+	{% endblock %}
