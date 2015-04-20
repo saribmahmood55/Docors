@@ -56,19 +56,21 @@
 						</div>
 					</div>
 					<div class="row row-space-0-0-25-0">
-						<div class="col-md-5">
-							<select class="form-control">
-								<option value="" disabled selected>Select City</option>
-							</select>
-						</div>
-						<div class="col-md-5">
-							<select class="form-control">
-								<option value="" disabled selected>Select City</option>
-							</select>
-						</div>
-						<div class="col-md-2">
-							<button class="btn btn-danger btn-flat">Search For Doctor</button>
-						</div>
+						<form role="form" data-toggle="validator" action="{% url 'practitoners' %}" id="searchForm">
+							<div class="col-md-5">
+								<select id="cityName" data-validation="required" class="form-control" name="city">
+									<option value="" disabled selected>Select City</option>
+								</select>
+							</div>
+							<div class="col-md-5">
+								<select id="specialityName" data-validation="required" class="form-control" name="spec">
+									<option value="" disabled selected>Select Speciality</option>
+								</select>
+							</div>
+							<div class="col-md-2">
+								<button type="submit" class="btn btn-danger btn-flat">Search For Doctor</button>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
@@ -119,10 +121,36 @@
 				</div>
 			</div>
 		</section>
+	{% endblock %}
 
-		<footer class="footer custom-footer">
-			<div class="container">
-				<p class="text-muted text-center">Lorem Ipsum is simply a dummy text of printing and typesetting industry. Now worry we wil change it later</p>
-			</div>
-		</footer>
+	{% block customScript %}
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$.ajax({
+				type : 'GET',
+				url : '/specializations/',
+				data: {},
+				success : function (data) {
+					for(i=0;i<data.length;i++){
+						$("#specialityName").append("<option value='"+data[i].slug+"'>"+data[i].human_name+"</option>");
+					}
+				},
+				error : errorHandler
+			});
+
+			$.ajax({
+				type : 'GET',
+				url : '/city/',
+				data: {},
+				success : function (data) {
+					for(i=0;i<data.length;i++){
+						$("#cityName").append("<option value='"+data[i].slug+"'>"+data[i].name+"</option>");
+					}
+				},
+				error : errorHandler
+			});
+		});
+	</script>
+
 	{% endblock %}

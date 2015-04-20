@@ -1,0 +1,71 @@
+<!-- Modal -->
+<div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">Sign Up</h4>
+		    </div>
+			<div class="modal-body">
+				{% load socialaccount %}
+				<div class="container-fluid" style="border-bottom: 1px solid #e5e5e5;padding:15px 0;">
+					<div class="col-md-8 col-md-offset-2" style="margin-bottom:15px;">
+						<a href="{% provider_login_url 'facebook' method='oauth2' %}" class="btn btn-block btn-social btn-facebook">
+						    <i class="fa fa-facebook"></i> Sign Up with Facebook
+						</a>
+					</div>
+					<div class="col-md-8 col-md-offset-2" style="margin-bottom:15px;">
+						<a href="{% provider_login_url 'google' %}" class="btn btn-block btn-social btn-google-plus">
+						    <i class="fa fa-google"></i> Sign Up with Google
+						</a>
+					</div>
+					<div class="col-md-8 col-md-offset-2" style="margin-bottom:15px;">
+						<a href="{% provider_login_url 'twitter' %}" class="btn btn-block btn-social btn-twitter">
+						    <i class="fa fa-twitter"></i> Sign Up with Twitter
+						</a>
+					</div>
+				</div>
+				<div class="container-fluid" style="padding:15px 0;">
+					<div class="col-md-4 col-md-offset-2">
+						<div class="form-group">
+					    	<input name="first_name" type="text" class="form-control" id="firstname" placeholder="First Name">
+					    </div>
+					</div>
+					<div class="col-md-4">
+					    <div class="form-group">
+					    	<input name="last_name" type="text" class="form-control" id="lastname" placeholder="Last Name">
+					    </div>
+					</div>
+					<div class="col-md-8 col-md-offset-2">
+						<div class="form-group">
+					    	<input name="email" type="email" class="form-control" id="email" placeholder="Email">
+					    </div>
+					</div>
+					<div class="col-md-8 col-md-offset-2">
+						<div class="form-group">
+					    	<input name="signup_password" type="password" class="form-control" id="signup_password" placeholder="Password">
+					    </div>
+					</div>
+					<div class="col-md-8 col-md-offset-2">
+						<div class="form-group">
+					    	<input name="confirm_password" type="password" class="form-control" id="confirmpassword" placeholder="Confirm Password">
+					    </div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<div class="col-md-4">
+					<div class="row" style="float:left;color: #8B8B8B;">
+						<a href="#" onclick="$('#signupModal').modal('hide');" data-toggle="modal" data-target="#recoveryModal"><strong>Forgot your password?</strong></a>
+					</div>
+					<div class="row" style="float:left;color: #8B8B8B;">
+						<a href="#" onclick="$('#signupModal').modal('hide');" data-toggle="modal" data-target="#loginModal"><strong>Already Registered? Log In</strong></a>
+					</div>
+				</div>
+				<div class="col-md-4 col-md-offset-4">
+					<button type="button" class="btn btn-primary">Sign Up</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -13,7 +13,12 @@ from django.http import Http404
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.utils.safestring import mark_safe
+from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
+from rest_auth.registration.views import SocialLogin
 import json
+
+class FacebookLogin(SocialLogin):
+	adapter_class = FacebookOAuth2Adapter
 
 
 class PractitionerList(generics.ListCreateAPIView):
@@ -109,6 +114,13 @@ def adv(request):
 		except Specialization.DoesNotExist:
 			raise Http404
 	return render_to_response('practitioner/advance.html', {'data': data}, context_instance=RequestContext(request))	
+
+def login(request):
+	if request.method == "POST":
+		request.session.set_test_cookie()
+	else:
+		login_form = AuthenticationForm()
+	return render_to_response('practitioner/advance.html', {'login_form': login_form}, context_instance=RequestContext(request))	
 
 
 def registration(request):

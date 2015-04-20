@@ -7,6 +7,7 @@ from django.contrib.auth.views import login, password_reset, password_reset_conf
 
 urlpatterns = patterns('',
     url(r'^accounts/', include('allauth.urls')),
+    url(r'^rest-auth/', include('rest_auth.urls')),
     url(r'^', include('practitioner.urls')),
     url(r'^', include('practice.urls')),
     url(r'^', include('patients.urls')),

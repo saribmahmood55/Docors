@@ -1,0 +1,95 @@
+<script type="text/javascript">
+	function getCookie(name) {
+	    var cookieValue = null;
+	    if (document.cookie && document.cookie != '') {
+	        var cookies = document.cookie.split(';');
+	        for (var i = 0; i < cookies.length; i++) {
+	            var cookie = jQuery.trim(cookies[i]);
+	            // Does this cookie string begin with the name we want?
+	            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+	                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+	                break;
+	            }
+	        }
+	    }
+	    return cookieValue;
+	}
+	var csrftoken = getCookie('csrftoken');
+
+	function login_request(){
+		var username = $("#login_username").val();
+		var password = $("#login_password").val();
+		if(username.length == 0){
+			$(".login-password-form-group").removeClass("has-error");
+			$(".login-password-form-group .help-block").remove();
+			$(".login-username-form-group").addClass("has-error");
+			$(".login-username-form-group div").append('<span class="help-block">Username field cannot be empty</span');
+		} else if(password.length == 0){
+			$(".login-username-form-group").removeClass("has-error");
+			$(".login-username-form-group .help-block").remove();
+			$(".login-password-form-group").addClass("has-error");
+			$(".login-password-form-group div").append('<span class="help-block">Password field cannot be empty</span');
+		}else{
+			$.ajax({
+				type : 'POST',
+				url : '/rest-auth/login/',
+				data: {"username":username,"password":password},
+				success : function (data) {
+					location.reload();
+				},
+				error : errorHandler
+			});
+		}
+	}
+
+	function csrfSafeMethod(method) {
+	    // these HTTP methods do not require CSRF protection
+	    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+	}
+
+	function logout_request(){
+
+		$.ajaxSetup({
+		    beforeSend: function(xhr, settings) {
+		        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+		            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+		        }
+		    }
+		});
+
+		$.ajax({
+			type : 'POST',
+			url : '/rest-auth/logout/',
+			data: {},
+			success : function (data) {
+				location.reload();
+			},
+			error : errorHandler
+		});
+	}
+
+	function errorHandler(jqXHR, exception) {
+		$('.loading_state').remove();
+		if (jqXHR.status === 0) {
+			alert('Not connect.\n Verify Network.');
+		} else if (jqXHR.status == 404) {
+			alert('Requested page not found. [404]');
+		} else if (jqXHR.status == 400) {
+			$(".login-username-form-group").addClass("has-error");
+			$(".login-username-form-group div").append('<span class="help-block">Username or password not correct</span');
+			$(".login-password-form-group").addClass("has-error");
+			$(".login-password-form-group div").append('<span class="help-block">Username or password not correct</span');
+		} else if (jqXHR.status == 500) {
+			alert('Internal Server Error [500].');
+		} else if (exception === 'parsererror') {
+			alert('Requested JSON parse failed.');
+		} else if (exception === 'timeout') {
+			alert('Time out error.');
+		} else if (exception === 'abort') {
+			alert('Ajax request aborted.');
+		} else {
+			alert('Uncaught Error.\n' + jqXHR.responseText);
+		}
+
+	}
+</script>

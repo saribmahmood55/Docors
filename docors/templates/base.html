@@ -8,7 +8,7 @@
 	    <meta charset="utf-8">
 	    <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> -->
 	    <!-- ///  page title  /// -->
-	    <title>{% block title %}{% endblock %}</title>
+	    <title>{% block title %}Doctorsinfo.pk | Find a Doctor, Review Doctor, Doctor Ratings{% endblock %}</title>
 	    <meta name="description" content="">
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
     	<!-- Bootstrap CSS -->
@@ -31,94 +31,36 @@
 
 		<!-- JS FILES -->
 		<!-- JQUERY JS -->
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js" async></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 		<!-- BOOTSTRAP JS -->
-		<script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js" async></script>
+		<script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 		{% block pageSpecificJS %}{% endblock %}
-		{% block customScript %}{% endblock %}
 		<!-- End JS FILES -->
 
 	</head>
 
 	<body class="remove-scroll {% block extraBodyClass %}{% endblock %}">
 
-		<!-- ///  preloader  /// 
-    	<div class="preloader">
-    		<img src="assets/img/loader.GIF" class="loader" alt="">
-    	</div>        
-    	 ///  End Preloader  /// -->
+    	{% include "fragments/header.html" %}
 
-    	<!-- Start Header -->
-    	<nav class="navbar navbar-default" style="margin-bottom:0px;">
-			<div class="container">
-				<div class="col-md-8">
-					<div class="navbar-header">
-						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-							<span class="sr-only">Toggle navigation</span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</button>
-						<a class="navbar-brand" href="/">
-							<img alt="Logo" src="{% static 'assets/img/logo.png' %}">
-						</a>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-						<ul class="nav navbar-nav">
-							<li><a href="#">Home <span class="sr-only">(current)</span></a></li>
-							<li class="divider-vertical"></li>
-							<li role="presentation" class="dropdown">
-								<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
-									Patient <span class="caret"></span>
-								</a>
-								<ul class="dropdown-menu" role="menu">
-									<li><a href="#">LogIn</a></li>
-									<li><a href="#">SignUp</a></li>
-								</ul>
-							</li>
-							<li class="divider-vertical"></li>
-							<li role="presentation" class="dropdown">
-								<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
-									Doctor <span class="caret"></span>
-								</a>
-								<ul class="dropdown-menu" role="menu">
-									<li><a href="#">Update Your Info</a></li>
-									<li><a href="#">Get Listed as a Dcotor</a></li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</nav>
-		<!-- End Header -->
+		{% if not request.user.is_authenticated%}
+			{% include "fragments/login_modal.html" %}
+			{% include "fragments/signup_modal.html" %}
+			{% include "fragments/recover_password_modal.html" %}
+		{% endif %}
 
 		<div itemscope itemtype="{% block seoItemTags %}{% endblock %}" role="main" class="{% block containerClass %}{% endblock %}">
         	{% block content %}{% endblock %}
     	</div>
 
+    	{% include "fragments/footer.html" %}
+
 	</body>
 
-	<!-- Start Goolge Analytics -->
-	<script type="text/javascript">
-    (function(i, s, o, g, r, a, m) {
-        i['GoogleAnalyticsObject'] = r;
-        i[r] = i[r] || function() {
+	{% block customScript %}{% endblock %}
 
-            (i[r].q = i[r].q || []).push(arguments)
-        }, i[r].l = 1 * new Date();
-        a = s.createElement(o),
-            m = s.getElementsByTagName(o)[0];
-        a.async = 1;
-        a.src = g;
-        m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-    ga('create', 'UA-57178431-1', 'auto');
-    ga('require', 'displayfeatures');
-    ga('send', 'pageview');
-    </script>
-    <!-- End Goolge Analytics -->
+	{% include "fragments/google-analytics.html" %}
+
+	{% include "fragments/login-script.html" %}
 
 </html>

@@ -16,6 +16,7 @@ urlpatterns = [
 	url(r'^$', views.index, name='index'),
 	url(r'^adv', views.adv, name='adv'),
 	url(r'^registration', views.registration, name='registration'),
+	url(r'^rest-auth/facebook/$', views.FacebookLogin.as_view(), name='fb_login')
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
