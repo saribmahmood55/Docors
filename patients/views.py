@@ -7,6 +7,8 @@ from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
+from django.dispatch import receiver
+from allauth.account.signals import user_signed_up
 import json
 
 class PatientList(generics.ListCreateAPIView):
@@ -91,3 +93,25 @@ def patient(request):
 		else:
 			data['patient'] = None
 	return render_to_response('patients/profile.html', {'data': data}, context_instance=RequestContext(request))
+
+@receiver(user_signed_up)
+def set_patient(sender, **kwargs):
+	user = kwargs.pop('user')
+	facebook_extra_data = user.socialaccount_set.filter(provider='facebook')
+	google_extra_data = user.socialaccount_set.filter(provider='google')
+
+	p = Patient()
+	p.user = user
+	
+	if facebook_extra_data:
+		facebook_data = facebook_extra_data[0].extra_data
+		if facebook_data['gender']:
+			gender = facebook_data['gender'][0].capitalize()
+			p.gender = gender
+	elif google_extra_data:
+		google_data = google_extra_data[0].extra_data
+		if google_data['gender']:
+			gender = google_data['gender'][0].capitalize()
+			p.gender = gender
+
+	p.save()
