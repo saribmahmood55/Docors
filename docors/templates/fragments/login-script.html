@@ -16,20 +16,14 @@
 	}
 	var csrftoken = getCookie('csrftoken');
 
-	function login_request(){
-		var username = $("#login_username").val();
-		var password = $("#login_password").val();
-		if(username.length == 0){
-			$(".login-password-form-group").removeClass("has-error");
-			$(".login-password-form-group .help-block").remove();
-			$(".login-username-form-group").addClass("has-error");
-			$(".login-username-form-group div").append('<span class="help-block">Username field cannot be empty</span');
-		} else if(password.length == 0){
-			$(".login-username-form-group").removeClass("has-error");
-			$(".login-username-form-group .help-block").remove();
-			$(".login-password-form-group").addClass("has-error");
-			$(".login-password-form-group div").append('<span class="help-block">Password field cannot be empty</span');
-		}else{
+	$('#login_form').validator().on('submit', function (e) {
+		if (e.isDefaultPrevented()) {
+			// handle the invalid form...
+		} else {
+			// everything looks good!
+			e.preventDefault();
+			var username = $("#login_username").val();
+			var password = $("#login_password").val();
 			$.ajax({
 				type : 'POST',
 				url : '/rest-auth/login/',
@@ -40,7 +34,7 @@
 				error : errorHandler
 			});
 		}
-	}
+	});
 
 	function csrfSafeMethod(method) {
 	    // these HTTP methods do not require CSRF protection
@@ -67,6 +61,15 @@
 			error : errorHandler
 		});
 	}
+
+	$('#signup_form').validator().on('submit', function (e) {
+		if (e.isDefaultPrevented()) {
+			// handle the invalid form...
+		} else {
+			// everything looks good!
+			$("#username").val($("#email").val());
+		}
+	});
 
 	function errorHandler(jqXHR, exception) {
 		$('.loading_state').remove();
