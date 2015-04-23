@@ -6,13 +6,14 @@ from django.views.generic import TemplateView
 from django.contrib.auth.views import login, password_reset, password_reset_confirm, password_reset_done, password_reset_complete
 
 urlpatterns = patterns('',
-    url(r'^accounts/', include('allauth.urls')),
+    url(r'^social-accounts/', include('allauth.urls')),
     url(r'^rest-auth/', include('rest_auth.urls')),
+    url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
     url(r'^', include('practitioner.urls')),
     url(r'^', include('practice.urls')),
     url(r'^', include('patients.urls')),
     url(r'^', include('reviews.urls')),
-    url(r'^', include('registration.backends.simple.urls')),
+    url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^search/', include('haystack.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^password/reset/$', 'django.contrib.auth.views.password_reset',{'post_reset_redirect' : '/password/reset/done/'}),

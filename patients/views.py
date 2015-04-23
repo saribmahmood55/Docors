@@ -9,6 +9,7 @@ from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.dispatch import receiver
 from allauth.account.signals import user_signed_up
+from registration.signals import user_registered
 import json
 
 class PatientList(generics.ListCreateAPIView):
@@ -115,3 +116,12 @@ def set_patient(sender, **kwargs):
 			p.gender = gender
 
 	p.save()
+
+@receiver(user_registered)
+def create_patient(sender, user, request, **kwargs):
+	p = Patient(user=user)
+	p.save()
+
+	user.first_name = request.POST['firstname']
+	user.last_name = request.POST['lastname']
+	user.save()
