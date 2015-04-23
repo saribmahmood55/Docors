@@ -34,12 +34,6 @@ RECAPTCHA_USE_SSL = False
 #Sites
 SITE_ID = 2
 
-#Registration
-ACCOUNT_ACTIVATION_DAYS = 7
-REGISTRATION_OPEN = True
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
-
 #GMAIL
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'doctorsinfo.pk@gmail.com'
@@ -83,8 +77,17 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.twitter',
     #django REST Api
-    'rest_framework'
+    'rest_framework',
+    'rest_framework.authtoken',
+    #django REST AUTH
+    'rest_auth'
 )
+
+#Registration
+ACCOUNT_ACTIVATION_DAYS = 7
+REGISTRATION_OPEN = True
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
