@@ -49,8 +49,8 @@ class Patient(models.Model):
     cell_number = models.CharField(max_length=20, help_text="Please use the following format: 03215555555",null=True, blank=True)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, help_text="Please select gender.", null=True, blank=True)
     age_group = models.CharField(max_length=2, choices=AGE_GROUPS, help_text="Please select appropriate age group." ,null=True, blank=True)
-    interested_specialities = models.ManyToManyField(Specialization)
-    favt_practitioner = models.ManyToManyField(Practitioner)
+    interested_specialities = models.ManyToManyField(Specialization, blank=True)
+    favt_practitioner = models.ManyToManyField(Practitioner, blank=True)
 
     objects = models.Manager()
     patient_objects = PatientManager()
