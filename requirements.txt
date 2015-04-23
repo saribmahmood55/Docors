@@ -32,3 +32,4 @@ djangorestframework==3.1.1
 markdown==2.6.1
 django-filter==0.9.2
 django-rest-auth==0.3.4
+django-registration-redux==1.1
