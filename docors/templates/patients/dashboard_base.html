@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block header_name %}{{data.patient.user.first_name}} {{data.patient.user.last_name}}{% endblock %}
+{% block title %}{{data.patient.user.first_name}} {{data.patient.user.last_name}} | Profile{% endblock %}
+{% block dashboard_profile_link %}#{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="divide30"></div>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+          <div class="panel-heading" role="tab" id="headingOne">
+            DASHBOARD
+          </div>
+          <ul class="list-group">
+            <li class="list-group-item"><a href="/dashboard/doctors">Doctors</a></li>
+            <li class="list-group-item"><a href="/dashboard/reviews">Reviews</a></li>
+          </ul>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading" role="tab" id="headingTwo">
+            ACCOUNT SETTINGS
+          </div>
+          <ul class="list-group">
+            <li class="list-group-item"><a href="/dashboard/profile">Profile</a></li>
+            <li class="list-group-item"><a href="/dashboard/settings">Account & Preferences</a></li>
+            <li class="list-group-item"><a href="/accounts/logout">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-9">
+      {% block dashboard_content %}{% endblock %}
+    </div>
+  </div>
+  <div class="divide30"></div>
+</div>
+{% endblock %}

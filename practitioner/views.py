@@ -87,6 +87,28 @@ def index(request):
 		data['user'] = request.user
 	else:
 		data['user'] = None
+
+	data['completeness'] = 0
+
+	try:
+		patient_data = Patient.patient_objects.patient_details(data['user'])
+		if patient_data.age_group:
+			data['completeness'] = data['completeness'] + 10
+		if patient_data.gender:
+			data['completeness'] = data['completeness'] + 10
+		if patient_data.cell_number:
+			data['completeness'] = data['completeness'] + 10
+		if data['user'].first_name:
+			data['completeness'] = data['completeness'] + 20
+		if data['user'].last_name:
+			data['completeness'] = data['completeness'] + 20
+		if data['user'].username:
+			data['completeness'] = data['completeness'] + 10
+		if data['user'].email:
+			data['completeness'] = data['completeness'] + 20
+
+	except Patient.DoesNotExist:
+		raise Http404
 	
 	return render_to_response('index.html', {'data': data}, context_instance=RequestContext(request))
 

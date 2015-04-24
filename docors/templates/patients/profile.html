@@ -1,35 +1,5 @@
-{% extends 'base.html' %}
-{% block header_name %}{{data.patient.user.first_name}} {{data.patient.user.last_name}}{% endblock %}
-{% block title %}{{data.patient.user.first_name}} {{data.patient.user.last_name}} | Profile{% endblock %}
-{% block dashboard_profile_link %}#{% endblock %}
-{% block content %}
-<div class="container">
-  <div class="divide30"></div>
-  <div class="row">
-    <div class="col-md-3">
-      <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-        <div class="panel panel-default">
-          <div class="panel-heading" role="tab" id="headingOne">
-            DASHBOARD
-          </div>
-          <ul class="list-group">
-            <li class="list-group-item"><a href="/dashboard/doctors">Doctors</a></li>
-            <li class="list-group-item"><a href="/dashboard/reviews">Reviews</a></li>
-          </ul>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading" role="tab" id="headingTwo">
-            ACCOUNT SETTINGS
-          </div>
-          <ul class="list-group">
-            <li class="list-group-item"><a href="/dashboard/profile">Profile</a></li>
-            <li class="list-group-item"><a href="/dashboard/settings">Account & Settings</a></li>
-            <li class="list-group-item"><a href="/accounts/logout">Logout</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-9">
+{% extends 'patients/dashboard_base.html' %}
+{% block dashboard_content %}
       <form role="form" data-toggle="validator" action="" method="POST">{% csrf_token %}
         <h2 class="h-without-top-margin">My Profile</h2>
         <hr/>
@@ -94,9 +64,7 @@
             </div>
           </div>
         </div>
-        <div class="row">
-          <hr/>
-        </div>
+        <hr/>
         <div class="row">
           <div class="col-md-12">
             <button type="submit" class="btn btn-primary">Save</button>
@@ -106,11 +74,7 @@
           </div>
         </div>
       </form>
-    </div>
-  </div>
-  <div class="divide30"></div>
-</div>
-{% endblock %}
+    {% endblock %}
 
 {% block customScript %}
   <script type="text/javascript">

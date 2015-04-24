@@ -1,16 +1,13 @@
 <script type="text/javascript">
 	$(document).ready(function(){
-		$('#profile-completeness-container').circleProgress({
-		    startAngle: -90,
-		    value: .5,
-		    size: 20,
-		    lineCap: 'round',
-		    thickness:5,
-		    fill: { color: '#ffa500' }
-		});
 		$(".tooltip-class").qtip({
 			content: {
-				title: "Profile Completeness"
+				title: "Profile Completeness",
+				{% if data.completeness == 100 %}
+				text: "Hurray!!! Your profile completeness is at 100%"
+				{% else %}
+				text: "Your Profile Completeness is at {{data.completeness}}. Click to complete your profile now."
+				{% endif %}
 			},
 			position: {
 		        my: 'top center',  // Position my top left...
