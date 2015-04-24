@@ -10,6 +10,8 @@ from django.core.urlresolvers import reverse
 from django.dispatch import receiver
 from allauth.account.signals import user_signed_up
 from registration.signals import user_registered
+from django.contrib.auth.views import login
+from django.conf import settings
 import json
 
 class PatientList(generics.ListCreateAPIView):
@@ -94,6 +96,12 @@ def patient(request):
 		else:
 			data['patient'] = None
 	return render_to_response('patients/profile.html', {'data': data}, context_instance=RequestContext(request))
+
+def custom_login(request, **kwargs):
+	if request.user.is_authenticated():
+		return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
+	else:
+		return login(request)
 
 @receiver(user_signed_up)
 def set_patient(sender, **kwargs):

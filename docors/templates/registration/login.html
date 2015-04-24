@@ -1,55 +1,55 @@
-{% extends "registration/login_base.html" %} {% block loginClass %}active{% endblock %} {% block login_content %}
-<!-- BEGIN LOGIN FORM -->
-<div class="row">
-	<div class="col-md-5 col-md-offset-3">
-	<div id="login-wraper">
-	{% if form.errors %}
-	<div class="alert alert-warning" style="color: #911;background-color: #fcdede;border-color: #d2b2b2;">
-		<a href="#" class="close" data-dismiss="alert">&times;</a>
-		Incorrect User Name or Password
-	</div>
-	{% endif %}
-            <form class="form login-form" action="" method="post">{% csrf_token %}
-                <legend>Sign in to <span class="blue">DoctorsInfo</span></legend>
-            
-                <div class="body">
-			<div class="row">
-				<div class="col-md-12">
-		                    <label>Username</label>
-                		    {{form.username}}
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+	<form id="login_form_page" role="form" data-toggle="validator">{% csrf_token %}
+			<div class="modal-body">
+				{% load socialaccount %}
+				<div class="container-fluid" style="border-bottom: 1px solid #e5e5e5;padding:15px 0;">
+					<div class="col-md-8 col-md-offset-2" style="margin-bottom:15px;">
+						<a href="{% provider_login_url 'facebook' method='oauth2' %}" class="btn btn-block btn-social btn-facebook">
+						    <i class="fa fa-facebook"></i> Log In with Facebook
+						</a>
+					</div>
+					<div class="col-md-8 col-md-offset-2" style="margin-bottom:15px;">
+						<a href="{% provider_login_url 'google' %}" class="btn btn-block btn-social btn-google-plus">
+						    <i class="fa fa-google"></i> Log In with Google
+						</a>
+					</div>
+					<div class="col-md-8 col-md-offset-2" style="margin-bottom:15px;">
+						<a href="{% provider_login_url 'twitter' %}" class="btn btn-block btn-social btn-twitter">
+						    <i class="fa fa-twitter"></i> Log In with Twitter
+						</a>
+					</div>
+				</div>
+				<div class="container-fluid" style="padding:15px 0;">
+					<div class="login-username-form-group form-group">
+					    <div class="col-md-8 col-md-offset-2" style="margin-bottom:15px;">
+					    	<input name="login_username" type="text" class="form-control" id="login_page_username" placeholder="Username" data-error="Username field cannot be empty" required>
+					    	<span class="help-block with-errors"></span>
+					    </div>
+					</div>
+					<div class="login-password-form-group form-group">
+						<div class="col-md-8 col-md-offset-2">
+					    	<input name="login_password" type="password" class="form-control" id="login_page_password" placeholder="Password" data-error="Password field cannot be empty" required>
+					    	<span class="help-block with-errors"></span>
+					    </div>
+					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-md-12">
-		                    <label>Password</label>
-                		    {{form.password}}
+			<div class="modal-footer">
+				<div class="col-md-4">
+					<div class="row" style="float:left;color: #8B8B8B;">
+						<a href="#" onclick="$('#loginModal').modal('hide');" data-toggle="modal" data-target="#recoveryModal"><strong>Forgot your password?</strong></a>
+					</div>
+					<div class="clear"></div>
+					<div class="row" style="float:left;color: #8B8B8B;">
+						<a href="#" onclick="$('#loginModal').modal('hide');" data-toggle="modal" data-target="#signupModal"><strong>Sign up now</strong></a>
+					</div>
+				</div>
+				<div class="col-md-4 col-md-offset-4">
+					<button type="submit" class="btn btn-primary">Log In</button>
 				</div>
 			</div>
-                </div>
-            
-                <div class="footer">
-                    <label class="checkbox inline">
-                        <input type="checkbox" id="inlineCheckbox1" value="option1"> Remember me
-                    </label>
-                                
-                    <button type="submit" class="btn btn-success">Signin</button>
-                </div>
-            
-            </form>
-        </div>
+			</form>
 </div>
-</div>
-{% endblock %}
-
-{% block login_footer %}
-      Don't have an account yet? <a href="/register/" class="btn btn-black">Register</a>
-{% endblock %}
-
-{% block customScript %}
-<script type="text/javascript">
-	$(document).ready(function(){
-		$("input").addClass("form-control");
-		$("input[type='checkbox']").removeClass("form-control");
-	});
-</script>
 {% endblock %}

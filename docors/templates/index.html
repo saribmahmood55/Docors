@@ -56,18 +56,20 @@
 					</div>
 					<div class="row row-space-0-0-25-0">
 						<form role="form" data-toggle="validator" action="{% url 'practitoners' %}" id="searchForm">
-							<div class="col-md-5">
-								<select id="cityName" data-validation="required" class="form-control" name="city">
+							<div class="col-md-4">
+								<select id="cityName" data-error="Please select an option" class="form-control" name="city" required>
 									<option value="" disabled selected>-Select City-</option>
 								</select>
+								<span class="help-block with-errors"></span>
 							</div>
-							<div class="col-md-5">
-								<select id="specialityName" data-validation="required" class="form-control" name="spec">
+							<div class="col-md-4">
+								<select id="specialityName" data-error="Please select an option" class="form-control" name="spec" required>
 									<option value="" disabled selected>-Select Speciality-</option>
 								</select>
+								<span class="help-block with-errors"></span>
 							</div>
-							<div class="col-md-2">
-								<button type="submit" class="btn btn-danger btn-flat">Search For Doctor</button>
+							<div class="col-md-4">
+								<button type="submit" class="btn btn-danger btn-flat full-width">Search For Doctor</button>
 							</div>
 						</form>
 					</div>
