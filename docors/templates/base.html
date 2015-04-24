@@ -17,6 +17,8 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
 		<!-- Font Awesome CDN -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+		<!-- QTtip CDN CSS -->
+		<link rel="stylesheet" href="http://cdn.jsdelivr.net/qtip2/2.2.1/jquery.qtip.min.css">
 		<!-- Sticky Footer -->
 		<link rel="stylesheet" href="{% static 'assets/css/sticky-footer-navbar.css' %}">
 		<!-- Bootstrap Social Buttons -->
@@ -34,8 +36,12 @@
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 		<!-- BOOTSTRAP JS -->
 		<script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+		<!-- QTip JS -->
+		<script type="text/javascript" src="http://cdn.jsdelivr.net/qtip2/2.2.1/jquery.qtip.min.js"></script>
 		<!-- Validator JS -->
 		<script type="text/javascript" src="{% static 'assets/js/validator.js' %}"></script>
+		<!-- Progress Bar JS -->
+		<script type="text/javascript" src="{% static 'assets/js/circle-progress.js' %}"></script>
 		{% block pageSpecificJS %}{% endblock %}
 		<!-- End JS FILES -->
 
@@ -43,7 +49,66 @@
 
 	<body class="remove-scroll {% block extraBodyClass %}{% endblock %}">
 
-    	{% include "fragments/header.html" %}
+    	<!-- Start Header -->
+		<nav class="navbar navbar-default" style="margin-bottom:0px;">
+			<div class="container">
+				<div class="col-md-8">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="/">
+							<img alt="Logo" src="{% static 'assets/img/logo.png' %}">
+						</a>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+						<ul class="nav navbar-nav">
+							{% if data.user.is_authenticated %}
+							<li role="presentation" class="dropdown">
+								<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+									{{data.user.first_name}} {{data.user.last_name}} <span class="caret"></span>
+								</a>
+								<ul class="dropdown-menu" role="menu">
+									<li><a href="#" data-toggle="modal" data-target="#loginModal">My Profile</a></li>
+									<li><a href="#">Account Settings</a></li>
+									<li><a href="#" onclick="logout_request();return false;">Logout</a></li>
+								</ul>
+							</li>
+							{% block profile_completeness %}{% endblock %}
+							{% else %}
+							<li><a href="/">Home <span class="sr-only">(current)</span></a></li>
+							<li class="divider-vertical"></li>
+							<li role="presentation" class="dropdown">
+								<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+									Patient <span class="caret"></span>
+								</a>
+								<ul class="dropdown-menu" role="menu">
+									<li><a href="#" data-toggle="modal" data-target="#loginModal">Sign in</a></li>
+									<li><a href="#" data-toggle="modal" data-target="#signupModal">Register</a></li>
+								</ul>
+							</li>
+							<li class="divider-vertical"></li>
+							<li role="presentation" class="dropdown">
+								<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+									Doctor <span class="caret"></span>
+								</a>
+								<ul class="dropdown-menu" role="menu">
+									<li><a href="#" data-toggle="modal" data-target="#loginModal">Update your info.</a></li>
+									<li><a href="#">Get listed as a dcotor</a></li>
+								</ul>
+							</li>
+							{% endif %}
+						</ul>
+					</div>
+				</div>
+			</div>
+		</nav>
+		<!-- End Header -->
 
 		{% if not request.user.is_authenticated%}
 			{% include "fragments/login_modal.html" %}
@@ -64,5 +129,7 @@
 	{% include "fragments/google-analytics.html" %}
 
 	{% include "fragments/login-script.html" %}
+
+	{% include "fragments/base-script.html" %}
 
 </html>

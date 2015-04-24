@@ -29,6 +29,7 @@
 							<li><a href="#" onclick="logout_request();return false;">Logout</a></li>
 						</ul>
 					</li>
+					{% include "fragments/profile_completeness.html" %}
 					{% else %}
 					<li><a href="/">Home <span class="sr-only">(current)</span></a></li>
 					<li class="divider-vertical"></li>
