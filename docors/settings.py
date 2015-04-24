@@ -34,6 +34,9 @@ RECAPTCHA_USE_SSL = False
 #Sites
 SITE_ID = 2
 
+#BASE URL
+BASE_URL = "http://localhost:8000/"
+
 #GMAIL
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'doctorsinfo.pk@gmail.com'
@@ -88,6 +91,7 @@ ACCOUNT_ACTIVATION_DAYS = 7
 REGISTRATION_OPEN = True
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+LOGIN_PAGE = BASE_URL + 'accounts/login'
 
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`

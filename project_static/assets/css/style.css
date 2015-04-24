@@ -120,3 +120,19 @@ footer .row{
 .full-width{
 	width:100%;
 }
+
+.divide20{
+	height:20px;
+}
+
+.divide30{
+	height:30px;
+}
+
+.divide40{
+	height:40px;
+}
+
+.h-without-top-margin{
+	margin-top:0px;
+}

@@ -11,7 +11,8 @@ class RegistrationViewUniqueEmail(RegistrationView):
     form_class = RegistrationFormUniqueEmail
 
 urlpatterns = patterns('',
-    url(r'^accounts/register', RegistrationViewUniqueEmail.as_view(),name='registration_register'),
+    url(r'^accounts/register/$', RegistrationViewUniqueEmail.as_view(),name='registration_register'),
+    url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
     url(r'^social-accounts/', include('allauth.urls')),
     url(r'^rest-auth/', include('rest_auth.urls')),
     url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),

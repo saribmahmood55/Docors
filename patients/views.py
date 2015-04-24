@@ -43,6 +43,32 @@ def educate(request):
 	if request.method == 'GET':
 		return render_to_response('patients/educate.html', {'data': data}, context_instance=RequestContext(request))
 
+def profile(request):
+	data = {}
+	if request.user.is_authenticated():
+		data['user'] = request.user
+	else:
+		return HttpResponseRedirect(settings.LOGIN_PAGE)
+
+	if request.method == 'GET':
+		try:
+			data['patient'] = Patient.patient_objects.patient_details(data['user'])
+		except Patient.DoesNotExist:
+			raise Http404
+
+	elif request.method == 'POST':
+		patientDetails = {}
+		patientDetails['user'] = data['user']
+		patientDetails['fname'] = request.POST.get('firstname', None)
+		patientDetails['lname'] = request.POST.get('lastname', None)
+		patientDetails['number'] = request.POST.get('cell_number', None)
+		patientDetails['age'] = request.POST.get('age_group', None)
+		patientDetails['gender'] = request.POST.get('gender', None)
+		updatePatientDetails(patientDetails)
+		data['patient'] = Patient.patient_objects.patient_details(data['user'])
+
+	return render_to_response('patients/profile.html', {'data': data}, context_instance=RequestContext(request))
+
 def patient(request):
 	data = {}
 	if request.user.is_authenticated():
