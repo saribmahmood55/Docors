@@ -116,3 +116,7 @@ footer .row{
 .clear{
 	clear:both;
 }
+
+.full-width{
+	width:100%;
+}
