@@ -36,6 +36,26 @@
 		}
 	});
 
+	$('#login_form_page').validator().on('submit', function (e) {
+		if (e.isDefaultPrevented()) {
+			// handle the invalid form...
+		} else {
+			// everything looks good!
+			e.preventDefault();
+			var username = $("#login_page_username").val();
+			var password = $("#login_page_password").val();
+			$.ajax({
+				type : 'POST',
+				url : '/rest-auth/login/',
+				data: {"username":username,"password":password},
+				success : function (data) {
+					window.location.href = "http://localhost:8000";
+				},
+				error : errorHandler
+			});
+		}
+	});
+
 	function csrfSafeMethod(method) {
 	    // these HTTP methods do not require CSRF protection
 	    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
