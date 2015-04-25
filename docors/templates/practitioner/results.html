@@ -1,46 +1,67 @@
 {% extends "base.html" %}
 {% load humanize %}
-{% block loggedInUser %}
-{% if data.user.is_authenticated %}
-<div id="head">
-  <a href="{% url 'patient' %}" class="anchor-link"><i class="fa fa-user fa-1x marg-r"></i>{{data.user.username}}</a>
-</div>
-{% endif %}
-{% endblock %}
-{% block containerClass %}result{% endblock %}
 {% block seoItemTags %}http://schema.org/Physician{% endblock %}
 {% block content %}
-{% if data.spec and data.city %}
-<h1 class="textCentre">{{data.spec|title}} in {{data.city|title}}</h1>
-{% else %}
-<h1 class="textCentre">Search Results</h1>
-{% endif %}
-<ul class="results" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Doctor name..." data-inset="true">
- {% for onePractitioner in data.practice.practice_list.iterator %}
- <li>
-  <a href="{% url 'practitioner' onePractitioner.practitioner.slug %}" class="anchor-link" >
-    <h2 itemprop="name">{{onePractitioner.practitioner.get_title_display}}{{onePractitioner.practitioner.name}}</h2>
-    <p ><strong>{{onePractitioner.practitioner.credentials}}</strong></p>
-    <p>Specialized in: 
-     {% for speciality in onePractitioner.practitioner.specialities.all.iterator %}
-     <span itemprop="medicalSpecialty">{{speciality.name}}</span>
-     {% endfor %}
-   </p>
-   {% if onePractitioner.distance.m > 0 %}
-   {% if onePractitioner.distance.m > 1000 %}
-   <p class="ui-li-aside"><strong>{{onePractitioner.distance.km|floatformat:2}}</strong> KM.</p>
-   {% else %}
-   <p class="ui-li-aside"><strong>{{onePractitioner.distance.m|intword}}</strong> m.</p>
-   {% endif %}
-   {% else %}
-   <p class="ui-li-aside">Fees: <span itemprop="priceRange"><strong>{{onePractitioner.checkup_fee}}/-</strong></span>
-     <span itemprop="currenciesAccepted" class="currency">PKR</span>
-   </p>
-   {% endif %}
- </a>
-</li>
-{% empty %}
-<li><p class="textCentre"><strong>Sorry, No results found. Search again.</strong></p></li>
-{% endfor %}
-</ul>
+
+<section class="results-section">
+  <div class="container">
+    <div class="col-md-12">
+      {% if data.spec and data.city %}
+      <h1 class="textCentre">{{data.spec|title}} in {{data.city|title}}</h1>
+      {% else %}
+      <h1 class="textCentre">Search Results</h1>
+      {% endif %}
+    </div>
+    <hr/>
+    <div class="col-md-12">
+      <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        {% for onePractitioner in data.practice.practice_list.iterator %}
+
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab">
+              <a href="{% url 'practitioner' onePractitioner.practitioner.slug %}" class="anchor-link">
+                {{onePractitioner.practitioner.get_title_display}}{{onePractitioner.practitioner.name}}
+              </a>
+            </div>
+            <ul class="list-group">
+              <li class="list-group-item">
+                <p >
+                  <strong>
+                    {{onePractitioner.practitioner.credentials}}
+                  </strong>
+                </p>
+              </li>
+              <li class="list-group-item">
+                <p>
+                  Specialized in: 
+                  {% for speciality in onePractitioner.practitioner.specialities.all.iterator %}
+                    <span itemprop="medicalSpecialty">{{speciality.name}}</span>
+                  {% endfor %}
+                </p>
+              </li>
+              {% if onePractitioner.distance.m > 0 %}
+                <li class="list-group-item">
+                {% if onePractitioner.distance.m > 1000 %}
+                  <p class="ui-li-aside"><strong>{{onePractitioner.distance.km|floatformat:2}}</strong> KM.</p>
+                {% else %}
+                  <p class="ui-li-aside"><strong>{{onePractitioner.distance.m|intword}}</strong> m.</p>
+                {% endif %}
+                </li>
+              {% endif %}
+              <li class="list-group-item">
+                <p class="ui-li-aside">
+                  Fees: 
+                  <span itemprop="priceRange"><strong>{{onePractitioner.checkup_fee}}/-</strong></span>
+                  <span itemprop="currenciesAccepted" class="currency">PKR</span>
+                </p>
+              </li>
+            </ul>
+          </div>
+          {% empty %}
+            <li><p class="textCentre"><strong>Sorry, No results found. <a href="/">Search again.</a></strong></p></li>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
 {% endblock %}
