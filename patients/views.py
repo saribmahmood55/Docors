@@ -12,6 +12,7 @@ from allauth.account.signals import user_signed_up
 from registration.signals import user_registered
 from django.contrib.auth.views import login
 from django.conf import settings
+from django.contrib.auth import authenticate
 import json
 
 class PatientList(generics.ListCreateAPIView):
@@ -48,7 +49,7 @@ def profile(request):
 	if request.user.is_authenticated():
 		data['user'] = request.user
 	else:
-		return HttpResponseRedirect(settings.LOGIN_PAGE)
+		return HttpResponseRedirect(reverse('auth_login'))
 
 	if request.method == 'GET':
 		try:
@@ -68,6 +69,43 @@ def profile(request):
 		data['patient'] = Patient.patient_objects.patient_details(data['user'])
 
 	return render_to_response('patients/profile.html', {'data': data}, context_instance=RequestContext(request))
+
+def acc_preferences(request):
+	data = {}
+	if request.user.is_authenticated():
+		data['user'] = request.user
+	else:
+		return HttpResponseRedirect(reverse('auth_login'))
+
+	print request.user.email
+
+	if request.method == "POST":
+		type_ = request.POST.get('type_', None)
+
+		if type_ == "change_email":
+			new_email = request.POST.get('new_email', None)
+			curr_password = request.POST.get('password', None)
+			u = authenticate(username=data['user'].username, password=curr_password)
+			if u is not None:
+				if u.is_active:
+					pass
+		elif type_ == "change_password":
+			curr_email = request.user.email
+			curr_password = request.POST.get('currentpassword', None)
+			new_password = request.POST.get('password1', None)
+			u = authenticate(username=data['user'].username, password=curr_password)
+			if u is not None:
+				data['alert'] = 'Password successfully changed.'
+				if u.is_active:
+					u.set_password(new_password)
+					u.save()
+					return HttpResponseRedirect(reverse('auth_login'))
+			else:
+				data['alert'] = 'Unable to change password. Please check your credentials'
+		elif type_ == "change_preferences":
+			pass
+
+	return render_to_response('patients/acc_preferences.html', {'data': data}, context_instance=RequestContext(request))
 
 def patient(request):
 	data = {}

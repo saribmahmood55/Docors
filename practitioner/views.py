@@ -108,7 +108,7 @@ def index(request):
 			data['completeness'] = data['completeness'] + 20
 
 	except Patient.DoesNotExist:
-		raise Http404
+		pass
 	
 	return render_to_response('index.html', {'data': data}, context_instance=RequestContext(request))
 

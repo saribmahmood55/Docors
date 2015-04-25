@@ -9,7 +9,8 @@ urlpatterns = [
 	url(r'^patient', views.patient, name='patient'),
 	url(r'^subscribe/$', views.subscribe, name='subscribe'),
 	url(r'^WhoIsMyDoctor', views.educate, name='WhoIsMyDoctor'),
-	url(r'^dashboard/profile/$', views.profile)
+	url(r'^dashboard/profile/$', views.profile),
+	url(r'^dashboard/account/$', views.acc_preferences)
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
