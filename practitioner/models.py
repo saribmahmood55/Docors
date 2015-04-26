@@ -2,11 +2,18 @@ from django.db import models
 from autoslug import AutoSlugField
 from sorl.thumbnail import ImageField
 
+class SpecializationManager(models.Manager):
+    def spec_slug(self, slug):
+        return super(SpecializationManager, self).get(slug=slug)
+
 class Specialization(models.Model):
     name = models.CharField(max_length=100)
     human_name = models.CharField(max_length=100, null=True)
     SEO_name = models.CharField(max_length=100, null=True)
     slug = AutoSlugField(populate_from='name', unique = True)
+
+    objects = models.Manager()
+    spec_objects = SpecializationManager()
     
     def __unicode__(self):
         return self.name

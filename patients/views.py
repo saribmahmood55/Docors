@@ -77,8 +77,6 @@ def acc_preferences(request):
 	else:
 		return HttpResponseRedirect(reverse('auth_login'))
 
-	print request.user.email
-
 	if request.method == "POST":
 		type_ = request.POST.get('type_', None)
 
@@ -106,6 +104,35 @@ def acc_preferences(request):
 			pass
 
 	return render_to_response('patients/acc_preferences.html', {'data': data}, context_instance=RequestContext(request))
+
+def dashboard_specialities(request):
+	data = {}
+	if request.user.is_authenticated():
+		data['user'] = request.user
+	else:
+		return HttpResponseRedirect(reverse('auth_login'))
+
+	if request.method == "GET":
+		patient = Patient.patient_objects.patient_details(data['user'])
+		data['int_specialities'] = patient.interested_specialities.all()
+		data['ex_specialities'] = excludedSpecialities(patient)
+	elif request.method == "POST":
+		type_ = request.POST.get('type_', None)
+
+		if type_ == "remove":
+			spec_list = request.POST.getlist('int_selector', None)
+			for spec_slug in spec_list:
+				interestedSpecRemove(data['user'], spec_slug)
+		elif type_ == "add":
+			spec_list = request.POST.getlist('ex_selector', None)
+			for spec_slug in spec_list:
+				interestedSpecAdd(data['user'], spec_slug)
+
+		patient = Patient.patient_objects.patient_details(data['user'])
+		data['int_specialities'] = patient.interested_specialities.all()
+		data['ex_specialities'] = excludedSpecialities(patient)
+
+	return render_to_response('patients/interested_specialities.html', {'data': data}, context_instance=RequestContext(request))
 
 def patient(request):
 	data = {}

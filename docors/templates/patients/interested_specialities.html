@@ -1,0 +1,54 @@
+{% extends 'patients/dashboard_base.html' %}
+{% block header_name %}{{data.user.first_name}} {{data.user.last_name}}{% endblock %}
+{% block title %}{{data.user.first_name}} {{data.user.last_name}} | Profile{% endblock %}
+{% block dashboard_content %}
+<h2 class="h-without-top-margin">Interested Specialities</h2>
+<hr/>
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+	<div class="panel panel-default">
+		<div class="panel-heading" role="tab" id="headingOne">Specialites You are interested in</div>
+		<div class="panel-body">
+			<form role="form" action="" method="POST">{% csrf_token %}
+				<input type="hidden" value="remove" name="type_">
+				<div class="btn-group" data-toggle="buttons">
+				{% for spec in data.int_specialities %}
+					<div class="col-md-6">
+						<label class="btn btn-info divide-by-margin10">
+							<input name="int_selector" type="checkbox" value="{{spec.slug}}"> {{spec.human_name}}
+						</label>
+					</div>
+				{% empty %}
+					<li><p class="textCentre"><strong>Sorry, You haven't selected any specialites. Select specialites from the list below. </strong></p></li>
+				{% endfor %}
+				</div>
+				<div class="divide20"></div>
+				<div class="clear"></div>
+				<hr/>
+				<button type="submit" class="pull-right btn btn-primary">Remove from List</button>
+			</form>
+		</div>
+	</div>
+
+	<div class="panel panel-default">
+		<div class="panel-heading" role="tab" id="headingOne">Other Specialites</div>
+		<div class="panel-body">
+			<form role="form" action="" method="POST">{% csrf_token %}
+				<input type="hidden" value="add" name="type_">
+				<div class="btn-group" data-toggle="buttons">
+				{% for spec in data.ex_specialities %}
+					<div class="col-md-6">
+						<label class="btn btn-info divide-by-margin10">
+							<input name="ex_selector" type="checkbox" value="{{spec.slug}}">{{spec.human_name}}
+						</label>
+					</div>
+				{% endfor %}
+				</div>
+				<div class="divide20"></div>
+				<div class="clear"></div>
+				<hr/>
+				<button type="submit" class="pull-right btn btn-primary">Add to your list</button>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}

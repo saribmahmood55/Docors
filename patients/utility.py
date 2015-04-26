@@ -31,8 +31,25 @@ def favourite(user,slug):
 		#messages.add_message(request, messages.INFO, msg)
 def  deleteFavtPrac(patient, slug):
 	practitioner = Practitioner.prac_objects.practitioner_slug(slug)
-	print practitioner
 	patient.favt_practitioner.remove(practitioner)
+	return True
+
+#
+def interestedSpecAdd(user,slug):
+	specialization = Specialization.spec_objects.spec_slug(slug)
+	patient = Patient.patient_objects.patient_details(user)
+	int_spec_list = patient.interested_specialities.all().filter(slug=slug)
+	if not int_spec_list.exists():
+		patient.interested_specialities.add(specialization)#update many to many field
+		return True
+	else:
+		return False
+
+#
+def interestedSpecRemove(user,slug):
+	specialization = Specialization.spec_objects.spec_slug(slug)
+	patient = Patient.patient_objects.patient_details(user)
+	patient.interested_specialities.remove(specialization)
 	return True
 
 #
@@ -52,6 +69,10 @@ def excludedSpecialities(patient):
 	for spec in patient.interested_specialities.all():
 		favt_spec.append(spec.slug)
 	return Specialization.objects.exclude(slug__in=favt_spec)
+
+#
+def getAllSpecialities():
+	return Specialization.objects.all()
 
 #
 def newSubscription(slug, email, cell_number):
