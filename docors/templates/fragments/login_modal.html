@@ -6,7 +6,7 @@
 		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 		        <h4 class="modal-title" id="myModalLabel">Sign in</h4>
 		    </div>
-		    <form id="login_form" role="form" data-toggle="validator">{% csrf_token %}
+		    <form id="login_form" role="form" action="{% url 'auth_login' %}" method="POST" data-toggle="validator">{% csrf_token %}
 			<div class="modal-body">
 				{% load socialaccount %}
 				<div class="container-fluid" style="border-bottom: 1px solid #e5e5e5;padding:15px 0;">

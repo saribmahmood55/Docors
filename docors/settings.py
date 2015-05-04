@@ -180,9 +180,9 @@ STATICFILES_DIRS = [
 ]
 
 if DEBUG:
-    STATIC_ROOT = '/home/asad/docors/static/'
-    MEDIA_ROOT = '/home/asad/docors/media/'
+    STATIC_ROOT = os.path.join(BASE_DIR, "venv/static/")
+    MEDIA_ROOT = os.path.join(BASE_DIR, "venv/static/media/")
     
 else:
-    STATIC_ROOT = '/home/asad/docors/static/'
-    MEDIA_ROOT = '/home/asad/docors/media/'
+    STATIC_ROOT = os.path.join(BASE_DIR, "venv/static/")
+    MEDIA_ROOT = os.path.join(BASE_DIR, "venv/static/media/")

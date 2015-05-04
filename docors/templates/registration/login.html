@@ -7,10 +7,17 @@
 		<p>{{data.alert}}</p>
 	</div>
 	{% endif %}
-	<form id="login_form_page" role="form" data-toggle="validator">{% csrf_token %}
+	<form id="login_form_page" role="form" action="" method="POST" data-toggle="validator">{% csrf_token %}
 			<div class="modal-body">
-				{% load socialaccount %}
 				<div class="container-fluid" style="border-bottom: 1px solid #e5e5e5;padding:15px 0;">
+					<div class="col-md-8 col-md-offset-2" style="margin-bottom:15px;">
+					{% if form.errors %}
+						<div class="alert alert-danger alert-dismissible">
+							Incorrect Username or Password
+						</div>
+					{% endif %}
+					</div>
+				{% load socialaccount %}
 					<div class="col-md-8 col-md-offset-2" style="margin-bottom:15px;">
 						<a href="{% provider_login_url 'facebook' method='oauth2' %}" class="btn btn-block btn-social btn-facebook">
 						    <i class="fa fa-facebook"></i> Log In with Facebook

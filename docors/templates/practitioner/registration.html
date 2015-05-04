@@ -1,0 +1,335 @@
+{% extends "base.html" %} 
+{% block registerClass %}active{% endblock %} 
+{% block content %}
+<div class="divide30"></div>
+<div class="clear"></div>
+<div class="container">
+	<div class="panel panel-default">
+		<div class="panel-heading"><center><h3>Register to DoctorsInfo</h3></center></div>
+		<div class="panel-body">
+	        <div class="col-md-8">
+	            <form data-toggle="validator" class="form" action="" method="post">{% csrf_token %}
+	        		    
+	        		<div class="body">
+						<div class="box box-success">
+							<div class="box-header with-border">
+								<h3 class="box-title">Practitioner details</h3>
+							</div>
+							<div class="box-body">
+								<div class="row">
+									<div class="col-md-2">
+										<div class="form-group">
+											<label>{{form.practitioner_title.label_tag}}</label>
+											{{form.practitioner_title}}
+											<span class="help-block with-errors"></span>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>{{form.practitioner_name.label_tag}}</label>
+											{{form.practitioner_name}}
+											<span class="help-block with-errors"></span>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label>{{form.practitioner_gender.label_tag}}</label>
+											{{form.practitioner_gender}}
+											<span class="help-block with-errors"></span>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label>{{form.year_of_birth.label_tag}}</label>
+											{{form.year_of_birth}}
+											<span class="help-block with-errors"></span>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>{{form.email.label_tag}}</label>
+											{{form.email}}
+											<span class="help-block with-errors"></span>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>{{form.physician_type.label_tag}}</label>
+											{{form.physician_type}}
+											<span class="help-block with-errors"></span>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>{{form.specialities.label_tag}}</label>
+											{{form.specialities}}
+											<span class="help-block with-errors"></span>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group">
+											<label>{{form.credentials.label_tag}}</label>
+											{{form.credentials}}
+											<span class="help-block with-errors"></span>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>{{form.experience.label_tag}}</label>
+											{{form.experience}}
+											<span class="help-block with-errors"></span>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>{{form.message.label_tag}}</label>
+											{{form.message}}
+											<span class="help-block with-errors"></span>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group">
+											<label>{{form.achievements.label_tag}}</label>
+											{{form.achievements}}
+											<span class="help-block with-errors"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="box box-success">
+							<div class="box-header with-border">
+								<h3 class="box-title">Practitioner Location details</h3>
+							</div>
+							<div class="box-body">
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>{{form.practice_type.label_tag}}</label>
+											{{form.practice_type}}
+											<span class="help-block with-errors"></span>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group practice_type_div">
+											<label>{{form.practice_name.label_tag}}</label>
+											{{form.practice_name}}
+											<span class="help-block with-errors"></span>
+										</div>
+									</div>
+								</div>
+								<div class="row practice_location_hide">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>{{form.address.label_tag}}</label>
+											{{form.address}}
+											<span class="help-block with-errors"></span>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>{{form.city.label_tag}}</label>
+											{{form.city}}
+											<span class="help-block with-errors"></span>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>{{form.contact_number.label_tag}}</label>
+											{{form.contact_number}}
+											<span class="help-block with-errors"></span>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>{{form.appointment.label_tag}}</label>
+											{{form.appointment}}
+											<span class="help-block with-errors"></span>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label>{{form.checkup_fee.label_tag}}</label>
+											{{form.checkup_fee}}
+											<span class="help-block with-errors"></span>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group">
+											<label>{{form.services.label_tag}}</label>
+											{{form.services}}
+											<span class="help-block with-errors"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="box box-success">
+							<div class="box-header with-border">
+								<h3 class="box-title">Practitioner Timing details</h3>
+							</div>
+							<div class="box-body">
+								<div class="row">
+									<div class="col-md-3">
+										<div class="form-group">
+											<label>{{form.day_from.label_tag}}</label>
+											{{form.day_from}}
+											<span class="help-block with-errors"></span>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label>{{form.day_to.label_tag}}</label>
+											{{form.day_to}}
+											<span class="help-block with-errors"></span>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label>{{form.start_time.label_tag}}</label>
+											{{form.start_time}}
+											<span class="help-block with-errors"></span>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label>{{form.end_time.label_tag}}</label>
+											{{form.end_time}}
+											<span class="help-block with-errors"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+	        		</div>
+	        		    
+	        		<div class="row">
+					    <div class="checkbox">
+	  						<label>
+								<input type="checkbox" value="" id="inlineCheckbox1" value="option1" style="float:none;" required>
+	    						I agree to the terms and conditions
+	  						</label>
+					    </div>
+						<button type="submit" class="btn btn-success">Register</button>
+	        		</div>
+	        	</form>
+	        </div>
+	        <div class="col-md-4">
+	        	<div class="box box-primary">
+    				<div class="box-header with-border">
+    					<h1 class="box-title" style="text-align:center;">You are just few steps away to list yourself with DoctorsInfo.</h1>
+    				</div>
+        			<div class="box-body">
+        				<ul style="padding:0px;text-align:justify;list-style:none;">
+        					<li>Stand out from the crowd by completing your profile.</li>
+        					<li>Find out what people have to say.</li>
+        					<li>Join the featured list and make yourself prominent.</li>
+        					<li>Your information will be safe with us.</li>
+        				</ul>
+        				
+        			</div>
+        		</div>
+
+        	</div>
+	    </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% load staticfiles %}
+{% block pageSpecificCSS %}
+<link rel="stylesheet" href="{% static 'assets/css/bootstrap-tagsinput.css' %}">
+{% endblock %}
+
+{% block pageSpecificJS %}
+<script type="text/javascript" src="{% static 'assets/js/autosize.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/bootstrap-tagsinput.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/bootstrap3-typeahead.js' %}"></script>
+{% endblock %}
+
+
+{% block customScript %}
+<script type="text/javascript">
+
+	
+	var data_source = Array();
+	{% for p in degree_list %}
+	data_source.push("{{p}}");
+	{% endfor %}
+	
+	function change_hospital_name(){
+		if($("#id_practice_name").val() == "other"){
+			$(".practice_location_hide").fadeIn('slow');
+		}else{
+			$(".practice_location_hide").fadeOut('slow');
+		}
+	};
+
+	$(document).ready(function(){
+
+		autosize($('textarea'));
+
+		$('#id_credentials').tagsinput({
+			typeahead: {
+				source: data_source
+			},
+			freeInput: false
+		});
+
+
+		$("#id_practice_type").change(function(){
+			if($(this).val() == "H"){
+				$.ajax({
+					type : 'GET',
+					url : '/practice_hospitals/',
+					data: {},
+					success : function (d) {
+						$("#id_practice_name").remove();
+						$(".practice_type_div").append(d);
+					},
+					error : function errorHandler(jqXHR, exception) {
+						$('.loading_state').remove();
+						if (jqXHR.status === 0) {
+							alert('Not connect.\n Verify Network.');
+						} else if (jqXHR.status == 404) {
+							alert('Requested page not found. [404]');
+						} else if (jqXHR.status == 500) {
+							alert('Internal Server Error [500].');
+						} else if (exception === 'parsererror') {
+							alert('Requested JSON parse failed.');
+						} else if (exception === 'timeout') {
+							alert('Time out error.');
+						} else if (exception === 'abort') {
+							alert('Ajax request aborted.');
+						} else {
+							alert('Uncaught Error.\n' + jqXHR.responseText);
+						}
+	
+					}
+				});
+			}else{
+				$("#id_practice_name").remove();
+				$(".practice_type_div").append('<input id="id_practice_name" maxlength="50" name="practice_name" type="text" class="form-control">');
+				$(".practice_location_hide").fadeIn('slow');
+			}
+		});
+
+	});
+</script>
+{% endblock %}

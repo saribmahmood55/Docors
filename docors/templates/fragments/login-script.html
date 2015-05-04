@@ -16,7 +16,7 @@
 	}
 	var csrftoken = getCookie('csrftoken');
 
-	$('#login_form').validator().on('submit', function (e) {
+	/*$('#login_form').validator().on('submit', function (e) {
 		if (e.isDefaultPrevented()) {
 			// handle the invalid form...
 		} else {
@@ -54,7 +54,7 @@
 				error : errorHandler
 			});
 		}
-	});
+	});*/
 
 	function csrfSafeMethod(method) {
 	    // these HTTP methods do not require CSRF protection
