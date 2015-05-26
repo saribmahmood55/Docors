@@ -9,23 +9,24 @@
 		    <form id="login_form" role="form" action="{% url 'auth_login' %}" method="POST" data-toggle="validator">{% csrf_token %}
 			<div class="modal-body">
 				{% load socialaccount %}
-				<div class="container-fluid" style="border-bottom: 1px solid #e5e5e5;padding:15px 0;">
+				<div class="container-fluid" style="padding:15px 0;">
 					<div class="col-md-8 col-md-offset-2" style="margin-bottom:15px;">
 						<a href="{% provider_login_url 'facebook' method='oauth2' %}" class="btn btn-block btn-social btn-facebook">
-						    <i class="fa fa-facebook"></i> Log In with Facebook
+						    <i class="fa fa-facebook"></i> Log in with Facebook
 						</a>
 					</div>
 					<div class="col-md-8 col-md-offset-2" style="margin-bottom:15px;">
 						<a href="{% provider_login_url 'google' %}" class="btn btn-block btn-social btn-google-plus">
-						    <i class="fa fa-google"></i> Log In with Google
+						    <i class="fa fa-google"></i> Log in with Google
 						</a>
 					</div>
 					<div class="col-md-8 col-md-offset-2" style="margin-bottom:15px;">
 						<a href="{% provider_login_url 'twitter' %}" class="btn btn-block btn-social btn-twitter">
-						    <i class="fa fa-twitter"></i> Log In with Twitter
+						    <i class="fa fa-twitter"></i> Log in with Twitter
 						</a>
 					</div>
 				</div>
+				<h4 class="modal-title" id="myModalLabel">Log in with email</h4>
 				<div class="container-fluid" style="padding:15px 0;">
 					<div class="login-username-form-group form-group">
 					    <div class="col-md-8 col-md-offset-2" style="margin-bottom:15px;">
