@@ -1,6 +1,9 @@
 body {
-  font-family: "Lato", Helvetica, Arial, sans-serif;
+  overflow-x: hidden!important;
+  font-family: 'Source Sans Pro', sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
+
 h1 {
   font-weight: 300;
 }
@@ -40,12 +43,6 @@ border-left-color: #111111;
   width: 100%;
   height: 100%;
   top: 0;
-}
-
-.btn-flat{
-	border-radius: 0 !important;
-	box-shadow: none;
-	border-width: 1px;
 }
 
 .row-space-100-0{
@@ -121,22 +118,6 @@ footer .row{
 	width:100%;
 }
 
-.divide10{
-	height:10px;
-}
-
-.divide20{
-	height:20px;
-}
-
-.divide30{
-	height:30px;
-}
-
-.divide40{
-	height:40px;
-}
-
 .divide-by-margin10{
 	margin-bottom:10px;
 }
@@ -145,46 +126,151 @@ footer .row{
 	margin-top:0px;
 }
 
-.box {
-  position: relative;
-  border-radius: 3px;
-  background: #ffffff;
-  border-top: 3px solid #d2d6de;
-  margin-bottom: 20px;
-  width: 100%;
-  box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-}
-
-.box.box-success {
-  border-top-color: #00a65a;
-}
-
-.box.box-primary {
-  border-top-color: #3c8dbc;
-}
-
-.box-header>.fa, .box-header>.glyphicon, .box-header>.ion, .box-header .box-title {
-  display: inline-block;
-  font-size: 18px;
+form.home-search {
+  clear: both;
   margin: 0;
-  line-height: 1;
+  outline: 0;
+  padding: 0;
+  display: inline-block;
+  vertical-align: top;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
-.box-header {
-  color: #444;
-  display: block;
+.home-search-tab, .home-search-tab:visited, .home-search-tab-selected, .home-search-tab-selected:visited {
+  padding: 6px 10px;
+  font-size: 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  color: #6d6d6d;
+}
+
+.home-search-tab, .home-search-tab:visited, .home-search-tab-selected, .home-search-tab-selected:visited {
+  padding: 6px 10px;
+  font-size: 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  color: #6d6d6d;
+}
+
+.home-search-container {
+  background: #f0f0f0;
   padding: 10px;
-  position: relative;
+  border-left: 1px solid #eaeaea;
+  border-right: 1px solid #eaeaea;
+  border-bottom: 1px solid #d9d9d9;
 }
 
-.box-header.with-border {
-  border-bottom: 1px solid #d7d7d7;
+.search-field-wrapper {
+  float: left;
 }
 
-.box-body {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 3px;
-  border-bottom-left-radius: 3px;
-  padding: 10px;
+.search-button-wrapper {
+  float: left;
+}
+
+.search-button {
+  display: inline-block;
+  vertical-align: top;
+  font-size: 11px;
+  line-height: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #4d4d4d;
+  border: 1px solid #02a6d8;
+  background: #02a6d8;
+  outline: 0;
+  margin: 0;
+  text-decoration: none;
+  padding: 7px 12px;
+  width: 100px;
+  background-image: url('https://www.practo.com/bundles/practopractoapp/images/icons/home-search-button.png');
+  background-position: center center;
+  background-repeat: no-repeat;
+  border-radius: 2px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.search-button {
+  height: 60px;
+  margin-left: 10px;
+}
+
+form.home-search input[name='q'], form.home-search input[name='locality'] {
+  font-style: italic;
+  float: left;
+  font-size: 14px;
+  border: 1px solid #b7b7b7;
+  line-height: 28px;
+  background: #fcfcff;
+  color: #333;
+  outline: 0;
+  -webkit-appearance: none;
+  border-radius: 0;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition: border-color .30s ease-in-out;
+  -moz-transition: border-color .30s ease-in-out;
+  -ms-transition: border-color .30s ease-in-out;
+  -o-transition: border-color .30s ease-in-out;
+}
+
+form.home-search input[name='q'], form.home-search input[name='locality'] {
+  font-size: 16px;
+  border: 1px solid #e3e3e3;
+  line-height: 38px;
+  height: 60px;
+  padding: 10px 20px;
+}
+
+form.home-search.halfwidth input[name='locality'] {
+  margin-left: 10px;
+}
+
+.ui-helper-hidden-accessible {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+.clear{
+  clear: both;
+}
+
+.box-title{
+  padding: 10px 10px 10px 10px;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.box-header > .box-tools {
+  position: relative !important;
+  top: 0;
+  right: 0;
+}
+
+.speciality-label{
+  margin-top: 20px;
+}
+
+.speciality-label span{
+  font-size: 100%;
+  font-weight: inherit;
 }
