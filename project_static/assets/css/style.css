@@ -118,6 +118,22 @@ footer .row{
 	width:100%;
 }
 
+.divide10{
+	height:10px;
+}
+
+.divide20{
+	height:20px;
+}
+
+.divide30{
+	height:30px;
+}
+
+.divide40{
+	height:40px;
+}
+
 .divide-by-margin10{
 	margin-bottom:10px;
 }
