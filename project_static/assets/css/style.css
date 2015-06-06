@@ -98,19 +98,6 @@ border-left-color: #111111;
 	background-color: rgb(20,100,100);
 }
 
-footer .row{
-	color:white;
-	padding:20px;
-}
-
-.footer-left{
-	text-align:left;
-}
-
-.footer-right{
-	text-align:right;
-}
-
 .clear{
 	clear:both;
 }
