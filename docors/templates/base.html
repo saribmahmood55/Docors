@@ -14,22 +14,21 @@
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
     	<!-- Bootstrap CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-		<!-- Bootstrap theme -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
 		<!-- Font Awesome CDN -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 		<!-- QTtip CDN CSS -->
 		<link rel="stylesheet" href="http://cdn.jsdelivr.net/qtip2/2.2.1/jquery.qtip.min.css">
-		<!-- Sticky Footer -->
-		<link rel="stylesheet" href="{% static 'assets/css/sticky-footer-navbar.css' %}">
 		<!-- Bootstrap Social Buttons -->
 		<link rel="stylesheet" href="{% static 'assets/css/bootstrap-social.css' %}">
-		<!-- Component Sytle -->
-		<!-- Components Style -->
-		<link rel="stylesheet" href="{% static 'assets/css/components.css' %}">
+		<!-- Style -->
+        <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
 		<!-- Custom Style -->
-		<link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
-		<!-- Component Style -->
+		<link rel="stylesheet" href="{% static 'assets/css/custom.css' %}">
+        <!-- Component Style -->
+        
+        <!-- yamm Style -->
+        <link rel="stylesheet" href="{% static 'assets/css/yamm.css' %}">
+		<!-- Font Style -->
 		<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 		{% block pageSpecificCSS %}{% endblock %}
 		{% block seoTags %}{% endblock %}
@@ -48,6 +47,16 @@
 		<script type="text/javascript" src="{% static 'assets/js/validator.js' %}"></script>
 		<!-- Progress Bar JS -->
 		<script type="text/javascript" src="{% static 'assets/js/circle-progress.js' %}"></script>
+        <!-- sticky header JS -->
+        <script type="text/javascript" src="{% static 'assets/js/jquery.sticky.js' %}"></script>
+        <!-- sticky header JS -->
+        <script type="text/javascript" src="{% static 'assets/js/custom.js' %}"></script>
+        <!--easing plugin for smooth scroll-->
+        <script type="text/javascript" src="{% static 'assets/js/jquery.easing.1.3.min.js' %}"></script>
+        <!--easing plugin for smooth scroll-->
+        <script type="text/javascript" src="{% static 'assets/js/wow.min.js' %}"></script>
+        <!--Jquery Stellar-->
+        <script type="text/javascript" src="{% static 'assets/js/jquery.stellar.min.js' %}"></script>
 		{% block pageSpecificJS %}{% endblock %}
 		<!-- End JS FILES -->
 
@@ -55,68 +64,8 @@
 
 	<body class="remove-scroll {% block extraBodyClass %}{% endblock %}">
 
-    	<!-- Start Header -->
-		<nav class="navbar navbar-default" style="margin-bottom:0px;">
-			<div class="container">
-				<div class="col-md-8">
-					<div class="navbar-header">
-						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-							<span class="sr-only">Toggle navigation</span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</button>
-						<a class="navbar-brand" href="{% block home_link %}/{% endblock %}">
-							<img alt="Logo" src="{% static 'assets/img/logo.png' %}">
-						</a>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-						<ul class="nav navbar-nav">
-							{% if data.user.is_authenticated %}
-							<li role="presentation" class="dropdown">
-								<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
-									{% block header_name %}{{data.user.first_name}} {{data.user.last_name}}{% endblock %} <span class="caret"></span>
-								</a>
-								<ul class="dropdown-menu" role="menu">
-									<li><a href="{% block home_link1 %}/{% endblock %}">Home</a></li>
-									<li><a href="#">Dashboard</a></li>
-									<li><a href="{% block dashboard_profile_link %}/dashboard/profile{% endblock %}">Account Settings</a></li>
-									<li><a href="/accounts/logout" onclick="logout_request();return false;">Logout</a></li>
-								</ul>
-							</li>
-							{% block profile_completeness %}{% endblock %}
-							{% else %}
-							<li><a href="{% block home_link2 %}/{% endblock %}">Home</a></li>
-							<li class="divider-vertical"></li>
-							<li role="presentation" class="dropdown">
-								<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
-									Patient <span class="caret"></span>
-								</a>
-								<ul class="dropdown-menu" role="menu">
-									<li><a href="#" data-toggle="modal" data-target="#loginModal">Sign in</a></li>
-									<li><a href="#" data-toggle="modal" data-target="#signupModal">Register</a></li>
-								</ul>
-							</li>
-							<li class="divider-vertical"></li>
-							<li role="presentation" class="dropdown">
-								<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
-									Doctor <span class="caret"></span>
-								</a>
-								<ul class="dropdown-menu" role="menu">
-									<li><a href="#" data-toggle="modal" data-target="#loginModal">Update your info.</a></li>
-									<li><a href="{% url 'registration' %}">Get listed as a dcotor</a></li>
-								</ul>
-							</li>
-							{% endif %}
-						</ul>
-					</div>
-				</div>
-			</div>
-		</nav>
-		<!-- End Header -->
-
+    	{% include "fragments/header.html" %}
+		
 		{% if not request.user.is_authenticated%}
 			{% include "fragments/login_modal.html" %}
 			{% include "fragments/signup_modal.html" %}
