@@ -49,9 +49,88 @@
 		</section>
 		<!-- End Middle Content -->
 
-		<section class="secondary-section">
+		<section class="intro-text-1">
 			<div class="container">
-				<div class="col-md-10 col-md-offset-1">
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2">
+						<div class="tabs">
+	                        <ul class="nav nav-tabs">
+	                            <li class="active"><a href="#speciality_tab" data-toggle="tab">Speciality</a></li>
+	                            <li class=""><a href="#doctor_tab" data-toggle="tab">Doctor</a></li>
+	                            <li class=""><a href="#hospital_tab" data-toggle="tab">Clinic/Hospital</a></li>
+	                            <li class=""><a href="#advsearch_tab" data-toggle="tab">Advanced Search</a></li>
+	                        </ul>
+
+	                        <!-- Tab panes -->
+	                        <div class="tab-content" style="margin-top:0;">
+	                            <div class="tab-pane active" id="speciality_tab">
+	                                <div class="tab-desc animated fadeInDown">
+	                                	<div class="row">
+	                                		<form role="form">
+		                                		<div class="col-md-12">
+			                                		<div class="col-md-5">
+			                                			<input type="text" class="form-control input-lg" placeholder="eg. Child Specialist">
+			                                		</div>
+			                                		<div class="col-md-5">
+			                                			<input type="text" class="form-control input-lg" placeholder="eg. Lahore">
+			                                		</div>
+			                                		<div class="col-md-2">
+			                                			<button class="btn btn-danger btn-lg"><i class="fa fa-search"></i></button>
+			                                		</div>
+			                                	</div>
+			                                </form>
+	                                	</div>
+	                                </div> 
+	                            </div>
+	                            <div class="tab-pane" id="doctor_tab">
+	                                <div class="tab-desc animated fadeIn">
+	                                	<div class="row">
+	                                		<form role="form">
+		                                		<div class="col-md-12">
+			                                		<div class="col-md-10">
+			                                			<input type="text" class="form-control input-lg" placeholder="eg. Dr Arif Alvi">
+			                                		</div>
+			                                		<div class="col-md-2">
+			                                			<button class="btn btn-danger btn-lg"><i class="fa fa-search"></i></button>
+			                                		</div>
+			                                	</div>
+			                                </form>
+	                                	</div>
+	                                </div>
+	                            </div>
+	                            <div class="tab-pane" id="hospital_tab">
+	                                <div class="tab-desc animated fadeInUp">
+	                                	<div class="row">
+	                                		<form role="form">
+		                                		<div class="col-md-12">
+			                                		<div class="col-md-5">
+			                                			<input type="text" class="form-control input-lg" placeholder="eg. Doctors Hospital">
+			                                		</div>
+			                                		<div class="col-md-5">
+			                                			<input type="text" class="form-control input-lg" placeholder="eg. Lahore">
+			                                		</div>
+			                                		<div class="col-md-2">
+			                                			<button class="btn btn-danger btn-lg"><i class="fa fa-search"></i></button>
+			                                		</div>
+			                                	</div>
+			                                </form>
+	                                	</div>
+	                                </div>
+	                            </div>
+	                            <div class="tab-pane" id="advsearch_tab">
+	                                <div class="tab-desc animated fadeInUp">
+
+	                                    <p>
+	                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam laoreet sodales lacinia. Curabitur ut purus tincidunt, iaculis elit a, eleifend augue. Phasellus blandit augue vel sollicitudin blandit.
+	                                    </p>
+
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+					</div>
+				</div>
+				<!--<div class="col-md-10 col-md-offset-1">
 					<div class="row row-space-15-0-0-15">
 						<div class="text-left">
 							<h4>Select by Speciality</h4>
@@ -76,7 +155,7 @@
 							</div>
 						</form>
 					</div>
-				</div>
+				</div>-->
 			</div>
 		</section>
 
@@ -88,7 +167,7 @@
 					<div class="row">
 						<div class="col-md-6 bottom-section-left">
 							<div class="row">
-								<div class="bottom-section-left-img text-center">
+								<div class="bottom-section-left-img text-center margin20">
 									<img src="{% static 'assets/img/doctor.png' %}" alt="Doctor"/>
 								</div>
 								<div class="bottom-section-left-heading text-center">
@@ -105,7 +184,7 @@
 						</div>
 						<div class="col-md-6 bottom-section-right">
 							<div class="row">
-								<div class="bottom-section-right-img text-center">
+								<div class="bottom-section-right-img text-center margin20">
 									<img src="{% static 'assets/img/kit.png' %}" alt="Doctor"/>
 								</div>
 								<div class="bottom-section-right-heading text-center">

@@ -75,17 +75,18 @@ border-left-color: #111111;
 .bottom-section-left-img > img{
 	border: 1px solid darkgrey;
 	padding: 30px 33px 26px 33px;
-	border-radius: 5px;
+	border-radius: 100%;
 }
 
 .bottom-section-left-hr > hr, .bottom-section-right-hr > hr{
 	border-top: 1px solid #D11E29;
+  margin: 0 auto;
 }
 
 .bottom-section-right-img > img{
 	border: 1px solid darkgrey;
 	padding: 30px 30px 30px 30px;
-	border-radius: 5px;
+	border-radius: 100%;
 }
 
 .bottom-section-left-paragraph > p, .bottom-section-right-paragraph > p{
@@ -95,19 +96,6 @@ border-left-color: #111111;
 
 .custom-footer{
 	background-color: rgb(20,100,100);
-}
-
-footer .row{
-	color:white;
-	padding:20px;
-}
-
-.footer-left{
-	text-align:left;
-}
-
-.footer-right{
-	text-align:right;
 }
 
 .clear{
