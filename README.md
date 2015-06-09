@@ -3,12 +3,14 @@
 ### Installation Instrutions:
 
 1. Installing Data Base, Postgresql 9.3:
-```sh
-$	sudo apt-get install postgresql-9.3
+```
+$   sudo apt-get install postgresql-9.3
+$   sudo apt-get install python-psycopg2
+$   sudo apt-get install libpq-dev
 ```
 
 2. Create database with name 'Rana_Gujjar':
-```sh
+```
 $	sudo -su postgres
 $	createdb Rana_Gujjar
 ```
