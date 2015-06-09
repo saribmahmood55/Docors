@@ -16,18 +16,17 @@
 	}
 	var csrftoken = getCookie('csrftoken');
 
-	/*$('#login_form').validator().on('submit', function (e) {
+	$('#login_form').validator().on('submit', function (e) {
 		if (e.isDefaultPrevented()) {
 			// handle the invalid form...
 		} else {
 			// everything looks good!
 			e.preventDefault();
-			var username = $("#login_username").val();
-			var password = $("#login_password").val();
+			var d = $(this).serialize();
 			$.ajax({
 				type : 'POST',
 				url : '/rest-auth/login/',
-				data: {"username":username,"password":password},
+				data: d,
 				success : function (data) {
 					location.reload();
 				},
@@ -36,7 +35,7 @@
 		}
 	});
 
-	$('#login_form_page').validator().on('submit', function (e) {
+	/*$('#login_form_page').validator().on('submit', function (e) {
 		if (e.isDefaultPrevented()) {
 			// handle the invalid form...
 		} else {
