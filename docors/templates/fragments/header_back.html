@@ -1,0 +1,122 @@
+<!-- Start Header
+{% load staticfiles %}
+<nav class="navbar navbar-default" style="margin-bottom:0px;">
+	<div class="container">
+		<div class="col-md-8">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="/">
+					<img alt="Logo" src="{% static 'assets/img/logo.png' %}">
+				</a>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					{% if data.user.is_authenticated %}
+					<li role="presentation" class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+							{{data.user.first_name}} {{data.user.last_name}} <span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#" data-toggle="modal" data-target="#loginModal">My Profile</a></li>
+							<li><a href="#">Account Settings</a></li>
+							<li><a href="#" onclick="logout_request();return false;">Logout</a></li>
+						</ul>
+					</li>
+					{% include "fragments/profile_completeness.html" %}
+					{% else %}
+					<li><a href="/">Home <span class="sr-only">(current)</span></a></li>
+					<li class="divider-vertical"></li>
+					<li role="presentation" class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+							Patient <span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#" data-toggle="modal" data-target="#loginModal">Sign in</a></li>
+							<li><a href="#" data-toggle="modal" data-target="#signupModal">Register</a></li>
+						</ul>
+					</li>
+					<li class="divider-vertical"></li>
+					<li role="presentation" class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+							Doctor <span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#" data-toggle="modal" data-target="#loginModal">Update your info.</a></li>
+							<li><a href="#">Get listed as a dcotor</a></li>
+						</ul>
+					</li>
+					{% endif %}
+				</ul>
+			</div>
+		</div>
+	</div>
+</nav>
+End Header -->
+<!-- Start Header
+<nav class="navbar navbar-default" style="margin-bottom:0px;">
+	<div class="container">
+		<div class="col-md-8">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="{% block home_link %}/{% endblock %}">
+					<img alt="Logo" src="{% static 'assets/img/logo.png' %}">
+				</a>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					{% if data.user.is_authenticated %}
+					<li role="presentation" class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+							{% block header_name %}{{data.user.first_name}} {{data.user.last_name}}{% endblock %} <span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="{% block home_link1 %}/{% endblock %}">Home</a></li>
+							<li><a href="#">Dashboard</a></li>
+							<li><a href="{% block dashboard_profile_link %}/dashboard/profile{% endblock %}">Account Settings</a></li>
+							<li><a href="/accounts/logout" onclick="logout_request();return false;">Logout</a></li>
+						</ul>
+					</li>
+					{% block profile_completeness %}{% endblock %}
+					{% else %}
+					<li><a href="{% block home_link2 %}/{% endblock %}">Home</a></li>
+					<li class="divider-vertical"></li>
+					<li role="presentation" class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+							Patient <span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#" data-toggle="modal" data-target="#loginModal">Sign in</a></li>
+							<li><a href="#" data-toggle="modal" data-target="#signupModal">Register</a></li>
+						</ul>
+					</li>
+					<li class="divider-vertical"></li>
+					<li role="presentation" class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+							Doctor <span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#" data-toggle="modal" data-target="#loginModal">Update your info.</a></li>
+							<li><a href="{% url 'registration' %}">Get listed as a dcotor</a></li>
+						</ul>
+					</li>
+					{% endif %}
+				</ul>
+			</div>
+		</div>
+	</div>
+</nav>
+End Header -->
