@@ -22,7 +22,7 @@
     <div class="row">
         <div class="col-sm-6 col-sm-offset-3 sky-form-login-register">
             <div class="margin40">
-            	<form id="login_form_page" class="sky-form" role="form" action="" method="POST" data-toggle="validator">{% csrf_token %}
+            	<form id="login_form" class="sky-form" role="form" action="" method="POST" data-toggle="validator">{% csrf_token %}
                     <h3 class="text-center">Log in to your account</h3>
                     <fieldset>					
                         <section>
@@ -31,7 +31,7 @@
                                 <div class="col col-8">
                                     <label class="input">
                                         <i class="icon-append fa fa-user"></i>
-                                        <input name="login_username" type="text" class="form-control" id="login_page_username" placeholder="Username" data-error="Username field cannot be empty" required>
+                                        <input name="username" type="text" class="form-control" id="login_page_username" placeholder="Email" data-error="Username field cannot be empty" required>
                                     </label>
                                 </div>
                             </div>
@@ -43,7 +43,7 @@
                                 <div class="col col-8">
                                     <label class="input">
                                         <i class="icon-append fa fa-lock"></i>
-                                        <input name="login_password" type="password" class="form-control" id="login_page_password" placeholder="Password" data-error="Password field cannot be empty" required>
+                                        <input name="password" type="password" class="form-control" id="login_page_password" placeholder="Password" data-error="Password field cannot be empty" required>
                                     </label>
                                     <div class="note"><a href="#sky-form2" class="modal-opener">Forgot password?</a></div>
                                 </div>
@@ -60,7 +60,7 @@
                         </section>
                     </fieldset>
                     <footer class="text-right">
-                        <a href="register.html" class="btn btn-link">Register</a>
+                        <a href="/accounts/register" class="btn btn-link">Register</a>
                         <button type="submit" class="btn btn-theme-bg btn-lg">Log in</button>
 
                     </footer>

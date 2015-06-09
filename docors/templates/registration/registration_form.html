@@ -1,74 +1,109 @@
 {% extends "base.html" %}
+{% load staticfiles %}
+{% block pageSpecificCSS %}<link href="{% static 'assets/css/sky-forms.css' %}" rel="stylesheet">{% endblock %}
 {% block content %}
-<div class="container">
-
-      <form id="signup_form" role="form" class="form patient_register" method="post" action="{% url 'registration_register' %}" data-toggle="validator">{% csrf_token %}
-            <div class="modal-body">
-                {% load socialaccount %}
-                <div class="container-fluid" style="border-bottom: 1px solid #e5e5e5;padding:15px 0;">
-                    <div class="col-md-8 col-md-offset-2" style="margin-bottom:15px;">
-                        <a href="{% provider_login_url 'facebook' method='oauth2' %}" class="btn btn-block btn-social btn-facebook">
-                            <i class="fa fa-facebook"></i> Sign Up with Facebook
-                        </a>
-                    </div>
-                    <div class="col-md-8 col-md-offset-2" style="margin-bottom:15px;">
-                        <a href="{% provider_login_url 'google' %}" class="btn btn-block btn-social btn-google-plus">
-                            <i class="fa fa-google"></i> Sign Up with Google
-                        </a>
-                    </div>
-                    <div class="col-md-8 col-md-offset-2" style="margin-bottom:15px;">
-                        <a href="{% provider_login_url 'twitter' %}" class="btn btn-block btn-social btn-twitter">
-                            <i class="fa fa-twitter"></i> Sign Up with Twitter
-                        </a>
-                    </div>
-                </div>
-                <div class="container-fluid" style="padding:15px 0;">
-                    <div class="col-md-4 col-md-offset-2">
-                        <div class="signup-first-form-group form-group">
-                            <input name="firstname" type="text" class="form-control" id="firstname" placeholder="First Name" required>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="signup-last-form-group form-group">
-                            <input name="lastname" type="text" class="form-control" id="lastname" placeholder="Last Name" required>
-                        </div>
-                    </div>
-                    <div class="col-md-8 col-md-offset-2">
-                        <div class="signup-email-form-group form-group">
-                            <input name="email" type="email" class="form-control" id="email" placeholder="Email" data-error="Email address needs to be valid" required>
-                            <div class="help-block with-errors"></div>
-                        </div>
-                    </div>
-                    <input name="username" type="email" class="form-control" id="username" placeholder="Username" data-error="Username field cannot be empty" style="display:none;">
-                    <div class="col-md-8 col-md-offset-2">
-                        <div class="signup-password1-form-group form-group">
-                            <input name="password1" type="password" class="form-control" id="signup_password" placeholder="Password" data-error="Passowrd field cannot be empty" required>
-                            <span class="help-block with-errors"></span>
-                        </div>
-                    </div>
-                    <div class="col-md-8 col-md-offset-2">
-                        <div class="signup-password2-form-group form-group">
-                            <input name="password2" type="password" class="form-control" id="confirmpassword" data-match="#signup_password" placeholder="Confirm Password" data-match-error="Whoops, these don't match" placeholder="Confirm" required>
-                            <div class="help-block with-errors"></div>
-                        </div>
-                    </div>
-                </div>
+<div class="breadcrumb-wrap breadcrumb-light" style="background-color:#000;">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <h4>Create new Account</h4>
             </div>
-            <div class="modal-footer">
-                <div class="col-md-4">
-                    <div class="row" style="float:left;color: #8B8B8B;">
-                        <a href="#" onclick="$('#signupModal').modal('hide');" data-toggle="modal" data-target="#recoveryModal"><strong>Forgot your password?</strong></a>
-                    </div>
-                    <div class="clear"></div>
-                    <div class="row" style="float:left;color: #8B8B8B;">
-                        <a href="#" onclick="$('#signupModal').modal('hide');" data-toggle="modal" data-target="#loginModal"><strong>Already Registered? Log In</strong></a>
-                    </div>
-                </div>
-                <div class="col-md-4 col-md-offset-4">
-                    <button type="submit" class="btn btn-primary">Sign Up</button>
-                </div>
+            <div class="col-sm-6 hidden-xs text-right">
+                <ol class="breadcrumb">
+                    <li><a href="/">Home</a></li>
+                    <li>Register</li>
+                </ol>
             </div>
-            </form>
-
+        </div>
     </div>
+</div><!--breadcrumb light-->
+<div class="divide60"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 margin30">
+            <h3 class="heading">Welcome to DoctorsInfo</h3>
+            <p>
+                Suspendisse et tincidunt ipsum, et dignissim urna. Vestibulum nisl tortor, gravida at magna et, suscipit vehicula massa.
+            </p>
+
+            <div class="divide50"></div>
+            <h3 class="heading">Follow us</h3>
+            <ul class="list-inline social-1 reg-social">
+                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+            </ul>
+        </div>
+        <div class="col-sm-6 sky-form-login-register v2">
+            <div class="margin40">
+                <form id="signup_form" role="form" class="form patient_register sky-form" method="post" action="{% url 'registration_register' %}" data-toggle="validator">{% csrf_token %}
+                    <h3 class="text-center">Create new account with DoctorsInfo</h3>
+
+                    <fieldset>
+                        <input type="text" name="username" placeholder="Username" id="username" hidden>
+
+                        <section>
+                            <label class="input">
+                                <i class="icon-append fa fa-envelope-o"></i>
+                                <input type="email" name="email" id="email" placeholder="Email address" required>
+                                <b class="tooltip tooltip-bottom-right">Needed to verify your account</b>
+                            </label>
+                        </section>
+
+                        <section>
+                            <label class="input">
+                                <i class="icon-append fa fa-lock"></i>
+                                <input type="password" name="password" placeholder="Password" id="password" required>
+                                <b class="tooltip tooltip-bottom-right">Don't forget your password</b>
+                            </label>
+                        </section>
+
+                        <section>
+                            <label class="input">
+                                <i class="icon-append fa fa-lock"></i>
+                                <input type="password" name="passwordConfirm" placeholder="Confirm password" required>
+                                <b class="tooltip tooltip-bottom-right">Don't forget your password</b>
+                            </label>
+                        </section>
+                    </fieldset>
+
+                    <fieldset>
+                        <div class="row">
+                            <section class="col col-6">
+                                <label class="input">
+                                    <input type="text" name="firstname" placeholder="First name" required>
+                                </label>
+                            </section>
+                            <section class="col col-6">
+                                <label class="input">
+                                    <input type="text" name="lastname" placeholder="Last name" required>
+                                </label>
+                            </section>
+                        </div>
+
+                        <!--<section>
+                            <label class="select">
+                                <select name="gender">
+                                    <option value="0" selected disabled>Gender</option>
+                                    <option value="1">Male</option>
+                                    <option value="2">Female</option>
+                                    <option value="3">Other</option>
+                                </select>
+                                <i></i>
+                            </label>
+                        </section>-->
+
+                        <section>
+                            <label class="checkbox"><input type="checkbox" name="terms" id="terms"><i></i>I agree with the Terms and Conditions</label>
+                        </section>
+                    </fieldset>
+                    <footer>
+                        <button type="submit" class="button">Create account</button>
+                    </footer>
+                </form>         
+            </div><!--login form wrap end-->
+
+        </div>
+    </div>
+</div>
 {% endblock %}
