@@ -33,6 +33,17 @@ class Degree(models.Model):
     class Meta:
         verbose_name_plural = "Degrees"
 
+class Service(models.Model):
+    condition = models.CharField(max_length=150)
+    procedure = models.CharField(max_length=150)
+    speciality = models.ForeignKey(Specialization)
+
+    def __unicode__(self):
+        return self.procedure
+
+    class Meta:
+        verbose_name_plural = "Services"
+
 class PractitionerManager(models.Manager):
 
     def practitioner_slug(self, slug):
@@ -56,6 +67,7 @@ class Practitioner(models.Model):
     message = models.TextField(max_length=140, null=True, blank=True)
     degrees = models.ManyToManyField(Degree)
     specialities = models.ManyToManyField(Specialization)
+    services = models.ManyToManyField(Service)
 
     slug = AutoSlugField(populate_from='name', unique = True)
     status = models.BooleanField(default=False)
