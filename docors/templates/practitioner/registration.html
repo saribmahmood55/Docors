@@ -152,7 +152,7 @@
 	                            </label>
 	                        </section>
 	                    </div>
-	                    <footer>
+	                    <footer style="padding-right:0;">
 	                    	<button type="button" class="button" id="add_location">Add Another Location</button>
 	                    </footer>
 	                </fieldset>
@@ -181,7 +181,7 @@
 	                            </label>
 	                        </section>
 	                    </div>
-	                    <footer>
+	                    <footer style="padding-right:0;">
 	                    	<button type="button" class="button" id="add_timing">Add Another Timing</button>
 	                    </footer>
 	                </fieldset>
@@ -202,14 +202,19 @@
 {% block pageSpecificJS %}
 	<script type="text/javascript">
 		$(document).ready(function(){
-			$("#add_timing").click(function(){
-				var fieldset_tag = $(this).parent().parent();
-				fieldset_tag.after('<fieldset><div class="row"><section><a href="#" class="close pull-right text-primary" style="color:#000;">&times;</a></section></div><div class="row"><section class="col col-3"><label class="select">{% spaceless %}{{form.day_from}}{% endspaceless %}</label></section><section class="col col-3"><label class="select">{% spaceless %}{{form.day_to}}{% endspaceless %}<i></i></label></section><section class="col col-3"><label class="input">{% spaceless %}{{form.start_time}}{% endspaceless %}</label></section><section class="col col-3"><label class="input">{% spaceless %}{{form.end_time}}{% endspaceless %}</label></section></div></fieldset>');
+			$("body").on("click","#add_timing",function(){
+				var fieldset_tag = $(this).parent();
+				fieldset_tag.before('<fieldset><div class="row"><a href="#" class="close pull-right close-extra-btn" style="color:#000;">&times;</a></div><div class="row"><section class="col col-3"><label class="select">{% spaceless %}{{form.day_from}}{% endspaceless %}</label></section><section class="col col-3"><label class="select">{% spaceless %}{{form.day_to}}{% endspaceless %}<i></i></label></section><section class="col col-3"><label class="input">{% spaceless %}{{form.start_time}}{% endspaceless %}</label></section><section class="col col-3"><label class="input">{% spaceless %}{{form.end_time}}{% endspaceless %}</label></section></div></fieldset>');
 			});
 
-			$("#add_location").click(function(){
-				var fieldset_tag = $(this).parent().parent();
-				fieldset_tag.after('<fieldset><div class="row"><section class="col col-6"><label class="select">{% spaceless %}{{form.practice_type}}{% endspaceless %}<i></i></label></section><section class="col col-6"><label class="input">{% spaceless %}{{form.practice_name}}{% endspaceless %}</label></section></div><div class="row"><section class="col col-6"><label class="textarea">{% spaceless %}{{form.address}}{% endspaceless %}</label></section><section class="col col-6"><label class="select">{% spaceless %}{{form.city}}{% endspaceless %}<i></i></label></section></div><div class="row"><section class="col col-4"><label class="input"><i class="icon-append fa fa-envelope-o"></i>{% spaceless %}{{form.contact_number}}{% endspaceless %}</label></section><section class="col col-4"><label class="select">{% spaceless %}{{form.appointment}}{% endspaceless %}<i></i></label></section><section class="col col-4"><label class="input">{% spaceless %}{{form.checkup_fee}}{% endspaceless %}</label></section></div></fieldset>');
+			$("body").on("click","#add_location",function(){
+				var fieldset_tag = $(this).parent();
+				fieldset_tag.before('<fieldset><div class="row"><a href="#" class="close pull-right close-extra-btn" style="color:#000;">&times;</a></div><div class="row"><section class="col col-6"><label class="select">{% spaceless %}{{form.practice_type}}{% endspaceless %}<i></i></label></section><section class="col col-6"><label class="input">{% spaceless %}{{form.practice_name}}{% endspaceless %}</label></section></div><div class="row"><section class="col col-6"><label class="textarea">{% spaceless %}{{form.address}}{% endspaceless %}</label></section><section class="col col-6"><label class="select">{% spaceless %}{{form.city}}{% endspaceless %}<i></i></label></section></div><div class="row"><section class="col col-4"><label class="input"><i class="icon-append fa fa-envelope-o"></i>{% spaceless %}{{form.contact_number}}{% endspaceless %}</label></section><section class="col col-4"><label class="select">{% spaceless %}{{form.appointment}}{% endspaceless %}<i></i></label></section><section class="col col-4"><label class="input">{% spaceless %}{{form.checkup_fee}}{% endspaceless %}</label></section></div></fieldset>');
+			});
+
+			$("body").on("click",".close-extra-btn",function(){
+				$(this).parent().parent().remove();
+				return false;
 			});
 		});
 	</script>
