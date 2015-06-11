@@ -65,12 +65,6 @@
 	<body class="remove-scroll {% block extraBodyClass %}{% endblock %}">
 
     	{% include "fragments/header.html" %}
-		
-		{% if not request.user.is_authenticated%}
-			{% include "fragments/login_modal.html" %}
-			{% include "fragments/signup_modal.html" %}
-			{% include "fragments/recover_password_modal.html" %}
-		{% endif %}
 
 		<div itemscope itemtype="{% block seoItemTags %}{% endblock %}" role="main" class="{% block containerClass %}{% endblock %}">
         	{% block content %}{% endblock %}
