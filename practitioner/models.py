@@ -21,11 +21,19 @@ class Specialization(models.Model):
     class Meta:
         verbose_name_plural = "Specialities"
 
+class DegreeManager(models.Manager):
+    def get_degree(self, name):
+        return super(DegreeManager, self).get(name=name)
+
 class Degree(models.Model):
     name = models.CharField(max_length=50)
     points = models.PositiveSmallIntegerField(default=0)
     color_code = models.CharField(max_length=10, null=True, blank=True)
     description = models.CharField(max_length=250, null=True, blank=True)
+
+    #Manager
+    objects = models.Manager()
+    degree_objects = DegreeManager()
 
     def __unicode__(self):
         return self.name
