@@ -90,6 +90,9 @@ def index(request):
 
 	data['completeness'] = 0
 
+	data['specialities'] = Specialization.objects.order_by('slug')
+	data['cities'] = City.objects.order_by('pk')
+
 	try:
 		patient_data = Patient.patient_objects.patient_details(data['user'])
 		if patient_data.age_group:

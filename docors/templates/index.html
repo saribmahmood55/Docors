@@ -66,21 +66,22 @@
 	                            <div class="tab-pane active" id="speciality_tab">
 	                                <div class="tab-desc animated fadeInDown">
 	                                	<div class="row">
-	                                		<form role="form">
+	                                		<form role="form" action="/search" method="GET">
+	                                			<input type="hidden" name="search_for" value="specialization">
 		                                		<div class="col-md-12">
-			                                		<div class="col-md-5 margin20">
+			                                		<div class="col-md-5 margin20" id="first_col">
 			                                			<div class="form-group">
-			                                				<label>Speciality</label>
-			                                				<input type="text" class="form-control input-lg" placeholder="eg. Child Specialist">
+			                                				<label id="first_col_search_label">Speciality</label>
+			                                				<input type="text" class="form-control input-lg typeahead" placeholder="eg. Child Specialist" id="first_col_search_input">
 			                                			</div>
 			                                		</div>
-			                                		<div class="col-md-5 margin20">
+			                                		<div class="col-md-5 margin20" id="second_col">
 			                                			<div class="form-group">
-			                                				<label>City</label>
-			                                				<input type="text" class="form-control input-lg" placeholder="eg. Lahore">
+			                                				<label id="second_col_search_label">City</label>
+			                                				<input type="text" class="form-control input-lg typeahead city_typeahead" placeholder="eg. Lahore" id="second_col_search_input">
 			                                			</div>
 			                                		</div>
-			                                		<div class="col-md-2 margin20">
+			                                		<div class="col-md-2 margin20" style="margin-top:30px;">
 			                                			<button class="btn btn-danger btn-lg pull-right"><i class="fa fa-search"></i></button>
 			                                		</div>
 			                                	</div>
@@ -99,7 +100,7 @@
 			                                				<input type="text" class="form-control input-lg" placeholder="eg. Dr Arif Alvi">
 			                                			</div>
 			                                		</div>
-			                                		<div class="col-md-2 margin20">
+			                                		<div class="col-md-2 margin20" style="margin-top:30px;">
 			                                			<button class="btn btn-danger btn-lg pull-right"><i class="fa fa-search"></i></button>
 			                                		</div>
 			                                	</div>
@@ -121,10 +122,10 @@
 			                                		<div class="col-md-5 margin20">
 			                                			<div class="form-group">
 			                                				<label>City</label>
-			                                				<input type="text" class="form-control input-lg" placeholder="eg. Lahore">
+			                                				<input type="text" class="form-control input-lg typeahead city_typeahead" placeholder="eg. Lahore">
 			                                			</div>
 			                                		</div>
-			                                		<div class="col-md-2 margin20">
+			                                		<div class="col-md-2 margin20" style="margin-top:30px;">
 			                                			<button class="btn btn-danger btn-lg pull-right"><i class="fa fa-search"></i></button>
 			                                		</div>
 			                                	</div>
@@ -219,23 +220,52 @@
 				</div>
 			</div>
 		</section>
+
+		{% include "fragments/typeahead_result_template.html" %}
+		{% include "fragments/typeahead_empty_template.html" %}
+
+	{% endblock %}
+
+	{% block pageSpecificJS %}
+		<script type="text/javascript" src="{% static 'assets/js/handlebars.js' %}"></script>
+		<script type="text/javascript" src="{% static 'assets/js/typeahead.js' %}"></script>
 	{% endblock %}
 
 	{% block customScript %}
 
 	<script type="text/javascript">
+		var local_specializations = Array();
+		{% for spec in data.specialities %}
+			local_specializations.push("{{spec.human_name}}");
+		{% endfor %}
+		var local_cities = Array();
+		{% for city in data.cities %}
+			local_cities.push("{{city.name}}");
+		{% endfor %}
 		$(document).ready(function(){
-			$.ajax({
+			/*$.ajax({
 				type : 'GET',
 				url : '/specializations/',
 				data: {},
 				success : function (data) {
 					for(i=0;i<data.length;i++){
-						$("#specialityName").append("<option value='"+data[i].slug+"'>"+data[i].human_name+"</option>");
+						local_specializations.push(data[i].human_name);
 					}
 				},
 				error : errorHandler
 			});
+
+			$.ajax({
+				type : 'GET',
+				url : '/city/',
+				data: {},
+				success : function (data) {
+					for(i=0;i<data.length;i++){
+						local_cities.push(data[i].name);
+					}
+				},
+				error : errorHandler
+			});*/
 
 			$('#profile-completeness-container').circleProgress({
 			    startAngle: -90,
@@ -250,17 +280,125 @@
 			    {% endif %}
 			});
 
-			$.ajax({
-				type : 'GET',
-				url : '/city/',
-				data: {},
-				success : function (data) {
-					for(i=0;i<data.length;i++){
-						$("#cityName").append("<option value='"+data[i].slug+"'>"+data[i].name+"</option>");
-					}
-				},
-				error : errorHandler
+			/********* Twitter typeahead with bloodhound
+
+			var engine, remoteHost, template, empty;
+
+		  	$.support.cors = true;
+
+			remoteHost = base_url;
+			template = Handlebars.compile($("#result-template").html());
+			empty = Handlebars.compile($("#empty-template").html());
+
+			var search_type = $("#search_for").val();
+
+			engine = new Bloodhound({
+				identify: function(o) { return o.id_str; },
+				queryTokenizer: Bloodhound.tokenizers.whitespace,
+				datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name', 'screen_name'),
+				dupDetector: function(a, b) { return a.id_str === b.id_str; },
+				//prefetch: remoteHost + '/sports/prefetch',
+				remote: {
+					url: '/getResults?type='+search_type+'&q=%QUERY',
+					wildcard: '%QUERY'
+				}
 			});
+
+			// ensure default users are read on initialization
+			engine.get('1090217586', '58502284', '10273252', '24477185')
+
+			function engineWithDefaults(q, sync, async) {
+				if (q === '') {
+					sync(engine.get('1090217586', '58502284', '10273252', '24477185'));
+					async([]);
+				}else{
+					engine.search(q, sync, async);
+				}
+			}
+
+			$('#demo-input').typeahead({
+				hint: $('.Typeahead-hint'),
+				menu: $('.Typeahead-menu'),
+				minLength: 0,
+				classNames: {
+					open: 'is-open',
+					empty: 'is-empty',
+					cursor: 'is-active',
+					suggestion: 'Typeahead-suggestion',
+					selectable: 'Typeahead-selectable'
+				}
+			}, {
+				source: engineWithDefaults,
+				displayKey: 'screen_name',
+				templates: {
+				suggestion: template,
+				empty: empty
+				}
+			})
+			.on('typeahead:asyncrequest', function() {
+				$('.Typeahead-spinner').show();
+			})
+			.on('typeahead:asynccancel typeahead:asyncreceive', function() {
+				$('.Typeahead-spinner').hide();
+			});
+
+			/********* Twitter typeahead with bloodhound *******/
+
+			var substringMatcher = function(strs) {
+			  return function findMatches(q, cb) {
+			    var matches, substringRegex;
+			 
+			    // an array that will be populated with substring matches
+			    matches = [];
+			 
+			    // regex used to determine if a string contains the substring `q`
+			    substrRegex = new RegExp(q, 'i');
+			 
+			    // iterate through the pool of strings and for any string that
+			    // contains the substring `q`, add it to the `matches` array
+			    $.each(strs, function(i, str) {
+			      if (substrRegex.test(str)) {
+			        matches.push(str);
+			      }
+			    });
+			 
+			    cb(matches);
+			  };
+			};
+
+			var specialization_engine = new Bloodhound({
+				local: local_specializations,
+				queryTokenizer: Bloodhound.tokenizers.whitespace,
+				datumTokenizer: Bloodhound.tokenizers.whitespace
+			});
+
+			$("#first_col .typeahead").typeahead({
+				minLength:0,
+				hint: true,
+				highlight: true
+			}, {
+				name: 'specialization',
+				limit:100,
+				source: substringMatcher(local_specializations)
+			})
+			.blur(function(){
+				if(local_specializations.indexOf($(this).typeahead('val')) === -1)
+					$(this).typeahead('val','');
+			});
+
+			$(".city_typeahead").typeahead({
+				minLength:0,
+				hint: true,
+				highlight: true
+			}, {
+				name: 'cities',
+				source: substringMatcher(local_cities)
+			})
+			.blur(function(){
+				if(local_cities.indexOf($(this).typeahead('val')) === -1)
+					$(this).typeahead('val','');
+			});
+
 		});
 	</script>
 
