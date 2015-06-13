@@ -3,14 +3,6 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from practice import views
 
 urlpatterns = [
-	url(r'^practices/$', views.PracticeList.as_view()),
-	url(r'^practices/(?P<pk>[0-9]+)/$', views.PracticeDetail.as_view()),
-	url(r'^city/$', views.CityList.as_view()),
-	url(r'^city/(?P<pk>[0-9]+)/$', views.CityDetail.as_view()),
-	url(r'^day/$', views.DayList.as_view()),
-	url(r'^checkupfees/$', views.CheckupFeeList.as_view()),
-	url(r'^checkupfees/(?P<pk>[0-9]+)/$', views.CheckupFeeDetail.as_view()),
-	url(r'^practice-type/$', views.PracticeTypeList.as_view()),
     url(r'^physican/(?P<slug>[a-z-]+)$', views.practitioner, name='practitioner'),
     url(r'^physicans/(?P<speciality>[a-z-]+)-in-(?P<city>[a-z-]+)$', views.recentSearch, name='recentSearch'),
     url(r'^physicans', views.practitoners, name='practitoners'),

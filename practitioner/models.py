@@ -57,6 +57,9 @@ class PractitionerManager(models.Manager):
     def practitioner_slug(self, slug):
         return super(PractitionerManager, self).get(slug=slug)
 
+    def practitioner_suggest(self, name):
+        return super(PractitionerManager, self).filter(name__icontains=name, status=True).values_list('name', flat=True)
+
 
 class Practitioner(models.Model):
     PHYSICIAN_CHOICES = ( (1, 'Trainee'), (2, 'Specialist'),)

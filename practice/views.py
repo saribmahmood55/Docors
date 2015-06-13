@@ -14,44 +14,6 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 import json
 
-class PracticeList(generics.ListCreateAPIView):
-	queryset = Practice.objects.all()
-	serializer_class = PracticeSerializer
-
-class PracticeDetail(generics.RetrieveUpdateDestroyAPIView):
-	queryset = Practice.objects.all()
-	serializer_class = PracticeSerializer
-
-class CityList(generics.ListCreateAPIView):
-	queryset = City.objects.all()
-	serializer_class = CitySerializer
-
-class CityDetail(generics.RetrieveUpdateDestroyAPIView):
-	queryset = City.objects.all()
-	serializer_class = CitySerializer
-
-class CheckupFeeList(generics.ListCreateAPIView):
-	queryset = CheckupFee.objects.all()
-	serializer_class = CheckupFeeSerializer
-
-class CheckupFeeDetail(generics.RetrieveUpdateDestroyAPIView):
-	queryset = CheckupFee.objects.all()
-	serializer_class = CheckupFeeSerializer
-
-class PracticeTypeList(APIView):
-	def get(self, request, format=None):
-		practice_types = [
-			{"id":1,"value":"P","title":"Private Clinic/Residence"}, 
-			{"id":2,"value":"H","title":"Hospital"}, 
-			{"id":3,"value":"M","title":"Medical Complex"}
-		]
-		return Response(practice_types)
-
-
-class DayList(APIView):
-	def get(self, request, format=None):
-		day_list = [ {"1":"Monday"}, {"2":"Tuesday"}, {"3":"Wedneday"}, {"4":"Thursday"}, {"5":"Friday"}, {"6":"Saturday"}, {"7":"Sunday"} ]
-		return Response(day_list)
 
 def practice(request, practice_slug, practitioner_slug):
 	if request.method == "GET":

@@ -9,7 +9,7 @@ from practice.models import *
 from practitioner.form import PractitionerForm
 from practitioner.tasks import confirmation_mail
 from utility import *
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.utils.safestring import mark_safe
@@ -19,67 +19,6 @@ import json
 
 class FacebookLogin(SocialLogin):
 	adapter_class = FacebookOAuth2Adapter
-
-
-class PractitionerList(generics.ListCreateAPIView):
-	queryset = Practitioner.objects.all()
-	serializer_class = PractitionerSerializer
-
-
-class PractitionerTileList(APIView):
-	def get(self, request, format=None):
-		practitioner_title = [
-			{"1" : "Dr. "}, 
-			{"2" : "Prof. "}, 
-			{"3" : "Prof. Dr. "}
-		]
-		return Response(practitioner_title)
-
-
-class PractitionerDetail(generics.RetrieveUpdateDestroyAPIView):
-	queryset = Practitioner.objects.all()
-	serializer_class = PractitionerSerializer
-
-class SpecializationList(generics.ListCreateAPIView):
-	queryset = Specialization.objects.all()
-	serializer_class = SpecializationSerializer
-
-class SpecializationDetail(generics.RetrieveUpdateDestroyAPIView):
-	queryset = Specialization.objects.all()
-	serializer_class = SpecializationSerializer
-
-class DegreeList(generics.ListCreateAPIView):
-	queryset = Degree.objects.all()
-	serializer_class = DegreeSerializer
-
-class DegreeDetail(generics.RetrieveUpdateDestroyAPIView):
-	queryset = Degree.objects.all()
-	serializer_class = DegreeSerializer
-
-class PhysicianTypeList(APIView):
-	def get(self, request, format=None):
-		physician_types = [
-			{"id":1,"value":"1","title":"Trainee"}, 
-			{"id":2,"value":"2","title":"Specialist"}
-		]
-		return Response(physician_types)
-
-class PhysicianTitleList(APIView):
-	def get(self, request, format=None):
-		title_types = [
-			{"id":1,"value":"1","title":"Dr. "}, 
-			{"id":2,"value":"2","title":"Prof. "},
-			{"id":3,"value":"3","title":"Prof. Dr. "}
-		]
-		return Response(title_types)
-
-class PhysicianGenderList(APIView):
-	def get(self, request, format=None):
-		gender_types = [
-			{"id":1,"value":"M","title":"Male"}, 
-			{"id":2,"value":"F","title":"Female"},
-		]
-		return Response(gender_types)
 
 def index(request):
 	data = {}
@@ -114,6 +53,29 @@ def index(request):
 		pass
 	
 	return render_to_response('index.html', {'data': data}, context_instance=RequestContext(request))
+
+def practitioner_suggestions(request):
+	if request.method == "GET":
+		query = request.GET.get('q', False)
+		if request.is_ajax():
+			results = Practitioner.prac_objects.practitioner_suggest(query)
+			return HttpResponse(json.dumps(list(results)),content_type="application/json")
+		else:
+			data = {}
+			if request.user.is_authenticated():
+				data['user'] = request.user
+			else:
+				data['user'] = None
+
+			try:
+				print query
+				data['practice'] = Practice.practice_objects.practitioner_name(query)
+				print data['practice']
+			except Practice.DoesNotExist:
+				raise Http404
+			
+			return render_to_response('practitioner/results.html', {'data': data}, context_instance=RequestContext(request))
+
 
 #advance search
 def adv(request):

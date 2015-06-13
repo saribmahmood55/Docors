@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load staticfiles %}
+{% block pageSpecificCSS %}<link rel="stylesheet" href="{% static 'assets/css/components.css' %}">{% endblock %}
 {% load humanize %}
 {% block seoItemTags %}http://schema.org/Physician{% endblock %}
 {% block content %}
