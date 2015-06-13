@@ -15,7 +15,7 @@ class PractitionerForm(forms.Form):
 	PHYSICIAN_CHOICES = ( ('1', 'Trainee'), ('2', 'Specialist'),)
 	TITLE = ( ('1', 'Dr. '), ('2', 'Prof. '), ('3', 'Prof. Dr. '),)
 	GENDER = ( ('M', 'Male'),('F', 'Female'),)
-	YEARS = [(year, year) for year in range(1935, 1990)]
+	YEARS = [(year, year) for year in range(1935, 1991)]
 	Practice_CHOICES = ((u'P', u'Clinic/Residence'),(u'H', u'Hospital'),(u'M', u'Medical Complex'),)
 	Appointment_Option = ((u'True', u'Strictly on Appointment.'),(u'False', u'Checkup allowed on Waiting.'),)
 	DAYS = (('1', 'Monday'), ('2', 'Tuesday'), ('3', 'Wednesday'), ('4', 'Thursday'), ('5', 'Friday'),('6', 'Saturday'),('7', 'Sunday'),)

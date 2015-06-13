@@ -29,11 +29,11 @@
                     </div>
                 {% endif %}
             	<form class="sky-form" role="form" action="" method="POST" data-toggle="validator">{% csrf_token %}
-                    <h3 class="text-center">Log in to your account</h3>
+                    <h3 class="text-center">Sign in</h3>
                     <fieldset>					
                         <section>
                             <div class="row">
-                                <label class="label col col-4">Your E-mail</label>
+                                <label class="label col col-4">Email address or username</label>
                                 <div class="col col-8">
                                     <label class="input">
                                         <i class="icon-append fa fa-user"></i>
@@ -45,13 +45,13 @@
 
                         <section>
                             <div class="row">
-                                <label class="label col col-4">Enter Password</label>
+                                <label class="label col col-4">Password</label>
                                 <div class="col col-8">
                                     <label class="input">
                                         <i class="icon-append fa fa-lock"></i>
                                         <input name="password" type="password" class="form-control" id="login_page_password" placeholder="Password" data-error="Password field cannot be empty" required>
                                     </label>
-                                    <div class="note"><a href="#sky-form2" class="modal-opener">Forgot password?</a></div>
+                                    <div class="note"><a href="#sky-form2" class="modal-opener">Forgotten your password?</a></div>
                                 </div>
                             </div>
                         </section>
@@ -75,10 +75,9 @@
 
             <form action="sky-form/php_files/demo-login-process.php" id="sky-form2" class="sky-form sky-form-modal">
                 <header>Password recovery</header>
-
                 <fieldset>					
                     <section>
-                        <label class="label">E-mail</label>
+                        <label class="label">Email address</label>
                         <label class="input">
                             <i class="icon-append fa fa-envelope-o"></i>
                             <input type="email" name="email" id="email">
