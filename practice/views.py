@@ -87,6 +87,8 @@ def recentSearch(request, speciality, city):
 	if request.method == "GET":
 		try:
 			data['practice'] = Practice.practice_objects.practice_recentlookups(city, speciality)
+			data['results_count'] = len(data['practice']['practice_list'])
+			data['results_header'] = speciality + " near " + city
 			updateRecentSearches(city, speciality)
 		except Practice.DoesNotExist:
 			raise Http404

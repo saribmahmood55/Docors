@@ -68,9 +68,9 @@ def practitioner_suggestions(request):
 				data['user'] = None
 
 			try:
-				print query
 				data['practice'] = Practice.practice_objects.practitioner_name(query)
-				print data['practice']
+				data['results_count'] = len(data['practice']['practice_list'])
+				data['results_header'] = "physicians matching your search criteria"
 			except Practice.DoesNotExist:
 				raise Http404
 			
