@@ -23,7 +23,7 @@
                         <li><a href="{% block home_link1 %}/{% endblock %}">Home</a></li>
                         <li><a href="#">Dashboard</a></li>
                         <li><a href="{% block dashboard_profile_link %}/dashboard/account{% endblock %}">Account Settings</a></li>
-                        <li><a href="/accounts/logout" onclick="logout_request();return false;">Signout</a></li>
+                        <li><a href="/accounts/logout" onclick="logout_request();return false;">Sign out</a></li>
                     </ul>
                 </li>
                 {% else %}
@@ -31,16 +31,14 @@
                     <a href="{% block home_link2 %}/{% endblock %}" class="dropdown-toggle" data-toggle="dropdown">Home</a>
                 </li>
                 <!--menu home li end here-->
-                
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Doctor <i class="fa fa-angle-down"></i></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Doctor<i class="fa fa-angle-down"></i></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="#"><strong>Update</strong> Your Info</a></li>
-                        <li><a href="{% url 'registration' %}">Get listed as a <strong>Doctor</strong></a></li>
+                        <li><a href="{% url 'registration' %}">Get listed as <strong>Doctor</strong></a></li>
                     </ul>
                 </li>
                 <!--menu blog li end here-->
-
                 <li class="dropdown">
                     <a href="#" class=" dropdown-toggle" data-toggle="dropdown"><i class="fa fa-lock"></i> Sign In</a>
                     <div class="dropdown-menu dropdown-menu-right dropdown-login-box animated fadeInUp">
@@ -64,25 +62,27 @@
                         </div>
                         <form role="form" action="{% url 'auth_login' %}" method="POST" data-toggle="validator">{% csrf_token %}
                             <div class="form-group">
+                                <label>Email address or username</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                    <input type="text" class="form-control" placeholder="Username" name="username" required>
+                                    <input type="text" class="form-control" name="username" required>
                                 </div>
                                 <br>
+                                <label>Password</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                                    <input type="password" class="form-control" placeholder="Password" name="password" required>
+                                    <input type="password" class="form-control" name="password" required>
                                 </div>
                                 <div class="checkbox pull-left">
                                     <label>
-                                        <input type="checkbox"> Remember me
+                                        <input type="checkbox">Remember me
                                     </label>
                                 </div>
                                 <!--<a class="btn btn-theme-bg pull-right">Login</a>-->
-                                <button type="submit" class="btn btn-theme pull-right">Login</button>
+                                <button type="submit" class="btn btn-theme pull-right">Sign in</button>
                                 <div class="clearfix"></div>
                                 <hr>
-                                <p>Don't have an account! <a href="/accounts/register">Register Now</a></p>
+                                <p>Don't have an account!<a href="/accounts/register">Create account</a></p>
                             </div>
                         </form>
                     </div>
