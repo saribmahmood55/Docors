@@ -60,7 +60,6 @@
 	                            <li class=""><a href="#hospital_tab" data-toggle="tab">Clinic/Hospital</a></li>
 	                            <li class=""><a href="#advsearch_tab" data-toggle="tab">Advanced Search</a></li>
 	                        </ul>
-
 	                        <!-- Tab panes -->
 	                        <div class="tab-content" style="margin-top:0;">
 	                            <div class="tab-pane active" id="speciality_tab">
@@ -134,11 +133,9 @@
 	                            </div>
 	                            <div class="tab-pane" id="advsearch_tab">
 	                                <div class="tab-desc animated fadeInUp">
-
 	                                    <p>
-	                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam laoreet sodales lacinia. Curabitur ut purus tincidunt, iaculis elit a, eleifend augue. Phasellus blandit augue vel sollicitudin blandit.
+	                                        Coming Soon.
 	                                    </p>
-
 	                                </div>
 	                            </div>
 	                        </div>
@@ -173,58 +170,88 @@
 				</div>-->
 			</div>
 		</section>
-
 		{% load staticfiles %}
 		<section class="bottom-section">
 			<div class="container">
-				<div class="col-md-10 col-md-offset-1">
-
+				<div class="col-md-11 col-md-offset-1">
 					<div class="row">
-						<div class="col-md-6 bottom-section-left">
+						<div class="col-md-4 bottom-section-left">
 							<div class="row">
 								<div class="bottom-section-left-img text-center margin20">
 									<img src="{% static 'assets/img/doctor.png' %}" alt="Doctor"/>
 								</div>
 								<div class="bottom-section-left-heading text-center">
-									<h3>Doctor For You</h3>
+									<h3>Doctors for you</h3>
 								</div>
 								<div class="bottom-section-left-hr">
 									<hr align="center" width="50%">
 									<hr align="center" width="50%">
 								</div>
 								<div class="bottom-section-left-paragraph text-center">
-									<p class="text-center">It is a long established fact that a reader will be distracted by the readable content of a page. The point of using Lorem Ipsum is that it has a more-or-less normal.</p>
+									<ul class="no-list-style">
+										<br><li><a href="#">Dr. Mudassir S. Sheikh</a></li>
+										<li><a href="#">Dr. Muhammad Anwar</a></li>
+										<li><a href="#">Dr. Bilal Zakriya</a></li>
+										<li><a href="#">Dr. Anjum Habib Vohra</a></li>
+										<li><a href="#">Dr. Shagufta Feroz</a></li>
+									</ul>
 								</div>
 							</div>
 						</div>
-						<div class="col-md-6 bottom-section-right">
+						<div class="row">
+						<div class="col-md-4 bottom-section-left">
+							<div class="row">
+								<div class="bottom-section-left-img text-center margin20">
+									<img src="{% static 'assets/img/hospital.png' %}" alt="Doctor"/>
+								</div>
+								<div class="bottom-section-left-heading text-center">
+									<h3>Hospital/Clinics For You</h3>
+								</div>
+								<div class="bottom-section-left-hr">
+									<hr align="center" width="50%">
+									<hr align="center" width="50%">
+								</div>
+								<div class="bottom-section-left-paragraph text-center">
+									<ul class="no-list-style">
+										<br><li><a href="#">Ammar Medical Complex</a></li>
+										<li><a href="#">Farooq Hospital</a></li>
+										<li><a href="#">Shifa Clinic</a></li>
+										<li><a href="#">Maryam Child Clinic</a></li>
+										<li><a href="#">Al-Razi Healthcare</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4 bottom-section-right">
 							<div class="row">
 								<div class="bottom-section-right-img text-center margin20">
 									<img src="{% static 'assets/img/kit.png' %}" alt="Doctor"/>
 								</div>
 								<div class="bottom-section-right-heading text-center">
-									<h3>Hospital For You</h3>
+									<h3>Medical Treatments For You</h3>
 								</div>
 								<div class="bottom-section-right-hr">
 									<hr align="center" width="50%">
 									<hr align="center" width="50%">
 								</div>
-								<div class="bottom-section-right-paragraph">
-									<p class="text-center">It is a long established fact that a reader will be distracted by the readable content of a page. The point of using Lorem Ipsum is that it has a more-or-less normal.</p>
+								<div class="bottom-section-right-paragraph text-center">
+									<ul class="no-list-style">
+										<br><li><a href="#">Endoscopy</a></li>
+										<li><a href="#">Angioplasty</a></li>
+										<li><a href="#">MRI</a></li>
+										<li><a href="#">Ultra Sound</a></li>
+										<li><a href="#">ECG</a></li>
+									</ul>
 								</div>
 							</div>
 						</div>
 					</div>
-
 				</div>
 			</div>
 		</section>
-
 		{% include "fragments/typeahead_result_template.html" %}
 		{% include "fragments/typeahead_empty_template.html" %}
-
 	{% endblock %}
-
 	{% block pageSpecificJS %}
 		<script type="text/javascript" src="{% static 'assets/js/handlebars.js' %}"></script>
 		<script type="text/javascript" src="{% static 'assets/js/typeahead.js' %}"></script>

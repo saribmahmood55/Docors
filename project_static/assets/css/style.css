@@ -94,6 +94,9 @@ border-left-color: #111111;
 	margin:25px auto;
 }
 
+.no-list-style{
+  list-style-type: none;
+}
 .custom-footer{
 	background-color: rgb(20,100,100);
 }
