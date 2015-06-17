@@ -48,21 +48,37 @@
 
 		</section>
 		<!-- End Middle Content -->
-
 		<section class="intro-text-1">
 			<div class="container">
 				<div class="row">
 					<div class="col-md-8 col-md-offset-2">
 						<div class="tabs">
 	                        <ul class="nav nav-tabs">
-	                            <li class="active"><a href="#speciality_tab" data-toggle="tab">Speciality</a></li>
-	                            <li class=""><a href="#doctor_tab" data-toggle="tab">Doctor</a></li>
-	                            <li class=""><a href="#hospital_tab" data-toggle="tab">Clinic/Hospital</a></li>
+	                            <li class="active"><a href="#main_search_tab" data-toggle="tab">Find Doctors</a></li>
+	                            <li class=""><a href="#speciality_tab" data-toggle="tab">Speciality</a></li>
 	                            <li class=""><a href="#advsearch_tab" data-toggle="tab">Advanced Search</a></li>
 	                        </ul>
 	                        <!-- Tab panes -->
 	                        <div class="tab-content" style="margin-top:0;">
-	                            <div class="tab-pane active" id="speciality_tab">
+	                            <div class="tab-pane active" id="main_search_tab">
+	                                <div class="tab-desc animated fadeIn">
+	                                	<div class="row">
+	                                		<form role="form" action="{% url 'doctor_suggestions' %}" method="GET">
+		                                		<div class="col-md-12">
+			                                		<div class="col-md-10 margin20" id="doctor">
+			                                			<div class="form-group">
+			                                				<input type="text" class="form-control input-lg typeahead" name="q" placeholder="Doctor Name, Specialty, Condition or Procedure">
+			                                			</div>
+			                                		</div>
+			                                		<div class="col-md-2 margin20" style="margin-top:30px;">
+			                                			<button class="btn btn-danger btn-lg pull-right"><i class="fa fa-search"></i></button>
+			                                		</div>
+			                                	</div>
+			                                </form>
+	                                	</div>
+	                                </div>
+	                            </div>
+	                            <div class="tab-pane" id="speciality_tab">
 	                                <div class="tab-desc animated fadeInDown">
 	                                	<div class="row">
 	                                		<form role="form" action="{% url 'speciality_suggestions' %}">
@@ -86,50 +102,6 @@
 			                                </form>
 	                                	</div>
 	                                </div> 
-	                            </div>
-	                            <div class="tab-pane" id="doctor_tab">
-	                                <div class="tab-desc animated fadeIn">
-	                                	<div class="row">
-	                                		<form role="form" action="{% url 'doctor_suggestions' %}" method="GET">
-		                                		<div class="col-md-12">
-			                                		<div class="col-md-10 margin20" id="doctor">
-			                                			<div class="form-group">
-			                                				<label>Doctor</label>
-			                                				<input type="text" class="form-control input-lg typeahead" name="q" placeholder="eg. Dr Arif Alvi">
-			                                			</div>
-			                                		</div>
-			                                		<div class="col-md-2 margin20" style="margin-top:30px;">
-			                                			<button class="btn btn-danger btn-lg pull-right"><i class="fa fa-search"></i></button>
-			                                		</div>
-			                                	</div>
-			                                </form>
-	                                	</div>
-	                                </div>
-	                            </div>
-	                            <div class="tab-pane" id="hospital_tab">
-	                                <div class="tab-desc animated fadeInUp">
-	                                	<div class="row">
-	                                		<form role="form">
-		                                		<div class="col-md-12">
-			                                		<div class="col-md-5 margin20">
-			                                			<div class="form-group">
-			                                				<label>Hospital</label>
-			                                				<input type="text" class="form-control input-lg" placeholder="eg. Doctors Hospital">
-			                                			</div>
-			                                		</div>
-			                                		<div class="col-md-5 margin20">
-			                                			<div class="form-group">
-			                                				<label>City</label>
-			                                				<input type="text" class="form-control input-lg typeahead city_typeahead" placeholder="eg. Lahore">
-			                                			</div>
-			                                		</div>
-			                                		<div class="col-md-2 margin20" style="margin-top:30px;">
-			                                			<button class="btn btn-danger btn-lg pull-right"><i class="fa fa-search"></i></button>
-			                                		</div>
-			                                	</div>
-			                                </form>
-	                                	</div>
-	                                </div>
 	                            </div>
 	                            <div class="tab-pane" id="advsearch_tab">
 	                                <div class="tab-desc animated fadeInUp">
