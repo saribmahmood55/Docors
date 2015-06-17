@@ -7,9 +7,16 @@ from django.contrib.gis import geos
 from django.contrib.gis import measure
 from django.core.urlresolvers import reverse
 
+class CityManager(models.Manager):
+    def city_name(self, name):
+        return super(CityManager, self).get(name=name)
+
 class City(models.Model):
     name = models.CharField(max_length=50)
     slug = AutoSlugField(populate_from='name', unique = True)
+
+    objects = models.Manager()
+    city_objects = CityManager()
     
     def __unicode__(self):
         return self.name

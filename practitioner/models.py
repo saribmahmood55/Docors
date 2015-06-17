@@ -6,6 +6,9 @@ class SpecializationManager(models.Manager):
     def spec_slug(self, slug):
         return super(SpecializationManager, self).get(slug=slug)
 
+    def spec_human_name(self, name):
+        return super(SpecializationManager, self).get(human_name=name)
+
 class Specialization(models.Model):
     name = models.CharField(max_length=100)
     human_name = models.CharField(max_length=100, null=True)

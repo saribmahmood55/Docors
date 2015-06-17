@@ -22,32 +22,14 @@ class FacebookLogin(SocialLogin):
 
 def index(request):
 	data = {}
-	if request.user.is_authenticated():
-		data['user'] = request.user
-	else:
-		data['user'] = None
-
-	data['completeness'] = 0
-
+	data['user'] = request.user if request.user.is_authenticated() else None
 	data['specialities'] = Specialization.objects.order_by('slug')
 	data['cities'] = City.objects.order_by('pk')
+	data['completeness'] = 0
 
 	try:
 		patient_data = Patient.patient_objects.patient_details(data['user'])
-		if patient_data.age_group:
-			data['completeness'] = data['completeness'] + 10
-		if patient_data.gender:
-			data['completeness'] = data['completeness'] + 10
-		if patient_data.cell_number:
-			data['completeness'] = data['completeness'] + 10
-		if data['user'].first_name:
-			data['completeness'] = data['completeness'] + 20
-		if data['user'].last_name:
-			data['completeness'] = data['completeness'] + 20
-		if data['user'].username:
-			data['completeness'] = data['completeness'] + 10
-		if data['user'].email:
-			data['completeness'] = data['completeness'] + 20
+		data['completeness'] = eval("+".join(["10" if patient_data.age_group else "0","10" if patient_data.gender else "0","10" if patient_data.cell_number else "0","20" if data['user'].first_name else "0","20" if data['user'].last_name else "0","10" if data['user'].username else "0","20" if data['user'].email else "0"]))
 
 	except Patient.DoesNotExist:
 		pass
@@ -56,16 +38,13 @@ def index(request):
 
 def practitioner_suggestions(request):
 	if request.method == "GET":
-		query = request.GET.get('q', False)
+		query = request.GET.get('q', '')
 		if request.is_ajax():
 			results = Practitioner.prac_objects.practitioner_suggest(query)
 			return HttpResponse(json.dumps(list(results)),content_type="application/json")
 		else:
 			data = {}
-			if request.user.is_authenticated():
-				data['user'] = request.user
-			else:
-				data['user'] = None
+			data['user'] = request.user if request.user.is_authenticated() else None
 
 			try:
 				data['practice'] = Practice.practice_objects.practitioner_name(query)
@@ -80,10 +59,7 @@ def practitioner_suggestions(request):
 #advance search
 def adv(request):
 	data = {}
-	if request.user.is_authenticated():
-		data['user'] = request.user
-	else:
-		data['user'] = None
+	data['user'] = request.user if request.user.is_authenticated() else None
 	if request.method == "GET":
 		try:
 			data['specialities'] = Specialization.objects.order_by('human_name')

@@ -96,6 +96,7 @@ border-left-color: #111111;
 
 .no-list-style{
   list-style-type: none;
+  padding-left: 0;
 }
 .custom-footer{
 	background-color: rgb(20,100,100);
