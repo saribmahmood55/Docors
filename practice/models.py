@@ -11,6 +11,9 @@ class CityManager(models.Manager):
     def city_name(self, name):
         return super(CityManager, self).get(name=name)
 
+    def get_default(self):
+        return super(CityManager, self).get(name='Lahore')
+
 class City(models.Model):
     name = models.CharField(max_length=50)
     slug = AutoSlugField(populate_from='name', unique = True)
@@ -23,6 +26,28 @@ class City(models.Model):
     
     class Meta:
         verbose_name_plural = "Cities"
+
+class AreaManager(models.Manager):
+    def get_slug(self, key, value):
+        return super(AreaManager, self).get(key=value)
+
+    def get_areas(self, city):
+        return super(AreaManager, self).filter(city=city)
+
+class Area(models.Model):
+    name = models.CharField(max_length=50)
+    city = models.ForeignKey(City)
+    slug = AutoSlugField(populate_from=lambda instance: " ".join([instance.name,instance.city.name]),unique = True)
+
+    objects = models.Manager()
+    area_objects = AreaManager()
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = "Areas"
+
 
 class CheckupFee(models.Model):
     amount = models.PositiveSmallIntegerField()
@@ -39,7 +64,7 @@ class PracticeLocation(models.Model):
     contact_number = models.CharField(max_length=150, null=True, blank=True)
     photo = ImageField(upload_to='practice/', blank=True, null=True)
     clinic_address = models.TextField()
-    city = models.ForeignKey(City)
+    area = models.ForeignKey(Area)
     lon = models.FloatField(null=True, blank=True)
     lat = models.FloatField(null=True, blank=True)
 
@@ -114,7 +139,6 @@ class Practice(models.Model):
     practice_location = models.ForeignKey(PracticeLocation)
     practitioner = models.ForeignKey(Practitioner)
     fee = models.ForeignKey(CheckupFee, null=True, blank=True)
-    services = models.TextField(null=True, blank=True)
     appointments_only = models.BooleanField(default=True)
     location = gis_models.PointField(geography=True, blank=True, null=True)
     modified = models.DateTimeField(auto_now=True)
@@ -140,17 +164,16 @@ class Practice(models.Model):
 #Custom Manager
 class PracticeTimingManager(models.Manager):
     def practice_timings(self, pr_slug, p_slug):
-        practice_timings = super(PracticeTimingManager, self).filter(practice__practice_location__slug=pr_slug, practitioner__slug=p_slug).order_by('pk')
+        practice_timings = super(PracticeTimingManager, self).filter(practice__practice_location__slug=pr_slug, practice__practitioner__slug=p_slug).order_by('pk')
         return practice_timings    
 
     def spec_day_timing(self, spec, day):
-        practice_timings = super(PracticeTimingManager, self).filter(practitioner__specialities__slug=spec, day=day).order_by('pk')
+        practice_timings = super(PracticeTimingManager, self).filter(practice__practitioner__specialities__slug=spec, day=day).order_by('pk')
         return practice_timings
 
 class PracticeTiming(models.Model):
     DAYS = (('1', 'Mon'), ('2', 'Tue'), ('3', 'Wed'), ('4', 'Thu'), ('5', 'Fri'),('6', 'Sat'),('7', 'Sun'),)
     
-    practitioner = models.ForeignKey(Practitioner)
     practice = models.ForeignKey(Practice)
     day = models.CharField(max_length=1, choices=DAYS, help_text="Select Day.")
     start_time = models.TimeField(help_text="Select starting Time for Clininc.", auto_now_add=False, null=True, blank=True)
@@ -161,7 +184,7 @@ class PracticeTiming(models.Model):
     pt_objects = PracticeTimingManager()
 
     def __unicode__(self):
-        return self.practitioner.name
+        return self.practice.practitioner.name
 
     class Meta:
         verbose_name_plural = "Practice Timings"
