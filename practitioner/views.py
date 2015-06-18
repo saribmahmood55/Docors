@@ -30,9 +30,12 @@ def index(request):
 	try:
 		patient_data = Patient.patient_objects.patient_details(data['user'])
 		data['completeness'] = eval("+".join(["10" if patient_data.age_group else "0","10" if patient_data.gender else "0","10" if patient_data.cell_number else "0","20" if data['user'].first_name else "0","20" if data['user'].last_name else "0","10" if data['user'].username else "0","20" if data['user'].email else "0"]))
+		data['areas'] = Area.area_objects.get_areas(city=patient_data.city)
+		data['user_city'] = patient_data.city
 
 	except Patient.DoesNotExist:
-		pass
+		data['user_city'] = City.city_objects.get_default()
+		data['areas'] = Area.area_objects.get_areas(city=data['user_city'])
 	
 	return render_to_response('index.html', {'data': data}, context_instance=RequestContext(request))
 

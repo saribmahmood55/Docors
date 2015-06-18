@@ -24,6 +24,54 @@ class Specialization(models.Model):
     class Meta:
         verbose_name_plural = "Specialities"
 
+class ConditionManager(models.Manager):
+    def get_slug(self, name):
+        return super(ConditionManager, self).get(name=name)
+
+    def get_conditions(self, specialization):
+        return super(ConditionManager, self).filter(specialization=specialization)
+
+    def get_specialization(self, condition):
+        return super(ConditionManager, self).get(name=condition)
+
+class Condition(models.Model):
+    name = models.CharField(max_length=100)
+    specialization = models.ForeignKey(Specialization)
+    slug = AutoSlugField(populate_from='name', unique=True)
+
+    objects = models.Manager()
+    condition_objects = ConditionManager()
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = 'Conditions'
+
+class ProcedureManager(models.Manager):
+    def get_slug(self, name):
+        return super(ProcedureManager, self).get(name=name)
+
+    def get_procedures(self, specialization):
+        return super(ProcedureManager, self).filter(specialization=specialization)
+
+    def get_specialization(self, procedure):
+        return super(ProcedureManager, self).get(name=procedure)
+
+class Procedure(models.Model):
+    name = models.CharField(max_length=100)
+    specialization = models.ForeignKey(Specialization)
+    slug = AutoSlugField(populate_from='name', unique=True)
+
+    objects = models.Manager()
+    procedure_objects = ProcedureManager()
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = 'Procedures'
+
 class DegreeManager(models.Manager):
     def get_degree(self, name):
         return super(DegreeManager, self).get(name=name)
@@ -43,17 +91,6 @@ class Degree(models.Model):
 
     class Meta:
         verbose_name_plural = "Degrees"
-
-class Service(models.Model):
-    condition = models.CharField(max_length=150)
-    procedure = models.CharField(max_length=150)
-    speciality = models.ForeignKey(Specialization)
-
-    def __unicode__(self):
-        return self.procedure
-
-    class Meta:
-        verbose_name_plural = "Services"
 
 class PractitionerManager(models.Manager):
 
@@ -81,7 +118,8 @@ class Practitioner(models.Model):
     message = models.TextField(max_length=140, null=True, blank=True)
     degrees = models.ManyToManyField(Degree)
     specialities = models.ManyToManyField(Specialization)
-    services = models.ManyToManyField(Service)
+    conditions = models.ManyToManyField(Condition)
+    procedures = models.ManyToManyField(Procedure)
 
     slug = AutoSlugField(populate_from='name', unique = True)
     status = models.BooleanField(default=False)
