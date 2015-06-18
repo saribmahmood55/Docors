@@ -9,7 +9,7 @@ class SubscriptionAdmin(admin.ModelAdmin):
 
 
 class PatientAdmin(admin.ModelAdmin):
-	list_display = ['patient_name','patient_user_name','email','cell_number','gender','age_group','Interested_Specialities','Favourite_Practitioners']
+	list_display = ['patient_name','patient_user_name','email','cell_number','gender','age_group','city','Interested_Specialities','Favourite_Practitioners']
 	search_fields = ['email']
 
 	def patient_user_name(self, obj):

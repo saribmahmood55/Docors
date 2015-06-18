@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from practitioner.models import Specialization, Practitioner
+from practice.models import City
 
 
 #customManager
@@ -51,6 +52,7 @@ class Patient(models.Model):
     age_group = models.CharField(max_length=2, choices=AGE_GROUPS, help_text="Please select appropriate age group." ,null=True, blank=True)
     interested_specialities = models.ManyToManyField(Specialization, blank=True)
     favt_practitioner = models.ManyToManyField(Practitioner, blank=True)
+    city = models.ForeignKey(City, default=1)
 
     objects = models.Manager()
     patient_objects = PatientManager()
