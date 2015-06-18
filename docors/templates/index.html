@@ -92,7 +92,7 @@
 			                                		<div class="col-md-5 margin20" id="second_col">
 			                                			<div class="form-group">
 			                                				<label id="second_col_search_label">City</label>
-			                                				<input type="text" name="city" class="form-control input-lg typeahead city_typeahead" placeholder="eg. Lahore" id="second_col_search_input">
+			                                				<input type="text" name="city" class="form-control input-lg typeahead area_typeahead" placeholder="eg. Lahore" id="second_col_search_input">
 			                                			</div>
 			                                		</div>
 			                                		<div class="col-md-2 margin20" style="margin-top:30px;">
@@ -236,9 +236,9 @@
 		{% for spec in data.specialities %}
 			local_specializations.push("{{spec.human_name}}");
 		{% endfor %}
-		var local_cities = Array();
-		{% for city in data.cities %}
-			local_cities.push("{{city.name}}");
+		var local_areas = Array();
+		{% for area in data.areas %}
+			local_areas.push("{{area.name}}");
 		{% endfor %}
 		$(document).ready(function(){
 			/*$.ajax({
@@ -370,34 +370,25 @@
 				highlight: true
 			}, {
 				name: 'specialization',
-				source: substringMatcher(local_specializations)
+				source: substringMatcher(local_specializations),
+				limit:1000
 			})
 			.blur(function(){
 				if(local_specializations.indexOf($(this).typeahead('val')) === -1)
 					$(this).typeahead('val','');
 			});
 
-			var states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
-			  'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
-			  'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
-			  'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
-			  'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
-			  'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
-			  'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island',
-			  'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
-			  'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
-			];
-
-			$(".city_typeahead").typeahead({
+			$(".area_typeahead").typeahead({
 				minLength:0,
 				hint: true,
 				highlight: true
 			}, {
-				name: 'cities',
-				source: substringMatcher(local_cities)
+				name: 'areas',
+				source: substringMatcher(local_areas),
+				limit:100
 			})
 			.blur(function(){
-				if(local_cities.indexOf($(this).typeahead('val')) === -1)
+				if(local_areas.indexOf($(this).typeahead('val')) === -1)
 					$(this).typeahead('val','');
 			});
 
@@ -416,7 +407,8 @@
 				minLength:0
 			},{
 				name: 'doctor',
-				source: doctor_engine
+				source: doctor_engine,
+				limit:100
 			});
 
 		});

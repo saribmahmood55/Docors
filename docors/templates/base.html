@@ -76,6 +76,16 @@
 
 	{% block customScript %}{% endblock %}
 
+	<script type="text/javascript">
+		$('.location-toggle').qtip({
+		    content: 'Click to change location',
+		    position:{
+		    	my:'top center',
+		    	at:'bottom center'
+		    }
+		});
+	</script>
+
 	{% include "fragments/google-analytics.html" %}
 
 	{% include "fragments/login-script.html" %}
