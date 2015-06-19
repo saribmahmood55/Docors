@@ -22,20 +22,15 @@ class FacebookLogin(SocialLogin):
 
 def index(request):
 	data = {}
-	data['user'] = request.user if request.user.is_authenticated() else None
 	data['specialities'] = Specialization.objects.order_by('slug')
-	data['cities'] = City.objects.order_by('pk')
 	data['completeness'] = 0
 
 	try:
-		patient_data = Patient.patient_objects.patient_details(data['user'])
+		patient_data = Patient.patient_objects.patient_details(lambda: request.user if request.user.is_authenticated() else None)
 		data['completeness'] = eval("+".join(["10" if patient_data.age_group else "0","10" if patient_data.gender else "0","10" if patient_data.cell_number else "0","20" if data['user'].first_name else "0","20" if data['user'].last_name else "0","10" if data['user'].username else "0","20" if data['user'].email else "0"]))
-		data['areas'] = Area.area_objects.get_areas(city=patient_data.city)
-		data['user_city'] = patient_data.city
 
 	except Patient.DoesNotExist:
-		data['user_city'] = City.city_objects.get_default()
-		data['areas'] = Area.area_objects.get_areas(city=data['user_city'])
+		pass
 	
 	return render_to_response('index.html', {'data': data}, context_instance=RequestContext(request))
 
@@ -47,7 +42,6 @@ def practitioner_suggestions(request):
 			return HttpResponse(json.dumps(list(results)),content_type="application/json")
 		else:
 			data = {}
-			data['user'] = request.user if request.user.is_authenticated() else None
 
 			try:
 				data['practice'] = Practice.practice_objects.practitioner_name(query)
@@ -62,7 +56,6 @@ def practitioner_suggestions(request):
 #advance search
 def adv(request):
 	data = {}
-	data['user'] = request.user if request.user.is_authenticated() else None
 	if request.method == "GET":
 		try:
 			data['specialities'] = Specialization.objects.order_by('human_name')

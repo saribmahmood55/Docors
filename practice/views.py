@@ -24,7 +24,6 @@ def practice(request, practice_slug, practitioner_slug):
 #Search by Name
 def practitioner_name(request):
 	data = {}
-	data['user'] = request.user if request.user.is_authenticated() else None
 	if request.method == "GET":
 		name = str(request.GET.get('name', ''))
 		print name
@@ -47,7 +46,6 @@ def practice_hospitals(request):
 #handle search request
 def practitoners(request):
 	data = {}
-	data['user'] = request.user if request.user.is_authenticated() else None
 	if request.method == "GET":
 		city = str(request.GET.get('city', ''))
 		spec = str(request.GET.get('spec', ''))
@@ -72,7 +70,6 @@ def practitoners(request):
 
 def speciality_suggestions(request):
 	data = {}
-	data['user'] = request.user if request.user.is_authenticated() else None
 	if request.method == "GET":
 		return HttpResponseRedirect(reverse('recentSearch', kwargs={'speciality': Specialization.spec_objects.spec_human_name(str(request.GET.get('spec', ''))).slug, 'city': City.city_objects.city_name(str(request.GET.get('city', '') if request.GET.get('city','') != '' else 'Lahore')).slug}))
 
@@ -80,7 +77,6 @@ def speciality_suggestions(request):
 #recent Searches
 def recentSearch(request, speciality, city):
 	data = {'city': city, 'spec': speciality}
-	data['user'] = request.user if request.user.is_authenticated() else None
 	if request.method == "GET":
 		try:
 			data['practice'] = Practice.practice_objects.practice_recentlookups(city, speciality)
@@ -94,7 +90,6 @@ def recentSearch(request, speciality, city):
 # single practitioner details
 def practitioner(request, slug):
 	data = {}
-	data['user'] = request.user if request.user.is_authenticated() else None
 	if request.method == "GET":
 		if request.user.is_authenticated():
 			data['patient'] = Patient.patient_objects.patient_details(data['user'])

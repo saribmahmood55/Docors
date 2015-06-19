@@ -119,6 +119,7 @@ TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
     # These are allauth specific context processors
     'allauth.account.context_processors.account',
     'allauth.socialaccount.context_processors.socialaccount',
+    'docors.customProcessor.customProcessor',
 )
 
 LOGIN_REDIRECT_URL = '/'

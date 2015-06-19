@@ -42,6 +42,9 @@ class PatientManager(models.Manager):
     def registered_patient(self, email):
         return super(PatientManager, self).filter(user__email=email)
 
+    def get_city(self, user):
+        return super(PatientManager, self).get(user=user).city
+
 
 class Patient(models.Model):
     GENDER_CHOICES = ( ('M', 'Male'),('F', 'Female'), ('N', 'Prefer not to disclose'))

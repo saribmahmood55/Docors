@@ -13,6 +13,7 @@ from registration.signals import user_registered
 from django.contrib.auth.views import login
 from django.conf import settings
 from django.contrib.auth import authenticate
+from django.contrib.auth.decorators import login_required
 import json
 
 def subscribe(request):
@@ -29,19 +30,12 @@ def subscribe(request):
 
 def educate(request):
 	data = {}
-	if request.user.is_authenticated():
-		data['user'] = request.user
-	else:
-		data['user'] = None
 	if request.method == 'GET':
 		return render_to_response('patients/educate.html', {'data': data}, context_instance=RequestContext(request))
 
+@login_required(login_url='/accounts/login/')
 def profile(request):
 	data = {}
-	if request.user.is_authenticated():
-		data['user'] = request.user
-	else:
-		return HttpResponseRedirect(reverse('auth_login'))
 
 	if request.method == 'GET':
 		try:
@@ -62,12 +56,9 @@ def profile(request):
 
 	return render_to_response('patients/profile.html', {'data': data}, context_instance=RequestContext(request))
 
+@login_required(login_url='/accounts/login/')
 def acc_preferences(request):
 	data = {}
-	if request.user.is_authenticated():
-		data['user'] = request.user
-	else:
-		return HttpResponseRedirect(reverse('auth_login'))
 
 	if request.method == "POST":
 		type_ = request.POST.get('type_', None)
@@ -97,12 +88,9 @@ def acc_preferences(request):
 
 	return render_to_response('patients/acc_preferences.html', {'data': data}, context_instance=RequestContext(request))
 
+@login_required(login_url='/accounts/login/')
 def dashboard_specialities(request):
 	data = {}
-	if request.user.is_authenticated():
-		data['user'] = request.user
-	else:
-		return HttpResponseRedirect(reverse('auth_login'))
 
 	if request.method == "GET":
 		patient = Patient.patient_objects.patient_details(data['user'])
@@ -128,10 +116,6 @@ def dashboard_specialities(request):
 
 def patient(request):
 	data = {}
-	if request.user.is_authenticated():
-		data['user'] = request.user
-	else:
-		data['user'] = None
 	if request.method == 'GET':
 		if data['user']:
 			try:

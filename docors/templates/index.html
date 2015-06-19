@@ -91,8 +91,8 @@
 			                                		</div>
 			                                		<div class="col-md-5 margin20" id="second_col">
 			                                			<div class="form-group">
-			                                				<label id="second_col_search_label">City</label>
-			                                				<input type="text" name="city" class="form-control input-lg typeahead area_typeahead" placeholder="eg. Lahore" id="second_col_search_input">
+			                                				<label id="second_col_search_label">Area</label>
+			                                				<input type="text" name="area" class="form-control input-lg typeahead area_typeahead" placeholder="eg. Faisal Town" id="second_col_search_input">
 			                                			</div>
 			                                		</div>
 			                                		<div class="col-md-2 margin20" style="margin-top:30px;">
@@ -114,32 +114,6 @@
 	                    </div>
 					</div>
 				</div>
-				<!--<div class="col-md-10 col-md-offset-1">
-					<div class="row row-space-15-0-0-15">
-						<div class="text-left">
-							<h4>Select by Speciality</h4>
-						</div>
-					</div>
-					<div class="row row-space-0-0-25-0">
-						<form role="form" data-toggle="validator" action="{% url 'practitoners' %}" id="searchForm">
-							<div class="col-md-4">
-								<select id="cityName" data-error="Please select an option" class="form-control" name="city" required>
-									<option value="" disabled selected>-Select City-</option>
-								</select>
-								<span class="help-block with-errors"></span>
-							</div>
-							<div class="col-md-4">
-								<select id="specialityName" data-error="Please select an option" class="form-control" name="spec" required>
-									<option value="" disabled selected>-Select Speciality-</option>
-								</select>
-								<span class="help-block with-errors"></span>
-							</div>
-							<div class="col-md-4">
-								<button type="submit" class="btn btn-danger btn-flat full-width">Search For Doctor</button>
-							</div>
-						</form>
-					</div>
-				</div>-->
 			</div>
 		</section>
 		{% load staticfiles %}
@@ -237,33 +211,11 @@
 			local_specializations.push("{{spec.human_name}}");
 		{% endfor %}
 		var local_areas = Array();
-		{% for area in data.areas %}
+		{% for area in sticky_data.areas %}
 			local_areas.push("{{area.name}}");
 		{% endfor %}
+		local_areas.sort();
 		$(document).ready(function(){
-			/*$.ajax({
-				type : 'GET',
-				url : '/specializations/',
-				data: {},
-				success : function (data) {
-					for(i=0;i<data.length;i++){
-						local_specializations.push(data[i].human_name);
-					}
-				},
-				error : errorHandler
-			});
-
-			$.ajax({
-				type : 'GET',
-				url : '/city/',
-				data: {},
-				success : function (data) {
-					for(i=0;i<data.length;i++){
-						local_cities.push(data[i].name);
-					}
-				},
-				error : errorHandler
-			});*/
 
 			$('#profile-completeness-container').circleProgress({
 			    startAngle: -90,
@@ -276,68 +228,6 @@
 			    {% else %}
 			    fill: { color: '#ffa500' }
 			    {% endif %}
-			});
-
-			/********* Twitter typeahead with bloodhound
-
-			var engine, remoteHost, template, empty;
-
-		  	$.support.cors = true;
-
-			remoteHost = base_url;
-			template = Handlebars.compile($("#result-template").html());
-			empty = Handlebars.compile($("#empty-template").html());
-
-			var search_type = $("#search_for").val();
-
-			engine = new Bloodhound({
-				identify: function(o) { return o.id_str; },
-				queryTokenizer: Bloodhound.tokenizers.whitespace,
-				datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name', 'screen_name'),
-				dupDetector: function(a, b) { return a.id_str === b.id_str; },
-				//prefetch: remoteHost + '/sports/prefetch',
-				remote: {
-					url: '/getResults?type='+search_type+'&q=%QUERY',
-					wildcard: '%QUERY'
-				}
-			});
-
-			// ensure default users are read on initialization
-			engine.get('1090217586', '58502284', '10273252', '24477185')
-
-			function engineWithDefaults(q, sync, async) {
-				if (q === '') {
-					sync(engine.get('1090217586', '58502284', '10273252', '24477185'));
-					async([]);
-				}else{
-					engine.search(q, sync, async);
-				}
-			}
-
-			$('#demo-input').typeahead({
-				hint: $('.Typeahead-hint'),
-				menu: $('.Typeahead-menu'),
-				minLength: 0,
-				classNames: {
-					open: 'is-open',
-					empty: 'is-empty',
-					cursor: 'is-active',
-					suggestion: 'Typeahead-suggestion',
-					selectable: 'Typeahead-selectable'
-				}
-			}, {
-				source: engineWithDefaults,
-				displayKey: 'screen_name',
-				templates: {
-				suggestion: template,
-				empty: empty
-				}
-			})
-			.on('typeahead:asyncrequest', function() {
-				$('.Typeahead-spinner').show();
-			})
-			.on('typeahead:asynccancel typeahead:asyncreceive', function() {
-				$('.Typeahead-spinner').hide();
 			});
 
 			/********* Twitter typeahead with bloodhound *******/
