@@ -1,5 +1,1 @@
-{{ object.practitioner.name}}
 {{ object.practice_location.name }}
-{% for speciality in object.practitioner.specialities.all %}
-{{ speciality.SEO_name}}
-{% endfor %}

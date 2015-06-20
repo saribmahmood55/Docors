@@ -10,10 +10,10 @@
     {% for result in page.object_list %}
     <li>
     <a href="{{ result.object.get_absolute_url }}" class="anchor-link" >
-        <h2 itemprop="name">{{ result.object.practitioner.get_title_display }}{{ result.object.practitioner.name }}</h2>
-        <p><strong>{{result.object.practice_location.name}}</strong></p>
+        <h2 itemprop="name">{{ result.object.get_title_display }}{{ result.object.name }}</h2>
+        <!--<p><strong>{{result.object.practice_location.name}}</strong></p>-->
         <p>Category: 
-        {% for speciality in result.object.practitioner.specialities.all.iterator %}
+        {% for speciality in result.object.specialities.all.iterator %}
         <span itemprop="medicalSpecialty">{{speciality.SEO_name}}</span>
         {% endfor %}
         </p>

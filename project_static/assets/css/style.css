@@ -464,3 +464,16 @@ form.home-search.halfwidth input[name='locality'] {
 }
 
 /********** Color ending here ****************/
+
+/********** Typeahead multiple dataset ********/
+
+.league-name {
+  margin: 0 20px 5px 20px;
+  padding: 3px 0;
+  border-bottom: 1px solid #ccc;
+  color: #000 !important;
+  margin-bottom: 5px;
+  margin-top: 10px;
+}
+
+/********** Typeahead multiple dataset ********/

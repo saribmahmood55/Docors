@@ -282,11 +282,38 @@
 					$(this).typeahead('val','');
 			});
 
-			var doctor_engine = new Bloodhound({
+			var practitioner_engine = new Bloodhound({
 				datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
 				queryTokenizer: Bloodhound.tokenizers.whitespace,
 				remote: {
-					url: "{% url 'doctor_suggestions' %}?q=%QUERY",
+					url: "{% url 'doctor_suggestions' %}?q=%QUERY&type=practitioner",
+					wildcard: '%QUERY'
+				}
+			});
+
+			var specialization_engine = new Bloodhound({
+				datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+				queryTokenizer: Bloodhound.tokenizers.whitespace,
+				remote: {
+					url: "{% url 'doctor_suggestions' %}?q=%QUERY&type=specialization",
+					wildcard: '%QUERY'
+				}
+			});
+
+			var condition_engine = new Bloodhound({
+				datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+				queryTokenizer: Bloodhound.tokenizers.whitespace,
+				remote: {
+					url: "{% url 'doctor_suggestions' %}?q=%QUERY&type=condition",
+					wildcard: '%QUERY'
+				}
+			});
+
+			var procedure_engine = new Bloodhound({
+				datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+				queryTokenizer: Bloodhound.tokenizers.whitespace,
+				remote: {
+					url: "{% url 'doctor_suggestions' %}?q=%QUERY&type=procedure",
 					wildcard: '%QUERY'
 				}
 			});
@@ -294,11 +321,35 @@
 			$("#doctor .typeahead").typeahead({
 				hint:true,
 				highlight:true,
-				minLength:0
+				minLength:1
 			},{
-				name: 'doctor',
-				source: doctor_engine,
-				limit:100
+				name: 'practitioner',
+				source: practitioner_engine,
+				limit:5,
+				templates: {
+					header: '<h4 class="league-name">Practitioner</h4>'
+				}
+			},{
+				name: 'specialization',
+				source: specialization_engine,
+				limit:5,
+				templates: {
+					header: '<h4 class="league-name">Practitioner Specialities</h4>'
+				}
+			},{
+				name: 'condition',
+				source: condition_engine,
+				limit:5,
+				templates: {
+					header: '<h4 class="league-name">Condition They Treat</h4>'
+				}
+			},{
+				name: 'procedure',
+				source: procedure_engine,
+				limit:5,
+				templates: {
+					header: '<h4 class="league-name">Procedures They Perform</h4>'
+				}
 			});
 
 		});

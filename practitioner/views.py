@@ -16,6 +16,7 @@ from django.utils.safestring import mark_safe
 from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
 from rest_auth.registration.views import SocialLogin
 import json
+from haystack.query import SearchQuerySet
 
 class FacebookLogin(SocialLogin):
 	adapter_class = FacebookOAuth2Adapter
@@ -37,8 +38,19 @@ def index(request):
 def practitioner_suggestions(request):
 	if request.method == "GET":
 		query = request.GET.get('q', '')
+		type_query = request.GET.get('type', 'practitioner')
 		if request.is_ajax():
-			results = Practitioner.prac_objects.practitioner_suggest(query)
+			#results = Practitioner.prac_objects.practitioner_suggest(query)
+			if type_query == "specialization":
+				sqs = SearchQuerySet().filter(name=query).models(Specialization)
+			elif type_query == "condition":
+				sqs = SearchQuerySet().filter(name=query).models(Condition)
+			elif type_query == "procedure":
+				sqs = SearchQuerySet().filter(name=query).models(Procedure)
+				print sqs
+			else:
+				sqs = SearchQuerySet().filter(name=query).models(Practitioner)
+			results = list(set([result.name for result in sqs]))
 			return HttpResponse(json.dumps(list(results)),content_type="application/json")
 		else:
 			data = {}
