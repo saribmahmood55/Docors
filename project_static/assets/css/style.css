@@ -34,6 +34,8 @@ border-left-color: #111111;
 	background-repeat: no-repeat;
 	background-position: center center;
 	position: relative;
+  background-size: cover;
+  min-height: 585px;
 }
 
 .main-section .color-correction {

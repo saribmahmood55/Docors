@@ -47,10 +47,13 @@ def practitioner_suggestions(request):
 				sqs = SearchQuerySet().filter(name=query).models(Condition)
 			elif type_query == "procedure":
 				sqs = SearchQuerySet().filter(name=query).models(Procedure)
-				print sqs
 			else:
 				sqs = SearchQuerySet().filter(name=query).models(Practitioner)
 			results = list(set([result.name for result in sqs]))
+			res = []
+			for x in results:
+				res.append({'value':x})
+			print res
 			return HttpResponse(json.dumps(list(results)),content_type="application/json")
 		else:
 			data = {}
