@@ -18,12 +18,9 @@
 		{% block content %}
 		<!-- Start Middle Content -->
 		<section class="main-section">
-			
 			<div class="color-correction"></div>
-
 			<div class="container">
-				
-				<div class="row row-space-100-0">
+				<div class="row row-space-50-0">
 					<div class="text-center">
 						<h2 style="color: #fafafa"> Find a specialist doctor in your area.</h2>
 					</div>
@@ -31,7 +28,7 @@
 						<span>Know your doctor, better.</span>
 					</div>
 				</div>
-				<div class="row row-space-100-0">
+				<div class="row row-space-75-0">
 					<div class="col-md-6 col-md-offset-3">
 						<div class="tabs">
 	                        <ul class="nav nav-tabs">
@@ -51,7 +48,7 @@
 			                                				<input type="text" class="form-control input-lg typeahead" name="q" placeholder="Doctor Name, Specialty, Condition or Procedure">
 			                                			</div>
 			                                		</div>
-			                                		<div class="col-md-2 margin20" style="margin-top:30px;">
+			                                		<div class="col-md-2" >
 			                                			<button class="btn btn-danger btn-lg pull-right"><i class="fa fa-search"></i></button>
 			                                		</div>
 			                                	</div>
@@ -95,9 +92,7 @@
 	                    </div>
 					</div>
 				</div>
-
 			</div>
-
 		</section>
 		<!-- End Middle Content -->
 		<!--<section class="intro-text-1">
@@ -390,14 +385,14 @@
 				source: condition_engine,
 				limit:5,
 				templates: {
-					header: '<h4 class="league-name">Condition They Treat</h4>'
+					header: '<h4 class="league-name">Condition they treat</h4>'
 				}
 			},{
 				name: 'procedure',
 				source: procedure_engine,
 				limit:5,
 				templates: {
-					header: '<h4 class="league-name">Procedures They Perform</h4>'
+					header: '<h4 class="league-name">Procedures they perform</h4>'
 				}
 			});
 

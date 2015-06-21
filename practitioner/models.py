@@ -1,3 +1,4 @@
+# flake8: noqa
 from django.db import models
 from autoslug import AutoSlugField
 from sorl.thumbnail import ImageField
@@ -116,8 +117,8 @@ class Practitioner(models.Model):
     message = models.TextField(max_length=140, null=True, blank=True)
     degrees = models.ManyToManyField(Degree)
     specialities = models.ManyToManyField(Specialization)
-    conditions = models.ManyToManyField(Condition)
-    procedures = models.ManyToManyField(Procedure)
+    conditions = models.ManyToManyField(Condition, null=True, blank=True)
+    procedures = models.ManyToManyField(Procedure, null=True, blank=True)
 
     slug = AutoSlugField(populate_from='name', unique = True)
     status = models.BooleanField(default=False)
