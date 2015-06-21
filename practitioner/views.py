@@ -67,6 +67,13 @@ def practitioner_suggestions(request):
 			
 			return render_to_response('practitioner/results.html', {'data': data}, context_instance=RequestContext(request))
 
+def get_condition_procedure(request):
+	if request.is_ajax():
+		data = {}
+		value = request.GET.get('value','')
+		data['conditions'] = ["<option value='"+str(c.id)+"'>"+str(c)+"</option>" for c in Condition.objects.filter(specialization=Specialization.objects.get(pk=value))]
+		data['procedures'] = ["<option value='"+str(p.id)+"'>"+str(p)+"</option>" for p in Procedure.objects.filter(specialization=Specialization.objects.get(pk=value))]
+		return HttpResponse(json.dumps(data),content_type="application/json")
 
 #advance search
 def adv(request):

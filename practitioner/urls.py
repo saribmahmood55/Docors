@@ -7,7 +7,8 @@ urlpatterns = [
 	url(r'^adv', views.adv, name='adv'),
 	url(r'^registration', views.registration, name='registration'),
 	url(r'^rest-auth/facebook/$', views.FacebookLogin.as_view(), name='fb_login'),
-	url(r'^practitioner/suggestions/$', views.practitioner_suggestions, name='doctor_suggestions')
+	url(r'^practitioner/suggestions/$', views.practitioner_suggestions, name='doctor_suggestions'),
+	url(r'^practitioner/getCondProc/$', views.get_condition_procedure, name='get_condition_procedure')
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
