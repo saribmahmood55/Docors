@@ -1,3 +1,4 @@
+# flake8: noqa
 from django.contrib import admin
 from practitioner.models import *
 from practice.models import *
@@ -21,7 +22,7 @@ class PractitionerAdmin(admin.ModelAdmin):
         ('Conditions', {'fields': ['conditions']}),
         ('Procedures', {'fields': ['procedures']}),
 	]
-	list_display = ['name','gender','Degrees_list','year_of_birth','experience','Specialist_in','Condtions_Treated','Procedures_Performed','pk']
+	list_display = ['name','slug','gender','Degrees_list','experience','Specialist_in','Condtions_Treated','Procedures_Performed','pk']
 	search_fields = ['name']
 	inlines = [PracticeInline]
 	
