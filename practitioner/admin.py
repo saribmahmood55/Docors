@@ -8,7 +8,6 @@ class PracticeInline(admin.TabularInline):
 
 class PractitionerAdmin(admin.ModelAdmin):
 	fieldsets = [
-		('Title', {'fields': ['title']}),
 		('Name', {'fields': ['name']}),
 		('status', {'fields': ['status']}),
         ('Achievements', {'fields': ['achievements']}),
@@ -22,7 +21,7 @@ class PractitionerAdmin(admin.ModelAdmin):
         ('Conditions', {'fields': ['conditions']}),
         ('Procedures', {'fields': ['procedures']}),
 	]
-	list_display = ['name','title','gender','Degrees_list','year_of_birth','experience','Specialist_in','Condtions_Treated','Procedures_Performed','pk']
+	list_display = ['name','gender','Degrees_list','year_of_birth','experience','Specialist_in','Condtions_Treated','Procedures_Performed','pk']
 	search_fields = ['name']
 	inlines = [PracticeInline]
 	

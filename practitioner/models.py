@@ -103,10 +103,8 @@ class PractitionerManager(models.Manager):
 
 class Practitioner(models.Model):
     PHYSICIAN_CHOICES = ( (1, 'Trainee'), (2, 'Specialist'),)
-    TITLE = ( (1, 'Dr. '), (2, 'Prof. '), (3, 'Prof. Dr. '),)
     GENDER = ( ('M', 'Male'),('F', 'Female'),)
 
-    title = models.PositiveSmallIntegerField(choices = TITLE, null=True, blank=True)
     name = models.CharField(max_length=100)
     gender = models.CharField(max_length=1, choices=GENDER, default='M')
     year_of_birth = models.PositiveIntegerField(default=0)

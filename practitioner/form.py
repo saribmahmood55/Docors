@@ -13,7 +13,6 @@ class PractitionerForm(forms.Form):
 	required_css_class = 'required'
 
 	PHYSICIAN_CHOICES = ( ('1', 'Trainee'), ('2', 'Specialist'),)
-	TITLE = ( ('1', 'Dr. '), ('2', 'Prof. '), ('3', 'Prof. Dr. '),)
 	GENDER = ( ('M', 'Male'),('F', 'Female'),)
 	YEARS = [(year, year) for year in range(1935, 1991)]
 	Practice_CHOICES = ((u'P', u'Clinic/Residence'),(u'H', u'Hospital'),(u'M', u'Medical Complex'),)
@@ -22,7 +21,6 @@ class PractitionerForm(forms.Form):
 	TIME = (('0', '07:00am'), ('1', '07:30am'),('2', '08:00am'),('3', '08:30am'),('4', '09:00am'),('5', '09:30am'),('6', '10:00am'),('7', '10:30am'),('8', '11:00am'),('9', '11:30am'),('10', '12:00pm'),('11', '12:30pm'),('12', '01:00pm'),('13', '01:30pm'),('14', '02:00pm'),('15', '02:30am'),('16', '03:00pm'),('17', '03:30pm'),('18', '04:00pm'),('19', '04:30pm'),('20', '05:00pm'),('21', '05:30pm'),('22', '06:00pm'),('23', '06:30pm'),('24', '07:00pm'),('25', '07:30pm'),('26', '08:00pm'),('27', '08:30pm'),('28', '09:00pm'),('29', '09:30pm'),('30', '10:00pm'),('31', '10:30pm'),('32', '11:00pm'),('33', '11:30pm'),('34', '12:00am'), ('35', '12:30am'), ('36', "01:00am"), ('37', '02:00am'), ('38', "02:30am"),)
 	
 	#practitioner
-	practitioner_title = forms.ChoiceField(choices= TITLE, label="Title", initial='1', required=True)
 	practitioner_name = forms.CharField(max_length=100, required=True, label="Name", widget=forms.TextInput(attrs={'placeholder': 'Full Name'}))
 	practitioner_gender = forms.ChoiceField(choices=GENDER, label="Gender", initial='M', required=True)
 	year_of_birth = forms.ChoiceField(choices=YEARS, label="Year of Birth", initial="1900", required=True)

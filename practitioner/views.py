@@ -93,7 +93,6 @@ def registration(request):
 		if form.is_valid():
 			
 			#practitioner
-			p_title = form.cleaned_data['practitioner_title']
 			practitioner_name = form.cleaned_data['practitioner_name']
 			email = form.cleaned_data['email']
 			p_type = form.cleaned_data['physician_type']
@@ -105,7 +104,7 @@ def registration(request):
 			spec = form.cleaned_data['specialities']
 			
 			# Create practitioner
-			practitioner = Practitioner(title=p_title, name=practitioner_name, gender=p_gender, year_of_birth=birth_year, email=email, physician_type=p_type, achievements=achievements, experience=experience, message=message, status=False)
+			practitioner = Practitioner(name=practitioner_name, gender=p_gender, year_of_birth=birth_year, email=email, physician_type=p_type, achievements=achievements, experience=experience, message=message, status=False)
 			practitioner.save()
 
 			#Add Degress to practitioner
