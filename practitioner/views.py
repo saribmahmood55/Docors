@@ -152,7 +152,7 @@ def registration(request):
 			contact_number = form.cleaned_data['contact_number']
 			
 			#create PracticeLocation
-			practice_location = PracticeLocation(name=practice_name, contact_number=contact_number, clinic_address=address, area=area)
+			practice_location = PracticeLocation(name=practice_name, contact_number=contact_number, clinic_address=address, area=area, lon=lon, lat=lat)
 			practice_location.save()
 			
 			#Practice

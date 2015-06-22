@@ -154,8 +154,8 @@ class Practice(models.Model):
         verbose_name_plural = "Practice"
 
     def save(self, **kwargs):
-        #point = "POINT(%s %s)" % (self.practice_location.lon, self.practice_location.lat)
-    	#self.location = geos.fromstr(point)
+        point = "POINT(%s %s)" % (self.practice_location.lon, self.practice_location.lat)
+    	self.location = geos.fromstr(point)
         super(Practice, self).save()
 
     def get_absolute_url(self):
