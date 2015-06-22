@@ -35,6 +35,9 @@ class ConditionManager(models.Manager):
     def get_specialization(self, condition):
         return super(ConditionManager, self).get(name=condition)
 
+    def get_condition(self, pk):
+        return super(ConditionManager, self).get(pk=pk)
+
 class Condition(models.Model):
     name = models.CharField(max_length=100)
     specialization = models.ForeignKey(Specialization)
@@ -58,6 +61,9 @@ class ProcedureManager(models.Manager):
 
     def get_specialization(self, procedure):
         return super(ProcedureManager, self).get(name=procedure)
+
+    def get_procedure(self, pk):
+        return super(ProcedureManager, self).get(pk=pk)
 
 class Procedure(models.Model):
     name = models.CharField(max_length=100)

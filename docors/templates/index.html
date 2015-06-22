@@ -261,19 +261,6 @@
 		local_areas.sort();
 		$(document).ready(function(){
 
-			$('#profile-completeness-container').circleProgress({
-			    startAngle: -90,
-			    value: {{data.completeness}}/100,
-			    size: 20,
-			    lineCap: 'round',
-			    thickness:5,
-			    {% if data.completeness == 100 %}
-			    fill: { color: 'green' }
-			    {% else %}
-			    fill: { color: '#ffa500' }
-			    {% endif %}
-			});
-
 			/********* Twitter typeahead with bloodhound *******/
 
 			var substringMatcher = function(strs) {

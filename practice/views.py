@@ -73,6 +73,14 @@ def speciality_suggestions(request):
 	if request.method == "GET":
 		return HttpResponseRedirect(reverse('recentSearch', kwargs={'speciality': Specialization.spec_objects.spec_human_name(str(request.GET.get('spec', ''))).slug, 'city': City.city_objects.city_name(str(request.GET.get('city', '') if request.GET.get('city','') != '' else 'Lahore')).slug}))
 
+def get_areas(request):
+	data = {}
+	if request.is_ajax():
+		if request.method == "GET":
+			city = request.GET.get('city','');
+			data['areas'] = ["<option value='"+str(a.id)+"'>"+str(a)+"</option>" for a in Area.objects.filter(city=City.objects.get(pk=city))]
+			return HttpResponse(json.dumps(data),content_type="application/json")
+
 
 #recent Searches
 def recentSearch(request, speciality, city):

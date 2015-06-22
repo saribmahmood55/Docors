@@ -483,3 +483,15 @@ form.home-search.halfwidth input[name='locality'] {
 }
 
 /********** Typeahead multiple dataset ********/
+
+/********** Google Recaptch style ************/
+
+.recaptcha-parent .g-recaptcha{
+  float: right;
+}
+
+footer .invalid{
+  float: right;
+}
+
+/********** Google Recaptch style ************/

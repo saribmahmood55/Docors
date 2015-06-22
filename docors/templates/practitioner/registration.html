@@ -85,12 +85,14 @@
 	                        <section class="col col-2">
 	                        	<label>Conditions Treated</label>
 	                            <label class="select">
+	                                <select id="id_conditions_custom" multiple="multiple" name="conditions_custom"></select>
 	                                {{form.conditions}}
 	                            </label>
 	                        </section>
 	                        <section class="col col-2">
 	                        	<label>Procedures Peformed</label>
 	                            <label class="select">
+	                                <select id="id_procedures_custom" multiple="multiple" name="procedures_custom"></select>
 	                                {{form.procedures}}
 	                            </label>
 	                        </section>
@@ -122,34 +124,51 @@
 
                     <fieldset>
                         <div class="row">
-                            <section class="col col-6">
+                            <section class="col col-4">
                             	<label>Type</label>
                                 <label class="select">
                                     {{form.practice_type}}
                                     <i></i>
                                 </label>
                             </section>
-                            <section class="col col-6">
+                            <section class="col col-4">
                             	<label>Name</label>
                                 <label class="input">
                                     {{form.practice_name}}
                                 </label>
                             </section>
-                        </div>
-                        <div class="row">
-                        	<section class="col col-6">
+                            <section class="col col-4">
                         		<label>Address</label>
                                 <label class="textarea">
                                     {{form.address}}
                                 </label>
                             </section>
-                            <section class="col col-6">
+                        </div>
+                        <div class="row">
+                            <section class="col col-4">
                             	<label>City</label>
                                 <label class="select">
                                     {{form.city}}
                                     <i></i>
                                 </label>
                             </section>
+                            <section class="col col-4">
+                            	<label>Area</label>
+                                <label class="select">
+                                	<select id="id_area_custom" name="area_custom">
+                                		<option value='' selected disabled>Please Select an Area</option>
+                                	</select>
+                                    {{form.area}}
+                                    <i></i>
+                                </label>
+                            </section>
+                            <section class="col col-4">
+                            	<label style="height:20px;"></label>
+                            	<label class="select">
+	                            	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mapModal">Show on Map</button>
+	                            </label>
+                    			{{form.lat}}{{form.lon}}
+                    		</section>
                         </div>
                         <div class="row">
 	                        <section class="col col-4">
@@ -185,6 +204,7 @@
 	                    		<label>Day From</label>
 	                            <label class="select">
 	                                {{form.day_from}}
+	                                <i></i>
 	                            </label>
 	                        </section>
 	                        <section class="col col-3">
@@ -214,9 +234,15 @@
 
                     <fieldset>
                     	<footer>
-                    		<div class="g-recaptcha" style="float:right" data-sitekey="6LcAdv4SAAAAAI2hi_VgcifchYmJFUNmxdfajJJO"></div>
+                    		<div class="row recaptcha-parent">
+
+                    			<input type="hidden" class="hiddenRecaptcha required" name="hiddenRecaptcha" id="hiddenRecaptcha">
+                    			<div class="g-recaptcha" data-sitekey="6LcAdv4SAAAAAI2hi_VgcifchYmJFUNmxdfajJJO"></div>
+                    		</div>
                     		<div class="clear"></div>
-                        	<button type="submit" class="button">Create account</button>
+                    		<div class="row">
+                        		<button type="submit" class="button">Create account</button>
+                        	</div>
                     	</footer>
                     </fieldset>
                 </form>			
@@ -224,6 +250,19 @@
 
         </div>
     </div>
+</div>
+<div class="modal fade" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="mapModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Drag the marker to appropriate location and close map.</h4>
+			</div>
+			<div class="modal-body">
+				<div style="width: 560px; height: 500px;" id="myMap"></div>
+			</div>
+		</div>
+	</div>
 </div>
 {% endblock %}
 
@@ -239,14 +278,64 @@
 <script type="text/javascript" src="{% static 'assets/js/bootstrap-tagsinput.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'assets/js/bootstrap3-typeahead.js' %}"></script>
 <script type="text/javascript" src="{% static 'assets/js/bootstrap-multiselect.js' %}"></script>
-<script src='https://www.google.com/recaptcha/api.js'></script>
+<script src="https://www.google.com/recaptcha/api.js"></script>
 <script type="text/javascript" src="{% static 'assets/js/jquery.form.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'assets/js/jquery.validate.min.js' %}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 {% endblock %}
 
 
 {% block customScript %}
 <script type="text/javascript">
+
+	var map;
+	var marker;
+	var myLatlng = new google.maps.LatLng(31.519191, 74.326237);
+	var geocoder = new google.maps.Geocoder();
+	var infowindow = new google.maps.InfoWindow();
+
+	function initialize() {
+	    var mapOptions = {
+	        zoom: 12,
+	        center: myLatlng,
+	        mapTypeId: google.maps.MapTypeId.ROADMAP
+	    };
+	    map = new google.maps.Map(document.getElementById("myMap"), mapOptions);
+	    marker = new google.maps.Marker({
+	        map: map,
+	        position: myLatlng,
+	        draggable: true
+	    });
+
+	    geocoder.geocode({
+	        'latLng': myLatlng
+	    }, function(results, status) {
+	        if (status == google.maps.GeocoderStatus.OK) {
+	            if (results[0]) {
+	                $('#id_lon').val(marker.getPosition().lat());
+	                $('#id_lat').val(marker.getPosition().lng());
+	                infowindow.setContent(results[0].formatted_address);
+	                infowindow.open(map, marker);
+	            }
+	        }
+	    });
+	    google.maps.event.addListener(marker, 'dragend', function() {
+	        geocoder.geocode({
+	            'latLng': marker.getPosition()
+	        }, function(results, status) {
+	            if (status == google.maps.GeocoderStatus.OK) {
+	                if (results[0]) {
+	                    $('#id_lon').val(marker.getPosition().lat());
+	                    $('#id_lat').val(marker.getPosition().lng());
+	                    //console.log($('#id_lon').val()+" , "+$('#id_lat').val());
+	                    infowindow.setContent(results[0].formatted_address);
+	                    infowindow.open(map, marker);
+	                }
+	            }
+	        });
+	    });
+	}
+	google.maps.event.addDomListener(window, 'load', initialize);
 	
 	var data_source = Array();
 	{% for p in degree_list %}
@@ -260,7 +349,21 @@
 
 		autosize($('textarea'));
 
-		$('#id_conditions,#id_procedures').multiselect({numberDisplayed: 0});
+		$('#id_conditions_custom,#id_procedures_custom').html("");
+
+		{% for c in conditions %}
+		$("#id_conditions_custom").append("<option value='{{c.id}}'>{{c}}</option>");
+		{% endfor %}
+
+		{% for p in procedures %}
+		$("#id_procedures_custom").append("<option value='{{p.id}}'>{{p}}</option>");
+		{% endfor %}
+
+		{% for a in areas %}
+		$("#id_area_custom").append("<option value='{{a.id}}'>{{a}}</option>");
+		{% endfor %}
+
+		$('#id_conditions_custom,#id_procedures_custom').multiselect({numberDisplayed: 0});
 
 		$('#id_credentials').tagsinput({
 			typeahead: {
@@ -269,20 +372,38 @@
 			freeInput: false
 		});
 
+		$("#id_city").on('change',function(){
+			$.ajax({
+				type: "GET",
+				url: "{% url 'practice_areas' %}",
+				data: {'city':$("#id_city").val()},
+				success: function(data){
+					$('#id_area_custom').html("<option value='' selected disabled>Please Select an Area</option>");
+					for(i=0;i<data['areas'].length;i++){
+						$("#id_area_custom").append(data['areas'][i]);
+					}
+				}
+			});
+		});
+
+		$("#id_area_custom").on("change",function(){
+			$("#id_area").val($("#id_area_custom").val());
+		});
+
 		$("#id_specialities").on('change',function(){
 			$.ajax({
 				type : 'GET',
 				url : "{% url 'get_condition_procedure' %}",
 				data: {'value':$("#id_specialities").val()},
 				success : function (data) {
-					$('#id_procedures,#id_conditions').html("");
+					$('#id_procedures_custom,#id_conditions_custom').html("");
 					for(i=data['conditions'].length-1;i>=0;i--){
-						$("#id_conditions").append(data['conditions'][i]);
+						$("#id_conditions_custom").append(data['conditions'][i]);
 					}
 					for(i=data['procedures'].length-1;i>=0;i--){
-						$("#id_procedures").append(data['procedures'][i]);
+						$("#id_procedures_custom").append(data['procedures'][i]);
 					}
-					$('#id_procedures,#id_conditions').multiselect('rebuild');
+					$('#id_procedures_custom,#id_conditions_custom').multiselect('rebuild');
 				}
 			});
 		});
@@ -326,6 +447,7 @@
 
 		$("#sky-form-doctors").validate({
             // Rules for form validation
+            ignore: ".ignore",
             rules:
                     {
                         practitioner_name:{required: true},
@@ -335,48 +457,70 @@
                         physician_type:{required: true},
                         credentials:{required: true},
                         specialities:{required: true},
-                        conditions:{required: true},
-                        procedures:{required: true},
+                        conditions:{
+                        	required: function(){
+                        		if($("#id_conditions_custom").val() != null){
+                        			$("#id_conditions").val($("#id_conditions_custom").val().toString());
+                        			return false;
+                        		}else{
+                        			return true;
+                        		}
+                        	}
+                    	},
+                        procedures:{
+                        	required: function(){
+                        		if($("#id_procedures_custom").val() != null){
+                        			$("#id_procedures").val($("#id_procedures_custom").val().toString());
+                        			return false;
+                        		}else{
+                        			return true;
+                        		}
+                        	}
+                        },
                         experience:{required: true},
                         practice_type:{required: true},
                         practice_name:{required: true},
                         address:{required: true},
+                        area:{
+                        	required: function(){
+                        		if($("#id_area_custom").val()){
+                        			$("#id_area").val($("#id_area_custom").val());
+                        			return false;
+                        		}else{
+                        			return true;
+                        		}
+                        	}
+                        },
                         contact_number:{required: true},
                         appointment:{required: true},
                         day_from:{required: true},
                         day_to:{required: true},
                         start_time:{required: true},
-                        end_time:{required: true}
+                        end_time:{required: true},
+                        hiddenRecaptcha: {
+						    required: function() {
+						        if(grecaptcha.getResponse() == '') {
+						            return true;
+						        } else {
+						            return false;
+						        }
+						    }
+						}
                     },
             // Messages for form validation
-            messages:
-                    {
-                        login:
-                                {
-                                    required: 'Please enter your login'
-                                },
-                        email:
-                                {
-                                    required: 'Please enter your email address',
-                                    email: 'Please enter a VALID email address'
-                                },
-                        password1:
-                                {
-                                    required: 'Please enter your password'
-                                },
-                        password2:
-                                {
-                                    required: 'Please enter your password one more time',
-                                    equalTo: 'Please enter the same password as above'
-                                },
-                        firstname:
-                                {
-                                    required: 'Please select your first name'
-                                },
-                        lastname:
-                                {
-                                    required: 'Please select your last name'
-                                }
+            messages:{
+                        practitioner_name:{required: 'Please enter your Full Name'},
+                        email:{required: 'Please enter your email address',email: 'Please enter a VALID email address'},
+                        credentials:{required: 'Please mention your credentials'},
+                        conditions:{required: 'Select atleast one'},
+                        procedures:{required: 'Select atleast one'},
+                        practice_name:{required: 'Please enter location name'},
+                        address:{required: 'Please enter full address of location'},
+                        area:{required: 'Please select an area'},
+                        contact_number:{required: 'Please enter a valid contact number'},
+                        start_time:{required: 'Please mention the opening time'},
+                        end_time:{required: 'Please mention the closing time'},
+                        hiddenRecaptcha:{required: 'Recaptcha verification required'}
                     },
             // Do not change code below
             errorPlacement: function(error, element)

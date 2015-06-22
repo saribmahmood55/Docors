@@ -121,35 +121,50 @@ def registration(request):
 				degree = Degree.degree_objects.get_degree(cred)
 				practitioner.degrees.add(degree)
 
+			#Add Conditions to practitioner
+			conditions = form.cleaned_data['conditions']
+			cond_dict = conditions.split(",")
+			print cond_dict
+			for cond in cond_dict:
+				condition = Condition.condition_objects.get_condition(cond)
+				practitioner.conditions.add(condition)
+
+			#Add Procedures to practitioner
+			procedures = form.cleaned_data['procedures']
+			proc_dict = procedures.split(",")
+			print proc_dict
+			for proc in proc_dict:
+				procedure = Procedure.procedure_objects.get_procedure(proc)
+				practitioner.procedures.add(procedure)
+
 			#Add Speciality to practitioner
 			speciality = Specialization.objects.get(pk=spec)
-			#print speciality
 			practitioner.specialities.add(speciality)
 
 			#PracticeLocation
 			practice_name = form.cleaned_data['practice_name']
 			address = form.cleaned_data['address']
 			photo = ''#form.cleaned_data['practice_photo']
-			city_id = form.cleaned_data['city']
-			city = City.objects.get(pk=city_id)
-			lon = ''#form.cleaned_data['lon']
-			lat = ''#form.cleaned_data['lat']
+			area_id = form.cleaned_data['area']
+			area = Area.objects.get(pk=area_id)
+			lon = form.cleaned_data['lon']
+			lat = form.cleaned_data['lat']
 			contact_number = form.cleaned_data['contact_number']
 			
 			#create PracticeLocation
-			practice_location = PracticeLocation(name=practice_name, contact_number=contact_number, clinic_address=address, city=city)
+			practice_location = PracticeLocation(name=practice_name, contact_number=contact_number, clinic_address=address, area=area)
 			practice_location.save()
 			
 			#Practice
 			practice_type = form.cleaned_data['practice_type']
 			checkup_fee_id = form.cleaned_data['checkup_fee']
 			checkup_fee = CheckupFee.objects.get(pk=checkup_fee_id)
-			services = ''#form.cleaned_data['services']
 			appointment = form.cleaned_data['appointment']
 			
 			#Create Practice
-			practice = Practice(practice_type=practice_type, practice_location=practice_location, practitioner=practitioner, fee=checkup_fee, services=services, appointments_only=appointment)
+			practice = Practice(practice_type=practice_type, practice_location=practice_location, practitioner=practitioner, fee=checkup_fee, appointments_only=appointment)
 			practice.save()
+
 			#PracticeTiming
 			day_from = int(form.cleaned_data['day_from'])
 			day_to = int(form.cleaned_data['day_to'])
@@ -157,11 +172,11 @@ def registration(request):
 			end_time = form.cleaned_data['end_time']
 			#Create PracticeTiming
 			for day in range(day_from-1, day_to):
-				pt = PracticeTiming(practitioner=practitioner, practice=practice, day=day+1, start_time=start_time, end_time=end_time)
+				pt = PracticeTiming(practice=practice, day=day+1, start_time=start_time, end_time=end_time)
 				pt.save()
 			#send email
-			#email_details = {'name': practitioner_name, 'email': email, 'slug': practitioner.slug}
-			#confirmation_mail.delay(email_details)
+			email_details = {'name': practitioner_name, 'email': email, 'slug': practitioner.slug}
+			confirmation_mail.delay(email_details)
 			return render_to_response('practitioner/success.html',{'email': email}, context_instance=RequestContext(request))
 		else:
 			print 're-captcha errors', form.errors
@@ -169,4 +184,7 @@ def registration(request):
 		form = PractitionerForm()
 	degrees = Degree.objects.all()
 	degree_name = [deg.name for deg in degrees]
-	return render_to_response('practitioner/registration.html', {'form': form,'degree_list':degree_name}, context_instance=RequestContext(request))
+	procedures_list = Procedure.objects.filter(specialization=Specialization.objects.order_by('name')[0])
+	conditions_list = Condition.objects.filter(specialization=Specialization.objects.order_by('name')[0])
+	areas_list = Area.objects.filter(city=City.objects.order_by('pk')[0]).order_by('name')
+	return render_to_response('practitioner/registration.html', {'form': form, 'conditions':conditions_list, 'procedures':procedures_list, 'areas':areas_list, 'degree_list':degree_name}, context_instance=RequestContext(request))

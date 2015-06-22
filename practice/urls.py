@@ -8,7 +8,8 @@ urlpatterns = [
     url(r'^physicans', views.practitoners, name='practitoners'),
     url(r'^practice/(?P<practice_slug>[a-z-]+)/(?P<practitioner_slug>[a-z-]+)$', views.practice, name='practice'),
     url(r'^practice_hospitals/$', views.practice_hospitals, name='practice_hospitals'),
-    url(r'^speciality/suggestions/$', views.speciality_suggestions, name='speciality_suggestions')
+    url(r'^speciality/suggestions/$', views.speciality_suggestions, name='speciality_suggestions'),
+    url(r'^practice/areas/$', views.get_areas, name='practice_areas')
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
