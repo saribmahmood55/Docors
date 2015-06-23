@@ -95,6 +95,7 @@ def login(request):
 
 
 def registration(request):
+	error_occured = False
 	if request.method == 'POST':
 		form = PractitionerForm(request.POST, request.FILES)
 		if form.is_valid():
@@ -179,12 +180,10 @@ def registration(request):
 			confirmation_mail.delay(email_details)
 			return render_to_response('practitioner/success.html',{'email': email}, context_instance=RequestContext(request))
 		else:
-			print 're-captcha errors', form.errors
+			form = PractitionerForm()
+			error_occured = True
 	else:
 		form = PractitionerForm()
 	degrees = Degree.objects.all()
 	degree_name = [deg.name for deg in degrees]
-	procedures_list = Procedure.objects.filter(specialization=Specialization.objects.order_by('name')[0])
-	conditions_list = Condition.objects.filter(specialization=Specialization.objects.order_by('name')[0])
-	areas_list = Area.objects.filter(city=City.objects.order_by('pk')[0]).order_by('name')
-	return render_to_response('practitioner/registration.html', {'form': form, 'conditions':conditions_list, 'procedures':procedures_list, 'areas':areas_list, 'degree_list':degree_name}, context_instance=RequestContext(request))
+	return render_to_response('practitioner/registration.html', {'error_occured':error_occured, 'form': form, 'degree_list':degree_name}, context_instance=RequestContext(request))

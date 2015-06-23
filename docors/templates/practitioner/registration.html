@@ -19,10 +19,18 @@
 <div class="divide60"></div>
 <div class="container">
 	<div class="row">
+		<div class="col-sm-12">
+			{% if error_occured %}
+			<div class="alert alert-danger text-center">
+                An Error Occured during account creation process. Please try again.
+            </div>
+            {% endif %}
+        </div>
         <div class="col-sm-12 sky-form-login-register v2">
             <div class="margin40">
 
                 <form action="" method="POST" role="form" id="sky-form-doctors" class="sky-form">{% csrf_token %}
+
                     <h3 class="text-center">Create new account with DoctorsInfo</h3>
 
                     <fieldset>
@@ -350,20 +358,28 @@
 		autosize($('textarea'));
 
 		$('#id_conditions_custom,#id_procedures_custom').html("");
-
-		{% for c in conditions %}
-		$("#id_conditions_custom").append("<option value='{{c.id}}'>{{c}}</option>");
-		{% endfor %}
-
-		{% for p in procedures %}
-		$("#id_procedures_custom").append("<option value='{{p.id}}'>{{p}}</option>");
-		{% endfor %}
-
-		{% for a in areas %}
-		$("#id_area_custom").append("<option value='{{a.id}}'>{{a}}</option>");
-		{% endfor %}
+		$('#id_procedures,#id_conditions').val("");
+		$("#id_area").val("");
 
 		$('#id_conditions_custom,#id_procedures_custom').multiselect({numberDisplayed: 0});
+
+		$.ajax({
+			type : "GET",
+			url : "{% url 'initial_reg_values' %}",
+			data : {"speciality":$("#id_specialities").val(),"city":$("#id_city").val()},
+			success : function(data){
+				for(i = 0;i<data['conditions'].length;i++){
+					$("#id_conditions_custom").append(data['conditions'][i]);
+				}
+				for(i = 0;i<data['procedures'].length;i++){
+					$("#id_procedures_custom").append(data['procedures'][i]);
+				}
+				for(i = 0;i<data['areas'].length;i++){
+					$("#id_area_custom").append(data['areas'][i]);
+				}
+				$('#id_procedures_custom,#id_conditions_custom').multiselect('rebuild');
+			}
+		});
 
 		$('#id_credentials').tagsinput({
 			typeahead: {
@@ -397,6 +413,7 @@
 				data: {'value':$("#id_specialities").val()},
 				success : function (data) {
 					$('#id_procedures_custom,#id_conditions_custom').html("");
+					$('#id_procedures,#id_conditions').val("");
 					for(i=data['conditions'].length-1;i>=0;i--){
 						$("#id_conditions_custom").append(data['conditions'][i]);
 					}

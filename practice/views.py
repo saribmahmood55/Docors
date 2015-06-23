@@ -7,7 +7,7 @@ from django.shortcuts import render
 from patients.models import Patient
 from reviews.models import Review
 from utility import *
-from practitioner.models import Practitioner
+from practitioner.models import Practitioner, Condition, Procedure
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response
@@ -78,6 +78,17 @@ def get_areas(request):
 	if request.is_ajax():
 		if request.method == "GET":
 			city = request.GET.get('city','');
+			data['areas'] = ["<option value='"+str(a.id)+"'>"+str(a)+"</option>" for a in Area.objects.filter(city=City.objects.get(pk=city))]
+			return HttpResponse(json.dumps(data),content_type="application/json")
+
+def get_initial_reg(request):
+	data = {}
+	if request.is_ajax():
+		if request.method == "GET":
+			speciality = request.GET.get('speciality','')
+			city = request.GET.get('city','')
+			data['conditions'] = ["<option value='"+str(c.id)+"'>"+str(c)+"</option>" for c in Condition.objects.filter(specialization=Specialization.objects.get(pk=speciality))]
+			data['procedures'] = ["<option value='"+str(p.id)+"'>"+str(p)+"</option>" for p in Procedure.objects.filter(specialization=Specialization.objects.get(pk=speciality))]
 			data['areas'] = ["<option value='"+str(a.id)+"'>"+str(a)+"</option>" for a in Area.objects.filter(city=City.objects.get(pk=city))]
 			return HttpResponse(json.dumps(data),content_type="application/json")
 
