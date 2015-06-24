@@ -482,6 +482,10 @@ form.home-search.halfwidth input[name='locality'] {
   margin-top: 10px;
 }
 
+.suggestion-link:hover{
+  color:#000;
+}
+
 /********** Typeahead multiple dataset ********/
 
 /********** Google Recaptch style ************/

@@ -9,7 +9,7 @@ from practice.models import *
 from practitioner.form import PractitionerForm
 from practitioner.tasks import confirmation_mail
 from utility import *
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.utils.safestring import mark_safe
@@ -21,6 +21,7 @@ from haystack.query import SearchQuerySet
 class FacebookLogin(SocialLogin):
 	adapter_class = FacebookOAuth2Adapter
 
+#main page
 def index(request):
 	data = {}
 	data['specialities'] = Specialization.objects.order_by('slug')
@@ -35,6 +36,7 @@ def index(request):
 	
 	return render_to_response('index.html', {'data': data}, context_instance=RequestContext(request))
 
+#to populate the typeahead input field
 def practitioner_suggestions(request):
 	if request.method == "GET":
 		query = request.GET.get('q', '')
@@ -42,22 +44,20 @@ def practitioner_suggestions(request):
 		if request.is_ajax():
 			#results = Practitioner.prac_objects.practitioner_suggest(query)
 			if type_query == "specialization":
-				sqs = SearchQuerySet().filter(name=query).models(Specialization)
+				sqs = SearchQuerySet().autocomplete(name=query).models(Specialization)
 			elif type_query == "condition":
-				sqs = SearchQuerySet().filter(name=query).models(Condition)
+				sqs = SearchQuerySet().autocomplete(name=query).models(Condition)
 			elif type_query == "procedure":
-				sqs = SearchQuerySet().filter(name=query).models(Procedure)
+				sqs = SearchQuerySet().autocomplete(name=query).models(Procedure)
 			else:
-				sqs = SearchQuerySet().filter(name=query).models(Practitioner)
-			results = list(set([result.name for result in sqs]))
+				sqs = SearchQuerySet().autocomplete(name=query).models(Practitioner)
 			res = []
-			for x in results:
-				res.append({'value':x})
-			print res
-			return HttpResponse(json.dumps(list(results)),content_type="application/json")
+			for x in sqs:
+				res.append({'value':x.object.name, 'type':type_query, 'href':x.object.slug})
+			res = [dict(t) for t in set([tuple(d.items()) for d in res])]
+			return HttpResponse(json.dumps(res),content_type="application/json")
 		else:
 			data = {}
-
 			try:
 				data['practice'] = Practice.practice_objects.practitioner_name(query)
 				data['results_count'] = len(data['practice']['practice_list'])
@@ -67,13 +67,38 @@ def practitioner_suggestions(request):
 			
 			return render_to_response('practitioner/results.html', {'data': data}, context_instance=RequestContext(request))
 
-def get_condition_procedure(request):
-	if request.is_ajax():
-		data = {}
-		value = request.GET.get('value','')
-		data['conditions'] = ["<option value='"+str(c.id)+"'>"+str(c)+"</option>" for c in Condition.objects.filter(specialization=Specialization.objects.get(pk=value))]
-		data['procedures'] = ["<option value='"+str(p.id)+"'>"+str(p)+"</option>" for p in Procedure.objects.filter(specialization=Specialization.objects.get(pk=value))]
-		return HttpResponse(json.dumps(data),content_type="application/json")
+#individual item click in the autocomplete list
+def get_search_practitioner(request):
+	if request.method == "GET":
+		type = request.GET.get("search.type","")
+		query = request.GET.get("q","")
+		return HttpResponseRedirect(reverse('practitionerSearch', kwargs={'slug': query, 'typee': type}))
+
+#reverse match view for the "#individual item click in the autocomplete list"
+def practitionerSearch(request, slug, typee):
+	print slug
+	print typee
+	data = dict()
+	practice = []
+	data['results_header'] = "Practitioner"
+	if typee == "specialization":
+		sqs = Specialization.objects.get(slug=slug)
+		data['results_header'] = "Practitioner(s) who Specialize in " + slug
+	elif typee == "condition":
+		sqs = Condition.objects.get(slug=slug)
+		data['results_header'] = "Practitioner(s) who treat " + slug + " condition"
+	elif typee == "procedure":
+		sqs = Procedure.objects.get(slug=slug)
+		data['results_header'] = "Practitioner(s) who perform " + slug + " procedure"
+	elif typee == "practitioner":
+		sqs = Practitioner.objects.get(slug=slug)
+		data['results_header'] = "Practitioner(s) matching " + slug
+	for prac in sqs.practitioner_set.all():
+		for x in Practice.practice_objects.practitioner_name(prac.name):
+			practice.append(x)
+	data['practice'] = practice
+	data['results_count'] = len(practice)
+	return render_to_response('practitioner/results.html', {'data': data}, context_instance=RequestContext(request))
 
 #advance search
 def adv(request):
@@ -86,6 +111,7 @@ def adv(request):
 			raise Http404
 	return render_to_response('practitioner/advance.html', {'data': data}, context_instance=RequestContext(request))	
 
+#custom login function to redirect if already logged in
 def login(request):
 	if request.method == "POST":
 		request.session.set_test_cookie()
@@ -93,7 +119,7 @@ def login(request):
 		login_form = AuthenticationForm()
 	return render_to_response('practitioner/advance.html', {'login_form': login_form}, context_instance=RequestContext(request))	
 
-
+#doctors registration view
 def registration(request):
 	error_occured = False
 	if request.method == 'POST':
@@ -187,3 +213,12 @@ def registration(request):
 	degrees = Degree.objects.all()
 	degree_name = [deg.name for deg in degrees]
 	return render_to_response('practitioner/registration.html', {'error_occured':error_occured, 'form': form, 'degree_list':degree_name}, context_instance=RequestContext(request))
+
+#to populate the condition procedure field in the doctor registration page
+def get_condition_procedure(request):
+	if request.is_ajax():
+		data = {}
+		value = request.GET.get('value','')
+		data['conditions'] = ["<option value='"+str(c.id)+"'>"+str(c)+"</option>" for c in Condition.objects.filter(specialization=Specialization.objects.get(pk=value))]
+		data['procedures'] = ["<option value='"+str(p.id)+"'>"+str(p)+"</option>" for p in Procedure.objects.filter(specialization=Specialization.objects.get(pk=value))]
+		return HttpResponse(json.dumps(data),content_type="application/json")

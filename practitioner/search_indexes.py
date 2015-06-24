@@ -7,6 +7,7 @@ class PractitionerIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
     name = indexes.EdgeNgramField(model_attr='name')
     gender = indexes.EdgeNgramField(model_attr='gender')
+    slug = indexes.EdgeNgramField(model_attr='slug')
 
     def get_model(self):
         return Practitioner
@@ -17,8 +18,9 @@ class PractitionerIndex(indexes.SearchIndex, indexes.Indexable):
 
 class SpecializationIndex(indexes.SearchIndex, indexes.Indexable):
 	text = indexes.CharField(document=True, use_template=True)
-	name = indexes.EdgeNgramField(model_attr='SEO_name')
-
+	name = indexes.EdgeNgramField(model_attr='human_name')
+	SEO_name = indexes.EdgeNgramField(model_attr='SEO_name')
+	slug = indexes.EdgeNgramField(model_attr='slug')
 
 	def get_model(self):
 		return Specialization
@@ -29,6 +31,7 @@ class SpecializationIndex(indexes.SearchIndex, indexes.Indexable):
 class ProcedureIndex(indexes.SearchIndex, indexes.Indexable):
 	text = indexes.CharField(document=True, use_template=True)
 	name = indexes.EdgeNgramField(model_attr='name')
+	slug = indexes.EdgeNgramField(model_attr='slug')
 
 	def get_model(self):
 		return Procedure
@@ -39,6 +42,7 @@ class ProcedureIndex(indexes.SearchIndex, indexes.Indexable):
 class ConditionIndex(indexes.SearchIndex, indexes.Indexable):
 	text = indexes.CharField(document=True, use_template=True)
 	name = indexes.EdgeNgramField(model_attr='name')
+	slug = indexes.EdgeNgramField(model_attr='slug')
 
 	def get_model(self):
 		return Condition

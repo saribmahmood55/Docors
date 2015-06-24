@@ -355,6 +355,56 @@
 				minLength:1
 			},{
 				name: 'practitioner',
+				display: 'value',
+				source: practitioner_engine,
+				limit:5,
+				templates: {
+					header: '<h4 class="league-name">Practitioner</h4>',
+					suggestion : function(data){
+						return '<div><a href="/practitioner-search/?q='+data.href+'&search.type=practitioner&loc=lahore"><div class="suggestion-link">' + data.value + '</div></a></div>';
+					}
+				}
+			},{
+				name: 'specialization',
+				display: 'value',
+				source: specialization_engine,
+				limit:5,
+				templates: {
+					header: '<h4 class="league-name">Practitioner Specialities</h4>',
+					suggestion : function(data){
+						return '<div><a href="/practitioner-search/?q='+data.href+'&search.type=specialization&loc=lahore"><div class="suggestion-link">' + data.value + '</div></a></div>';
+					}
+				}
+			},{
+				name: 'condition',
+				display: 'value',
+				source: condition_engine,
+				limit:5,
+				templates: {
+					header: '<h4 class="league-name">Condition they treat</h4>',
+					suggestion : function(data){
+						return '<div><a href="/practitioner-search?q='+data.href+'&search.type=condition&loc=lahore"><div class="suggestion-link">' + data.value + '</div></a></div>';
+					}
+				}
+			},{
+				name: 'procedure',
+				display: 'value',
+				source: procedure_engine,
+				limit:5,
+				templates: {
+					header: '<h4 class="league-name">Procedures they perform</h4>',
+					suggestion : function(data){
+						return '<div><a href="/practitioner-search?q='+data.href+'&search.type=procedure&loc=lahore"><div class="suggestion-link">' + data.value + '</div></a></div>';
+					}
+				}
+			});
+
+			/*$("#doctor .typeahead").typeahead({
+				hint:true,
+				highlight:true,
+				minLength:1
+			},{
+				name: 'practitioner',
 				source: practitioner_engine,
 				limit:5,
 				templates: {
@@ -381,7 +431,7 @@
 				templates: {
 					header: '<h4 class="league-name">Procedures they perform</h4>'
 				}
-			});
+			});*/
 
 		});
 	</script>

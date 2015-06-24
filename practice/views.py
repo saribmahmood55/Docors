@@ -47,7 +47,7 @@ def practice_hospitals(request):
 def practitoners(request):
 	data = {}
 	if request.method == "GET":
-		city = str(request.GET.get('city', ''))
+		area = str(request.GET.get('area', ''))
 		spec = str(request.GET.get('spec', ''))
 		dist = int(request.GET.get('dist', 0))
 		lon = request.GET.get('lon', '')
@@ -56,13 +56,13 @@ def practitoners(request):
 		day = str(request.GET.get('day', ''))
 		wait = int(request.GET.get('wait', 0))
 		data['spec'] = spec
-		data['city'] = city
+		data['area'] = area
 		if lon == '' and lat == '':
-			return HttpResponseRedirect(reverse('recentSearch', kwargs={'speciality': spec, 'city': city}))
+			return HttpResponseRedirect(reverse('recentSearch', kwargs={'speciality': spec, 'area': area}))
 		#Search Request
 		try:
-			data['practice'] = Practice.practice_objects.practice_lookup(city, spec, dist, lon, lat, name, day, wait)
-			updateRecentSearches(city, spec)
+			data['practice'] = Practice.practice_objects.practice_lookup(area, spec, dist, lon, lat, name, day, wait)
+			updateRecentSearches(area, spec)
 		except Practice.DoesNotExist:
 			raise Http404
 
@@ -71,7 +71,7 @@ def practitoners(request):
 def speciality_suggestions(request):
 	data = {}
 	if request.method == "GET":
-		return HttpResponseRedirect(reverse('recentSearch', kwargs={'speciality': Specialization.spec_objects.spec_human_name(str(request.GET.get('spec', ''))).slug, 'city': City.city_objects.city_name(str(request.GET.get('city', '') if request.GET.get('city','') != '' else 'Lahore')).slug}))
+		return HttpResponseRedirect(reverse('recentSearch', kwargs={'speciality': Specialization.spec_objects.spec_human_name(str(request.GET.get('spec', ''))).slug, 'area': Area.area_objects.area_name(str(request.GET.get('area', '') if request.GET.get('area','') != '' else 'Other')).slug}))
 
 def get_areas(request):
 	data = {}
@@ -94,14 +94,14 @@ def get_initial_reg(request):
 
 
 #recent Searches
-def recentSearch(request, speciality, city):
-	data = {'city': city, 'spec': speciality}
+def recentSearch(request, speciality, area):
+	data = {'area': area, 'spec': speciality}
 	if request.method == "GET":
 		try:
-			data['practice'] = Practice.practice_objects.practice_recentlookups(city, speciality)
+			data['practice'] = Practice.practice_objects.practice_recentlookups(area, speciality)
 			data['results_count'] = len(data['practice']['practice_list'])
-			data['results_header'] = speciality + " near " + city
-			updateRecentSearches(city, speciality)
+			data['results_header'] = speciality + " near " + Area.area_objects.get_full_name(area)
+			#updateRecentSearches(city, speciality)
 		except Practice.DoesNotExist:
 			raise Http404
 	return render_to_response('practitioner/results.html', {'data': data}, context_instance=RequestContext(request))
@@ -111,7 +111,7 @@ def practitioner(request, slug):
 	data = {}
 	if request.method == "GET":
 		if request.user.is_authenticated():
-			data['patient'] = Patient.patient_objects.patient_details(data['user'])
+			data['patient'] = Patient.patient_objects.patient_details(request.user)
 			favourite_practitioner = data['patient'].favt_practitioner.all().filter(slug=slug)
 			if favourite_practitioner.exists():
 				data['favourite'] = True

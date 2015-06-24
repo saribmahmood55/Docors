@@ -31,8 +31,18 @@ class AreaManager(models.Manager):
     def get_slug(self, key, value):
         return super(AreaManager, self).get(key=value)
 
+    def get_full_name(self, slug):
+        area = super(AreaManager, self).get(slug=slug)
+        if area.name == "Other":
+            return area.name + " areas of " + area.city.name
+        else:
+            return area.name + "," + area.city.name
+
     def get_areas(self, city):
         return super(AreaManager, self).filter(city=city)
+
+    def area_name(self, name):
+        return super(AreaManager, self).get(name=name)
 
 class Area(models.Model):
     name = models.CharField(max_length=50)
@@ -43,7 +53,7 @@ class Area(models.Model):
     area_objects = AreaManager()
 
     def __unicode__(self):
-        return self.name
+        return self.name + "," + self.city.name
 
     class Meta:
         verbose_name_plural = "Areas"
@@ -89,9 +99,7 @@ class PracticeManager(models.Manager):
     
     # Search by Practitioner Name
     def practitioner_name(self, name):
-        result = {}
-        result['practice_list'] = super(PracticeManager, self).filter(practitioner__name__icontains=name, practitioner__status=True).distinct('practitioner')
-        return result
+        return super(PracticeManager, self).filter(practitioner__name__icontains=name, practitioner__status=True).distinct('practitioner')
 
     # Basic Search request handling
     def practice_lookup(self, city, spec, dist, lon, lat, name, day, wait):
@@ -122,9 +130,9 @@ class PracticeManager(models.Manager):
         result['practice_list'] = query
         return result
     # Recent Search Handling
-    def practice_recentlookups(self, city, spec):
+    def practice_recentlookups(self, area, spec):
         result, query = {}, None
-        query = super(PracticeManager, self).filter(practitioner__specialities__slug=spec, practitioner__status=True, practice_location__city__slug=city).distinct('practitioner')
+        query = super(PracticeManager, self).filter(practitioner__specialities__slug=spec, practitioner__status=True, practice_location__area__slug=area).distinct('practitioner')
         result['practice_list'] = query
         return result
 
