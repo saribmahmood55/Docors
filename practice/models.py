@@ -131,10 +131,7 @@ class PracticeManager(models.Manager):
         return result
     # Recent Search Handling
     def practice_recentlookups(self, area, spec):
-        result, query = {}, None
-        query = super(PracticeManager, self).filter(practitioner__specialities__slug=spec, practitioner__status=True, practice_location__area__slug=area).distinct('practitioner')
-        result['practice_list'] = query
-        return result
+        return super(PracticeManager, self).filter(practitioner__specialities__slug=spec, practitioner__status=True, practice_location__area__slug=area).distinct('practitioner')
 
 
 class Practice(models.Model):

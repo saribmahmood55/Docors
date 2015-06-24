@@ -94,74 +94,6 @@
 				</div>
 			</div>
 		</section>
-		<!-- End Middle Content -->
-		<!--<section class="intro-text-1">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-8 col-md-offset-2">
-						<div class="tabs">
-	                        <ul class="nav nav-tabs">
-	                            <li class="active"><a href="#main_search_tab" data-toggle="tab">Find Doctors</a></li>
-	                            <li class=""><a href="#speciality_tab" data-toggle="tab">Speciality</a></li>
-	                            <li class=""><a href="#advsearch_tab" data-toggle="tab">Advanced Search</a></li>
-	                        </ul>
-	                        <div class="tab-content" style="margin-top:0;">
-	                            <div class="tab-pane active" id="main_search_tab">
-	                                <div class="tab-desc animated fadeIn">
-	                                	<div class="row">
-	                                		<form role="form" action="{% url 'doctor_suggestions' %}" method="GET">
-		                                		<div class="col-md-12">
-			                                		<div class="col-md-10 margin20" id="doctor">
-			                                			<div class="form-group">
-			                                				<input type="text" class="form-control input-lg typeahead" name="q" placeholder="Doctor Name, Specialty, Condition or Procedure">
-			                                			</div>
-			                                		</div>
-			                                		<div class="col-md-2 margin20" style="margin-top:30px;">
-			                                			<button class="btn btn-danger btn-lg pull-right"><i class="fa fa-search"></i></button>
-			                                		</div>
-			                                	</div>
-			                                </form>
-	                                	</div>
-	                                </div>
-	                            </div>
-	                            <div class="tab-pane" id="speciality_tab">
-	                                <div class="tab-desc animated fadeInDown">
-	                                	<div class="row">
-	                                		<form role="form" action="{% url 'speciality_suggestions' %}">
-		                                		<div class="col-md-12">
-			                                		<div class="col-md-5 margin20" id="first_col">
-			                                			<div class="form-group">
-			                                				<label id="first_col_search_label">Speciality</label>
-			                                				<input type="text" name="spec" class="form-control input-lg typeahead" placeholder="eg. Child Specialist" id="first_col_search_input">
-			                                			</div>
-			                                		</div>
-			                                		<div class="col-md-5 margin20" id="second_col">
-			                                			<div class="form-group">
-			                                				<label id="second_col_search_label">Area</label>
-			                                				<input type="text" name="area" class="form-control input-lg typeahead area_typeahead" placeholder="eg. Faisal Town" id="second_col_search_input">
-			                                			</div>
-			                                		</div>
-			                                		<div class="col-md-2 margin20" style="margin-top:30px;">
-			                                			<button class="btn btn-danger btn-lg pull-right"><i class="fa fa-search"></i></button>
-			                                		</div>
-			                                	</div>
-			                                </form>
-	                                	</div>
-	                                </div> 
-	                            </div>
-	                            <div class="tab-pane" id="advsearch_tab">
-	                                <div class="tab-desc animated fadeInUp">
-	                                    <p>
-	                                        Coming Soon.
-	                                    </p>
-	                                </div>
-	                            </div>
-	                        </div>
-	                    </div>
-					</div>
-				</div>
-			</div>
-		</section>-->
 		{% load staticfiles %}
 		<section class="bottom-section">
 			<div class="container">
@@ -398,40 +330,6 @@
 					}
 				}
 			});
-
-			/*$("#doctor .typeahead").typeahead({
-				hint:true,
-				highlight:true,
-				minLength:1
-			},{
-				name: 'practitioner',
-				source: practitioner_engine,
-				limit:5,
-				templates: {
-					header: '<h4 class="league-name">Practitioner</h4>'
-				}
-			},{
-				name: 'specialization',
-				source: specialization_engine,
-				limit:5,
-				templates: {
-					header: '<h4 class="league-name">Practitioner Specialities</h4>'
-				}
-			},{
-				name: 'condition',
-				source: condition_engine,
-				limit:5,
-				templates: {
-					header: '<h4 class="league-name">Condition they treat</h4>'
-				}
-			},{
-				name: 'procedure',
-				source: procedure_engine,
-				limit:5,
-				templates: {
-					header: '<h4 class="league-name">Procedures they perform</h4>'
-				}
-			});*/
 
 		});
 	</script>
