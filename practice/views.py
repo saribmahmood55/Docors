@@ -111,12 +111,15 @@ def practitioner(request, slug):
 	data = {}
 	if request.method == "GET":
 		if request.user.is_authenticated():
-			data['patient'] = Patient.patient_objects.patient_details(request.user)
-			favourite_practitioner = data['patient'].favt_practitioner.all().filter(slug=slug)
-			if favourite_practitioner.exists():
-				data['favourite'] = True
-			else:
-				data['favourite'] = False
+			try:
+				data['patient'] = Patient.patient_objects.patient_details(request.user)
+				favourite_practitioner = data['patient'].favt_practitioner.all().filter(slug=slug)
+				if favourite_practitioner.exists():
+					data['favourite'] = True
+				else:
+					data['favourite'] = False
+			except Patient.DoesNotExist:
+				pass
 		else:
 			data['patient'] = None
 		try:
