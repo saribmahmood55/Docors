@@ -1,165 +1,128 @@
 {% extends "base.html" %}
-{% load humanize %}
-{% block seoItemTags %}http://schema.org/Physician{% endblock %}
+{% block title %}doctorsinfo.pk - find a specialist doctor, review doctors, doctor ratings{% endblock %}
+{% load staticfiles %}
 {% block content %}
-
-<section class="doctor-section">
-  <div class="container">
-    <div id="practitionerDetails">
-                {% if not data.favourite %}
-                <span id="bookmark" class="silver-img"><i class="fa fa-star-o fa-2x favourite" title="add to favourite list"></i></span> {% else %}
-                <span class="silver-img"><i class="fa fa-star fa-2x" title="Already on Favourite List"></i></span> {% endif %}
-                <h1 itemprop="name"><i class="fa fa-user-md fa-1x marg-r"></i>{{data.practitioner.get_title_display}}{{data.practitioner.name}}</h1>
-                <span class="credentials">{{data.practitioner.credentials}}</span> Specialized in: {% for speciality in data.practitioner.specialities.all.iterator %}
-                <span class="specialities" itemprop="medicalSpecialty">{{speciality.name}}</span> {% endfor %} {% if data.practitioner.experience %}
-                <span class="exp">Experience: <strong>{{data.practitioner.experience}} years.</strong></span> {% endif %} {% if data.practitioner.achievements %}
-                <span class="achievements"><strong>Achievements: </strong>{{data.practitioner.achievements}}</span> {% endif %}
-            </div>
-
-            <div id="contant">
-                <!-- Practice-Location Details -->
-                {% for pract in data.practice.iterator %}
-                <div class="grid-name">
-                    {% ifequal pract.practice_type "P" %}
-                    <h2 style="background-color: #4b555d;"><span itemprop="name">{{pract.practitioner.get_title_display}}{{pract.practitioner.name}}</span></h2> {% else %}
-                    <h2 style="background-color: #4b555d;"><span itemprop="hospitalAffiliation">{{pract.practice_location.name}}</span></h2> {% endifequal %}
-                    <div class="clinic">
-                        <ul>
-                            <!-- Load Clinic Timings start -->
-                            <div class="timings" id="/practice/{{pract.practice_location.slug}}/{{pract.practitioner.slug}}">
-                                <li>
-                                    <button type="submit" class="ui-btn ui-shadow ui-corner-all loadbtn">Practice Timings.</button>
-                                </li>
-                            </div>
-                            <!-- Load Clinic Timings end -->
-                            <br>
-                            <!-- Load practice_photo start -->
-                            {% if pract.practice_location.photo %}
-                            
-                            {% endif %}
-                            <!-- Load practice_photo end -->
-                            <li><i class="fa fa-money" title="Checkup Fee."></i><span itemprop="priceRange"><strong>{{pract.checkup_fee}}/- PKR</strong></span>
-                            </li>
-                            <li><i class="fa fa-phone"></i><span itemprop="telephone"><u>{{pract.contact_number}}</u></span>
-                            </li>
-                            <li><i class="fa fa-calendar" title="Appointment Only or Waiting"></i>{% if pract.appointments_only %}<span>Appointment Required: <b>Yes.</b></span>{% else %}<span>Checkup on Waiting: <b>Yes.</b></span>{% endif %}</li>
-                            <li><i class="fa fa-location-arrow"></i>
-                                <span class="address" itemprop="location">{{pract.practice_location.clinic_address}}, {{pract.practice_location.city.name}}.</span>
-                            </li>
-                            {% if data.pract.services %}
-                            <li><i class="fa fa-medkit fa-1x" title="Services Offered."></i>
-                                <span class="services" itemprop="availableService">{{pract.services}}</span>
-                            </li>
-                            {% endif %}
-                        </ul>
-                            <span>{{pract.modified|naturaltime}}</span>
-                        </div>
-                        <!-- Lat Long -->
-                        {% if pract.practice_location.lat and pract.practice_location.lon %}
-                        <a itemprop="hasMap" href="http://maps.google.com/maps?q={{pract.practice_location.lon}},{{pract.practice_location.lat}}" target="_blank" class="anchor-link-right map-marker"><i style="padding: 0px 0px 10px 0px;" class="fa fa-map-marker fa-3x"></i></a> {% endif %}
+<div class="divide40"></div>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="blog-post custom-blog">
+                <div class="row">
+                    <div class="col-md-3 margin20 text-center">
+                    	<div class="person-v2">
+	                        <img src="{% static 'assets/img/team-1.jpg' %}" class="img-responsive" alt="profile-pic">
+                        </div> 
                     </div>
-                </div>
-                {% endfor %}
-
-                <!-- Practitioner Reviews Details -->
-                <div class="grid-name">
-                    <h2 style="background-color: #4b555d;">Practice Reviews</h2>
-                    <div class="reviews">
-                        {% if data.reviews.exists %}
-                        <!-- Post new Reviews, user loged in & Reviews exists -->
-                        {% if data.user.is_authenticated %}
-                        <form class="reviewBox" action="{% url 'addReview' %}" method="POST" class="inline_">{% csrf_token %}
-                            <textarea cols="8" rows="8" name="review_text" required></textarea>
-                            <button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Post</button>
-                        </form>
-                        {% endif %} {% for pr in data.reviews.iterator %}
-                        <!-- Load Reviews, user loged in, Reviews exists-->
-                        {% if data.user.is_authenticated %}
-                        <!--Load Reviews with up-down votes -->
-                        <div class="oneComment">
-                            <span class="patientName inlineB">{% if pr.patient.user.get_full_name %}
-                {{pr.patient.user.get_full_name}}{% else %}{{pr.patient}}{% endif %}</span>
-                            <span class="commentDate float-right inlineB"><i class="fa fa-clock-o marg-r"></i>{{pr.review_date|naturaltime}}</span>
-                            <span itemprop="review" class="comment break marg-l">{{pr.review_text}}</span>
-                            <!-- review upVote-->
-                            <i class="fa fa-thumbs-o-up up" id="/review/{{pr.pk}}/"></i>
-                            <span class="up_votes marg-r">{{pr.up_votes}}</span>-
-                            <span class="down_votes marg-l">{{pr.down_votes}}</span>
-                            <!-- review downVote-->
-                            <i class="fa fa-thumbs-o-down marg-l down" id="/review/{{pr.pk}}/"></i>
-                        </div>
-                        <!-- No user login and reviews exists-->
-                        {% else %}
-                        <div class="oneComment">
-                            <span class="patientName inlineB">{% if pr.patient.user.get_full_name %}
-                  {{pr.patient.user.get_full_name}}{% else %}{{pr.patient}}{% endif %}</span>
-                            <span class="float-right inlineB commentDate"><i class="fa fa-clock-o marg-r"></i>{{pr.review_date|naturaltime}}</span>
-                            <span itemprop="review" class="comment break marg-l">{{pr.review_text}}</span>
-                            <span class="up_votes inlineB">agree. {{pr.up_votes}} - </span>
-                            <span class="down_votes inlineB">{{pr.down_votes}}  diagree.</span>
-                        </div>
-                        {% endif %} {% endfor %} {% if not data.user.is_authenticated %}
-                        <!-- No user login and reviews exists-->
-                        <a href="#popupMenu" data-rel="popup" data-transition="slideup" class="anchor-link-right marg-t">add review..</a>
-                        <div data-role="popup" id="popupMenu" data-theme="b">
-                            <ul data-role="listview" data-inset="true" style="min-width:210px;">
-                                <li><a href="/login/">Login</a>
-                                </li>
-                                <li><a href="/register/">Sign Up</a>
-                                </li>
-                            </ul>
-                        </div>
+                    <div class="col-md-9 margin20">
+                        <ul class="list-inline post-detail" style="margin-top:0;">
+                            <li><i class="fa fa-cog"></i> <a href="#">Save</a></li>
+                            <li><i class="fa fa-save"></i> <a href="#">Share</a></li>
+                        </ul>
+                        <h2>{{data.practitioner.name}} <i class="fa fa-check-circle text-blue"></i></h2>
+                        <ul class="list-inline">
+                        	<li><span class="label label-default">{{data.practitioner.get_gender_display}}</span></li>
+                        	<li><span class="label label-default">{{data.practitioner.experience}} years experience</span></li>
+                        </ul>
+                        {% if data.practitioner.achievements %}
+                        <p>
+                            {{data.practitioner.achievements}}
+                        </p>
                         {% endif %}
-                        <!-- No user login and reviews exists-->
-                        {% else %} {% if data.user.is_authenticated %}
-                        <!-- user login and no review exists-->
-                        <span class="no_review_msg">No reviews yet, Make One.</span>
-                        <form class="reviewBox" action="{% url 'addReview' %}" method="POST" class="inline_">{% csrf_token %}
-                            <textarea cols="8" rows="8" name="review_text" required></textarea>
-                            <button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Post</button>
-                        </form>
-                        {% else %}
-                        <!-- Post new Review / no user login-->
-                        <span class="marg-l break"><strong>No reviews yet.</strong></span>
-                        <a href="#popupMenu" data-rel="popup" data-transition="slideup" class="anchor-link-right marg-t">add review..</a>
-                        <div data-role="popup" id="popupMenu" data-theme="b">
-                            <ul data-role="listview" data-inset="true" style="min-width:210px;">
-                                <li><a href="/login/">Login</a>
-                                </li>
-                                <li><a href="/register/">Sign Up</a>
-                                </li>
-                            </ul>
-                        </div>
-                        {% endif %} {% endif %}
-                    </div>
-                </div>
-
-                <!-- News Letter -->
-                {% if not data.user.is_authenticated %}
-                <div class="grid-name">
-                    <h2 style="background-color: #4285F4;">Subscribe</h2>
-                    <div class="subscribe">
-                        <ul>
-                            <li class="subDesc">Get important updates about
-                                <br><strong>{{data.practitioner.name}}</strong>
-                            </li>
-                            <form class="subscription" action="{% url 'subscribe' %}" method="POST">{% csrf_token %}
-                                <li>
-                                    <input type="hidden" name="slug" value="{{data.practitioner.slug}}">
-                                </li>
-                                <li><i class="fa fa-envelope"></i><span><input type="email" name="email" autocomplete="on" placeholder="your email" /></span>
-                                </li>
-                                <li class="textCentre break">OR</li>
-                                <li><i class="fa fa-mobile fa-2x"></i><span><input type="tel" id="tel" name="mobile" minlength="10" placeholder="03001234567" /></span>
-                                </li>
-                                <button type="submit" class="ui-btn ui-corner-all ui-btn-a">Subscribe</button>
-                            </form>
-                            <li class="privacy">100% Privacy. We don't spam.</li>
+                        {% if data.practitioner.degrees.all %}
+                        <ul class="list-inline">
+                        	{% for deg in data.practitioner.degrees.all %}
+                        	<li><span class="label label-primary">{{deg}}</span></li>
+                        	{% endfor %}
                         </ul>
+                        {% endif %}
                     </div>
                 </div>
-                {% endif %}
             </div>
-  </div>
-</section>
+		</div>
+	</div>
+</div>
+<div class="intro-text-1 prac-page">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<ul class="list-inline">
+					<li><h4>Do you recommend this doctor?</h4></li>
+					<li><button class="btn btn-default">Yes</button></li>
+					<li><button class="btn btn-default">No</button></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="divide40"></div>
+<div class="container">
+	<div class="row">
+		<div class="col-md-4">
+			<div class="price-wrap">
+				<div class="price-title price-title-custom">
+					<img src="{% static 'assets/img/service-1.jpg' %}" class="img-responsive" alt="">
+				</div>
+				<div class="price-price prac-loc-name">Dr. Muhammad Nazir Clinic</div>
+				<div class="price-features">
+					<ul class="list-unstyled">
+						<li><i class="fa fa-home text-blue"></i> 37-D, Park Plaze, Model Town, Lahore</li>
+						<li><i class="fa fa-phone text-blue"></i> 04235714141, 04125887458</li>
+						<li><i class="fa fa-money text-blue"></i> PKR 1500</li>
+						<li><i class="fa fa-briefcase text-blue"></i> Child Specialist, Child Operation, more</li>
+					</ul>
+				</div>
+				<div class="price-action">
+					<ul class="list-inline last-loc-line">
+						<li><i class="fa fa-clock-o text-blue"></i></li>
+						<li><button class="btn btn-primary">Timings</button></li>
+						<li><button class="btn btn-success" disabled>Open Now</button></li>
+						<li><i class="fa fa-map-marker text-navy"></i></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="price-wrap">
+				<div class="price-title price-title-custom">
+					<img src="{% static 'assets/img/service-1.jpg' %}" class="img-responsive" alt="">
+				</div>
+				<div class="price-price prac-loc-name">Dr. Muhammad Nazir Clinic</div>
+				<div class="price-features">
+					<ul class="list-unstyled">
+						<li><i class="fa fa-home text-blue"></i> 37-D, Park Plaze, Model Town, Lahore</li>
+						<li><i class="fa fa-phone text-blue"></i> 04235714141, 04125887458</li>
+						<li><i class="fa fa-money text-blue"></i> PKR 1500</li>
+						<li><i class="fa fa-briefcase text-blue"></i> Child Specialist, Child Operation, more</li>
+					</ul>
+				</div>
+				<div class="price-action">
+					<ul class="list-inline last-loc-line">
+						<li><i class="fa fa-clock-o text-blue"></i></li>
+						<li><button class="btn btn-primary">Timings</button></li>
+						<li><button class="btn btn-success" disabled>Open Now</button></li>
+						<li><i class="fa fa-map-marker text-navy"></i></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="price-wrap">
+				<div class="price-price prac-loc-name">Patients Feedback</div>
+				<div class="price-features">
+					<ul class="list-unstyled">
+						<li><i class="fa fa-home text-blue"></i> 37-D, Park Plaze, Model Town, Lahore</li>
+						<li><i class="fa fa-phone text-blue"></i> 04235714141, 04125887458</li>
+						<li><i class="fa fa-money text-blue"></i> PKR 1500</li>
+						<li><i class="fa fa-briefcase text-blue"></i> Child Specialist, Child Operation, more</li>
+						<!--<li class="last-loc-line">
+							
+						</li>-->
+					</ul>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</div>
+<div class="divide40"></div>
 {% endblock %}
