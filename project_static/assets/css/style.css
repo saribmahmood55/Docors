@@ -166,6 +166,10 @@ border-left-color: #111111;
   font-size: 25px !important;
 }
 
+.custom-list-feedback li{
+  border-top:0 !important;
+}
+
 form.home-search {
   clear: both;
   margin: 0;
