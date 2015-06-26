@@ -31,7 +31,7 @@
                         {% if data.practitioner.degrees.all %}
                         <ul class="list-inline">
                         	{% for deg in data.practitioner.degrees.all %}
-                        	<li><span class="label label-primary">{{deg}}</span></li>
+                        	<li><span class="label label-primary" data-toggle="tooltip" data-placement="top" data-original-title="{{deg.description}}">{{deg}}</span></li>
                         	{% endfor %}
                         </ul>
                         {% endif %}
@@ -57,7 +57,7 @@
 <div class="divide40"></div>
 <div class="container">
 	<div class="row">
-		<div class="col-md-4">
+		<div class="col-md-4 margintop40">
 			<div class="price-wrap">
 				<div class="price-title price-title-custom">
 					<img src="{% static 'assets/img/service-1.jpg' %}" class="img-responsive" alt="">
@@ -81,7 +81,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-md-4">
+		<div class="col-md-4 margintop40">
 			<div class="price-wrap">
 				<div class="price-title price-title-custom">
 					<img src="{% static 'assets/img/service-1.jpg' %}" class="img-responsive" alt="">
@@ -105,7 +105,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-md-4">
+		<div class="col-md-4 margintop40">
 			<div class="price-wrap">
 				<div class="price-price prac-loc-name">Patients Feedback</div>
 				<div class="price-features">
@@ -120,9 +120,136 @@
 								<li>4.5 (5 reviews)</li>
 							</ul>
 						</li>
-						<li class="text-left"><span class="h3">Patients Satisfaction</span></li>
-						<li><i class="fa fa-money text-blue"></i> PKR 1500</li>
-						<li><i class="fa fa-briefcase text-blue"></i> Child Specialist, Child Operation, more</li>
+						<li><span class="h3">Patients Satisfaction</span></li>
+						<li style="border-top:0;">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title">Read what other patients have to say:</h4>
+								</div>
+								<div class="panel-body comments-panel-body">
+									<div class="review-box margin10">
+										<img src="{% static 'assets/img/team-1.jpg' %}" alt="" class="img-responsive">
+										<div class="review-content text-left">
+											<ul class="list-inline rating-list custom-list-feedback text-left">
+												<li class="admin-detail">
+													<span><strong>User</strong></span>
+												</li>
+												<li><i class="fa fa-star yellow"></i></li>
+												<li><i class="fa fa-star yellow"></i></li>
+												<li><i class="fa fa-star yellow"></i></li>
+												<li><i class="fa fa-star yellow"></i></li>
+												<li><i class="fa fa-star-half-empty yellow"></i></li>
+											</ul>
+											<p>Great service, nice experience.</p>
+											<ul class="list-inline text-right custom-list-feedback">
+												<li><i class="fa fa-thumbs-o-up text-blue"></i> 5 </li>
+												<li><i class="fa fa-thumbs-o-down text-red"></i> 2</li>
+											</ul>
+										</div>
+									</div>
+									<div class="review-box margin10">
+										<img src="{% static 'assets/img/team-1.jpg' %}" alt="" class="img-responsive">
+										<div class="review-content text-left">
+											<ul class="list-inline rating-list custom-list-feedback text-left">
+												<li class="admin-detail">
+													<span><strong>User</strong></span>
+												</li>
+												<li><i class="fa fa-star yellow"></i></li>
+												<li><i class="fa fa-star yellow"></i></li>
+												<li><i class="fa fa-star yellow"></i></li>
+												<li><i class="fa fa-star yellow"></i></li>
+												<li><i class="fa fa-star-half-empty yellow"></i></li>
+											</ul>
+											<p>Great service, nice experience.</p>
+											<ul class="list-inline text-right custom-list-feedback">
+												<li><i class="fa fa-thumbs-o-up text-blue"></i> 5 </li>
+												<li><i class="fa fa-thumbs-o-down text-red"></i> 2</li>
+											</ul>
+										</div>
+									</div>
+									<div class="review-box margin10">
+										<img src="{% static 'assets/img/team-1.jpg' %}" alt="" class="img-responsive">
+										<div class="review-content text-left">
+											<ul class="list-inline rating-list custom-list-feedback text-left">
+												<li class="admin-detail">
+													<span><strong>User</strong></span>
+												</li>
+												<li><i class="fa fa-star yellow"></i></li>
+												<li><i class="fa fa-star yellow"></i></li>
+												<li><i class="fa fa-star yellow"></i></li>
+												<li><i class="fa fa-star yellow"></i></li>
+												<li><i class="fa fa-star-half-empty yellow"></i></li>
+											</ul>
+											<p>Great service, nice experience.</p>
+											<ul class="list-inline text-right custom-list-feedback">
+												<li><i class="fa fa-thumbs-o-up text-blue"></i> 5 </li>
+												<li><i class="fa fa-thumbs-o-down text-red"></i> 2</li>
+											</ul>
+										</div>
+									</div>
+									<div class="review-box margin10">
+										<img src="{% static 'assets/img/team-1.jpg' %}" alt="" class="img-responsive">
+										<div class="review-content text-left">
+											<ul class="list-inline rating-list custom-list-feedback text-left">
+												<li class="admin-detail">
+													<span><strong>User</strong></span>
+												</li>
+												<li><i class="fa fa-star yellow"></i></li>
+												<li><i class="fa fa-star yellow"></i></li>
+												<li><i class="fa fa-star yellow"></i></li>
+												<li><i class="fa fa-star yellow"></i></li>
+												<li><i class="fa fa-star-half-empty yellow"></i></li>
+											</ul>
+											<p>Great service, nice experience.</p>
+											<ul class="list-inline text-right custom-list-feedback">
+												<li><i class="fa fa-thumbs-o-up text-blue"></i> 5 </li>
+												<li><i class="fa fa-thumbs-o-down text-red"></i> 2</li>
+											</ul>
+										</div>
+									</div>
+									<div class="review-box margin10">
+										<img src="{% static 'assets/img/team-1.jpg' %}" alt="" class="img-responsive">
+										<div class="review-content text-left">
+											<ul class="list-inline rating-list custom-list-feedback text-left">
+												<li class="admin-detail">
+													<span><strong>User</strong></span>
+												</li>
+												<li><i class="fa fa-star yellow"></i></li>
+												<li><i class="fa fa-star yellow"></i></li>
+												<li><i class="fa fa-star yellow"></i></li>
+												<li><i class="fa fa-star yellow"></i></li>
+												<li><i class="fa fa-star-half-empty yellow"></i></li>
+											</ul>
+											<p>Great service, nice experience.</p>
+											<ul class="list-inline text-right custom-list-feedback">
+												<li><i class="fa fa-thumbs-o-up text-blue"></i> 5 </li>
+												<li><i class="fa fa-thumbs-o-down text-red"></i> 2</li>
+											</ul>
+										</div>
+									</div>
+									<div class="review-box margin10">
+										<img src="{% static 'assets/img/team-1.jpg' %}" alt="" class="img-responsive">
+										<div class="review-content text-left">
+											<ul class="list-inline rating-list custom-list-feedback text-left">
+												<li class="admin-detail">
+													<span><strong>User</strong></span>
+												</li>
+												<li><i class="fa fa-star yellow"></i></li>
+												<li><i class="fa fa-star yellow"></i></li>
+												<li><i class="fa fa-star yellow"></i></li>
+												<li><i class="fa fa-star yellow"></i></li>
+												<li><i class="fa fa-star-half-empty yellow"></i></li>
+											</ul>
+											<p>Great service, nice experience.</p>
+											<ul class="list-inline text-right custom-list-feedback">
+												<li><i class="fa fa-thumbs-o-up text-blue"></i> 5 </li>
+												<li><i class="fa fa-thumbs-o-down text-red"></i> 2</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</li>
 						<!--<li class="last-loc-line">
 							
 						</li>-->
@@ -131,7 +258,40 @@
 				
 			</div>
 		</div>
+		<div class="col-md-4 margintop40">
+			<div class="price-wrap">
+				<div class="price-price prac-loc-name">Subscription</div>
+				<div class="price-features">
+					<ul class="list-unstyled custom-list-feedback">
+						<li>Would you like to recieve updates about {{data.practitioner.name}}? (i.e Change in practice timings, Special offers etc.)</li>
+						<li></li>
+						<li class="margin20">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
+								<input class="form-control" type="email" name="email" placeholder="Email Address">
+							</div>
+						</li>
+						<li><div class="border-rits"><span>or</span></div></li>
+						<li>
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-phone"></i></span>
+								<input class="form-control" type="text" name="phone" placeholder="Contact Number">
+							</div>
+						</li>
+						<li><button class="btn btn-primary" style="width:100%">Subscribe</button></li>
+						<li>
+							<span><i class="fa fa-shield text-green"></i> Rest assure that we won't be sharing your personal information with anyone without your consent and we won't spam you either.</span>
+						</li>
+					</ul>
+				</div>
+				
+			</div>
+		</div>
 	</div>
 </div>
 <div class="divide40"></div>
+{% endblock %}
+
+{% block pageSpecificCSS %}
+<link href="{% static 'assets/css/sky-forms.css' %}" rel="stylesheet">
 {% endblock %}

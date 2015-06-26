@@ -170,6 +170,16 @@ border-left-color: #111111;
   border-top:0 !important;
 }
 
+.comments-panel-body{
+  max-height: 290px;
+  overflow-y:scroll;
+  min-height: 293px;
+}
+
+.margintop40{
+  margin-top: 40px;
+}
+
 form.home-search {
   clear: both;
   margin: 0;
