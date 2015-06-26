@@ -109,8 +109,8 @@ class PractitionerManager(models.Manager):
 
 
 class Practitioner(models.Model):
-    PHYSICIAN_CHOICES = ( (1, 'Trainee'), (2, 'Specialist'),)
-    GENDER = ( ('M', 'Male'),('F', 'Female'),)
+    PHYSICIAN_CHOICES = [(0, 'General Physician'), (1, 'Trainee'), (2, 'Specialist'),]
+    GENDER = [('M', 'Male'),('F', 'Female'),]
 
     name = models.CharField(max_length=100)
     gender = models.CharField(max_length=1, choices=GENDER, default='M')
