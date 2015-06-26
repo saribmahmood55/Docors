@@ -140,6 +140,36 @@ border-left-color: #111111;
 	margin-top:0px;
 }
 
+.prac-page{
+  background: #BA1919 !important;
+  padding: 0 !important;
+  padding-top: 20px !important;
+}
+
+.custom-blog{
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+  border-bottom: 0 !important;
+}
+
+.price-title-custom{
+  padding:0 !important;
+}
+
+.last-loc-line i{
+  position: relative;
+  font-size: 30px;
+  top: 7px;
+}
+
+.prac-loc-name{
+  font-size: 25px !important;
+}
+
+.custom-list-feedback li{
+  border-top:0 !important;
+}
+
 form.home-search {
   clear: both;
   margin: 0;
@@ -480,6 +510,10 @@ form.home-search.halfwidth input[name='locality'] {
   color: #000 !important;
   margin-bottom: 5px;
   margin-top: 10px;
+}
+
+.suggestion-link:hover{
+  color:#000;
 }
 
 /********** Typeahead multiple dataset ********/

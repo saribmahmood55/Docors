@@ -44,7 +44,7 @@
     </div>
     <div class="row no-margin-sides margin-bottom">
       <div class="col-md-12">
-        {% for onePractitioner in data.practice.practice_list.iterator %}
+        {% for onePractitioner in data.practice %}
           <div class="box box-primary">
             <div class="box-header">
               <h2 class="box-title col-md-4" style="padding-top:18px;"><strong>{{onePractitioner.practitioner.get_title_display}}{{onePractitioner.practitioner.name}}</strong>&nbsp;&nbsp;&nbsp;<i class="fa fa-check-circle text-blue" title="Specialist"></i></h2>
@@ -63,7 +63,7 @@
               <table class="table table-hover">
                 <tbody>
                   <tr><th><i class="fa fa-mars text-blue"></i> Gender</th><th><i class="fa fa-heart text-red"></i> Experience</th><th><i class="fa fa-map-marker text-blue"></i> Location</th><th><i class="fa fa-money text-green"></i> Checkup Fee</th><th><i class="fa fa-mobile text-navy"></i> Contact</th></tr>
-                  <tr><td>{{onePractitioner.practitioner.get_gender_display}}</td><td>{{onePractitioner.practitioner.experience}} Years</td><td>{{onePractitioner.practice_location.clinic_address}}, {{onePractitioner.practice_location.city.name}}</td><td>{{onePractitioner.fee.amount}} pkr/-</td><td>{{onePractitioner.practice_location.contact_number}}</td></tr>
+                  <tr><td>{{onePractitioner.practitioner.get_gender_display}}</td><td>{{onePractitioner.practitioner.experience}} Years</td><td>{{onePractitioner.practice_location.clinic_address}}, {{onePractitioner.practice_location.area}}</td><td>{{onePractitioner.fee.amount}} pkr/-</td><td>{{onePractitioner.practice_location.contact_number}}</td></tr>
                 </tbody>
               </table>
             </div>

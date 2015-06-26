@@ -4,7 +4,7 @@ from practice import views
 
 urlpatterns = [
     url(r'^physican/(?P<slug>[a-z-]+)$', views.practitioner, name='practitioner'),
-    url(r'^physicans/(?P<speciality>[a-z-]+)-in-(?P<city>[a-z-]+)$', views.recentSearch, name='recentSearch'),
+    url(r'^physicans/(?P<speciality>[a-z-]+)-in-(?P<area>[a-z-]+)$', views.recentSearch, name='recentSearch'),
     url(r'^physicans', views.practitoners, name='practitoners'),
     url(r'^practice/(?P<practice_slug>[a-z-]+)/(?P<practitioner_slug>[a-z-]+)$', views.practice, name='practice'),
     url(r'^practice_hospitals/$', views.practice_hospitals, name='practice_hospitals'),

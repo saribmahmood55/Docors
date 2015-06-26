@@ -75,6 +75,7 @@ INSTALLED_APPS = (
     'patients',
     'practice',
     'reviews',
+    'hitcount',
     # The Django sites framework is required
     'allauth',
     'allauth.account',
@@ -89,6 +90,9 @@ INSTALLED_APPS = (
     #django REST AUTH
     'rest_auth'
 )
+
+#hitcount settings
+SESSION_SAVE_EVERY_REQUEST = True
 
 #Registration
 ACCOUNT_ACTIVATION_DAYS = 7

@@ -1,4 +1,5 @@
 {{ object.name }}
+{{ object.slug }}
 {% for prac in object.practitioner_set.all %}
 {{ prac.name }}
 {% endfor %}

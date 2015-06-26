@@ -12,7 +12,7 @@ class PractitionerForm(forms.Form):
 	error_css_class = 'has-error'
 	required_css_class = 'required'
 
-	PHYSICIAN_CHOICES = ( ('1', 'Trainee'), ('2', 'Specialist'),)
+	PHYSICIAN_CHOICES = ((0, 'General Physician'), (1, 'Trainee'), (2, 'Specialist'),)
 	GENDER = ( ('M', 'Male'),('F', 'Female'),)
 	YEARS = [(year, year) for year in range(1935, 1991)]
 	Practice_CHOICES = ((u'P', u'Clinic/Residence'),(u'H', u'Hospital'),(u'M', u'Medical Complex'),)
