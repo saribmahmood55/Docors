@@ -57,18 +57,19 @@
 <div class="divide40"></div>
 <div class="container">
 	<div class="row">
+		{% for practice in data.practice %}
 		<div class="col-md-4 margintop40">
 			<div class="price-wrap">
 				<div class="price-title price-title-custom">
 					<img src="{% static 'assets/img/service-1.jpg' %}" class="img-responsive" alt="">
 				</div>
-				<div class="price-price prac-loc-name">Dr. Muhammad Nazir Clinic</div>
+				<div class="price-price prac-loc-name">{{practice.practice_location.name}}</div>
 				<div class="price-features">
 					<ul class="list-unstyled">
-						<li><i class="fa fa-home text-blue"></i> 37-D, Park Plaze, Model Town, Lahore</li>
-						<li><i class="fa fa-phone text-blue"></i> 04235714141, 04125887458</li>
-						<li><i class="fa fa-money text-blue"></i> PKR 1500</li>
-						<li><i class="fa fa-briefcase text-blue"></i> Child Specialist, Child Operation, more</li>
+						<li><i class="fa fa-home text-blue"></i> {{practice.practice_location.clinic_address}} ,{{practice.practice_location.area}}</li>
+						<li><i class="fa fa-phone text-blue"></i> {{practice.practice_location.contact_number}}</li>
+						<li><i class="fa fa-money text-blue"></i> {{practice.fee}}</li>
+						<li><i class="fa fa-briefcase text-blue"></i> {% for spec in data.practitioner.specialities.all %}{{spec.human_name}}{% endfor %}</li>
 					</ul>
 				</div>
 				<div class="price-action">
@@ -81,30 +82,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-md-4 margintop40">
-			<div class="price-wrap">
-				<div class="price-title price-title-custom">
-					<img src="{% static 'assets/img/service-1.jpg' %}" class="img-responsive" alt="">
-				</div>
-				<div class="price-price prac-loc-name">Dr. Muhammad Nazir Clinic</div>
-				<div class="price-features">
-					<ul class="list-unstyled">
-						<li><i class="fa fa-home text-blue"></i> 37-D, Park Plaze, Model Town, Lahore</li>
-						<li><i class="fa fa-phone text-blue"></i> 04235714141, 04125887458</li>
-						<li><i class="fa fa-money text-blue"></i> PKR 1500</li>
-						<li><i class="fa fa-briefcase text-blue"></i> Child Specialist, Child Operation, more</li>
-					</ul>
-				</div>
-				<div class="price-action">
-					<ul class="list-inline last-loc-line">
-						<li><i class="fa fa-clock-o text-blue"></i></li>
-						<li><button class="btn btn-primary">Timings</button></li>
-						<li><button class="btn btn-success" disabled>Open Now</button></li>
-						<li><i class="fa fa-map-marker text-navy"></i></li>
-					</ul>
-				</div>
-			</div>
-		</div>
+		{% endfor %}
 		<div class="col-md-4 margintop40">
 			<div class="price-wrap">
 				<div class="price-price prac-loc-name">Patients Feedback</div>
@@ -278,7 +256,7 @@
 								<input class="form-control" type="text" name="phone" placeholder="Contact Number">
 							</div>
 						</li>
-						<li><button class="btn btn-primary" style="width:100%">Subscribe</button></li>
+						<li><button class="btn btn-primary full-width">Subscribe</button></li>
 						<li>
 							<span><i class="fa fa-shield text-green"></i> Rest assure that we won't be sharing your personal information with anyone without your consent and we won't spam you either.</span>
 						</li>
@@ -288,10 +266,48 @@
 			</div>
 		</div>
 	</div>
+	<hr>
+	<div class="tabs">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#services_tab" data-toggle="tab">Services</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="services_tab">
+				<div class="tab-desc">
+					<h4>Conditions</h4>
+					<ul>
+						<li class="col-md-4"><i class="fa fa-angle-right"></i> Dissection of heart</li>
+						<li class="col-md-4"><i class="fa fa-angle-right"></i> Dissection of heart</li>
+						<li class="col-md-4"><i class="fa fa-angle-right"></i> Dissection of heart</li>
+						<li class="col-md-4"><i class="fa fa-angle-right"></i> Dissection of heart</li>
+						<li class="col-md-4"><i class="fa fa-angle-right"></i> Dissection of heart</li>
+						<li class="col-md-4"><i class="fa fa-angle-right"></i> Dissection of heart</li>
+						<li class="col-md-4"><i class="fa fa-angle-right"></i> Dissection of heart</li>
+						<li class="col-md-4"><i class="fa fa-angle-right"></i> Dissection of heart</li>
+						<li class="col-md-4"><i class="fa fa-angle-right"></i> Dissection of heart</li>
+						<li class="col-md-4"><i class="fa fa-angle-right"></i> Dissection of heart</li>
+						<li class="col-md-4"><i class="fa fa-angle-right"></i> Dissection of heart</li>
+					</ul>
+					<div class="clear"></div>
+					<hr>
+					<h4>Procedures</h4>
+					<ul>
+						<li class="col-md-4"><i class="fa fa-angle-right"></i> Dissection of heart</li>
+						<li class="col-md-4"><i class="fa fa-angle-right"></i> Dissection of heart</li>
+						<li class="col-md-4"><i class="fa fa-angle-right"></i> Dissection of heart</li>
+						<li class="col-md-4"><i class="fa fa-angle-right"></i> Dissection of heart</li>
+						<li class="col-md-4"><i class="fa fa-angle-right"></i> Dissection of heart</li>
+						<li class="col-md-4"><i class="fa fa-angle-right"></i> Dissection of heart</li>
+						<li class="col-md-4"><i class="fa fa-angle-right"></i> Dissection of heart</li>
+						<li class="col-md-4"><i class="fa fa-angle-right"></i> Dissection of heart</li>
+						<li class="col-md-4"><i class="fa fa-angle-right"></i> Dissection of heart</li>
+						<li class="col-md-4"><i class="fa fa-angle-right"></i> Dissection of heart</li>
+						<li class="col-md-4"><i class="fa fa-angle-right"></i> Dissection of heart</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 <div class="divide40"></div>
-{% endblock %}
-
-{% block pageSpecificCSS %}
-<link href="{% static 'assets/css/sky-forms.css' %}" rel="stylesheet">
 {% endblock %}

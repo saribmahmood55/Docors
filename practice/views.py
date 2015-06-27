@@ -126,6 +126,7 @@ def practitioner(request, slug):
 			data['practitioner'] = Practitioner.prac_objects.practitioner_slug(slug)
 			data['practice'] = Practice.practice_objects.practice_detail(slug)
 			data['practice_name'] = data['practice'].distinct('practice_location')
+			print data['practice_name']
 			data['reviews'] = Review.review_objects.practitioner_reviews(slug)
 		except Practitioner.DoesNotExist:
 			raise Http404
