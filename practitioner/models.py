@@ -24,6 +24,28 @@ class Specialization(models.Model):
 
     class Meta:
         verbose_name_plural = "Specialities"
+        ordering = ('name',)
+
+
+class FellowshipManager(models.Manager):
+    def spec_slug(self, slug):
+        return super(FellowshipManager, self).get(slug=slug)
+
+
+class Fellowship(models.Model):
+    name = models.CharField(max_length=100)
+    specialization = models.ForeignKey(Specialization)
+    slug = AutoSlugField(populate_from='name', unique = True)
+
+    objects = models.Manager()
+    fellow_objects = FellowshipManager()
+    
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = "Fellowships"
+        ordering = ('name',)
 
 class ConditionManager(models.Manager):
     def get_slug(self, name):
@@ -51,6 +73,7 @@ class Condition(models.Model):
 
     class Meta:
         verbose_name_plural = 'Conditions'
+        ordering = ('name',)
 
 class ProcedureManager(models.Manager):
     def get_slug(self, name):
@@ -78,6 +101,7 @@ class Procedure(models.Model):
 
     class Meta:
         verbose_name_plural = 'Procedures'
+        ordering = ('name',)
 
 class DegreeManager(models.Manager):
     def get_degree(self, name):
@@ -98,6 +122,7 @@ class Degree(models.Model):
 
     class Meta:
         verbose_name_plural = "Degrees"
+        ordering = ('name',)
 
 class PractitionerManager(models.Manager):
 
@@ -114,23 +139,27 @@ class Practitioner(models.Model):
 
     name = models.CharField(max_length=100)
     gender = models.CharField(max_length=1, choices=GENDER, default='M')
+    physician_type = models.CharField(max_length=1, choices=PHYSICIAN_CHOICES, null=True)
     year_of_birth = models.PositiveIntegerField(default=0)
     photo = ImageField(upload_to='practitioner/', blank=True, null=True)
     email = models.EmailField(max_length=75, null=True, blank=True)
     experience = models.PositiveIntegerField(help_text="Number of years")
-    physician_type = models.PositiveSmallIntegerField(choices = PHYSICIAN_CHOICES, help_text="Physician type", null=True, blank=True)
     achievements = models.TextField(null=True, blank=True)    
-    message = models.TextField(max_length=140, null=True, blank=True)
+    message = models.CharField(max_length=140, null=True, blank=True)
     degrees = models.ManyToManyField(Degree)
-    specialities = models.ManyToManyField(Specialization)
-    conditions = models.ManyToManyField(Condition, null=True, blank=True)
-    procedures = models.ManyToManyField(Procedure, null=True, blank=True)
+    
+    # specialities
+    specialty = models.ForeignKey(Specialization, null=True, blank=True)
+    fellowship = models.ManyToManyField(Fellowship, blank=True)
+    conditions = models.ManyToManyField(Condition, blank=True)
+    procedures = models.ManyToManyField(Procedure, blank=True)
 
     slug = AutoSlugField(populate_from='name', unique = True)
     status = models.BooleanField(default=False)
     education_marks = models.PositiveIntegerField(default=0)
     recommendation = models.PositiveIntegerField(default=0)
     not_recommended = models.PositiveIntegerField(default=0)
+    review_rating = models.DecimalField(max_digits=2, decimal_places=2, null=True)
     modified = models.DateTimeField(auto_now=True)
 
     #Manager
@@ -139,3 +168,7 @@ class Practitioner(models.Model):
     
     def __unicode__(self):
         return self.name
+
+    class Meta:
+        verbose_name_plural = "Practitioner"
+        ordering = ('name',)

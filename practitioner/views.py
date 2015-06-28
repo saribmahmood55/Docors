@@ -1,3 +1,4 @@
+# flake8: noqa
 from practitioner.models import *
 from practitioner.serializers import PractitionerSerializer, SpecializationSerializer, DegreeSerializer
 from rest_framework import generics
@@ -164,9 +165,9 @@ def registration(request):
 				procedure = Procedure.procedure_objects.get_procedure(proc)
 				practitioner.procedures.add(procedure)
 
-			#Add Speciality to practitioner
+			#Add Speciality to practitioner, updated from M2M field to Foreign key relation by Asad
 			speciality = Specialization.objects.get(pk=spec)
-			practitioner.specialities.add(speciality)
+			practitioner.specialities = speciality
 
 			#PracticeLocation
 			practice_name = form.cleaned_data['practice_name']
