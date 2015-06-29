@@ -134,7 +134,7 @@ class PractitionerManager(models.Manager):
 
 
 class Practitioner(models.Model):
-    PHYSICIAN_CHOICES = [(0, 'General Physician'), (1, 'Trainee'), (2, 'Specialist'),]
+    PHYSICIAN_CHOICES = [('0', 'General Physician'), ('1', 'Trainee'), ('2', 'Specialist'),]
     GENDER = [('M', 'Male'),('F', 'Female'),]
 
     name = models.CharField(max_length=100)
@@ -159,7 +159,7 @@ class Practitioner(models.Model):
     education_marks = models.PositiveIntegerField(default=0)
     recommendation = models.PositiveIntegerField(default=0)
     not_recommended = models.PositiveIntegerField(default=0)
-    review_rating = models.DecimalField(max_digits=2, decimal_places=2, null=True)
+    review_rating = models.DecimalField(max_digits=2, decimal_places=2, default=0.0)
     modified = models.DateTimeField(auto_now=True)
 
     #Manager

@@ -67,18 +67,18 @@ class DegreeAdmin(admin.ModelAdmin):
 
 class ConditionAdmin(admin.ModelAdmin):
 	list_display = ['name','specialization','slug']
-	list_filter = ['name']
+	list_filter = ['specialization']
 	search_fields = ['name']
 
 class ProcedureAdmin(admin.ModelAdmin):
 	list_display = ['name','specialization','slug']
-	list_filter = ['name']
+	list_filter = ['specialization']
 	search_fields = ['name']
 
 
 class FellowshipAdmin(admin.ModelAdmin):
 	list_display = ['name','specialization','slug']
-	list_filter = ['name']
+	list_filter = ['specialization']
 	search_fields = ['name']
 
 
