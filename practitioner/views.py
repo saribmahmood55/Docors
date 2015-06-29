@@ -29,7 +29,7 @@ def index(request):
 
 	try:
 		patient_data = Patient.patient_objects.patient_details(lambda: request.user if request.user.is_authenticated() else None)
-		data['completeness'] = eval("+".join(["10" if patient_data.age_group else "0","10" if patient_data.gender else "0","10" if patient_data.cell_number else "0","20" if data['user'].first_name else "0","20" if data['user'].last_name else "0","10" if data['user'].username else "0","20" if data['user'].email else "0"]))
+		#data['completeness'] = eval("+".join(["10" if patient_data.age_group else "0","10" if patient_data.gender else "0","10" if patient_data.cell_number else "0","20" if data['user'].first_name else "0","20" if data['user'].last_name else "0","10" if data['user'].username else "0","20" if data['user'].email else "0"]))
 
 	except Patient.DoesNotExist:
 		pass
@@ -76,11 +76,10 @@ def get_search_practitioner(request):
 
 #reverse match view for the "#individual item click in the autocomplete list"
 def practitionerSearch(request, slug, typee):
-	print slug
-	print typee
 	data = dict()
 	practice = []
 	data['results_header'] = "Practitioner"
+
 	if typee == "specialization":
 		sqs = Specialization.objects.get(slug=slug)
 		data['results_header'] = "Practitioner(s) who Specialize in " + slug
@@ -90,9 +89,9 @@ def practitionerSearch(request, slug, typee):
 	elif typee == "procedure":
 		sqs = Procedure.objects.get(slug=slug)
 		data['results_header'] = "Practitioner(s) who perform " + slug + " procedure"
-	elif typee == "practitioner":
-		sqs = Practitioner.objects.get(slug=slug)
-		data['results_header'] = "Practitioner(s) matching " + slug
+
+	data['ob'] = sqs
+
 	for prac in sqs.practitioner_set.all():
 		for x in Practice.practice_objects.practitioner_name(prac.name):
 			practice.append(x)

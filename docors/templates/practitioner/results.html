@@ -1,9 +1,17 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% load hitcount_tags %}
 {% block pageSpecificCSS %}<link rel="stylesheet" href="{% static 'assets/css/components.css' %}">{% endblock %}
+{% block pageSpecificJS %}<script src="{% static 'hitcount/hitcount-jquery.js' %}"></script>{% endblock %}
+
 {% load humanize %}
 {% block seoItemTags %}http://schema.org/Physician{% endblock %}
 {% block content %}
+
+{% insert_hit_count_js_variables for data.ob %}
+  {% get_hit_count for data.ob as total_hits %}
+
+total hits : {{total_hits}}
 
 <section class="results-section">
   <div class="container">

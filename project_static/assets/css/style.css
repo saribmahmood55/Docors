@@ -171,9 +171,8 @@ border-left-color: #111111;
 }
 
 .comments-panel-body{
-  max-height: 290px;
+  max-height: 295px;
   overflow-y:scroll;
-  min-height: 293px;
 }
 
 .margintop40{

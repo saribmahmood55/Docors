@@ -22,7 +22,7 @@ def subscribe(request):
 		data = {}
 		slug = request.POST.get('slug', None)
 		email = request.POST.get('email', None)
-		cell_number = request.POST.get('mobile', None)
+		cell_number = request.POST.get('phone', None)
 		data['msg'] = newSubscription(slug, email, cell_number)
 		if request.is_ajax():
 			return HttpResponse(json.dumps(data), content_type="application/json")
@@ -36,37 +36,37 @@ def educate(request):
 @login_required(login_url='/accounts/login/')
 def profile(request):
 	data = {}
-
+	user = request.user
 	if request.method == 'GET':
 		try:
-			data['patient'] = Patient.patient_objects.patient_details(data['user'])
+			data['patient'] = Patient.patient_objects.patient_details(user)
 		except Patient.DoesNotExist:
 			raise Http404
 
 	elif request.method == 'POST':
 		patientDetails = {}
-		patientDetails['user'] = data['user']
+		patientDetails['user'] = user
 		patientDetails['fname'] = request.POST.get('firstname', None)
 		patientDetails['lname'] = request.POST.get('lastname', None)
 		patientDetails['number'] = request.POST.get('cell_number', None)
 		patientDetails['age'] = request.POST.get('age_group', None)
 		patientDetails['gender'] = request.POST.get('gender', None)
 		updatePatientDetails(patientDetails)
-		data['patient'] = Patient.patient_objects.patient_details(data['user'])
+		data['patient'] = Patient.patient_objects.patient_details(user)
 
 	return render_to_response('patients/profile.html', {'data': data}, context_instance=RequestContext(request))
 
 @login_required(login_url='/accounts/login/')
 def acc_preferences(request):
 	data = {}
-
+	user = request.user
 	if request.method == "POST":
 		type_ = request.POST.get('type_', None)
 
 		if type_ == "change_email":
 			new_email = request.POST.get('new_email', None)
 			curr_password = request.POST.get('password', None)
-			u = authenticate(username=data['user'].username, password=curr_password)
+			u = authenticate(username=user.username, password=curr_password)
 			if u is not None:
 				if u.is_active:
 					pass
@@ -74,7 +74,7 @@ def acc_preferences(request):
 			curr_email = request.user.email
 			curr_password = request.POST.get('currentpassword', None)
 			new_password = request.POST.get('password1', None)
-			u = authenticate(username=data['user'].username, password=curr_password)
+			u = authenticate(username=user.username, password=curr_password)
 			if u is not None:
 				data['alert'] = 'Password successfully changed.'
 				if u.is_active:
@@ -91,9 +91,9 @@ def acc_preferences(request):
 @login_required(login_url='/accounts/login/')
 def dashboard_specialities(request):
 	data = {}
-
+	user = request.user
 	if request.method == "GET":
-		patient = Patient.patient_objects.patient_details(data['user'])
+		patient = Patient.patient_objects.patient_details(user)
 		data['int_specialities'] = patient.interested_specialities.all()
 		data['ex_specialities'] = excludedSpecialities(patient)
 	elif request.method == "POST":
@@ -102,52 +102,51 @@ def dashboard_specialities(request):
 		if type_ == "remove":
 			spec_list = request.POST.getlist('int_selector', None)
 			for spec_slug in spec_list:
-				interestedSpecRemove(data['user'], spec_slug)
+				interestedSpecRemove(user, spec_slug)
 		elif type_ == "add":
 			spec_list = request.POST.getlist('ex_selector', None)
 			for spec_slug in spec_list:
-				interestedSpecAdd(data['user'], spec_slug)
+				interestedSpecAdd(user, spec_slug)
 
-		patient = Patient.patient_objects.patient_details(data['user'])
+		patient = Patient.patient_objects.patient_details(user)
 		data['int_specialities'] = patient.interested_specialities.all()
 		data['ex_specialities'] = excludedSpecialities(patient)
 
 	return render_to_response('patients/interested_specialities.html', {'data': data}, context_instance=RequestContext(request))
 
+@login_required(login_url='/accounts/login/')
 def patient(request):
 	data = {}
+	user = request.user
 	if request.method == 'GET':
-		if data['user']:
-			try:
-				data['patient'] = Patient.patient_objects.patient_details(data['user'])
-				data['reviews'] = Review.review_objects.patient_reviews(data['user'])
-				data['excluded_specialties'] = excludedSpecialities(data['patient'])
-			except Patient.DoesNotExist:
-				raise Http404
-		else:
-			data['user'] = None
-	if request.method == 'POST':
+		try:
+			data['patient'] = Patient.patient_objects.patient_details(user)
+			data['reviews'] = Review.review_objects.patient_reviews(user)
+			data['excluded_specialties'] = excludedSpecialities(data['patient'])
+		except Patient.DoesNotExist:
+			raise Http404
+	elif request.method == 'POST':
 		if request.user.is_authenticated():
 			patientDetails, response, type_ = {}, {}, None
 			type_ = request.POST.get('type_', None)
 			if type_ == "updatePatient":
-				patientDetails['user'] = data['user']
+				patientDetails['user'] = user
 				patientDetails['fname'] = request.POST.get('fname', None)
 				patientDetails['lname'] = request.POST.get('lname', None)
 				patientDetails['number'] = request.POST.get('number', None)
 				patientDetails['age'] = request.POST.get('age', None)
 				patientDetails['gender'] = request.POST.get('gender', None)
 				updatePatientDetails(patientDetails)
-				data['patient'] = Patient.patient_objects.patient_details(data['user'])
+				data['patient'] = Patient.patient_objects.patient_details(user)
 				print "user info updated."
-				data['reviews'] = Review.review_objects.patient_reviews(data['user'])
+				data['reviews'] = Review.review_objects.patient_reviews(user)
 			elif type_ == "deleteReview":
 				review_id = request.POST.get('id', None)
 				response['status_'] = deleteReview(review_id)
 				return HttpResponse(json.dumps(response), content_type="application/json")
 			elif type_ == "deletePrac":
 				slug = request.POST.get('prac_slug')
-				patient = Patient.patient_objects.patient_details(data['user'])
+				patient = Patient.patient_objects.patient_details(user)
 				response['status_'] = deleteFavtPrac(patient, slug)
 				return HttpResponse(json.dumps(response), content_type="application/json")
 			elif type_ == "updatereview":
