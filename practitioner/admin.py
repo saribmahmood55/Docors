@@ -8,26 +8,43 @@ class PracticeInline(admin.TabularInline):
 	extra = 1
 
 class PractitionerAdmin(admin.ModelAdmin):
+	{
+	'fields': (('name', 'gender', 'email', 'status'), 'physician_type', 'degrees', 'year_of_birth', 
+		'specialty', 'fellowship', 'conditions', 'procedures'),
+	}
+	'''
+	fieldsets = (
+        (None, {
+            'fields': ('name', 'gender', 'email', 'status', 'physician_type', 'degrees', 'year_of_birth', 'specialty', 'fellowship', 'conditions', 'procedures')
+        }),
+        ('Advanced options', {
+            'classes': ('collapse',),
+            'fields': ('achievements', 'photo', 'message')
+        }),
+    )
 	fieldsets = [
 		('Name', {'fields': ['name']}),
+		('Gender', {'fields': ['gender']}),
 		('status', {'fields': ['status']}),
+        ('Degrees', {'fields': ['degrees']}),
         ('Achievements', {'fields': ['achievements']}),
         ('Experience', {'fields': ['experience']}),
-        ('Year of Birth', {'fields': ['year_of_birth']}),
-        ('Gender', {'fields': ['gender']}),
+        ('Year of Birth', {'fields': ['year_of_birth']}),  
         ('Thumbnail Photo ', {'fields': ['photo']}),
         ('Short Message', {'fields': ['message']}),
-        ('Speciality', {'fields': ['specialities']}),
-        ('Degrees', {'fields': ['degrees']}),
+        ('Speciality', {'fields': ['specialty']}),
+        ('Fellowship', {'fields': ['fellowship']}),
         ('Conditions', {'fields': ['conditions']}),
         ('Procedures', {'fields': ['procedures']}),
 	]
-	list_display = ['name','slug','gender','Degrees_list','experience','Specialist_in','Condtions_Treated','Procedures_Performed','pk']
+	'''
+	list_display = ['name','slug','gender','Degrees_list','specialty','Fellowship_in','Condtions_Treated','Procedures_Performed']
 	search_fields = ['name']
+	list_filter = ['name']
 	inlines = [PracticeInline]
 	
-	def Specialist_in(self, obj):
-		return " , ".join([s.name for s in obj.specialities.all()])
+	def Fellowship_in(self, obj):
+		return " , ".join([s.name for s in obj.fellowship.all()])
 
 	def Degrees_list(self, obj):
 		return " , ".join([d.name for d in obj.degrees.all()])
@@ -59,8 +76,15 @@ class ProcedureAdmin(admin.ModelAdmin):
 	search_fields = ['name']
 
 
+class FellowshipAdmin(admin.ModelAdmin):
+	list_display = ['name','specialization','slug']
+	list_filter = ['name']
+	search_fields = ['name']
+
+
 admin.site.register(Practitioner, PractitionerAdmin)
 admin.site.register(Specialization, SpecializationAdmin)
 admin.site.register(Degree, DegreeAdmin)
 admin.site.register(Condition, ConditionAdmin)
 admin.site.register(Procedure, ProcedureAdmin)
+admin.site.register(Fellowship, FellowshipAdmin)

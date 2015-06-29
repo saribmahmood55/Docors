@@ -1,3 +1,4 @@
+# flake8: noqa
 from django.contrib import admin
 from practice.models import *
 
@@ -29,7 +30,7 @@ class PracticeAdmin(admin.ModelAdmin):
         (None, {'fields': ['fee']}),
         (None, {'fields': ['appointments_only']}),
 	]
-	list_display = ['practitioner','pk','practice_location','fee','appointments_only','modified','location']
+	list_display = ['practitioner','pk','practice_location','fee','appointments_only','modified']
 	search_fields = ['practitioner__name']
 
 

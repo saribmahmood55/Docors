@@ -1,7 +1,2 @@
 {{ object.name }}
-{{ object.human_name }}
-{{ object.SEO_name }}
-{{ object.slug }}
-{% for prac in object.practitioner_set.all %}
-{{ prac.name }}
-{% endfor %}
+{{ object.practitioner.name }}
