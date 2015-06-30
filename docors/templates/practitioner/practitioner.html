@@ -25,6 +25,11 @@
                             	<li><i class="fa fa-save"></i> <a href="#" id="save_pract">Save</a></li>
                             	<input type="hidden" id="favt_pract" value="0">
                             {% endif %}
+                            {% if user.is_authenticated %}
+                            	<input type="hidden" value="1" id="user_authenticated">
+                            {% else %}
+                            	<input type="hidden" value="0" id="user_authenticated">
+                            {% endif %}
                             <input type="hidden" id="pract_slug" value="{{data.practitioner.slug}}">
                             <li><i class="fa fa-share-alt"></i> <a href="#">Share</a></li>
                             <li><span class="socialShare"></span>
@@ -87,7 +92,7 @@
 				<div class="price-action">
 					<ul class="list-inline last-loc-line">
 						<li><i class="fa fa-clock-o text-blue"></i></li>
-						<li><button class="btn btn-primary">Timings</button></li>
+						<li><button class="btn btn-primary btn-{{practice.practice_location.slug}}-timing">Timings</button></li>
 						<li><button class="btn btn-success" disabled>Open Now</button></li>
 						<li><i class="fa fa-map-marker text-navy"></i></li>
 					</ul>
@@ -358,26 +363,57 @@
 		    googlePlus : true
 		};
 
+		var timings = Array();
+
+		{% for practice in data.practice %}
+			timings['{{practice.practice_location.slug}}'] = '<table class="table table-striped table-bordered"><thead><tr><th>Day</th><th>Opeining Time</th><th>Closing Time</th></tr></thead><tbody>';
+			{% for timing in practice.practicetiming_set.all %}
+				timings['{{practice.practice_location.slug}}'] = timings['{{practice.practice_location.slug}}'] + '<tr><td>{{timing.get_day_display}}</td><td>{{timing.start_time}}</td><td>{{timing.end_time}}</td></tr>';
+	        {% endfor %}
+	        timings['{{practice.practice_location.slug}}'] = timings['{{practice.practice_location.slug}}'] + '</tbody></table>'
+			$(".btn-{{practice.practice_location.slug}}-timing").click(function(){
+				swal({
+	                title: "{{practice.practice_location.name}} Timings",
+	                text: timings['{{practice.practice_location.slug}}'],
+	                html:true
+	            });
+			});
+		{% endfor %}
+
 		$("#save_pract").click(function(){
 			var slug = $("#pract_slug").val();
-			if($("#favt_pract").val() == "0"){
-				$.ajax({
-					url:"{% url 'add_favt_pract' %}",
-					method:"GET",
-					data:{'slug':slug},
-					success:function(data){
-						if(data){
-							$("#favt_pract").val("1");
-							$("#save_pract").html("Saved");
-							swal({
-								title: "Saved!",
-								text: "Practitioner saved successfully, now you can access this practitioner from your profile.",
-								type:"success", 
-								html: true 
-							});
+			if($("#user_authenticated").val() == "0"){
+				swal({
+					title: "Login Required!",
+					text: "You need to log in to save this practitioner in your profile.",
+					type: "warning",
+					showCancelButton: true,
+					confirmButtonColor: "#DD6B55",
+					confirmButtonText: "Login Now!",
+					closeOnConfirm: false },
+					function(){
+						window.location = "/accounts/login/?next=/physican/" + slug;
+					});
+			}else{
+				if($("#favt_pract").val() == "0"){
+					$.ajax({
+						url:"{% url 'add_favt_pract' %}",
+						method:"GET",
+						data:{'slug':slug},
+						success:function(data){
+							if(data){
+								$("#favt_pract").val("1");
+								$("#save_pract").html("Saved");
+								swal({
+									title: "Saved!",
+									text: "Practitioner saved successfully, now you can access this practitioner from your profile.",
+									type:"success", 
+									html: true 
+								});
+							}
 						}
-					}
-				});
+					});
+				}
 			}
 			return false;
 		});

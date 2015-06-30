@@ -49,5 +49,5 @@ class PractitionerForm(forms.Form):
 	#Timings
 	day_from = forms.ChoiceField(choices = DAYS, label = "From day", initial='1', required = True)
 	day_to = forms.ChoiceField(choices = DAYS, label = "To day", initial='5', required = True)
-	start_time = forms.TimeField(widget=forms.TimeInput(format='%H:%M'), label = "Start time.")
-	end_time = forms.TimeField(widget=forms.TimeInput(format='%H:%M'), label = "End time.")
+	start_time = forms.TimeField(widget=forms.TimeInput(attrs={'placeholder': 'hh:mm (24h format)'},format='%H:%M'), label = "Start time.")
+	end_time = forms.TimeField(widget=forms.TimeInput(attrs={'placeholder': 'hh:mm (24h format)'},format='%H:%M'), label = "End time.")
