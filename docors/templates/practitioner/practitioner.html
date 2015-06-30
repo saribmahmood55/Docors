@@ -18,8 +18,16 @@
                     {% get_hit_count for data.practitioner as total_hits %}
                     <div class="col-md-9 margin20">
                         <ul class="list-inline post-detail" style="margin-top:0;">
-                            <li><i class="fa fa-cog"></i> <a href="#">Save</a></li>
-                            <li><i class="fa fa-save"></i> <a href="#">Share</a></li>
+                        	{% if data.favourite %}
+                        		<li><i class="fa fa-save"></i> <a href="#" id="save_pract">Saved</a></li>
+                        		<input type="hidden" id="favt_pract" value="1">
+                        	{% else %}
+                            	<li><i class="fa fa-save"></i> <a href="#" id="save_pract">Save</a></li>
+                            	<input type="hidden" id="favt_pract" value="0">
+                            {% endif %}
+                            <input type="hidden" id="pract_slug" value="{{data.practitioner.slug}}">
+                            <li><i class="fa fa-share-alt"></i> <a href="#">Share</a></li>
+                            <li><span class="socialShare"></span>
                             <li><i class="fa fa-save"></i> <a href="#">Total Visits : {{total_hits}}</a></li>
                         </ul>
                         <h2>{{data.practitioner.name}} <i class="fa fa-check-circle text-blue"></i></h2>
@@ -73,7 +81,7 @@
 						<li><i class="fa fa-home text-blue"></i> {{practice.practice_location.clinic_address}} ,{{practice.practice_location.area}}</li>
 						<li><i class="fa fa-phone text-blue"></i> {{practice.practice_location.contact_number}}</li>
 						<li><i class="fa fa-money text-blue"></i> {{practice.fee}}</li>
-						<li><i class="fa fa-briefcase text-blue"></i> {% for spec in data.practitioner.specialities.all %}{{spec.human_name}}{% endfor %}</li>
+						<li><i class="fa fa-briefcase text-blue"></i> {{data.practitioner.specialty.human_name}}</li>
 					</ul>
 				</div>
 				<div class="price-action">
@@ -312,12 +320,14 @@
 
 {% block pageSpecificCSS %}
 <link rel="stylesheet" href="{% static 'assets/css/sweetalert.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/jssocials.css' %}">
 {% endblock %}
 
 {% block pageSpecificJS %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/2.2.0/isotope.pkgd.min.js"></script>
 <script src="{% static 'hitcount/hitcount-jquery.js' %}"></script>
 <script src="{% static 'assets/js/sweetalert.min.js' %}"></script>
+<script src="{% static 'assets/js/jssocials.min.js' %}"></script>
 {% endblock %}
 
 
@@ -336,6 +346,42 @@
 	});
 
 	$(document).ready(function(){
+
+		var options = {
+
+		    twitter: {
+		        text: 'Doctor Profile Page! ',
+		        via: 'DoctorsInfo.pk'
+		    },
+
+		    facebook : true,
+		    googlePlus : true
+		};
+
+		$("#save_pract").click(function(){
+			var slug = $("#pract_slug").val();
+			if($("#favt_pract").val() == "0"){
+				$.ajax({
+					url:"{% url 'add_favt_pract' %}",
+					method:"GET",
+					data:{'slug':slug},
+					success:function(data){
+						if(data){
+							$("#favt_pract").val("1");
+							$("#save_pract").html("Saved");
+							swal({
+								title: "Saved!",
+								text: "Practitioner saved successfully, now you can access this practitioner from your profile.",
+								type:"success", 
+								html: true 
+							});
+						}
+					}
+				});
+			}
+			return false;
+		});
+
 		$("#subscription-form").validate({
             // Rules for form validation
             rules:{

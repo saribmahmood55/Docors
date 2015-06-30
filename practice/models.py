@@ -105,7 +105,7 @@ class PracticeManager(models.Manager):
     def practice_lookup(self, city, spec, dist, lon, lat, name, day, wait):
         result, query = {}, None
         if lon == '' and lat == '':
-            query = super(PracticeManager, self).filter(practitioner__specialities__slug=spec, practitioner__status=True, practice_location__city__slug=city).distinct('practitioner')
+            query = super(PracticeManager, self).filter(practitioner__specialty__slug=spec, practitioner__status=True, practice_location__city__slug=city).distinct('practitioner')
             if name != '':
                 query = query.filter(practitioner__name__icontains=name)
             if day != '':
@@ -117,7 +117,7 @@ class PracticeManager(models.Manager):
     		distance_from_point = {'km': dist}
     		query = Practice.gis.filter(location__distance_lte=(current_point, measure.D(**distance_from_point)))
     		query = query.distance(current_point).order_by('distance')
-    		query = query.filter(practitioner__specialities__slug=spec, practitioner__status=True)
+    		query = query.filter(practitioner__specialty__slug=spec, practitioner__status=True)
     		#spatial name search
     		if name != '':
     			query = query.filter(practitioner__name__icontains=name)
@@ -131,7 +131,7 @@ class PracticeManager(models.Manager):
         return result
     # Recent Search Handling
     def practice_recentlookups(self, area, spec):
-        return super(PracticeManager, self).filter(practitioner__specialities__slug=spec, practitioner__status=True, practice_location__area__slug=area).distinct('practitioner')
+        return super(PracticeManager, self).filter(practitioner__specialty__slug=spec, practitioner__status=True, practice_location__area__slug=area).distinct('practitioner')
 
 
 class Practice(models.Model):
@@ -173,7 +173,7 @@ class PracticeTimingManager(models.Manager):
         return practice_timings    
 
     def spec_day_timing(self, spec, day):
-        practice_timings = super(PracticeTimingManager, self).filter(practice__practitioner__specialities__slug=spec, day=day).order_by('pk')
+        practice_timings = super(PracticeTimingManager, self).filter(practice__practitioner__specialty__slug=spec, day=day).order_by('pk')
         return practice_timings
 
 class PracticeTiming(models.Model):
@@ -196,11 +196,11 @@ class PracticeTiming(models.Model):
 
 class RecentSearch(models.Model):
     city = models.ForeignKey(City)
-    speciality = models.ForeignKey(Specialization)
+    specialty = models.ForeignKey(Specialization)
     hit_count = models.PositiveIntegerField(default=0)
     
     def __unicode__(self):
-        return "%s in %s" % (self.speciality.name, self.city.name)
+        return "%s in %s" % (self.specialty.name, self.city.name)
     
     class Meta:
         verbose_name_plural = "Recent Searches"

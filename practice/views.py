@@ -99,6 +99,7 @@ def recentSearch(request, speciality, area):
 	if request.method == "GET":
 		try:
 			data['practice'] = Practice.practice_objects.practice_recentlookups(area, speciality)
+			data['ob'] = Specialization.objects.get(slug=speciality)
 			data['results_count'] = len(data['practice'])
 			data['results_header'] = speciality + " near " + Area.area_objects.get_full_name(area)
 			#updateRecentSearches(city, speciality)

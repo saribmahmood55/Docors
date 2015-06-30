@@ -43,25 +43,32 @@ def practitioner_suggestions(request):
 		query = request.GET.get('q', '')
 		type_query = request.GET.get('type', 'practitioner')
 		if request.is_ajax():
+			res = []
 			#results = Practitioner.prac_objects.practitioner_suggest(query)
 			if type_query == "specialization":
-				sqs = SearchQuerySet().autocomplete(name=query).models(Specialization)
+				sqs = SearchQuerySet().filter(name=query).models(Specialization)
+				for x in sqs:
+					res.append({'value':x.object.human_name, 'type':type_query, 'href':x.object.slug})
 			elif type_query == "condition":
-				sqs = SearchQuerySet().autocomplete(name=query).models(Condition)
+				sqs = SearchQuerySet().filter(name=query).models(Condition)
+				for x in sqs:
+					res.append({'value':x.object.name, 'type':type_query, 'href':x.object.slug})
 			elif type_query == "procedure":
-				sqs = SearchQuerySet().autocomplete(name=query).models(Procedure)
+				sqs = SearchQuerySet().filter(name=query).models(Procedure)
+				for x in sqs:
+					res.append({'value':x.object.name, 'type':type_query, 'href':x.object.slug})
 			else:
-				sqs = SearchQuerySet().autocomplete(name=query).models(Practitioner)
-			res = []
-			for x in sqs:
-				res.append({'value':x.object.name, 'type':type_query, 'href':x.object.slug})
+				sqs = SearchQuerySet().filter(name=query).models(Practitioner)
+				for x in sqs:
+					res.append({'value':x.object.name, 'type':type_query, 'href':x.object.slug})
+
 			res = [dict(t) for t in set([tuple(d.items()) for d in res])]
 			return HttpResponse(json.dumps(res),content_type="application/json")
 		else:
 			data = {}
 			try:
 				data['practice'] = Practice.practice_objects.practitioner_name(query)
-				data['results_count'] = len(data['practice']['practice_list'])
+				data['results_count'] = len(data['practice'])
 				data['results_header'] = "physicians matching your search criteria"
 			except Practice.DoesNotExist:
 				raise Http404
@@ -166,7 +173,7 @@ def registration(request):
 
 			#Add Speciality to practitioner, updated from M2M field to Foreign key relation by Asad
 			speciality = Specialization.objects.get(pk=spec)
-			practitioner.specialities = speciality
+			practitioner.speciality = speciality
 
 			#PracticeLocation
 			practice_name = form.cleaned_data['practice_name']

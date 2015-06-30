@@ -23,7 +23,6 @@ def favourite(user,slug):
 	if not favourite_list.exists():
 		patient.favt_practitioner.add(practitioner)#update many to many field
 		msg = "Practitioner has been bookmarked, Click on your profile to access directly."
-		print msg
 		return True
 	else:
 		msg = "Practitioner already Favourite"

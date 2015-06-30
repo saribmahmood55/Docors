@@ -8,10 +8,13 @@
 {% block seoItemTags %}http://schema.org/Physician{% endblock %}
 {% block content %}
 
+{% if data.ob %}
 {% insert_hit_count_js_variables for data.ob %}
   {% get_hit_count for data.ob as total_hits %}
 
 total hits : {{total_hits}}
+
+{% endif %}
 
 <section class="results-section">
   <div class="container">
@@ -57,11 +60,9 @@ total hits : {{total_hits}}
             <div class="box-header">
               <h2 class="box-title col-md-4" style="padding-top:18px;"><strong>{{onePractitioner.practitioner.get_title_display}}{{onePractitioner.practitioner.name}}</strong>&nbsp;&nbsp;&nbsp;<i class="fa fa-check-circle text-blue" title="Specialist"></i></h2>
               <div class="col-md-4 speciality-label">
-                {% for speciality in onePractitioner.practitioner.specialities.all.iterator %}
                 <span class="label label-primary" style="margin-left:15px;">
-                    {{speciality.name}}
+                    {{onePractitioner.practitioner.specialty.name}}
                 </span>
-                {% endfor %}
               </div>
               <div class="box-tools col-md-4">
                 <button class="btn btn-flat margin pull-right" style="border-radius:1.2em;"><i class="fa fa-star text-blue"></i><i class="fa fa-star text-blue"></i><i class="fa fa-star text-blue"></i><i class="fa fa-star text-blue"></i> 4.5</button>

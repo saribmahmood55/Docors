@@ -169,6 +169,11 @@ def custom_login(request, **kwargs):
 	else:
 		return login(request)
 
+def favt_pract(request):
+	slug = request.GET.get('slug','')
+	resp = favourite(request.user,slug)
+	return HttpResponse(json.dumps(resp), content_type="application/json")
+
 @receiver(user_signed_up)
 def set_patient(sender, **kwargs):
 	user = kwargs.pop('user')
