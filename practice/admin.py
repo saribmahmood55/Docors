@@ -9,7 +9,7 @@ class CityAdmin(admin.ModelAdmin):
 
 class AreaAdmin(admin.ModelAdmin):
 	list_display = ['name', 'city', 'slug']
-	list_filter = ['name']
+	list_filter = ['city']
 	search_fields = ['name']
 
 class CheckupFeeAdmin(admin.ModelAdmin):

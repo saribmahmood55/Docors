@@ -1,3 +1,4 @@
+# flake8: noqa
 from django.db import models
 from practitioner.models import *
 from autoslug import AutoSlugField
@@ -26,6 +27,7 @@ class City(models.Model):
     
     class Meta:
         verbose_name_plural = "Cities"
+        ordering = ('name',)
 
 class AreaManager(models.Manager):
     def get_slug(self, key, value):
@@ -36,7 +38,7 @@ class AreaManager(models.Manager):
         if area.name == "Other":
             return area.name + " areas of " + area.city.name
         else:
-            return area.name + "," + area.city.name
+            return area.name + ", " + area.city.name
 
     def get_areas(self, city):
         return super(AreaManager, self).filter(city=city)
@@ -53,10 +55,11 @@ class Area(models.Model):
     area_objects = AreaManager()
 
     def __unicode__(self):
-        return self.name + "," + self.city.name
+        return self.name + ", " + self.city.name
 
     class Meta:
         verbose_name_plural = "Areas"
+        ordering = ('name',)
 
 
 class CheckupFee(models.Model):
