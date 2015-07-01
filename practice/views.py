@@ -129,6 +129,7 @@ def practitioner(request, slug):
 			data['practice_name'] = data['practice'].distinct('practice_location')
 			print data['practice_name']
 			data['reviews'] = Review.review_objects.practitioner_reviews(slug)
+			data['pract_avg_review'] = get_review_details(data['reviews'])
 		except Practitioner.DoesNotExist:
 			raise Http404
-	return render_to_response('practitioner/practitioner.html', {'data': data}, context_instance=RequestContext(request))
+	return render_to_response('practitioner/practitioner.html', {'data': data,'n':xrange(5)}, context_instance=RequestContext(request))

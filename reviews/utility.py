@@ -6,6 +6,7 @@ from reviews.models import *
 from badwordsfilter import *
 #from django.contrib import messages
 
+
 def newReview(user, slug, review_text):
 	clean_text = badWordFilter(review_text)
 	print clean_text

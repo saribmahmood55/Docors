@@ -107,12 +107,14 @@
 					<ul class="list-unstyled">
 						<li>
 							<ul class="list-inline custom-list-feedback">
-								<li><i class="fa fa-star text-yellow"></i></li>
-								<li><i class="fa fa-star text-yellow"></i></li>
-								<li><i class="fa fa-star text-yellow"></i></li>
-								<li><i class="fa fa-star text-yellow"></i></li>
-								<li><i class="fa fa-star-half-empty text-yellow"></i></li>
-								<li>4.5 (5 reviews)</li>
+								{% for i in n %}
+									{% if i < data.pract_avg_review.total %}
+										<li><i class="fa fa-star text-yellow"></i></li>
+									{% else %}
+										<li><i class="fa fa-star text-gray"></i></li>
+									{% endif %}
+								{% endfor %}
+								<li>{{data.pract_avg_review.total}} ({{data.pract_avg_review.num_of_reviews}} reviews)</li>
 							</ul>
 						</li>
 						<li><span class="h3">Patients Satisfaction</span></li>
@@ -122,132 +124,40 @@
 									<h4 class="panel-title">Read what other patients have to say:</h4>
 								</div>
 								<div class="panel-body comments-panel-body">
+									{% for review in data.reviews %}
 									<div class="review-box margin10">
 										<img src="{% static 'assets/img/team-1.jpg' %}" alt="" class="img-responsive">
 										<div class="review-content text-left">
 											<ul class="list-inline rating-list custom-list-feedback text-left">
 												<li class="admin-detail">
-													<span><strong>User</strong></span>
+													{% if review.anonymous %}
+													<span><strong>Anonymous</strong></span>
+													{% else %}
+													<span><strong>{{review.patient.user.first_name}}</strong></span>
+													{% endif %}
 												</li>
-												<li><i class="fa fa-star yellow"></i></li>
-												<li><i class="fa fa-star yellow"></i></li>
-												<li><i class="fa fa-star yellow"></i></li>
-												<li><i class="fa fa-star yellow"></i></li>
-												<li><i class="fa fa-star-half-empty yellow"></i></li>
+												{% for i in n %}
+													{% if i < review.answers %}
+														<li><i class="fa fa-star text-yellow"></i></li>
+													{% else %}
+														<li><i class="fa fa-star text-gray"></i></li>
+													{% endif %}
+												{% endfor %}
 											</ul>
-											<p>Great service, nice experience.</p>
+											<p>{{review.comments}}</p>
 											<ul class="list-inline text-right custom-list-feedback">
-												<li><i class="fa fa-thumbs-o-up text-blue"></i> 5 </li>
-												<li><i class="fa fa-thumbs-o-down text-red"></i> 2</li>
+												<li><i class="fa fa-thumbs-o-up text-blue"></i> {{review.comments.agree}} </li>
+												<li><i class="fa fa-thumbs-o-down text-red"></i> {{review.comments.disagree}}</li>
 											</ul>
 										</div>
 									</div>
-									<div class="review-box margin10">
-										<img src="{% static 'assets/img/team-1.jpg' %}" alt="" class="img-responsive">
-										<div class="review-content text-left">
-											<ul class="list-inline rating-list custom-list-feedback text-left">
-												<li class="admin-detail">
-													<span><strong>User</strong></span>
-												</li>
-												<li><i class="fa fa-star yellow"></i></li>
-												<li><i class="fa fa-star yellow"></i></li>
-												<li><i class="fa fa-star yellow"></i></li>
-												<li><i class="fa fa-star yellow"></i></li>
-												<li><i class="fa fa-star-half-empty yellow"></i></li>
-											</ul>
-											<p>Great service, nice experience.</p>
-											<ul class="list-inline text-right custom-list-feedback">
-												<li><i class="fa fa-thumbs-o-up text-blue"></i> 5 </li>
-												<li><i class="fa fa-thumbs-o-down text-red"></i> 2</li>
-											</ul>
-										</div>
-									</div>
-									<div class="review-box margin10">
-										<img src="{% static 'assets/img/team-1.jpg' %}" alt="" class="img-responsive">
-										<div class="review-content text-left">
-											<ul class="list-inline rating-list custom-list-feedback text-left">
-												<li class="admin-detail">
-													<span><strong>User</strong></span>
-												</li>
-												<li><i class="fa fa-star yellow"></i></li>
-												<li><i class="fa fa-star yellow"></i></li>
-												<li><i class="fa fa-star yellow"></i></li>
-												<li><i class="fa fa-star yellow"></i></li>
-												<li><i class="fa fa-star-half-empty yellow"></i></li>
-											</ul>
-											<p>Great service, nice experience.</p>
-											<ul class="list-inline text-right custom-list-feedback">
-												<li><i class="fa fa-thumbs-o-up text-blue"></i> 5 </li>
-												<li><i class="fa fa-thumbs-o-down text-red"></i> 2</li>
-											</ul>
-										</div>
-									</div>
-									<div class="review-box margin10">
-										<img src="{% static 'assets/img/team-1.jpg' %}" alt="" class="img-responsive">
-										<div class="review-content text-left">
-											<ul class="list-inline rating-list custom-list-feedback text-left">
-												<li class="admin-detail">
-													<span><strong>User</strong></span>
-												</li>
-												<li><i class="fa fa-star yellow"></i></li>
-												<li><i class="fa fa-star yellow"></i></li>
-												<li><i class="fa fa-star yellow"></i></li>
-												<li><i class="fa fa-star yellow"></i></li>
-												<li><i class="fa fa-star-half-empty yellow"></i></li>
-											</ul>
-											<p>Great service, nice experience.</p>
-											<ul class="list-inline text-right custom-list-feedback">
-												<li><i class="fa fa-thumbs-o-up text-blue"></i> 5 </li>
-												<li><i class="fa fa-thumbs-o-down text-red"></i> 2</li>
-											</ul>
-										</div>
-									</div>
-									<div class="review-box margin10">
-										<img src="{% static 'assets/img/team-1.jpg' %}" alt="" class="img-responsive">
-										<div class="review-content text-left">
-											<ul class="list-inline rating-list custom-list-feedback text-left">
-												<li class="admin-detail">
-													<span><strong>User</strong></span>
-												</li>
-												<li><i class="fa fa-star yellow"></i></li>
-												<li><i class="fa fa-star yellow"></i></li>
-												<li><i class="fa fa-star yellow"></i></li>
-												<li><i class="fa fa-star yellow"></i></li>
-												<li><i class="fa fa-star-half-empty yellow"></i></li>
-											</ul>
-											<p>Great service, nice experience.</p>
-											<ul class="list-inline text-right custom-list-feedback">
-												<li><i class="fa fa-thumbs-o-up text-blue"></i> 5 </li>
-												<li><i class="fa fa-thumbs-o-down text-red"></i> 2</li>
-											</ul>
-										</div>
-									</div>
-									<div class="review-box margin10">
-										<img src="{% static 'assets/img/team-1.jpg' %}" alt="" class="img-responsive">
-										<div class="review-content text-left">
-											<ul class="list-inline rating-list custom-list-feedback text-left">
-												<li class="admin-detail">
-													<span><strong>User</strong></span>
-												</li>
-												<li><i class="fa fa-star yellow"></i></li>
-												<li><i class="fa fa-star yellow"></i></li>
-												<li><i class="fa fa-star yellow"></i></li>
-												<li><i class="fa fa-star yellow"></i></li>
-												<li><i class="fa fa-star-half-empty yellow"></i></li>
-											</ul>
-											<p>Great service, nice experience.</p>
-											<ul class="list-inline text-right custom-list-feedback">
-												<li><i class="fa fa-thumbs-o-up text-blue"></i> 5 </li>
-												<li><i class="fa fa-thumbs-o-down text-red"></i> 2</li>
-											</ul>
-										</div>
-									</div>
+									{% endfor %}
 								</div>
 							</div>
 						</li>
-						<!--<li class="last-loc-line">
-							
-						</li>-->
+						<li>
+							<a href="#"><span class="h3 text-blue">How was your experience?</span></a>
+						</li>
 					</ul>
 				</div>
 				
