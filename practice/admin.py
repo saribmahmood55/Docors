@@ -18,7 +18,7 @@ class CheckupFeeAdmin(admin.ModelAdmin):
 
 
 class PracticeLocationAdmin(admin.ModelAdmin):
-	list_display = ['pk','name','slug','area','contact_number','clinic_address','lon','lat']
+	list_display = ['name','slug','area','contact_number','clinic_address','lon','lat']
 	search_fields = ['name']
 
 

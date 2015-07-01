@@ -84,17 +84,21 @@
 				<div class="price-features">
 					<ul class="list-unstyled">
 						<li><i class="fa fa-home text-blue"></i> {{practice.practice_location.clinic_address}} ,{{practice.practice_location.area}}</li>
-						<li><i class="fa fa-phone text-blue"></i> {{practice.practice_location.contact_number}}</li>
-						<li><i class="fa fa-money text-blue"></i> {{practice.fee}}</li>
-						<li><i class="fa fa-briefcase text-blue"></i> {{data.practitioner.specialty.human_name}}</li>
+						<li><i class="fa fa-phone text-blue"></i> <a href="tel:{{ practice.practice_location.contact_number }}">{{ practice.practice_location.contact_number }}</a></li>
+						<li><i title="Checkup fee" class="fa fa-money text-blue"></i> {{practice.fee}}</li>
 					</ul>
 				</div>
 				<div class="price-action">
 					<ul class="list-inline last-loc-line">
-						<li><i class="fa fa-clock-o text-blue"></i></li>
+						<li><i title="Last updated on: {{ practice.modified }}" class="fa fa-clock-o text-blue"></i></li>
 						<li><button class="btn btn-primary btn-{{practice.practice_location.slug}}-timing">Timings</button></li>
 						<li><button class="btn btn-success" disabled>Open Now</button></li>
-						<li><i class="fa fa-map-marker text-navy"></i></li>
+						{% if practice.practice_location %}
+							<li><a href="https://www.google.com/maps?q={{ practice.practice_location.lon }},{{ practice.practice_location.lat }}" target="_blank">
+									<i class="fa fa-map-marker text-navy"></i>
+								</a>
+							</li>
+						{% endif %}
 					</ul>
 				</div>
 			</div>

@@ -3483,7 +3483,7 @@ body.invoice {
   line-height: 1.42857143;
   border: 1px solid transparent;
   border-radius: 4px 4px 0 0;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   border: 1px solid #ddd;
   padding: 6px 45px;
   -webkit-border-radius: 4px 4px 0 0;
