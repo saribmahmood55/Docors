@@ -29,68 +29,71 @@
 					</div>
 				</div>
 				<div class="row row-space-75-0">
-					<div class="col-md-6 col-md-offset-3">
-						<div class="tabs">
-	                        <ul class="nav nav-tabs">
-	                            <li class="active"><a href="#main_search_tab" data-toggle="tab">Find Doctors</a></li>
-	                            <li class=""><a href="#speciality_tab" data-toggle="tab">Speciality</a></li>
-	                            <li class=""><a href="#advsearch_tab" data-toggle="tab">Advanced Search</a></li>
-	                        </ul>
-	                        <!-- Tab panes -->
-	                        <div class="tab-content" style="margin-top:0;">
-	                            <div class="tab-pane active" id="main_search_tab">
-	                                <div class="tab-desc animated fadeIn">
-	                                	<div class="row">
-	                                		<form role="form" action="{% url 'doctor_suggestions' %}" method="GET">
-		                                		<div class="col-md-12 margintop15 margin10">
-			                                		<div class="col-md-10" id="doctor">
-			                                			<div class="form-group">
-			                                				<input type="text" class="form-control input-lg typeahead" name="q" placeholder="Doctor Name, Specialty, Condition or Procedure">
-			                                				<img class="typeahead-spinner" src="{% static 'assets/img/spinner.gif' %}" style="display: none;">
-			                                			</div>
-			                                		</div>
-			                                		<div class="col-md-2" >
-			                                			<button class="btn btn-danger btn-lg pull-right"><i class="fa fa-search"></i></button>
-			                                		</div>
-			                                	</div>
-			                                </form>
-	                                	</div>
-	                                </div>
-	                            </div>
-	                            <div class="tab-pane" id="speciality_tab">
-	                                <div class="tab-desc animated fadeInDown">
-	                                	<div class="row">
-	                                		<form role="form" action="{% url 'speciality_suggestions' %}">
-		                                		<div class="col-md-12">
-			                                		<div class="col-md-5 margin20" id="first_col">
-			                                			<div class="form-group">
-			                                				<label id="first_col_search_label">Speciality</label>
-			                                				<input type="text" name="spec" class="form-control input-lg typeahead" placeholder="eg. Child Specialist" id="first_col_search_input">
-			                                			</div>
-			                                		</div>
-			                                		<div class="col-md-5 margin20" id="second_col">
-			                                			<div class="form-group">
-			                                				<label id="second_col_search_label">Area</label>
-			                                				<input type="text" name="area" class="form-control input-lg typeahead area_typeahead" placeholder="eg. Faisal Town" id="second_col_search_input">
-			                                			</div>
-			                                		</div>
-			                                		<div class="col-md-2 margin20" style="margin-top:30px;">
-			                                			<button class="btn btn-danger btn-lg pull-right"><i class="fa fa-search"></i></button>
-			                                		</div>
-			                                	</div>
-			                                </form>
-	                                	</div>
-	                                </div> 
-	                            </div>
-	                            <div class="tab-pane" id="advsearch_tab">
-	                                <div class="tab-desc animated fadeInUp">
-	                                    <p>
-	                                        Coming Soon.
-	                                    </p>
-	                                </div>
-	                            </div>
-	                        </div>
-	                    </div>
+					<div class="col-md-8 col-md-offset-2">
+						<div class="sky-tabs sky-tabs-amount-3 sky-tabs-pos-top-justify sky-tabs-anim-flip sky-tabs-response-to-icons">
+							<input type="radio" name="sky-tabs" checked="" id="find-doctors" class="sky-tab-content-1">
+							<label for="find-doctors"><span><span><i class="fa fa-user-md"></i>Find Doctors</span></span></label>
+							
+							<input type="radio" name="sky-tabs" id="find-speciality" class="sky-tab-content-2">
+							<label for="find-speciality"><span><span><i class="fa fa-stethoscope"></i>Speciality</span></span></label>
+							
+							<input type="radio" name="sky-tabs" id="find-adv" class="sky-tab-content-3">
+							<label for="find-adv"><span><span><i class="fa fa-cogs"></i>Advanced</span></span></label>
+							
+							<ul class="custom-sky-tabs-content">
+								<li class="sky-tab-content-1">					
+									<div class="typography">
+										<form class="sky-form custom-sky-form" role="form" action="{% url 'doctor_suggestions' %}" method="GET">
+			                            	<fieldset>
+			                        			<label class="input input-file">
+			                        				<div class="button">
+			                        					<input type="submit">
+			                        					<i class="fa fa-search"></i>
+			                        				</div>
+			                        				<input type="text" class="doc-typeahead" name="q" placeholder="Doctor Name, Specialty, Condition or Procedure">
+			                        				<img class="typeahead-spinner" src="{% static 'assets/img/spinner.gif' %}" style="display: none;">
+			                        			</label>
+			                        		</fieldset>
+			                            </form>
+									</div>
+								</li>
+								
+								<li class="sky-tab-content-2">
+									<div class="typography">
+										<form role="form" class="sky-form custom-sky-form" action="{% url 'speciality_suggestions' %}">
+											<fieldset>
+												<div class="row">
+													<section class="col col-5">
+							                        	<label>Speciality</label>
+							                            <label class="input">
+							                            	<input type="text" name="spec" class="typeahead spec_typeahead" placeholder="eg. Child Specialist">
+							                                <b class="tooltip tooltip-bottom-right">Needed to enter the website</b>
+							                            </label>
+							                        </section>
+							                        <section class="col col-5">
+							                        	<label>Area</label>
+							                            <label class="input">
+							                            	<input type="text" name="area" class="typeahead area_typeahead" placeholder="eg. Faisal Town">
+							                                <b class="tooltip tooltip-bottom-right">Needed to enter the website</b>
+							                            </label>
+							                        </section>
+							                        <section class="col col-2">
+								                        	<button type="submit" class="button custom-submit-button"><i class="fa fa-search"></i></button>
+							                        </section>
+												</div>
+											</fieldset>
+		                                </form>
+									</div>
+								</li>
+								
+								<li class="sky-tab-content-3">
+									<div class="typography">
+										<h1>Advanced Search</h1>
+										<p>German-born theoretical physicist who developed the general theory of relativity, one of the two pillars of modern physics (alongside quantum mechanics). While best known for his mass–energy equivalence formula E = mc2 (which has been dubbed "the world's most famous equation"), he received the </p>
+									</div>
+								</li>
+							</ul>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -170,6 +173,10 @@
 		</section>
 		<div class="divide80"></div>
 	{% endblock %}
+	{% block pageSpecificCSS %}
+	<link href="{% static 'assets/css/sky-forms.css' %}" rel="stylesheet">
+	<link href="{% static 'assets/css/sky-tabs.css' %}" rel="stylesheet">
+	{% endblock %}
 	{% block pageSpecificJS %}
 		<script type="text/javascript" src="{% static 'assets/js/handlebars.js' %}"></script>
 		<script type="text/javascript" src="{% static 'assets/js/typeahead.js' %}"></script>
@@ -213,7 +220,7 @@
 			  };
 			};
 
-			$("#first_col .typeahead").typeahead({
+			$(".spec_typeahead").typeahead({
 				minLength:0,
 				hint: true,
 				highlight: true
@@ -277,7 +284,7 @@
 				}
 			});
 
-			$("#doctor .typeahead").typeahead({
+			$(".doc-typeahead").typeahead({
 				hint:true,
 				highlight:true,
 				minLength:1

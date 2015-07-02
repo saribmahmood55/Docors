@@ -211,6 +211,31 @@ form.home-search {
   background-color: rgb(226, 226, 226) !important;
 }
 
+.custom-sky-form{
+  box-shadow: none !important;
+}
+
+.custom-sky-form fieldset{
+  background: none !important;
+  padding: 5px 30px 5px !important;
+}
+
+.custom-sky-form .input-file .button{
+  z-index: 1;
+}
+
+.custom-sky-form .input-file .button i{
+  margin-top: 10px;
+}
+
+.custom-sky-form .custom-submit-button{
+  margin-top: 20px !important;
+}
+
+.custom-sky-tabs-content li{
+  overflow: visible !important;
+}
+
 .home-search-tab, .home-search-tab:visited, .home-search-tab-selected, .home-search-tab-selected:visited {
   padding: 6px 10px;
   font-size: 12px;
@@ -471,9 +496,11 @@ form.home-search.halfwidth input[name='locality'] {
   width: 100%;
 }
 
-#first_col .tt-menu {
+.tt-menu {
   max-height: 200px;
   overflow-y: auto;
+  background: rgba(255,255,255,0.8) !important;
+  margin: 10px 0 10px 0;
 }
 /********** end typeahed style ***********/
 
@@ -531,12 +558,16 @@ form.home-search.halfwidth input[name='locality'] {
 /********** Typeahead multiple dataset ********/
 
 .league-name {
-  margin: 0 20px 5px 20px;
-  padding: 3px 0;
+  margin: 0 20px 5px 20px !important;
+  padding: 3px 0 !important;
   border-bottom: 1px solid #ccc;
   color: #000 !important;
-  margin-bottom: 5px;
-  margin-top: 10px;
+  margin-bottom: 5px !important;
+  margin-top: 10px !important;
+}
+
+.suggestion-link{
+  margin: 0 20px 5px 20px !important;
 }
 
 .suggestion-link:hover{
