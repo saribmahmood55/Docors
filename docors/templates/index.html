@@ -11,7 +11,7 @@
 <meta property="og:site_name" content="doctorsinfo.pk" />
 <link href="http://www.doctorsinfo.pk/" rel="canonical" /> {% endblock %}
 {% block title %}doctorsinfo.pk - find specialist doctors, review doctors and doctor ratings{% endblock %}
-
+{% load staticfiles %}
 {% block home_link %}#{% endblock %}
 {% block home_link1 %}#{% endblock %}
 {% block home_link2 %}#{% endblock %}
@@ -42,10 +42,11 @@
 	                                <div class="tab-desc animated fadeIn">
 	                                	<div class="row">
 	                                		<form role="form" action="{% url 'doctor_suggestions' %}" method="GET">
-		                                		<div class="col-md-12">
-			                                		<div class="col-md-10 margin20" id="doctor">
+		                                		<div class="col-md-12 margintop15 margin10">
+			                                		<div class="col-md-10" id="doctor">
 			                                			<div class="form-group">
 			                                				<input type="text" class="form-control input-lg typeahead" name="q" placeholder="Doctor Name, Specialty, Condition or Procedure">
+			                                				<img class="typeahead-spinner" src="{% static 'assets/img/spinner.gif' %}" style="display: none;">
 			                                			</div>
 			                                		</div>
 			                                		<div class="col-md-2" >
@@ -94,7 +95,6 @@
 				</div>
 			</div>
 		</section>
-		{% load staticfiles %}
 		<section class="bottom-section">
 			<div class="container">
 				<div class="col-md-12">
@@ -112,12 +112,10 @@
 									<hr align="center" width="50%">
 								</div>
 								<div class="bottom-section-left-paragraph text-center">
-									<ul class="no-list-style">
-										<br><li><a href="#">Dr. Mudassir S. Sheikh</a></li>
-										<li><a href="#">Dr. Muhammad Anwar</a></li>
-										<li><a href="#">Dr. Bilal Zakriya</a></li>
-										<li><a href="#">Dr. Anjum Habib Vohra</a></li>
-										<li><a href="#">Dr. Shagufta Feroz</a></li>
+									<ul class="list-unstyled margintop15">
+										{% for pract in data.popular_pract %}
+										<li><a href="/physican/{{pract.slug}}">{{pract}}</a></li>
+										{% endfor %}
 									</ul>
 								</div>
 							</div>
@@ -158,12 +156,10 @@
 									<hr align="center" width="50%">
 								</div>
 								<div class="bottom-section-right-paragraph text-center">
-									<ul class="no-list-style">
-										<br><li><a href="#">Endoscopy</a></li>
-										<li><a href="#">Angioplasty</a></li>
-										<li><a href="#">MRI</a></li>
-										<li><a href="#">Ultra Sound</a></li>
-										<li><a href="#">ECG</a></li>
+									<ul class="list-unstyled margintop15">
+										{% for proc in data.popular_proc %}
+										<li><a href="/physicans-directory/{{proc.slug}}-in-procedure">{{proc}}</a></li>
+										{% endfor %}
 									</ul>
 								</div>
 							</div>
@@ -329,6 +325,14 @@
 						return '<div><a href="/practitioner-search?q='+data.href+'&search.type=procedure&loc=lahore"><div class="suggestion-link">' + data.value + '</div></a></div>';
 					}
 				}
+			})
+			.on('typeahead:asyncrequest', function() {
+			    $('.typeahead-spinner').show();
+			    $("input[name='q']").css('color','rgba(0,0,0,0.3)');
+			})
+			.on('typeahead:asynccancel typeahead:asyncreceive', function() {
+				$('.typeahead-spinner').hide();
+				$("input[name='q']").css('color','inherit');
 			});
 
 		});

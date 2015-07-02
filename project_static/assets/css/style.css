@@ -179,6 +179,10 @@ border-left-color: #111111;
   margin-top: 40px;
 }
 
+.margintop15{
+  margin-top: 15px;
+}
+
 form.home-search {
   clear: both;
   margin: 0;
@@ -200,6 +204,11 @@ form.home-search {
   text-decoration: none;
   display: inline-block;
   color: #6d6d6d;
+}
+
+.nav-tabs > li > a:hover {
+  border-color: #4f82e9 !important;
+  background-color: rgb(226, 226, 226) !important;
 }
 
 .home-search-tab, .home-search-tab:visited, .home-search-tab-selected, .home-search-tab-selected:visited {
@@ -386,6 +395,14 @@ form.home-search.halfwidth input[name='locality'] {
   outline: none;
 }
 
+.typeahead-spinner{
+    position: absolute;
+  top: 9px;
+  right: 25px;
+  width: 28px;
+  height: 28px;
+}
+
 .typeahead {
   background-color: #fff;
 }
@@ -406,7 +423,6 @@ form.home-search.halfwidth input[name='locality'] {
 
 .tt-menu {
   width: 422px;
-  margin: 12px 0;
   padding: 8px 0;
   background-color: #fff;
   border: 1px solid #ccc;
@@ -417,6 +433,8 @@ form.home-search.halfwidth input[name='locality'] {
   -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
      -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
           box-shadow: 0 5px 10px rgba(0,0,0,.2);
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 
 .tt-suggestion {

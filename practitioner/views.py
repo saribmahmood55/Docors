@@ -16,17 +16,26 @@ from django.template import RequestContext
 from django.utils.safestring import mark_safe
 from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
 from rest_auth.registration.views import SocialLogin
-import json
 from haystack.query import SearchQuerySet
+from hitcount.models import HitCount
+from django.contrib.contenttypes.models import ContentType
+import json
 
 class FacebookLogin(SocialLogin):
 	adapter_class = FacebookOAuth2Adapter
 
 #main page
 def index(request):
-	data = {}
+	data = {'popular_pract':list(),'popular_proc':list()}
 	data['specialities'] = Specialization.objects.order_by('slug')
 	data['completeness'] = 0
+	contents_types = dict()
+	for hc in HitCount.objects.filter(content_type=ContentType.objects.get_for_model(Practitioner)).order_by('-hits')[:5]:
+		data['popular_pract'].append(hc.content_object)
+	for hc in HitCount.objects.filter(content_type=ContentType.objects.get_for_model(Procedure)).order_by('-hits')[:5]:
+		data['popular_proc'].append(hc.content_object)
+	print data['popular_pract']
+	print data['popular_proc']
 
 	try:
 		patient_data = Patient.patient_objects.patient_details(lambda: request.user if request.user.is_authenticated() else None)
