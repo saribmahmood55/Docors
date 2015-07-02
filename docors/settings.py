@@ -1,3 +1,4 @@
+# flake8: noqa
 from django.conf import global_settings
 import os
 
@@ -42,9 +43,9 @@ SITE_ID = 2
 BASE_URL = "http://localhost:8000/"
 
 #GMAIL
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'doctorsinfo.pk@gmail.com'
-EMAIL_HOST_PASSWORD = 'qtmtzmguforqkfkt'
+EMAIL_HOST = 'smtp.zoho.com'
+EMAIL_HOST_USER = 'support@doctorsinfo.pk'
+EMAIL_HOST_PASSWORD = 'g3zcehxgx3cb'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
