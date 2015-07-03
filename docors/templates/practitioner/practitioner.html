@@ -31,7 +31,7 @@
                             	<input type="hidden" value="0" id="user_authenticated">
                             {% endif %}
                             <input type="hidden" id="pract_slug" value="{{data.practitioner.slug}}">
-                            <li><i class="fa fa-share-alt"></i> <a href="#">Share</a></li>
+                            <li><i class="fa fa-share-alt"></i> <a href="#" id="shareTrigger">Share</a></li>
                             <li><span class="socialShare"></span>
                             <li><i class="fa fa-save"></i> <a href="#">Total Visits : {{total_hits}}</a></li>
                         </ul>
@@ -86,6 +86,15 @@
 						<li><i class="fa fa-home text-blue"></i> {{practice.practice_location.clinic_address}} ,{{practice.practice_location.area}}</li>
 						<li><i class="fa fa-phone text-blue"></i> <a href="tel:{{ practice.practice_location.contact_number }}">{{ practice.practice_location.contact_number }}</a></li>
 						<li><i title="Checkup fee" class="fa fa-money text-blue"></i> {{practice.fee}}</li>
+						<!--<li><button type="button" class="contact_btn" class="btn btn-primary"><i title="Checkup fee" class="fa fa-phone"></i> Show Contact</button></li>
+						<li class="contact-list">
+							<input type="hidden" id="contact_exists" value="0">
+							<ul class="list-unstyled">
+								<li><a href="tel:03236910600">0323691xxxx</a></li>
+								<li><a href="tel:03236910600">0323691xxxx</a></li>
+								<li><a href="tel:03236910600">0323691xxxx</a></li>
+							</ul>
+						</li>-->
 					</ul>
 				</div>
 				<div class="price-action">
@@ -175,22 +184,32 @@
 					<ul class="list-unstyled custom-list-feedback">
 						<li>Would you like to recieve updates about {{data.practitioner.name}}? (i.e Change in practice timings, Special offers etc.)</li>
 						<li></li>
-						<form id="subscription-form" class="sky-form" method="post" action="{% url 'subscribe' %}">{% csrf_token %}
-							<li class="margin20">
-								<div class="input-group">
-									<span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
-									<input class="form-control" id="email" type="email" name="email" placeholder="Email Address">
-								</div>
-							</li>
-							<li><div class="border-rits"><span>or</span></div></li>
-							<li>
-								<div class="input-group">
-									<span class="input-group-addon"><i class="fa fa-phone"></i></span>
-									<input class="form-control" id="phone" type="text" name="phone" placeholder="Contact Number">
-								</div>
-							</li>
-							<input type="hidden" name="slug" value="{{data.practitioner.slug}}">
-							<li><button class="btn btn-primary full-width">Subscribe</button></li>
+						<form id="subscription-form" class="sky-form custom-sky-form" method="post" action="{% url 'subscribe' %}">{% csrf_token %}
+							<fieldset>
+								<div class="row">
+			                        <section>
+			                            <label class="input">
+			                                <i class="icon-append fa fa-envelope-o"></i>
+			                                <input id="email" type="email" name="email" placeholder="Email Address">
+			                            </label>
+			                        </section>
+			                    </div>
+			                    <div class="row">
+			                    	<div class="border-rits"><span>or</span></div>
+			                    </div>
+			                    <div class="row">
+			                        <section>
+			                            <label class="input">
+			                                <i class="icon-append fa fa-phone"></i>
+			                                <input id="phone" type="text" name="phone" placeholder="Contact Number">
+			                            </label>
+			                        </section>
+			                    </div>
+			                    <div class="row">
+			                    	<input type="hidden" name="slug" value="{{data.practitioner.slug}}">
+			                    	<button class="btn btn-primary full-width">Subscribe</button>
+			                    </div>
+							</fieldset>
 						</form>
 						<li>
 							<span><i class="fa fa-shield text-green"></i> Rest assure that we won't be sharing your personal information with anyone without your consent and we won't spam you either.</span>
@@ -337,11 +356,13 @@
 		</footer>
 	</form>
 </div>
+<div id="shareContainer" style="display:none;"><div id="share"></div></div>
 {% endblock %}
 
 {% block pageSpecificCSS %}
 <link rel="stylesheet" href="{% static 'assets/css/sweetalert.css' %}">
 <link rel="stylesheet" href="{% static 'assets/css/jssocials.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/jssocials-theme-flat.css' %}">
 <link rel="stylesheet" href="{% static 'assets/css/sky-form-review.css' %}">
 {% endblock %}
 
@@ -379,6 +400,29 @@
 		    facebook : true,
 		    googlePlus : true
 		};
+
+		jsSocials.shares.whatsapp = {
+			label: "Whatsapp",
+			logo: "fa fa-whatsapp",
+			shareUrl: "whatsapp://send?text={text}"
+		}
+
+		$("#share").jsSocials({
+		    shares: ["email", "twitter", "facebook", "googleplus", "whatsapp"],
+		    url: "http://beta.doctorsinfo.pk/physican/{{data.practitioner.slug}}",
+		    text: "{{data.practitioner.name}}",
+		    showLabel: true,
+		    showCount: false
+		});
+
+		$("#shareTrigger").click(function(){
+			$("#shareContainer").slideToggle(300);
+			return false;
+		});
+
+		$(".contact_btn").click(function(){
+			$(".contact-list").slideToggle(300);
+		});
 
 		var timings = Array();
 
