@@ -1,6 +1,6 @@
 # flake8: noqa
 from django.conf import global_settings
-import os
+import os, socket
 
 boolean = lambda value: bool(int(value))
 
@@ -11,12 +11,23 @@ boolean = lambda value: bool(int(value))
 SECRET_KEY = 'zky%mapoo709@yv64h!ny#!7x8#&lh0o9nsfo++ny6+7gotp^r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = boolean(os.environ.get('DEBUG', 1))
+
+if socket.gethostname() == 'asad-Inspiron-N5110' or 'sarib-Inspiron-N5110':
+    DEBUG = boolean(os.environ.get('DEBUG', 1))
+else:
+    DEBUG = boolean(os.environ.get('DEBUG', 0))
+    SEND_BROKEN_LINK_EMAILS = True
+
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
     ('Asad Naeem', 'doctorsinfo.pk@gmail.com'),
 )
+
+MANAGERS = (
+    ('Sarib Mehmood', 'saribmahmood55@gmail.com'),
+)
+MANAGERS = ADMINS
 #Celery configuration
 
 # using serializer name
