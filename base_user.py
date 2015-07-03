@@ -1,8 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
-class WasheziUserManager(BaseUserManager):
+class BasicUserManager(BaseUserManager):
     def create_user(self, email, password=None):
         if not email:
             raise ValueError('Users must provide an email address')
@@ -19,9 +20,13 @@ class WasheziUserManager(BaseUserManager):
         return user
 
 
-class WasheziUser(AbstractBaseUser):
+class BasicUser(AbstractBaseUser):
     email = models.EmailField(unique=True, max_length=255)
     full_name = models.CharField(max_length=100)
+    '''
+    don't forget to exclude mobile number from base user model
+    and include that in patient model :)
+    '''
     mobile_number = models.BigIntegerField(
         db_index=True, unique=True,
         validators=[
@@ -35,20 +40,19 @@ class WasheziUser(AbstractBaseUser):
                 "03001234567")],
         help_text='Mobile phone number e.g. 03001234567'
     )
-    created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
-    is_active = models.BooleanField(default=True)
+    is_doctor = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
 
-    objects = WasheziUserManager()
+    objects = BasicUserManager()
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name']
+    REQUIRED_FIELDS = ['full_name']
 
     class Meta:
         verbose_name_plural = 'Registered Users'
 
     def __str__(self):
-        return "%s <%s>" % (self.first_name, self.last_name)
+        return "%s <%s>" % (self.full_name)
 
     def get_full_name(self):
         # The user is identified by their email address
