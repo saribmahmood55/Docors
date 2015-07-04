@@ -1,3 +1,26 @@
+# flake8: noqa
+#  Tested built in functions
+#  python manage.py shell
+#  to update existing password
+========================================================================
+> python manage.py shell
+Python 2.7.6 (default, Jun 22 2015, 17:58:13) 
+[GCC 4.8.2] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from students.models import WasheziUser
+>>> from django.contrib.auth.hashers import check_password
+>>> u = WasheziUser.objects.get(email='kashif@mailinator.com')
+>>> u.set_password('abcd1234')
+>>> u.save()
+>>> p = u.password
+>>> print check_password('abcd1234', p)
+True
+>>> print u.is_authenticated()
+True
+>>>
+=========================================================================
+
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -52,7 +75,7 @@ class BasicUser(AbstractBaseUser):
         verbose_name_plural = 'Registered Users'
 
     def __str__(self):
-        return "%s <%s>" % (self.full_name)
+        return self.full_name
 
     def get_full_name(self):
         # The user is identified by their email address
@@ -60,7 +83,7 @@ class BasicUser(AbstractBaseUser):
 
     def get_short_name(self):
         # The user is identified by their email address
-        return self.email
+        return self.full_name
 
     def has_perm(self, perm, obj=None):
         "Does the user have a specific permission?"

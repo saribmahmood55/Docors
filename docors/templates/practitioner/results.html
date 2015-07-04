@@ -8,14 +8,6 @@
 {% block seoItemTags %}http://schema.org/Physician{% endblock %}
 {% block content %}
 
-{% if data.ob %}
-{% insert_hit_count_js_variables for data.ob %}
-  {% get_hit_count for data.ob as total_hits %}
-
-total hits : {{total_hits}}
-
-{% endif %}
-
 <section class="results-section">
   <div class="container">
     <div class="divide40"></div>
