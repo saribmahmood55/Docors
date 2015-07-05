@@ -163,12 +163,6 @@ def patient(request):
 			data['patient'] = None
 	return render_to_response('patients/profile.html', {'data': data}, context_instance=RequestContext(request))
 
-def custom_login(request, **kwargs):
-	if request.user.is_authenticated():
-		return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
-	else:
-		return login(request)
-
 def favt_pract(request):
 	slug = request.GET.get('slug','')
 	resp = favourite(request.user,slug)
