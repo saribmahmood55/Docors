@@ -1,9 +1,5 @@
 # flake8: noqa
 from practitioner.models import *
-from practitioner.serializers import PractitionerSerializer, SpecializationSerializer, DegreeSerializer
-from rest_framework import generics
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from patients.models import Patient
 from reviews.models import Review
 from practice.models import *
@@ -14,37 +10,10 @@ from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.utils.safestring import mark_safe
-from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
-from rest_auth.registration.views import SocialLogin
 from haystack.query import SearchQuerySet
 from hitcount.models import HitCount
 from django.contrib.contenttypes.models import ContentType
 import json
-
-class FacebookLogin(SocialLogin):
-	adapter_class = FacebookOAuth2Adapter
-
-#main page
-def index(request):
-	data = {'popular_pract':list(),'popular_proc':list()}
-	data['specialities'] = Specialization.objects.order_by('slug')
-	data['completeness'] = 0
-	contents_types = dict()
-	for hc in HitCount.objects.filter(content_type=ContentType.objects.get_for_model(Practitioner)).order_by('-hits')[:5]:
-		data['popular_pract'].append(hc.content_object)
-	for hc in HitCount.objects.filter(content_type=ContentType.objects.get_for_model(Procedure)).order_by('-hits')[:5]:
-		data['popular_proc'].append(hc.content_object)
-	print data['popular_pract']
-	print data['popular_proc']
-
-	try:
-		patient_data = Patient.patient_objects.patient_details(lambda: request.user if request.user.is_authenticated() else None)
-		#data['completeness'] = eval("+".join(["10" if patient_data.age_group else "0","10" if patient_data.gender else "0","10" if patient_data.cell_number else "0","20" if data['user'].first_name else "0","20" if data['user'].last_name else "0","10" if data['user'].username else "0","20" if data['user'].email else "0"]))
-
-	except Patient.DoesNotExist:
-		pass
-	
-	return render_to_response('index.html', {'data': data}, context_instance=RequestContext(request))
 
 #to populate the typeahead input field
 def practitioner_suggestions(request):
@@ -115,17 +84,6 @@ def practitionerSearch(request, slug, typee):
 	data['practice'] = practice
 	data['results_count'] = len(practice)
 	return render_to_response('practitioner/results.html', {'data': data}, context_instance=RequestContext(request))
-
-#advance search
-def adv(request):
-	data = {}
-	if request.method == "GET":
-		try:
-			data['specialities'] = Specialization.objects.order_by('human_name')
-			data['cities'] = City.objects.order_by('pk')
-		except Specialization.DoesNotExist:
-			raise Http404
-	return render_to_response('practitioner/advance.html', {'data': data}, context_instance=RequestContext(request))	
 
 #custom login function to redirect if already logged in
 def login(request):
