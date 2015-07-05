@@ -39,7 +39,7 @@
                     <div class="alert alert-danger">
                         <a href="#" class="close" data-dismiss="alert">&times;</a>
                         {% for key, value in form.errors.items %}
-                            {% if key != 'username' %}{{ value }}{% endif %}
+                            {{ value }}
                         {% endfor %}
                     </div>
                 {% endif %}
@@ -47,64 +47,42 @@
                     <h3 class="text-center">Create new account with DoctorsInfo</h3>
                     <fieldset>
                         <div class="row">
-                            <section class="col col-6">
-                                <label>First name</label>
+                            <section class="col">
+                                <label>{{form.full_name.label}}</label>
                                 <label class="input">
-                                    <input type="text" name="firstname" id="firstname" placeholder="Ali">
-                                </label>
-                            </section>
-                            <section class="col col-6">
-                            <label>Last name</label>
-                                <label class="input">
-                                    <input type="text" name="lastname" id="lastname" placeholder="Raza">
+                                    {{form.full_name}}
                                 </label>
                             </section>
                         </div>
                     </fieldset>
                     <fieldset>
-                        <input type="email" name="username" placeholder="Username" id="username" style="display:none;">
                         <section>
-                        <label>Email address</label>
+                        <label>{{form.email.label}}</label>
                             <label class="input">
                                 <i class="icon-append fa fa-envelope-o"></i>
-                                <input type="email" name="email" id="email" placeholder="Email address">
+                                {{form.email}}
                                 <b class="tooltip tooltip-bottom-right">You'll be sent an activation email</b>
                             </label>
                         </section>
                         <section>
-                        <label>Create a password</label>
+                        <label>{{form.password1.label}}</label>
                             <label class="input">
                                 <i class="icon-append fa fa-lock"></i>
-                                <input type="password" name="password1" placeholder="Password" id="password">
+                                {{form.password1}}
                                 <b class="tooltip tooltip-bottom-right">aplha-numeric is good.</b>
                             </label>
                         </section>
                         <section>
-                        <label>Confirm password</label>
+                        <label>{{form.password2.label}}</label>
                             <label class="input">
                                 <i class="icon-append fa fa-lock"></i>
-                                <input type="password" name="password2" placeholder="Confirm password">
+                                {{form.password2}}
                                 <b class="tooltip tooltip-bottom-right">please re-enter your password.</b>
                             </label>
                         </section>
                     </fieldset>
-                        <!--<section>
-                            <label class="select">
-                                <select name="gender">
-                                    <option value="0" selected disabled>Gender</option>
-                                    <option value="1">Male</option>
-                                    <option value="2">Female</option>
-                                    <option value="3">Other</option>
-                                </select>
-                                <i></i>
-                            </label>
-                        </section>
-
-                        <section>
-                            <label class="checkbox"><input type="checkbox" name="terms" id="terms"><i></i>I agree with the Terms and Conditions</label>
-                        </section>-->
                     <footer>
-                        <button type="submit" id="signup_btn" class="button">Create account</button>
+                        <button type="submit" class="button">Create account</button>
                     </footer>
                 </form>         
             </div><!--login form wrap end-->
@@ -119,24 +97,10 @@
     $(document).ready(function(){
         // Validation
 
-        $("#signup_btn").click(function(){
-            $("#username").val($("#email").val());
-        });
-
         $("#sky-form").validate({
             // Rules for form validation
             rules:
                     {
-                        username:
-                                {
-                                    required: {
-                                        depends:function(){
-                                            $("#username").val($("#email").val());
-                                            return true;
-                                        }
-                                    },
-                                    email: true
-                                },
                         email:
                                 {
                                     required: true,
@@ -153,13 +117,9 @@
                                     required: true,
                                     minlength: 3,
                                     maxlength: 20,
-                                    equalTo: '#password'
+                                    equalTo: '#id_password1'
                                 },
-                        firstname:
-                                {
-                                    required: true
-                                },
-                        lastname:
+                        full_name:
                                 {
                                     required: true
                                 }
@@ -167,10 +127,6 @@
             // Messages for form validation
             messages:
                     {
-                        login:
-                                {
-                                    required: 'Please enter your login'
-                                },
                         email:
                                 {
                                     required: 'Please enter your email address',
@@ -185,13 +141,9 @@
                                     required: 'Please enter your password one more time',
                                     equalTo: 'Please enter the same password as above'
                                 },
-                        firstname:
+                        full_name:
                                 {
                                     required: 'Please select your first name'
-                                },
-                        lastname:
-                                {
-                                    required: 'Please select your last name'
                                 }
                     },
             // Do not change code below

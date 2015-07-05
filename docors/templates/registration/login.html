@@ -33,11 +33,11 @@
                     <fieldset>					
                         <section>
                             <div class="row">
-                                <label class="label col col-4">Email address or username</label>
+                                <label class="label col col-4">{{form.username.label}}</label>
                                 <div class="col col-8">
                                     <label class="input">
                                         <i class="icon-append fa fa-user"></i>
-                                        <input name="username" type="text" class="form-control" id="login_page_username" placeholder="Email" data-error="Username field cannot be empty" required>
+                                        {{form.username}}
                                     </label>
                                 </div>
                             </div>
@@ -45,11 +45,11 @@
 
                         <section>
                             <div class="row">
-                                <label class="label col col-4">Password</label>
+                                <label class="label col col-4">{{form.password.label}}</label>
                                 <div class="col col-8">
                                     <label class="input">
                                         <i class="icon-append fa fa-lock"></i>
-                                        <input name="password" type="password" class="form-control" id="login_page_password" placeholder="Password" data-error="Password field cannot be empty" required>
+                                        {{form.password}}
                                     </label>
                                     <div class="note"><a href="#sky-form2" class="modal-opener">Forgotten your password?</a></div>
                                 </div>

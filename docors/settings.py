@@ -47,6 +47,9 @@ RECAPTCHA_USE_SSL = False
 #SESSION_COOKIE_SECURE = True
 #CSRF_COOKIE_SECURE = True
 
+#CUSTOM AUTH Backend
+AUTH_USER_MODEL = 'docorsauth.docorsUser'
+
 #Sites
 SITE_ID = 2
 
@@ -80,6 +83,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'django.contrib.gis',
+    'docorsauth',
     'haystack',
     'registration',
     'sorl.thumbnail',
@@ -97,10 +101,10 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.twitter',
     #django REST Api
-    'rest_framework',
-    'rest_framework.authtoken',
+    #'rest_framework',
+    #'rest_framework.authtoken',
     #django REST AUTH
-    'rest_auth'
+    #'rest_auth'
 )
 
 #hitcount settings
@@ -138,6 +142,10 @@ TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
     'docors.customProcessor.customProcessor',
 )
 
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
 LOGIN_REDIRECT_URL = '/'
 SOCIALACCOUNT_QUERY_EMAIL = True
 SOCIALACCOUNT_PROVIDERS = {
