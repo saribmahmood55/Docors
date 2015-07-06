@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import User
 from practitioner.models import Practitioner
 from practice.models import *
 from patients.models import Patient

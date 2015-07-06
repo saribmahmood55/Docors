@@ -1,5 +1,4 @@
 from django.contrib import admin
-from django.contrib.auth.models import User
 from practitioner.models import Practitioner, Specialization
 from patients.models import *
 
