@@ -1,8 +1,7 @@
-from django.conf.urls import url
-from rest_framework.urlpatterns import format_suffix_patterns
+from django.conf.urls import patterns, url
 from patients import views
 
-urlpatterns = [
+urlpatterns = patterns('',
 	url(r'^patient', views.patient, name='patient'),
 	url(r'^subscribe/$', views.subscribe, name='subscribe'),
 	url(r'^WhoIsMyDoctor', views.educate, name='WhoIsMyDoctor'),
@@ -10,6 +9,4 @@ urlpatterns = [
 	url(r'^dashboard/profile/$', views.profile),
 	url(r'^dashboard/account/$', views.acc_preferences),
 	url(r'^dashboard/specialities/$', views.dashboard_specialities)
-]
-
-urlpatterns = format_suffix_patterns(urlpatterns)
+)

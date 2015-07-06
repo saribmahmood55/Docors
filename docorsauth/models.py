@@ -11,7 +11,10 @@ class docorsUserManager(BaseUserManager):
 			raise ValueError("User must provide an email address")
 
 		user = self.model(email=self.normalize_email(email),full_name=full_name)
-		user.set_password(password)
+		if password:
+			user.set_password(password)
+		else:
+			user.set_unusable_password()
 		user.save(using=self._db)
 		return user
 
@@ -27,7 +30,6 @@ class docorsUser(AbstractBaseUser):
 	full_name = models.CharField(max_length=100)
 
 	modified = models.DateTimeField(auto_now=True)
-	is_doctor = models.BooleanField(default=False)
 	is_active = models.BooleanField(default=True)
 	is_admin = models.BooleanField(default=False)
 

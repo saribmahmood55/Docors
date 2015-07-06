@@ -1,8 +1,4 @@
 from practice.models import *
-from practice.serializers import PracticeSerializer, CitySerializer, CheckupFeeSerializer
-from rest_framework import generics
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from django.shortcuts import render
 from patients.models import Patient
 from reviews.models import Review

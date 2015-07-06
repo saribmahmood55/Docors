@@ -12,11 +12,11 @@ class docorsUserAdmin(UserAdmin):
 	form = docorsUserChangeForm
 	add_form = docorsUserCreationForm
 
-	list_display = ['email','full_name','is_doctor','is_admin']
-	list_filter = ('is_admin','is_doctor','is_active',)
+	list_display = ['email','full_name','is_admin']
+	list_filter = ('is_admin','is_active',)
 	fieldsets = (
 		(None, {'fields':('email','password')}),
-		('Personal Info', {'fields':('full_name','is_doctor',)}),
+		('Personal Info', {'fields':('full_name',)}),
 		('Status', {'fields':('is_active',)}),
 		('Permissions', {'fields':('is_admin',)}),
 	)
@@ -24,7 +24,7 @@ class docorsUserAdmin(UserAdmin):
 	add_fieldsets = (
 		(None, {
 				'classes':('wide',),
-				'fields':('email','full_name','password1','password2','is_admin','is_doctor','is_active')
+				'fields':('email','full_name','password1','password2','is_admin','is_active')
 			}),
 	)
 

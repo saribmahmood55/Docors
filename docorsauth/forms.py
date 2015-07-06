@@ -39,9 +39,9 @@ class docorsUserCreationForm(forms.ModelForm):
 	def save(self, commit=True):
 		#behold my creation. Feast your eyes with my greatness.
 		user = super(docorsUserCreationForm, self).save(commit=False)
-		user.set_password(self.cleaned_data['password1'])
+		user.set_password(self.cleaned_data['password2'])
 		if commit:
-			user.save
+			user.save()
 		return user
 
 class docorsUserChangeForm(forms.ModelForm):
@@ -51,7 +51,7 @@ class docorsUserChangeForm(forms.ModelForm):
 
 	class Meta:
 		model = get_user_model()
-		fields = ['email','password','full_name','is_doctor','is_active','is_admin']
+		fields = ['email','password','full_name','is_active','is_admin']
 
 	def clean_password(self):
 		#Your eyes can't witness this so turn away as it may hurt(I know what you are thinking)

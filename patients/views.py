@@ -1,6 +1,4 @@
 from patients.models import Patient
-from patients.serializers import PatientSerializer
-from rest_framework import generics
 from reviews.models import *
 from utility import *
 from django.http import Http404, HttpResponse, HttpResponseRedirect
@@ -9,7 +7,6 @@ from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.dispatch import receiver
 from allauth.account.signals import user_signed_up
-from registration.signals import user_registered
 from django.contrib.auth.views import login
 from django.conf import settings
 from django.contrib.auth import authenticate
@@ -189,12 +186,3 @@ def set_patient(sender, **kwargs):
 			p.gender = gender
 
 	p.save()
-
-@receiver(user_registered)
-def create_patient(sender, user, request, **kwargs):
-	p = Patient(user=user)
-	p.save()
-
-	user.first_name = request.POST['firstname']
-	user.last_name = request.POST['lastname']
-	user.save()

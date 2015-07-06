@@ -1,6 +1,6 @@
 # flake8: noqa
 from django.conf import global_settings
-import os, socket
+import os, socket, sys
 
 boolean = lambda value: bool(int(value))
 
@@ -85,7 +85,7 @@ INSTALLED_APPS = (
     'django.contrib.gis',
     'docorsauth',
     'haystack',
-    'registration',
+    #'registration',
     'sorl.thumbnail',
     'practitioner',
     'patients',

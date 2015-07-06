@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.conf import settings
 from django.contrib.auth.views import login
 
-from .forms import docorsUserCreationForm
+from docorsauth.forms import docorsUserCreationForm
 
 # Create your views here.
 
@@ -16,7 +16,6 @@ def register(request):
 			return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
 	else:
 		form = docorsUserCreationForm()
-	print form
 	return render(request, "registration/registration_form.html", {'form': form})
 
 def custom_login(request, **kwargs):
