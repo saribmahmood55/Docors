@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.mail import send_mail
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.core.validators import MaxValueValidator, MinValueValidator
 
@@ -21,6 +22,7 @@ class docorsUserManager(BaseUserManager):
 	def create_superuser(self, email, full_name, password):
 		user = self.create_user(email, password=password, full_name=full_name)
 		user.is_admin = True
+		user.is_active = True
 		user.save(using=self._db)
 		return user
 
@@ -30,7 +32,7 @@ class docorsUser(AbstractBaseUser):
 	full_name = models.CharField(max_length=100)
 
 	modified = models.DateTimeField(auto_now=True)
-	is_active = models.BooleanField(default=True)
+	is_active = models.BooleanField(default=False)
 	is_admin = models.BooleanField(default=False)
 
 	objects = docorsUserManager()
@@ -57,6 +59,10 @@ class docorsUser(AbstractBaseUser):
 		#Check if the user has permission to a specific app mentioned by app_label
 		#This will in most cases return True
 		return True
+
+	def email_user(self, subject, message, from_email=None, **kwargs):
+		"""Send email to the user"""
+		send_mail(subject,message,from_email,[self.email], **kwargs)
 
 	@property
 	def is_staff(self):

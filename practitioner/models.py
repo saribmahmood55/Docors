@@ -2,6 +2,7 @@
 from django.db import models
 from autoslug import AutoSlugField
 from sorl.thumbnail import ImageField
+from docorsauth.models import docorsUser
 
 class SpecializationManager(models.Manager):
     def spec_slug(self, slug):
@@ -133,16 +134,14 @@ class PractitionerManager(models.Manager):
         return super(PractitionerManager, self).filter(name__icontains=name, status=True).values_list('name', flat=True)
 
 
-class Practitioner(models.Model):
+class Practitioner(docorsUser):
     PHYSICIAN_CHOICES = [('0', 'General Physician'), ('1', 'Trainee'), ('2', 'Specialist'),]
     GENDER = [('M', 'Male'),('F', 'Female'),]
 
-    name = models.CharField(max_length=100)
     gender = models.CharField(max_length=1, choices=GENDER, default='M')
     physician_type = models.CharField(max_length=1, choices=PHYSICIAN_CHOICES, null=True)
     year_of_birth = models.PositiveIntegerField(default=0)
     photo = ImageField(upload_to='practitioner/', blank=True, null=True)
-    email = models.EmailField(max_length=75, null=True, blank=True)
     experience = models.PositiveIntegerField(help_text="Number of years")
     achievements = models.TextField(null=True, blank=True)    
     message = models.CharField(max_length=140, null=True, blank=True)
@@ -154,21 +153,20 @@ class Practitioner(models.Model):
     conditions = models.ManyToManyField(Condition, blank=True)
     procedures = models.ManyToManyField(Procedure, blank=True)
 
-    slug = AutoSlugField(populate_from='name', unique = True)
+    slug = AutoSlugField(populate_from='full_name', unique = True)
     status = models.BooleanField(default=False)
     education_marks = models.PositiveIntegerField(default=0)
     recommendation = models.PositiveIntegerField(default=0)
     not_recommended = models.PositiveIntegerField(default=0)
     review_rating = models.DecimalField(max_digits=2, decimal_places=2, default=0.0)
-    modified = models.DateTimeField(auto_now=True)
 
     #Manager
     objects = models.Manager()
     prac_objects = PractitionerManager()
     
     def __unicode__(self):
-        return self.name
+        return self.full_name
 
     class Meta:
         verbose_name_plural = "Practitioner"
-        ordering = ('name',)
+        ordering = ('full_name',)

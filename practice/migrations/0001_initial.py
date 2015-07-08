@@ -15,6 +15,18 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
+            name='Area',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=50)),
+                ('slug', autoslug.fields.AutoSlugField(unique=True, editable=False)),
+            ],
+            options={
+                'ordering': ('name',),
+                'verbose_name_plural': 'Areas',
+            },
+        ),
+        migrations.CreateModel(
             name='CheckupFee',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
@@ -23,7 +35,6 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name_plural': 'CheckupFee',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='City',
@@ -33,16 +44,15 @@ class Migration(migrations.Migration):
                 ('slug', autoslug.fields.AutoSlugField(unique=True, editable=False)),
             ],
             options={
+                'ordering': ('name',),
                 'verbose_name_plural': 'Cities',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='Practice',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('practice_type', models.CharField(help_text=b'Practice Type', max_length=1, choices=[(b'P', b'Private Clinic/Residence'), (b'H', b'Hospital'), (b'M', b'Medical Complex')])),
-                ('services', models.TextField(null=True, blank=True)),
                 ('appointments_only', models.BooleanField(default=True)),
                 ('location', django.contrib.gis.db.models.fields.PointField(srid=4326, null=True, geography=True, blank=True)),
                 ('modified', models.DateTimeField(auto_now=True)),
@@ -51,7 +61,6 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name_plural': 'Practice',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='PracticeLocation',
@@ -64,12 +73,11 @@ class Migration(migrations.Migration):
                 ('clinic_address', models.TextField()),
                 ('lon', models.FloatField(null=True, blank=True)),
                 ('lat', models.FloatField(null=True, blank=True)),
-                ('city', models.ForeignKey(to='practice.City')),
+                ('area', models.ForeignKey(to='practice.Area')),
             ],
             options={
                 'verbose_name_plural': 'Practice Locations',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='PracticeTiming',
@@ -79,12 +87,10 @@ class Migration(migrations.Migration):
                 ('start_time', models.TimeField(help_text=b'Select starting Time for Clininc.', null=True, blank=True)),
                 ('end_time', models.TimeField(help_text=b'Select ending Time for Clininc.', null=True, blank=True)),
                 ('practice', models.ForeignKey(to='practice.Practice')),
-                ('practitioner', models.ForeignKey(to='practitioner.Practitioner')),
             ],
             options={
                 'verbose_name_plural': 'Practice Timings',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='RecentSearch',
@@ -92,23 +98,25 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('hit_count', models.PositiveIntegerField(default=0)),
                 ('city', models.ForeignKey(to='practice.City')),
-                ('speciality', models.ForeignKey(to='practitioner.Specialization')),
+                ('specialty', models.ForeignKey(to='practitioner.Specialization')),
             ],
             options={
                 'verbose_name_plural': 'Recent Searches',
             },
-            bases=(models.Model,),
         ),
         migrations.AddField(
             model_name='practice',
             name='practice_location',
             field=models.ForeignKey(to='practice.PracticeLocation'),
-            preserve_default=True,
         ),
         migrations.AddField(
             model_name='practice',
             name='practitioner',
             field=models.ForeignKey(to='practitioner.Practitioner'),
-            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='area',
+            name='city',
+            field=models.ForeignKey(to='practice.City'),
         ),
     ]

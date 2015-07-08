@@ -9,13 +9,13 @@ class PracticeInline(admin.TabularInline):
 
 class PractitionerAdmin(admin.ModelAdmin):
 	{
-	'fields': (('name', 'gender', 'email', 'status'), 'physician_type', 'degrees', 'year_of_birth', 
+	'fields': (('full_name', 'gender', 'email', 'status'), 'physician_type', 'degrees', 'year_of_birth', 
 		'specialty', 'fellowship', 'conditions', 'procedures'),
 	}
 	'''
 	fieldsets = (
         (None, {
-            'fields': ('name', 'gender', 'email', 'status', 'physician_type', 'degrees', 'year_of_birth', 'specialty', 'fellowship', 'conditions', 'procedures')
+            'fields': ('full_name', 'gender', 'email', 'status', 'physician_type', 'degrees', 'year_of_birth', 'specialty', 'fellowship', 'conditions', 'procedures')
         }),
         ('Advanced options', {
             'classes': ('collapse',),
@@ -23,7 +23,7 @@ class PractitionerAdmin(admin.ModelAdmin):
         }),
     )
 	fieldsets = [
-		('Name', {'fields': ['name']}),
+		('Name', {'fields': ['full_name']}),
 		('Gender', {'fields': ['gender']}),
 		('status', {'fields': ['status']}),
         ('Degrees', {'fields': ['degrees']}),
@@ -38,9 +38,9 @@ class PractitionerAdmin(admin.ModelAdmin):
         ('Procedures', {'fields': ['procedures']}),
 	]
 	'''
-	list_display = ['name','slug','gender','Degrees_list','specialty','Fellowship_in','Condtions_Treated','Procedures_Performed']
-	search_fields = ['name']
-	list_filter = ['name']
+	list_display = ['full_name','slug','gender','Degrees_list','specialty','Fellowship_in','Condtions_Treated','Procedures_Performed']
+	search_fields = ['full_name']
+	list_filter = ['full_name']
 	inlines = [PracticeInline]
 	
 	def Fellowship_in(self, obj):

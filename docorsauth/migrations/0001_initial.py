@@ -19,8 +19,7 @@ class Migration(migrations.Migration):
                 ('email', models.EmailField(unique=True, max_length=255, verbose_name=b'email address')),
                 ('full_name', models.CharField(max_length=100)),
                 ('modified', models.DateTimeField(auto_now=True)),
-                ('is_doctor', models.BooleanField(default=False)),
-                ('is_active', models.BooleanField(default=True)),
+                ('is_active', models.BooleanField(default=False)),
                 ('is_admin', models.BooleanField(default=False)),
             ],
             options={
