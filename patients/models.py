@@ -68,3 +68,32 @@ class Patient(docorsUser):
 
     def __str__(self):
         return self.email
+
+class EmailConfirmation(models.Model):
+    patient = models.ForeignKey(Patient,verbose_name=_('patient'))
+    created = models.DateTimeField(verbose_name=_('created'),default=timezone.now)
+    sent = models.DateTimeField(verbose_name=_('sent'), null=True)
+    key = models.CharField(verbose_name=_('key'), max_length=64, unique=True)
+
+    objects = EmailConfirmationManager()
+
+    class Meta:
+        verbose_name = _("email confirmation")
+        verbose_name_plural = _("email confirmations")
+
+    def __str__(self):
+        return "confirmation for %s" % self.patient
+
+    def create(cls, patient):
+        key = get_random_string(64).lower()
+        return cls._default_manager.create(patient=patient,key=key)
+
+    def key_expired(self):
+        expiration_date = self.sent + datetime.timedelta(days=7)
+        return expiration_date <= timezone.now()
+    key_expired.boolean = True
+
+    def confirm(self, request):
+        if not self.key_expired() and not self.patient.is_active:
+            email_address = self.email_address
+            get_adapter().confirm_email(request, email_address)

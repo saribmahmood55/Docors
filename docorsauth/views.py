@@ -3,19 +3,22 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.conf import settings
 from django.contrib.auth.views import login
+from .utility import *
 
-from docorsauth.forms import docorsUserCreationForm
+from patients.forms import CreatePatient
+from .forms import docorsUserCreationForm
 
 # Create your views here.
 
 def register(request):
 	if request.method == 'POST':
-		form = docorsUserCreationForm(request.POST)
+		form = CreatePatient(request.POST)
 		if form.is_valid():
 			new_user = form.save()
-			return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
+			#send_activation_link(new_user)
+			return render(request, "registration/registration_complete.html", {'registered_user': new_user})
 	else:
-		form = docorsUserCreationForm()
+		form = CreatePatient()
 	return render(request, "registration/registration_form.html", {'form': form})
 
 def custom_login(request, **kwargs):
