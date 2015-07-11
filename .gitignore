@@ -28,6 +28,7 @@ include
 # Distribution / packaging
 .Python
 venv
+media
 sentryvenv
 build/
 media/

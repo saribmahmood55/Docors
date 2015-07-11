@@ -1,3 +1,4 @@
+# flake8: noqa
 from django.db import models
 from practitioner.models import Practitioner
 from practice.models import *
@@ -76,11 +77,11 @@ class Review(models.Model):
         return self.practitioner.name
 
 class Question(models.Model):
-    question1 = models.CharField(max_length=150)
-    question2 = models.CharField(max_length=150)
-    question3 = models.CharField(max_length=150)
-    question4 = models.CharField(max_length=150)
-    question5 = models.CharField(max_length=150)
+    question1 = models.CharField(max_length=200)
+    question2 = models.CharField(max_length=200)
+    question3 = models.CharField(max_length=200)
+    question4 = models.CharField(max_length=200)
+    question5 = models.CharField(max_length=200)
 
     class Meta:
         verbose_name_plural = 'Questions'

@@ -12,32 +12,7 @@ class PractitionerAdmin(admin.ModelAdmin):
 	'fields': (('full_name', 'gender', 'email', 'status'), 'physician_type', 'degrees', 'year_of_birth', 
 		'specialty', 'fellowship', 'conditions', 'procedures'),
 	}
-	'''
-	fieldsets = (
-        (None, {
-            'fields': ('full_name', 'gender', 'email', 'status', 'physician_type', 'degrees', 'year_of_birth', 'specialty', 'fellowship', 'conditions', 'procedures')
-        }),
-        ('Advanced options', {
-            'classes': ('collapse',),
-            'fields': ('achievements', 'photo', 'message')
-        }),
-    )
-	fieldsets = [
-		('Name', {'fields': ['full_name']}),
-		('Gender', {'fields': ['gender']}),
-		('status', {'fields': ['status']}),
-        ('Degrees', {'fields': ['degrees']}),
-        ('Achievements', {'fields': ['achievements']}),
-        ('Experience', {'fields': ['experience']}),
-        ('Year of Birth', {'fields': ['year_of_birth']}),  
-        ('Thumbnail Photo ', {'fields': ['photo']}),
-        ('Short Message', {'fields': ['message']}),
-        ('Speciality', {'fields': ['specialty']}),
-        ('Fellowship', {'fields': ['fellowship']}),
-        ('Conditions', {'fields': ['conditions']}),
-        ('Procedures', {'fields': ['procedures']}),
-	]
-	'''
+
 	list_display = ['full_name','slug','gender','Degrees_list','specialty','Fellowship_in','Condtions_Treated','Procedures_Performed']
 	search_fields = ['full_name']
 	list_filter = ['full_name']
