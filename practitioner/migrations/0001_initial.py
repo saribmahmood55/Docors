@@ -56,9 +56,7 @@ class Migration(migrations.Migration):
             name='Practitioner',
             fields=[
                 ('docorsuser_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to=settings.AUTH_USER_MODEL)),
-                ('gender', models.CharField(default=b'M', max_length=1, choices=[(b'M', b'Male'), (b'F', b'Female')])),
                 ('physician_type', models.CharField(max_length=1, null=True, choices=[(b'0', b'General Physician'), (b'1', b'Trainee'), (b'2', b'Specialist')])),
-                ('year_of_birth', models.PositiveIntegerField(default=0)),
                 ('photo', sorl.thumbnail.fields.ImageField(null=True, upload_to=b'practitioner/', blank=True)),
                 ('experience', models.PositiveIntegerField(help_text=b'Number of years')),
                 ('achievements', models.TextField(null=True, blank=True)),
@@ -75,7 +73,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'ordering': ('full_name',),
-                'verbose_name_plural': 'Practitioner',
+                'verbose_name_plural': 'Practitioners',
             },
             bases=('docorsauth.docorsuser',),
         ),

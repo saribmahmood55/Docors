@@ -1,3 +1,4 @@
+# flake8: noqa
 from django.contrib import admin
 from practitioner.models import Practitioner, Specialization
 from patients.models import *
@@ -8,7 +9,7 @@ class SubscriptionAdmin(admin.ModelAdmin):
 
 
 class PatientAdmin(admin.ModelAdmin):
-	list_display = ['full_name','email','cell_number','gender','age_group','city','Interested_Specialities','Favourite_Practitioners']
+	list_display = ['full_name','email','cell_number','gender','year_of_birth','city','Interested_Specialities','Favourite_Practitioners']
 	search_fields = ['email']
 
 	def patient_user_name(self, obj):

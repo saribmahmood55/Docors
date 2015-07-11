@@ -1,7 +1,8 @@
+#flake8: noqa
+import datetime
 from django.db import models
 from django.core.mail import send_mail
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
-from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Here the magic happens enjoy.
 # Custom User model
@@ -28,8 +29,20 @@ class docorsUserManager(BaseUserManager):
 
 class docorsUser(AbstractBaseUser):
 	# this will be the identifier for the user model
+	GENDER_CHOICES = ( ('M', 'Male'),('F', 'Female'), ('', 'Prefer not to disclose'))
+	YEAR_CHOICES = []
+	for r in range(1930, (datetime.datetime.now().year-12)):
+		YEAR_CHOICES.append((r,r))
+	
 	email = models.EmailField(verbose_name="email address", max_length=255, unique=True)
 	full_name = models.CharField(max_length=100)
+	gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='', blank=True)
+	year_of_birth = models.PositiveSmallIntegerField(
+		'Year of Birth',
+		choices=YEAR_CHOICES,
+		default=0,
+		blank=True
+	)
 
 	modified = models.DateTimeField(auto_now=True)
 	is_active = models.BooleanField(default=False)

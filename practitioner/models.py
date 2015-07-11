@@ -136,11 +136,8 @@ class PractitionerManager(models.Manager):
 
 class Practitioner(docorsUser):
     PHYSICIAN_CHOICES = [('0', 'General Physician'), ('1', 'Trainee'), ('2', 'Specialist'),]
-    GENDER = [('M', 'Male'),('F', 'Female'),]
 
-    gender = models.CharField(max_length=1, choices=GENDER, default='M')
     physician_type = models.CharField(max_length=1, choices=PHYSICIAN_CHOICES, null=True)
-    year_of_birth = models.PositiveIntegerField(default=0)
     photo = ImageField(upload_to='practitioner/', blank=True, null=True)
     experience = models.PositiveIntegerField(help_text="Number of years")
     achievements = models.TextField(null=True, blank=True)    
@@ -168,5 +165,5 @@ class Practitioner(docorsUser):
         return self.full_name
 
     class Meta:
-        verbose_name_plural = "Practitioner"
+        verbose_name_plural = "Practitioners"
         ordering = ('full_name',)
