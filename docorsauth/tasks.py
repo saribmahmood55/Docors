@@ -1,11 +1,23 @@
-from django.core.mail import send_mail
-from django.template.loader import render_to_string
+from __future__ import absolute_import
+from celery import shared_task
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import get_template
+from django.template import Context
 
+@shared_task
+def send_email(email_confirm):
 
-def send_email(user, activation_key):
-	msg_plain = render_to_string('registration/activation_email.txt', {'user': user, 'activation_key': activation_key})
-	msg_html = render_to_string('registration/email-template.html', {'user': user, 'activation_key': activation_key})
+	plaintext = get_template('registration/activation_email.txt')
+	htmly     = get_template('registration/email-template.html')
+	
+	d = Context({ 'user': email_confirm.user, 'activation_key': email_confirm.key })
 
-	d = Context({ 'user': user, 'activation_key': activation_key })
-
-	send_mail('Welcome to Doctorsinfo. Pakistan | Account activation', msg_plain, 'no-reply@doctorsinfo.pk',[user.email, ],html_message=msg_html,)
+	subject = 'Welcome to Doctorsinfo. Pakistan | Account activation'
+	from_email = 'no-reply@doctorsinfo.pk'
+	to = email_confirm.email
+	text_content = plaintext.render(d)
+	html_content = htmly.render(d)
+	msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+	msg.attach_alternative(html_content, "text/html")
+	msg.send()
+	print email_confirm.email_sent()

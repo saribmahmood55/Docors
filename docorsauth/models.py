@@ -1,8 +1,14 @@
 #flake8: noqa
 import datetime
 from django.db import models
+from django.conf import settings
+from django.utils import timezone
 from django.core.mail import send_mail
+from django.utils.translation import ugettext_lazy as _
+from django.utils.crypto import get_random_string
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
+
+from .managers import EmailConfirmationManager
 
 # Here the magic happens enjoy.
 # Custom User model
@@ -82,3 +88,52 @@ class docorsUser(AbstractBaseUser):
 		#Check if the user is member of staff.
 		#The simple answer is if the user is admin then yes
 		return self.is_admin
+
+class EmailConfirmation(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,verbose_name=_('user'))
+    email = models.EmailField(unique=True,max_length=254,verbose_name=_('e-mail address'))
+    created = models.DateTimeField(verbose_name=_('created'),default=timezone.now)
+    sent = models.DateTimeField(verbose_name=_('sent'), null=True)
+    key = models.CharField(verbose_name=_('key'), max_length=64, unique=True)
+    verified = models.BooleanField(verbose_name=_('verified'), default=False)
+
+    objects = EmailConfirmationManager()
+
+    class Meta:
+        verbose_name = _("email confirmation")
+        verbose_name_plural = _("email confirmations")
+
+    def __str__(self):
+        return "confirmation for %s" % self.user
+
+    @classmethod
+    def create(cls, user):
+        key = get_random_string(64).lower()
+        return cls._default_manager.create(user=user, email=user.email, key=key)
+
+    def key_expired(self):
+        expiration_date = self.sent + datetime.timedelta(days=7)
+        return expiration_date <= timezone.now()
+    key_expired.boolean = True
+
+    def email_sent(self):
+    	self.sent = timezone.now()
+    	self.save()
+    	return self.sent
+
+    def confirm_activation(self):
+    	data = dict()
+        if not self.key_expired() and not self.user.is_active:
+            user = self.user
+            user.is_active = True
+            user.save()
+            self.verified = True
+            self.save()
+            data['success'] = True
+        elif self.key_expired:
+        	data['success'] = False
+        	data['error_message'] = 'Activation Key Expired'
+        elif self.user.is_active:
+        	data['success'] = False
+        	data['error_message'] = 'Email address already verified'
+        return data

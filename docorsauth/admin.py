@@ -3,7 +3,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin
 
 from .forms import docorsUserCreationForm, docorsUserChangeForm
-from .models import docorsUser
+from .models import docorsUser, EmailConfirmation
 
 # The great lord admin have the control here Dont you dare defile any of his models(pun intended).hohhohohahahaha
 
@@ -32,6 +32,11 @@ class docorsUserAdmin(UserAdmin):
 	ordering = ('email',)
 	filter_horizontal = ()
 
+class EmailConfirmationAdmin(admin.ModelAdmin):
+	list_display = ['user','key','verified','created','sent']
+	search_fields = ['email']
+
 admin.site.register(docorsUser,docorsUserAdmin)
+admin.site.register(EmailConfirmation,EmailConfirmationAdmin)
 #I work alone and dont need any group, I have all the power.
 admin.site.unregister(Group)
