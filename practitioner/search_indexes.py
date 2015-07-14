@@ -5,7 +5,7 @@ from practitioner.models import Practitioner, Specialization, Condition, Procedu
 
 class PractitionerIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
-    full_name = indexes.EdgeNgramField(model_attr='name')
+    name = indexes.EdgeNgramField(model_attr='full_name')
 
     def get_model(self):
         return Practitioner

@@ -38,7 +38,7 @@ def practitioner_suggestions(request):
 			else:
 				sqs = SearchQuerySet().filter(name=query).models(Practitioner)
 				for x in sqs:
-					res.append({'value':x.object.name, 'type':type_query, 'href':x.object.slug})
+					res.append({'value':x.object.full_name, 'type':type_query, 'href':x.object.slug})
 
 			res = [dict(t) for t in set([tuple(d.items()) for d in res])]
 			return HttpResponse(json.dumps(res),content_type="application/json")
@@ -79,7 +79,7 @@ def practitionerSearch(request, slug, typee):
 	data['ob'] = sqs
 
 	for prac in sqs.practitioner_set.all():
-		for x in Practice.practice_objects.practitioner_name(prac.name):
+		for x in Practice.practice_objects.practitioner_name(prac.full_name):
 			practice.append(x)
 	data['practice'] = practice
 	data['results_count'] = len(practice)
