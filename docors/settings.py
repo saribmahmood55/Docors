@@ -204,7 +204,7 @@ TEMPLATE_DIRS = (
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-STATICFILES_DIRS = os.path.join(BASE_DIR, "project_static")
+STATICFILES_DIRS = [ os.path.join(BASE_DIR, "project_static") ]
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 if DEBUG:
