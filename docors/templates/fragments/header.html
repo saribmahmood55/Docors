@@ -76,13 +76,14 @@
                                 <div class="checkbox pull-left">
                                     <label>
                                         <input type="checkbox">Remember me
-                                    </label>
+                                    </label><br>
+                                    <a href="{% url 'password_reset' %}">&nbsp;Forgot password</a>
                                 </div>
                                 <!--<a class="btn btn-theme-bg pull-right">Login</a>-->
                                 <button type="submit" class="btn btn-theme pull-right">Sign in</button>
                                 <div class="clearfix"></div>
                                 <hr>
-                                <p>New to doctorsinfo.pk?<a href="/accounts/register">&nbsp;Create Account</a></p>
+                                <p>New to doctorsinfo.pk?<a href="{% url 'registration_register' %}">&nbsp;Create Account</a></p>
                             </div>
                         </form>
                     </div>
