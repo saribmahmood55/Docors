@@ -124,6 +124,8 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -203,6 +205,8 @@ TEMPLATE_DIRS = (
 )
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
+GEOIP_PATH = os.path.join(BASE_DIR, "GeoIP/")
 
 STATICFILES_DIRS = [ os.path.join(BASE_DIR, "project_static") ]
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
