@@ -75,7 +75,7 @@
 <div class="container">
 	<div class="row masonry-container">
 		{% for practice in data.practice %}
-		<div class="col-sm-4 margin40 item">
+		<div class="col-md-4 col-sm-6 margin40 item">
 			<div class="price-wrap">
 				<div class="price-title price-title-custom">
 					<img src="{% static 'assets/img/service-1.jpg' %}" class="img-responsive" alt="">
@@ -113,7 +113,7 @@
 			</div>
 		</div>
 		{% endfor %}
-		<div class="col-sm-4 margin40 item">
+		<div class="col-md-4 col-sm-6 margin40 item">
 			<div class="price-wrap">
 				<div class="price-price prac-loc-name">Patients Feedback</div>
 				<div class="price-features">
@@ -177,7 +177,7 @@
 			</div>
 		</div>
 		{% if not user.is_authenticated %}
-		<div class="col-sm-4 margin40 item">
+		<div class="col-md-4 col-sm-6 margin40 item">
 			<div class="price-wrap">
 				<div class="price-price prac-loc-name">Subscription</div>
 				<div class="price-features">

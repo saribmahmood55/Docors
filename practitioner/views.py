@@ -78,8 +78,10 @@ def practitionerSearch(request, slug, typee):
 
 	data['ob'] = sqs
 
+	city = get_city(request)
+
 	for prac in sqs.practitioner_set.all():
-		for x in Practice.practice_objects.practitioner_name(prac.full_name):
+		for x in Practice.practice_objects.practitioner_name(name=prac.full_name,city=city):
 			practice.append(x)
 	data['practice'] = practice
 	data['results_count'] = len(practice)
@@ -112,7 +114,7 @@ def registration(request):
 			spec = form.cleaned_data['specialities']
 			
 			# Create practitioner
-			practitioner = Practitioner(name=practitioner_name, gender=p_gender, year_of_birth=birth_year, email=email, physician_type=p_type, achievements=achievements, experience=experience, message=message, status=False)
+			practitioner = Practitioner(full_name=practitioner_name, gender=p_gender, year_of_birth=birth_year, email=email, physician_type=p_type, achievements=achievements, experience=experience, message=message, status=False)
 			practitioner.save()
 
 			#Add Degress to practitioner

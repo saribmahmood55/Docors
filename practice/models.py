@@ -80,6 +80,7 @@ class PracticeLocation(models.Model):
     area = models.ForeignKey(Area)
     lon = models.FloatField(null=True, blank=True)
     lat = models.FloatField(null=True, blank=True)
+    location = gis_models.PointField(geography=True, blank=True, null=True)
 
     def get_location(self):
         # Remember, longitude FIRST!
@@ -91,6 +92,11 @@ class PracticeLocation(models.Model):
     class Meta:
         verbose_name_plural = "Practice Locations"
 
+    def save(self, **kwargs):
+        point = "POINT(%s %s)" % (self.lon, self.lat)
+        self.location = geos.fromstr(point)
+        super(PracticeLocation, self).save()
+
 
 #Custom Manager
 class PracticeManager(models.Manager):
@@ -101,8 +107,8 @@ class PracticeManager(models.Manager):
 
     
     # Search by Practitioner Name
-    def practitioner_name(self, name):
-        return super(PracticeManager, self).filter(practitioner__name__icontains=name, practitioner__status=True).distinct('practitioner')
+    def practitioner_name(self, name, city):
+        return super(PracticeManager, self).filter(practitioner__name__icontains=name, practitioner__status=True, practice_location__area__city__name=city).distinct('practitioner')
 
     # Basic Search request handling
     def practice_lookup(self, city, spec, dist, lon, lat, name, day, wait):
@@ -148,7 +154,6 @@ class Practice(models.Model):
     practitioner = models.ForeignKey(Practitioner)
     fee = models.ForeignKey(CheckupFee, null=True, blank=True)
     appointments_only = models.BooleanField(default=True)
-    location = gis_models.PointField(geography=True, blank=True, null=True)
     modified = models.DateTimeField(auto_now=True)
     
     objects = models.Manager()
@@ -160,11 +165,6 @@ class Practice(models.Model):
 
     class Meta:
         verbose_name_plural = "Practice"
-
-    def save(self, **kwargs):
-        point = "POINT(%s %s)" % (self.practice_location.lon, self.practice_location.lat)
-    	self.location = geos.fromstr(point)
-        super(Practice, self).save()
 
     def get_absolute_url(self):
         return reverse('practitioner', args=[self.practitioner.slug])
