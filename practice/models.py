@@ -167,6 +167,7 @@ class Practice(models.Model):
     fee = models.ForeignKey(CheckupFee, null=True, blank=True)
     appointments_only = models.BooleanField(default=True)
     modified = models.DateTimeField(auto_now=True)
+    phone_ext = models.CharField("Extension no.", max_length=150, null=True, blank=True)
     
     objects = models.Manager()
     gis = gis_models.GeoManager()

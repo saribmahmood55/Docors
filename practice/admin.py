@@ -28,9 +28,10 @@ class PracticeAdmin(admin.ModelAdmin):
 		(None, {'fields': ['practice_location']}),
 		(None, {'fields': ['practice_type']}),
         (None, {'fields': ['fee']}),
+        (None, {'fields': ['phone_ext']}),
         (None, {'fields': ['appointments_only']}),
 	]
-	list_display = ['practitioner','pk','practice_location','fee','appointments_only','modified']
+	list_display = ['practitioner','pk','practice_location','fee', 'phone_ext', 'appointments_only','modified']
 	search_fields = ['practitioner__name']
 
 
