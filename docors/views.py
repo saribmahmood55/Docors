@@ -6,7 +6,8 @@ from patients.models import Patient
 from hitcount.models import HitCount
 from django.contrib.contenttypes.models import ContentType
 
-from .utility import get_city
+from .utility import *
+from docors.forms import *
 
 # Create your views here.
 
@@ -28,7 +29,9 @@ def index(request):
 	except Patient.DoesNotExist:
 		pass
 
-	print get_city(request)
+	print get_lat_lon(request)
+
+	data['doc_form'],data['spec_form'],data['adv_form'] = doctors_form(),speciality_form(),advanced_form()
 	
 	return render_to_response('index.html', {'data': data}, context_instance=RequestContext(request))
 

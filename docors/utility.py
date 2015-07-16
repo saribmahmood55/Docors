@@ -46,3 +46,12 @@ def get_city(request):
 		return city_info['city']
 	else:
 		return 'Lahore'
+
+def get_lat_lon(request):
+    user_ip = get_ip(request)
+    g = GeoIP()
+    lat_lon = g.lat_lon(user_ip)
+    if lat_lon is not None:
+        return lat_lon
+    else:
+        return (31.519191, 74.326237)

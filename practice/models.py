@@ -138,6 +138,18 @@ class PracticeManager(models.Manager):
         
         result['practice_list'] = query
         return result
+
+    def adv_practice_lookup(self, spec, dist, lat, lon, day):
+        if lon == '' and lat == '':
+            query = None
+        else:
+            current_point = geos.fromstr("POINT(%s %s)" % (lon, lat))
+            distance_from_point = {'km': dist}
+            query = Practice.gis.filter(practice_location__location__distance_lte=(current_point, measure.D(**distance_from_point)))
+            query = query.filter(practitioner__specialty__slug=spec, practitioner__status=True)
+            query = query.filter(practicetiming__day=day).distinct('practitioner')
+        return query
+
     # Recent Search Handling
     def practice_recentlookups(self, area, spec):
         return super(PracticeManager, self).filter(practitioner__specialty__slug=spec, practitioner__status=True, practice_location__area__slug=area).distinct('practitioner')

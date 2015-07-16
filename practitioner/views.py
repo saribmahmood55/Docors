@@ -15,6 +15,8 @@ from hitcount.models import HitCount
 from django.contrib.contenttypes.models import ContentType
 import json
 
+from docors.utility import get_city
+
 #to populate the typeahead input field
 def practitioner_suggestions(request):
 	if request.method == "GET":

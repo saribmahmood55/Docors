@@ -48,7 +48,7 @@
 			                        					<input type="submit">
 			                        					<i class="fa fa-search"></i>
 			                        				</div>
-			                        				<input type="text" class="doc-typeahead" name="q" placeholder="Doctor Name, Specialty, Condition or Procedure">
+			                        				{{data.doc_form.q}}
 			                        				<img class="typeahead-spinner" src="{% static 'assets/img/spinner.gif' %}" style="display: none;">
 			                        			</label>
 			                        		</fieldset>
@@ -62,17 +62,15 @@
 											<fieldset>
 												<div class="row">
 													<section class="col col-5">
-							                        	<label>Speciality</label>
+							                        	{{data.spec_form.spec.label}}
 							                            <label class="input">
-							                            	<input type="text" name="spec" class="typeahead spec_typeahead" placeholder="eg. Child Specialist">
-							                                <b class="tooltip tooltip-bottom-right">Needed to enter the website</b>
+							                            	{{data.spec_form.spec}}
 							                            </label>
 							                        </section>
 							                        <section class="col col-5">
-							                        	<label>Area</label>
+							                        	{{data.spec_form.area.label}}
 							                            <label class="input">
-							                            	<input type="text" name="area" class="typeahead area_typeahead" placeholder="eg. Faisal Town">
-							                                <b class="tooltip tooltip-bottom-right">Needed to enter the website</b>
+							                            	{{data.spec_form.area}}
 							                            </label>
 							                        </section>
 							                        <section class="col col-2">
@@ -86,8 +84,35 @@
 								
 								<li class="sky-tab-content-3">
 									<div class="typography">
-										<h1>Advanced Search</h1>
-										<p>German-born theoretical physicist who developed the general theory of relativity, one of the two pillars of modern physics (alongside quantum mechanics). While best known for his mass–energy equivalence formula E = mc2 (which has been dubbed "the world's most famous equation"), he received the </p>
+										<form role="form" class="sky-form custom-sky-form" action="{% url 'advanced_search' %}" method="POST">{% csrf_token %}
+											<fieldset>
+												<div class="row">
+													<section class="col col-4">
+							                        	{{data.adv_form.spec.label}}
+							                            <label class="input">
+							                            	{{data.adv_form.spec}}
+							                            </label>
+							                        </section>
+							                        <section class="col col-3">
+							                        	{{data.adv_form.radius.label}}
+							                        	<label class="select">
+							                        		{{data.adv_form.radius}}
+							                        		<i></i>
+							                        	</label>
+							                        </section>
+							                        <section class="col col-3">
+							                        	{{data.adv_form.day.label}}
+							                        	<label class="select">
+							                        		{{data.adv_form.day}}
+							                        		<i></i>
+							                        	</label>
+							                        </section>
+							                        <section class="col col-2">
+								                        	<button type="submit" class="button custom-submit-button"><i class="fa fa-search"></i></button>
+							                        </section>
+							                    </div>
+							                </fieldset>
+							            </form>
 									</div>
 								</li>
 							</ul>

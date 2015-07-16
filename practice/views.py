@@ -10,6 +10,8 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 import json
 
+from docors.utility import get_lat_lon
+
 
 def practice(request, practice_slug, practitioner_slug):
 	if request.method == "GET":
@@ -62,6 +64,19 @@ def practitoners(request):
 		except Practice.DoesNotExist:
 			raise Http404
 
+	return render_to_response('practitioner/results.html', {'data': data}, context_instance=RequestContext(request))
+
+def advanced_search(request):
+	data = dict()
+	if request.method == "POST":
+		spec = str(request.POST.get('spec', ''))
+		dist = int(request.POST.get('radius', 10))
+		lat,lon = get_lat_lon(request)
+		day = str(request.POST.get('day', ''))
+		data['practice'] = Practice.practice_objects.adv_practice_lookup(spec, dist, lat, lon, day)
+		data['ob'] = Specialization.objects.get(human_name=spec)
+		data['results_count'] = len(data['practice'])
+		data['results_header'] = spec + " within " + str(dist) + " KM radius"
 	return render_to_response('practitioner/results.html', {'data': data}, context_instance=RequestContext(request))
 
 def speciality_suggestions(request):
