@@ -109,7 +109,7 @@ class PracticeManager(models.Manager):
     
     # Search by Practitioner Name
     def practitioner_name(self, name, city):
-        return super(PracticeManager, self).filter(practitioner__name__icontains=name, practitioner__status=True, practice_location__area__city__name=city).distinct('practitioner')
+        return super(PracticeManager, self).filter(practitioner__full_name__icontains=name, practitioner__status=True, practice_location__area__city__name=city).distinct('practitioner')
 
     # Basic Search request handling
     def practice_lookup(self, city, spec, dist, lon, lat, name, day, wait):
@@ -117,7 +117,7 @@ class PracticeManager(models.Manager):
         if lon == '' and lat == '':
             query = super(PracticeManager, self).filter(practitioner__specialty__slug=spec, practitioner__status=True, practice_location__city__slug=city).distinct('practitioner')
             if name != '':
-                query = query.filter(practitioner__name__icontains=name)
+                query = query.filter(practitioner__full_name__icontains=name)
             if day != '':
                 query = query.filter(practicetiming__day=day).distinct('practitioner')
     		if wait == 1:
@@ -130,7 +130,7 @@ class PracticeManager(models.Manager):
     		query = query.filter(practitioner__specialty__slug=spec, practitioner__status=True)
     		#spatial name search
     		if name != '':
-    			query = query.filter(practitioner__name__icontains=name)
+    			query = query.filter(practitioner__full_name__icontains=name)
     		if day != '':
     			query = query.filter(practicetiming__day=day).distinct('practitioner')
     			query = query.distance(current_point).order_by('practitioner')
