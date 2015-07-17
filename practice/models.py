@@ -109,13 +109,13 @@ class PracticeManager(models.Manager):
     
     # Search by Practitioner Name
     def practitioner_name(self, name, city):
-        return super(PracticeManager, self).filter(practitioner__full_name__icontains=name, practitioner__status=True, practice_location__area__city__name=city).distinct('practitioner')
+        return super(PracticeManager, self).filter(practitioner__full_name__icontains=name, practitioner__is_active=True, practice_location__area__city__name=city).distinct('practitioner')
 
     # Basic Search request handling
     def practice_lookup(self, city, spec, dist, lon, lat, name, day, wait):
         result, query = {}, None
         if lon == '' and lat == '':
-            query = super(PracticeManager, self).filter(practitioner__specialty__slug=spec, practitioner__status=True, practice_location__city__slug=city).distinct('practitioner')
+            query = super(PracticeManager, self).filter(practitioner__specialty__slug=spec, practitioner__is_active=True, practice_location__city__slug=city).distinct('practitioner')
             if name != '':
                 query = query.filter(practitioner__full_name__icontains=name)
             if day != '':
@@ -127,7 +127,7 @@ class PracticeManager(models.Manager):
     		distance_from_point = {'km': dist}
     		query = Practice.gis.filter(location__distance_lte=(current_point, measure.D(**distance_from_point)))
     		query = query.distance(current_point).order_by('distance')
-    		query = query.filter(practitioner__specialty__slug=spec, practitioner__status=True)
+    		query = query.filter(practitioner__specialty__slug=spec, practitioner__is_active=True)
     		#spatial name search
     		if name != '':
     			query = query.filter(practitioner__full_name__icontains=name)
@@ -147,13 +147,13 @@ class PracticeManager(models.Manager):
             current_point = geos.fromstr("POINT(%s %s)" % (lon, lat))
             distance_from_point = {'km': dist}
             query = Practice.gis.filter(practice_location__location__distance_lte=(current_point, measure.D(**distance_from_point)))
-            query = query.filter(practitioner__specialty__slug=spec, practitioner__status=True)
+            query = query.filter(practitioner__specialty__slug=spec, practitioner__is_active=True)
             query = query.filter(practicetiming__day=day).distinct('practitioner')
         return query
 
     # Recent Search Handling
     def practice_recentlookups(self, area, spec):
-        return super(PracticeManager, self).filter(practitioner__specialty__slug=spec, practitioner__status=True, practice_location__area__slug=area).distinct('practitioner')
+        return super(PracticeManager, self).filter(practitioner__specialty__slug=spec, practitioner__is_active=True, practice_location__area__slug=area).distinct('practitioner')
 
 
 class Practice(models.Model):

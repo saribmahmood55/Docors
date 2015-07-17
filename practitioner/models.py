@@ -131,7 +131,7 @@ class PractitionerManager(models.Manager):
         return super(PractitionerManager, self).get(slug=slug)
 
     def practitioner_suggest(self, name):
-        return super(PractitionerManager, self).filter(name__icontains=name, status=True).values_list('name', flat=True)
+        return super(PractitionerManager, self).filter(full_name__icontains=name, is_active=True).values_list('name', flat=True)
 
 
 class Practitioner(docorsUser):
@@ -152,7 +152,6 @@ class Practitioner(docorsUser):
     procedures = models.ManyToManyField(Procedure, blank=True)
 
     slug = AutoSlugField(populate_from='full_name', unique = True)
-    status = models.BooleanField(default=False)
     education_marks = models.PositiveIntegerField(default=0)
     recommendation = models.PositiveIntegerField(default=0)
     not_recommended = models.PositiveIntegerField(default=0)

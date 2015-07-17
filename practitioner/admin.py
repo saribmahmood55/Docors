@@ -9,7 +9,7 @@ class PracticeInline(admin.TabularInline):
 
 class PractitionerAdmin(admin.ModelAdmin):
 	{
-	'fields': (('full_name', 'gender', 'email', 'status'), 'physician_type', 'degrees', 'year_of_birth', 
+	'fields': (('full_name', 'gender', 'email'), 'physician_type', 'degrees', 'year_of_birth', 
 		'specialty', 'fellowship', 'conditions', 'procedures'),
 	}
 

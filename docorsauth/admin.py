@@ -1,3 +1,4 @@
+# flake8: noqa
 from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin
@@ -12,7 +13,7 @@ class docorsUserAdmin(UserAdmin):
 	form = docorsUserChangeForm
 	add_form = docorsUserCreationForm
 
-	list_display = ['email','full_name','is_admin']
+	list_display = ['email','full_name', 'gender', 'year_of_birth', 'is_admin']
 	list_filter = ('is_admin','is_active',)
 	fieldsets = (
 		(None, {'fields':('email','password')}),
@@ -36,7 +37,7 @@ class EmailConfirmationAdmin(admin.ModelAdmin):
 	list_display = ['user','key','verified','created','sent']
 	search_fields = ['email']
 
-admin.site.register(docorsUser,docorsUserAdmin)
-admin.site.register(EmailConfirmation,EmailConfirmationAdmin)
+admin.site.register(docorsUser, docorsUserAdmin)
+admin.site.register(EmailConfirmation, EmailConfirmationAdmin)
 #I work alone and dont need any group, I have all the power.
 admin.site.unregister(Group)
