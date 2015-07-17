@@ -2,6 +2,10 @@
 from django.contrib import admin
 from practice.models import *
 
+class PracticeTimingsInline(admin.TabularInline):
+	model = PracticeTiming
+	extra = 1
+
 class CityAdmin(admin.ModelAdmin):
 	list_display = ['name','slug']
 	list_filter = ['name']
@@ -31,14 +35,15 @@ class PracticeAdmin(admin.ModelAdmin):
         (None, {'fields': ['phone_ext']}),
         (None, {'fields': ['appointments_only']}),
 	]
-	list_display = ['practitioner','pk','practice_location','fee', 'phone_ext', 'appointments_only','modified']
+	list_display = ['practice_location', 'practitioner', 'fee', 'phone_ext', 'appointments_only','modified']
 	search_fields = ['practitioner__name']
+	inlines = [PracticeTimingsInline]
 
 
 class PracticeTimingAdmin(admin.ModelAdmin):
 	list_display = ['practice','day', 'start_time','end_time']
-	list_filter = ['day']
-	search_fields = ['practice__practice_location__name','day']
+	list_filter = ['practice__practice_location__name']
+	search_fields = ['practice__practice_location__name']
 
 class RecentSearchAdmin(admin.ModelAdmin):
 	list_display = ['specialty','city','hit_count']

@@ -139,7 +139,7 @@ class Practitioner(docorsUser):
 
     physician_type = models.CharField(max_length=1, choices=PHYSICIAN_CHOICES, null=True)
     photo = ImageField(upload_to='practitioner/', blank=True, null=True)
-    experience = models.PositiveIntegerField(help_text="Number of years")
+    experience = models.PositiveIntegerField(help_text="Number of years", default=0)
     achievements = models.TextField(null=True, blank=True)    
     message = models.CharField(max_length=140, null=True, blank=True)
     degrees = models.ManyToManyField(Degree)
@@ -147,6 +147,7 @@ class Practitioner(docorsUser):
     # specialities
     specialty = models.ForeignKey(Specialization, null=True, blank=True)
     fellowship = models.ManyToManyField(Fellowship, blank=True)
+    completion_year = models.PositiveIntegerField("Fellowship expected in year.", default=0)
     conditions = models.ManyToManyField(Condition, blank=True)
     procedures = models.ManyToManyField(Procedure, blank=True)
 

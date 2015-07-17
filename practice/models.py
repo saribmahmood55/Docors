@@ -69,7 +69,8 @@ class CheckupFee(models.Model):
         return str(self.amount)
     
     class Meta:
-        verbose_name_plural = "CheckupFee"
+        verbose_name_plural = "Checkup Fee"
+        ordering = ('amount',)
 
 class PracticeLocation(models.Model):
     name = models.CharField(max_length=50)
@@ -167,7 +168,7 @@ class Practice(models.Model):
     fee = models.ForeignKey(CheckupFee, null=True, blank=True)
     appointments_only = models.BooleanField(default=True)
     modified = models.DateTimeField(auto_now=True)
-    phone_ext = models.CharField("Extension no.", max_length=150, null=True, blank=True)
+    phone_ext = models.CharField("Extension no.", max_length=150, null=True, blank=True, default=None)
     
     objects = models.Manager()
     gis = gis_models.GeoManager()
@@ -205,7 +206,7 @@ class PracticeTiming(models.Model):
     pt_objects = PracticeTimingManager()
 
     def __unicode__(self):
-        return self.practice.practitioner.name
+        return self.practice.practitioner.full_name
 
     class Meta:
         verbose_name_plural = "Practice Timings"
