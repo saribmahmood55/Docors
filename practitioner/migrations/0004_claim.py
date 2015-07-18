@@ -8,7 +8,7 @@ import sorl.thumbnail.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('practitioner', '0001_initial'),
+        ('practitioner', '0003_remove_practitioner_status'),
     ]
 
     operations = [
