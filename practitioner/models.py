@@ -3,6 +3,7 @@ from django.db import models
 from autoslug import AutoSlugField
 from sorl.thumbnail import ImageField
 from docorsauth.models import docorsUser
+from django.utils.translation import ugettext_lazy as _
 
 class SpecializationManager(models.Manager):
     def spec_slug(self, slug):
@@ -125,6 +126,7 @@ class Degree(models.Model):
         verbose_name_plural = "Degrees"
         ordering = ('name',)
 
+
 class PractitionerManager(models.Manager):
 
     def practitioner_slug(self, slug):
@@ -167,3 +169,24 @@ class Practitioner(docorsUser):
     class Meta:
         verbose_name_plural = "Practitioners"
         ordering = ('full_name',)
+
+class ClaimManager(models.Manager):
+    def get_claim(self, email):
+        return super(ClaimManager, self).get(email=email)
+
+class Claim(models.Model):
+    practitioner = models.ForeignKey(Practitioner)
+    email = models.EmailField(verbose_name="email address", max_length=255, help_text=_("Verification email will be sent at this address. So please ensure you enter correct email"))
+    pmdc_no = models.CharField(max_length="20")
+    photo = ImageField(upload_to='practitioner/', blank=True, null=True, help_text=_("Please provide a passport size photograph of yours to help in the verification process."))
+    current_status = models.BooleanField(default=False)
+
+    objects = models.Manager()
+    claim_objects = ClaimManager()
+
+    class Meta:
+        verbose_name_plural = "Practitioner Claims"
+        ordering = ('email',)
+
+    def __unicode__(self):
+        return self.pmdc_no

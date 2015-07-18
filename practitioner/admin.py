@@ -56,6 +56,11 @@ class FellowshipAdmin(admin.ModelAdmin):
 	list_filter = ['specialization']
 	search_fields = ['name']
 
+class ClaimAdmin(admin.ModelAdmin):
+	list_display = ['practitioner','email','pmdc_no','photo','current_status']
+	list_filter = ['practitioner']
+	search_fields = ['practitioner']
+
 
 admin.site.register(Practitioner, PractitionerAdmin)
 admin.site.register(Specialization, SpecializationAdmin)
@@ -63,3 +68,4 @@ admin.site.register(Degree, DegreeAdmin)
 admin.site.register(Condition, ConditionAdmin)
 admin.site.register(Procedure, ProcedureAdmin)
 admin.site.register(Fellowship, FellowshipAdmin)
+admin.site.register(Claim, ClaimAdmin)

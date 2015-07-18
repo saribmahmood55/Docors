@@ -93,7 +93,7 @@
                     <a href="#" class="dropdown-toggle location-toggle" data-toggle="dropdown"><i class="fa fa-flag text-green"></i> {{sticky_data.user_city}}</a>
                     <ul class="dropdown-menu" role="menu">
                         {% for city in sticky_data.cities %}
-                        <li><a href="#" {% if data.user_city != city %}onclick="change_city({{city.slug}});return false;" {% endif %}>{{city}}</a></li>
+                        <li><a href="#" {% if data.user_city != city %}onclick="change_city('{{city.slug}}');return false;" {% endif %}>{{city}}</a></li>
                         {% endfor %}
                     </ul>
                 </li>

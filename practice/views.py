@@ -11,6 +11,7 @@ from django.template import RequestContext
 import json
 
 from docors.utility import get_lat_lon
+from docors.forms import advanced_form
 
 
 def practice(request, practice_slug, practitioner_slug):
@@ -67,16 +68,30 @@ def practitoners(request):
 	return render_to_response('practitioner/results.html', {'data': data}, context_instance=RequestContext(request))
 
 def advanced_search(request):
-	data = dict()
 	if request.method == "POST":
-		spec = str(request.POST.get('spec', ''))
-		dist = int(request.POST.get('radius', 10))
-		lat,lon = get_lat_lon(request)
-		day = str(request.POST.get('day', ''))
-		data['practice'] = Practice.practice_objects.adv_practice_lookup(spec, dist, lat, lon, day)
-		data['ob'] = Specialization.objects.get(human_name=spec)
-		data['results_count'] = len(data['practice'])
-		data['results_header'] = spec + " within " + str(dist) + " KM radius"
+		form = advanced_form(request.POST)
+		if form.is_valid():
+			spec = form.cleaned_data['spec']
+			dist = form.cleaned_data['radius']
+			lat = form.cleaned_data['lat']
+			lon = form.cleaned_data['lon']
+			day = form.cleaned_data['day']
+			request.session['day'] = day
+			request.session['lat'] = lat
+			request.session['lon'] = lon
+			spec = Specialization.objects.get(human_name=spec)
+			return HttpResponseRedirect(reverse('advSearch', kwargs={'speciality':spec.slug,'dist':dist}))
+	return HttpResponseRedirect(reverse('index'))
+
+def advSearch(request, speciality, dist):
+	data = dict()
+	day = request.session['day']
+	lat = request.session['lat']
+	lon = request.session['lon']
+	data['practice'] = Practice.practice_objects.adv_practice_lookup(speciality, dist, day, lon, day)
+	data['ob'] = Specialization.objects.get(slug=speciality)
+	data['results_count'] = len(data['practice'])
+	data['results_header'] = data['ob'].human_name + " within " + str(dist) + " KM radius"
 	return render_to_response('practitioner/results.html', {'data': data}, context_instance=RequestContext(request))
 
 def speciality_suggestions(request):
@@ -89,7 +104,10 @@ def get_areas(request):
 	if request.is_ajax():
 		if request.method == "GET":
 			city = request.GET.get('city','');
-			data['areas'] = ["<option value='"+str(a.id)+"'>"+str(a)+"</option>" for a in Area.objects.filter(city=City.objects.get(pk=city))]
+			if not request.GET.get('header_city',None):
+				data['areas'] = ["<option value='"+str(a.id)+"'>"+str(a)+"</option>" for a in Area.objects.filter(city=City.objects.get(pk=city))]
+			else:
+				data['areas'] = [a.name for a in Area.objects.filter(city=City.objects.get(slug=city))]
 			return HttpResponse(json.dumps(data),content_type="application/json")
 
 def get_initial_reg(request):

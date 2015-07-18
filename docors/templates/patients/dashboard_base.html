@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
-{% block header_name %}{{data.patient.user.first_name}} {{data.patient.user.last_name}}{% endblock %}
-{% block title %}{{data.patient.user.first_name}} {{data.patient.user.last_name}} | Profile{% endblock %}
+{% block header_name %}{{sticky_data.user.full_name}}{% endblock %}
+{% block title %}{{sticky_data.user.full_name}} | Profile{% endblock %}
 {% block dashboard_profile_link %}#{% endblock %}
 {% block content %}
 <div class="container">

@@ -51,3 +51,15 @@ class PractitionerForm(forms.Form):
 	day_to = forms.ChoiceField(choices = DAYS, label = "To day", initial='5', required = True)
 	start_time = forms.TimeField(widget=forms.TimeInput(attrs={'placeholder': 'hh:mm (24h format)'},format='%H:%M'), label = "Start time.")
 	end_time = forms.TimeField(widget=forms.TimeInput(attrs={'placeholder': 'hh:mm (24h format)'},format='%H:%M'), label = "End time.")
+
+class ClaimPractitionerForm(forms.ModelForm):
+
+	class Meta:
+		model = Claim
+		fields = ['email','pmdc_no']
+
+	def save(self, slug):
+		claim = super(ClaimPractitionerForm, self).save(commit=False)
+		claim.practitioner = Practitioner.objects.get(slug=slug)
+		claim.save()
+		return claim

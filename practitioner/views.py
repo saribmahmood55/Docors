@@ -3,7 +3,7 @@ from practitioner.models import *
 from patients.models import Patient
 from reviews.models import Review
 from practice.models import *
-from practitioner.form import PractitionerForm
+from practitioner.form import PractitionerForm, ClaimPractitionerForm
 from practitioner.tasks import confirmation_mail
 from utility import *
 from django.http import Http404, HttpResponse, HttpResponseRedirect
@@ -47,7 +47,8 @@ def practitioner_suggestions(request):
 		else:
 			data = {}
 			try:
-				data['practice'] = Practice.practice_objects.practitioner_name(query)
+				city = get_city(request)
+				data['practice'] = Practice.practice_objects.practitioner_name(name=query,city=city)
 				data['results_count'] = len(data['practice'])
 				data['results_header'] = "physicians matching your search criteria"
 			except Practice.DoesNotExist:
@@ -88,6 +89,19 @@ def practitionerSearch(request, slug, typee):
 	data['practice'] = practice
 	data['results_count'] = len(practice)
 	return render_to_response('practitioner/results.html', {'data': data}, context_instance=RequestContext(request))
+
+def claim_practitioner(request, slug):
+	if request.method == "POST":
+		form = ClaimPractitionerForm(request.POST)
+		if form.is_valid():
+			new_claim = form.save(slug)
+			return render_to_response("practitioner/claim_pending.html", {'claim': new_claim}, context_instance=RequestContext(request))
+		else:
+			print form.errors
+	else:
+		form = ClaimPractitionerForm()
+	practitioner = Practitioner.objects.get(slug=slug)
+	return render_to_response('practitioner/claim.html', {'practitioner':practitioner,'form': form}, context_instance=RequestContext(request))
 
 #custom login function to redirect if already logged in
 def login(request):

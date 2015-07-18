@@ -108,7 +108,7 @@ class PracticeManager(models.Manager):
     
     # Search by Practitioner Name
     def practitioner_name(self, name, city):
-        return super(PracticeManager, self).filter(practitioner__name__icontains=name, practitioner__status=True, practice_location__area__city__name=city).distinct('practitioner')
+        return super(PracticeManager, self).filter(practitioner__full_name__icontains=name, practitioner__status=True, practice_location__area__city__name=city).distinct('practitioner')
 
     # Basic Search request handling
     def practice_lookup(self, city, spec, dist, lon, lat, name, day, wait):

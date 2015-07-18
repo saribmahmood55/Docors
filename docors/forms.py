@@ -1,4 +1,5 @@
 from django import forms
+from django.forms.widgets import Input, HiddenInput
 
 class doctors_form(forms.Form):
 
@@ -17,3 +18,5 @@ class advanced_form(forms.Form):
 	spec = forms.CharField(max_length=100, required=True, label="Specialty", widget=forms.TextInput(attrs={'placeholder': 'eg. Child SPecialist', 'class':'typeahead spec_typeahead'}))
 	radius = forms.ChoiceField(choices = RADIUS_CHOICES, label="Radius (KM)", initial='10', required = True)
 	day = forms.ChoiceField(choices = DAYS, label = "Day", initial='1', required = True)
+	lon = forms.CharField(label='Physical longitude.', widget=forms.HiddenInput(), required=False)
+	lat = forms.CharField(label='Physical latitude.', widget=forms.HiddenInput(), required=False)

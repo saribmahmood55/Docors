@@ -6,5 +6,6 @@ urlpatterns = patterns('',
 	url(r'^practitioner/registration', views.registration, name='registration'),
 	url(r'^practitioner/suggestions/$', views.practitioner_suggestions, name='doctor_suggestions'),
 	url(r'^practitioner/getCondProc/$', views.get_condition_procedure, name='get_condition_procedure'),
-	url(r'^practitioner-search/$', views.get_search_practitioner, name='get_search_practitioner')
+	url(r'^practitioner-search/$', views.get_search_practitioner, name='get_search_practitioner'),
+	url(r'^physican/(?P<slug>[a-z-]+)/claim/$', views.claim_practitioner, name='claim_practitioner'),
 )
