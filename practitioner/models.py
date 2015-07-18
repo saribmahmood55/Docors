@@ -133,7 +133,7 @@ class PractitionerManager(models.Manager):
         return super(PractitionerManager, self).get(slug=slug)
 
     def practitioner_suggest(self, name):
-        return super(PractitionerManager, self).filter(name__icontains=name, status=True).values_list('name', flat=True)
+        return super(PractitionerManager, self).filter(full_name__icontains=name, is_active=True).values_list('name', flat=True)
 
 
 class Practitioner(docorsUser):
@@ -141,7 +141,7 @@ class Practitioner(docorsUser):
 
     physician_type = models.CharField(max_length=1, choices=PHYSICIAN_CHOICES, null=True)
     photo = ImageField(upload_to='practitioner/', blank=True, null=True)
-    experience = models.PositiveIntegerField(help_text="Number of years")
+    experience = models.PositiveIntegerField(help_text="Number of years", default=0)
     achievements = models.TextField(null=True, blank=True)    
     message = models.CharField(max_length=140, null=True, blank=True)
     degrees = models.ManyToManyField(Degree)
@@ -149,11 +149,11 @@ class Practitioner(docorsUser):
     # specialities
     specialty = models.ForeignKey(Specialization, null=True, blank=True)
     fellowship = models.ManyToManyField(Fellowship, blank=True)
+    completion_year = models.PositiveIntegerField("Fellowship expected in year.", default=0)
     conditions = models.ManyToManyField(Condition, blank=True)
     procedures = models.ManyToManyField(Procedure, blank=True)
 
     slug = AutoSlugField(populate_from='full_name', unique = True)
-    status = models.BooleanField(default=False)
     education_marks = models.PositiveIntegerField(default=0)
     recommendation = models.PositiveIntegerField(default=0)
     not_recommended = models.PositiveIntegerField(default=0)

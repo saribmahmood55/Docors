@@ -1998,7 +1998,7 @@ ul.post-desc li + li {
 /************************************************* css for footers****************************************/
 /* #footer is by default*/
 #footer {
-  background: #111;
+  background: #2da5da;
   font-size: 0.9em;
   padding: 80px 0 0;
   position: relative;
@@ -2008,7 +2008,6 @@ ul.post-desc li + li {
   color: #fff;
   margin-bottom: 35px;
   font-size: 22px;
-  text-transform: capitalize;
   font-weight: 300;
   font-style: normal; }
 
@@ -2049,7 +2048,7 @@ ul.post-desc li + li {
 .footer-btm {
   margin-top: 30px;
   padding: 20px;
-  background-color: #0c0c0c;
+  background-color: #fff;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px; }
 
@@ -3464,7 +3463,6 @@ body.invoice {
 
 /*******************footer 3********************/
 .footer-col.footer-3 h3 {
-  text-transform: uppercase;
   font-size: 35px; }
 
 /****************login register calssic****************/

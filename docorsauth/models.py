@@ -46,7 +46,7 @@ class docorsUser(AbstractBaseUser):
 	year_of_birth = models.PositiveSmallIntegerField(
 		'Year of Birth',
 		choices=YEAR_CHOICES,
-		default=0,
+		default=1930,
 		blank=True
 	)
 
