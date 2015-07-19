@@ -90,10 +90,10 @@
                 </li> <!--menu login li end here-->
                 {% endif %}
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle location-toggle" data-toggle="dropdown"><i class="fa fa-flag text-green"></i> {{sticky_data.user_city}}</a>
+                    <a href="#" class="dropdown-toggle location-toggle" data-toggle="dropdown"><i class="fa fa-flag text-green"></i> <span id="curr_city" data-cityslug="{{sticky_data.user_city.slug}}">{{sticky_data.user_city}}</span></a>
                     <ul class="dropdown-menu" role="menu">
                         {% for city in sticky_data.cities %}
-                        <li><a href="#" {% if data.user_city != city %}onclick="change_city('{{city.slug}}');return false;" {% endif %}>{{city}}</a></li>
+                        <li><a href="#" class="city_name" data-cityslug="{{city.slug}}">{{city}}</a></li>
                         {% endfor %}
                     </ul>
                 </li>

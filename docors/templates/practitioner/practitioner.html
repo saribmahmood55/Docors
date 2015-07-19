@@ -33,8 +33,8 @@
                             <input type="hidden" id="pract_slug" value="{{data.practitioner.slug}}">
                             <li><i class="fa fa-share-alt"></i> <a href="#" id="shareTrigger">Share</a></li>
                             <li><i class="fa fa-save"></i> <a href="#">Total Visits : {{total_hits}}</a></li>
-                            <li><i class="fa fa-save"></i> <a href="#" id="save_pract">Update Info</a></li>
-                            <li><i class="fa fa-save"></i> <a href="#" id="save_pract">Claim Profile</a></li>
+                            <li><i class="fa fa-save"></i> <a href="/physican/{{data.practitioner.slug}}/update/info" id="update_info">Update Info</a></li>
+                            <li><i class="fa fa-save"></i> <a href="/physican/{{data.practitioner.slug}}/claim" id="claim_profile">Claim Profile</a></li>
                         </ul>
                         <h2>{{data.practitioner.full_name}} <i class="fa fa-check-circle text-blue"></i></h2>
                         <ul class="list-inline">
@@ -150,6 +150,7 @@
 													<span><strong>{{review.patient.user.first_name}}</strong></span>
 													{% endif %}
 												</li>
+												{{review.answers}}
 												{% for i in n %}
 													{% if i < review.answers %}
 														<li><i class="fa fa-star text-yellow"></i></li>
@@ -441,7 +442,7 @@
 			});
 		{% endfor %}
 
-		$("#save_pract").click(function(){
+		$("#save_pract").on("click",function(){
 			var slug = $("#pract_slug").val();
 			if($("#user_authenticated").val() == "0"){
 				swal({

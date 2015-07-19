@@ -61,6 +61,11 @@ class ClaimAdmin(admin.ModelAdmin):
 	list_filter = ['practitioner']
 	search_fields = ['practitioner']
 
+class UpdateInfoAdmin(admin.ModelAdmin):
+	list_display = ['practitioner','ip','incorrect_info','correct_info','approved']
+	list_filter = ['practitioner']
+	search_fields = ['practitioner']
+
 
 admin.site.register(Practitioner, PractitionerAdmin)
 admin.site.register(Specialization, SpecializationAdmin)
@@ -69,3 +74,4 @@ admin.site.register(Condition, ConditionAdmin)
 admin.site.register(Procedure, ProcedureAdmin)
 admin.site.register(Fellowship, FellowshipAdmin)
 admin.site.register(Claim, ClaimAdmin)
+admin.site.register(UpdateInfo, UpdateInfoAdmin)

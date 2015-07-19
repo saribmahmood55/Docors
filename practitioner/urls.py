@@ -8,4 +8,5 @@ urlpatterns = patterns('',
 	url(r'^practitioner/getCondProc/$', views.get_condition_procedure, name='get_condition_procedure'),
 	url(r'^practitioner-search/$', views.get_search_practitioner, name='get_search_practitioner'),
 	url(r'^physican/(?P<slug>[a-z-]+)/claim/$', views.claim_practitioner, name='claim_practitioner'),
+	url(r'^physican/(?P<slug>[a-z-]+)/update/info/$', views.update_info_practitioner, name='update_info_practitioner'),
 )

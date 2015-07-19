@@ -406,12 +406,15 @@
 			}
 		});
 
-		function change_city(city_slug){
+		$(".city_name").on("click",function(){
+			var city_slug = $(this).data("cityslug");
 			$.ajax({
 				type: "GET",
 				url: "{% url 'practice_areas' %}",
 				data: {'city':city_slug,'header_city':true},
 				success: function(data){
+					$("#curr_city").text(city_slug);
+					$("#curr_city").data("cityslug",city_slug);
 					local_areas = Array();
 					for(i=0;i<data['areas'].length;i++){
 						local_areas.push(data['areas'][i]);
@@ -432,7 +435,7 @@
 					});
 				}
 			});
-		}
+		});
 	</script>
 
 	{% endblock %}

@@ -11,4 +11,4 @@ def send_activation_link(user):
 	"""
 	email_confirm = EmailConfirmation.create(user)
 	
-	send_email(email_confirm)
+	send_email.delay(email_confirm)

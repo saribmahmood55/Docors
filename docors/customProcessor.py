@@ -14,7 +14,7 @@ def customProcessor(request):
 	
 	try:
 		sticky_data['user_city'] = Patient.patient_objects.get_city(email=sticky_data['user'].email)
-	except Patient.DoesNotExist:
+	except:
 		sticky_data['user_city'] = City.city_objects.get_default()
 
 	sticky_data['areas'] = Area.area_objects.get_areas(city=sticky_data['user_city'])

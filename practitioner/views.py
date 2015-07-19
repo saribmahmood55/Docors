@@ -3,7 +3,7 @@ from practitioner.models import *
 from patients.models import Patient
 from reviews.models import Review
 from practice.models import *
-from practitioner.form import PractitionerForm, ClaimPractitionerForm
+from practitioner.form import PractitionerForm, ClaimPractitionerForm, UpdateInfoForm
 from practitioner.tasks import confirmation_mail
 from utility import *
 from django.http import Http404, HttpResponse, HttpResponseRedirect
@@ -13,9 +13,9 @@ from django.utils.safestring import mark_safe
 from haystack.query import SearchQuerySet
 from hitcount.models import HitCount
 from django.contrib.contenttypes.models import ContentType
-import json
+import json, re
 
-from docors.utility import get_city
+from docors.utility import get_city, get_ip
 
 #to populate the typeahead input field
 def practitioner_suggestions(request):
@@ -102,6 +102,22 @@ def claim_practitioner(request, slug):
 		form = ClaimPractitionerForm()
 	practitioner = Practitioner.objects.get(slug=slug)
 	return render_to_response('practitioner/claim.html', {'practitioner':practitioner,'form': form}, context_instance=RequestContext(request))
+
+def update_info_practitioner(request, slug):
+	if request.method == "POST":
+		form = UpdateInfoForm(request.POST)
+		if form.is_valid():
+			if request.user.is_authenticated():
+				new_info = form.save(request.user.email,slug)
+			else:
+				new_info = form.save(get_ip(request), slug)
+			return render_to_response("practitioner/updateinfo_pending.html", {'info': new_info}, context_instance=RequestContext(request))
+		else:
+			print form.errors
+	else:
+		form = UpdateInfoForm()
+	practitioner = Practitioner.objects.get(slug=slug)
+	return render_to_response('practitioner/updateinfo.html', {'practitioner':practitioner,'form': form}, context_instance=RequestContext(request))
 
 #custom login function to redirect if already logged in
 def login(request):
@@ -194,8 +210,10 @@ def registration(request):
 				pt = PracticeTiming(practice=practice, day=day+1, start_time=start_time, end_time=end_time)
 				pt.save()
 			#send email
-			email_details = {'name': practitioner_name, 'email': email, 'slug': practitioner.slug}
-			confirmation_mail.delay(email_details)
+			email_domain = re.search("@[\w.]+", email).group()
+			if email_domain[1::] != "doctorsinfo.pk":
+				email_details = {'name': practitioner_name, 'email': email, 'slug': practitioner.slug}
+				confirmation_mail.delay(email_details)
 			return render_to_response('practitioner/success.html',{'email': email}, context_instance=RequestContext(request))
 		else:
 			form = PractitionerForm()

@@ -22,7 +22,7 @@ class Answer(models.Model):
     answer_objects = AnswerManager()
 
     def __unicode__(self):
-        return "%f" % (self.answer1+self.answer2+self.answer3+self.answer4+self.answer5)
+        return "%d" % ((self.answer1+self.answer2+self.answer3+self.answer4+self.answer5)/5)
 
     class Meta:
         verbose_name_plural = 'Answers'
@@ -64,7 +64,7 @@ class Review(models.Model):
     practitioner = models.ForeignKey(Practitioner)
     answers = models.ForeignKey(Answer, null=True)
     comments = models.ForeignKey(Comment, null=True)
-    anonymous = models.NullBooleanField()
+    anonymous = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now=True, null=True)
 
     objects = models.Manager()
@@ -74,7 +74,7 @@ class Review(models.Model):
         verbose_name_plural = 'Reviews'
 
     def __str__(self):
-        return self.practitioner.name
+        return self.practitioner.full_name
 
 class Question(models.Model):
     question1 = models.CharField(max_length=200)

@@ -63,3 +63,16 @@ class ClaimPractitionerForm(forms.ModelForm):
 		claim.practitioner = Practitioner.objects.get(slug=slug)
 		claim.save()
 		return claim
+
+class UpdateInfoForm(forms.ModelForm):
+
+	class Meta:
+		model = UpdateInfo
+		fields = ['incorrect_info','correct_info','comments']
+
+	def save(self, ip, slug):
+		update = super(UpdateInfoForm, self).save(commit=False)
+		update.ip = ip
+		update.practitioner = Practitioner.objects.get(slug=slug)
+		update.save()
+		return update

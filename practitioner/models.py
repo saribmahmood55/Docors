@@ -177,7 +177,7 @@ class ClaimManager(models.Manager):
 class Claim(models.Model):
     practitioner = models.ForeignKey(Practitioner)
     email = models.EmailField(verbose_name="email address", max_length=255, help_text=_("Verification email will be sent at this address. So please ensure you enter correct email"))
-    pmdc_no = models.CharField(max_length="20")
+    pmdc_no = models.CharField(max_length=20)
     photo = ImageField(upload_to='practitioner/', blank=True, null=True, help_text=_("Please provide a passport size photograph of yours to help in the verification process."))
     current_status = models.BooleanField(default=False)
 
@@ -190,3 +190,27 @@ class Claim(models.Model):
 
     def __unicode__(self):
         return self.pmdc_no
+
+class UpdateInfoManager(models.Manager):
+    def get_updates(self, practitioner):
+        return super(UpdateInfoManager, self).filter(practitioner=practitioner)
+
+class UpdateInfo(models.Model):
+    UPDATE_CHOICES = [('1','Physican Type'),('2','Experience'),('3','Achievements'),('4','Degree'),('5','Speciality'),('6','Fellowship'),('7','Completion Year'),('8','Conditions'),('9','Procedures')]
+
+    practitioner = models.ForeignKey(Practitioner)
+    ip = models.CharField(verbose_name='IP address or Email', max_length=255, null=True, blank=True)
+    incorrect_info = models.CharField(max_length=1, choices=UPDATE_CHOICES, null=True)
+    correct_info = models.CharField(max_length=150)
+    comments = models.CharField(max_length=150, null=True, blank=True)
+    approved = models.BooleanField(default=False)
+
+    objects = models.Manager()
+    updateinfo_objects = UpdateInfoManager()
+
+    class Meta:
+        verbose_name = "Update Info"
+        ordering = ('practitioner',)
+
+    def __unicode__(self):
+        return self.correct_info
