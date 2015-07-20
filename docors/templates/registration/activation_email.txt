@@ -1,15 +1,16 @@
 {% load humanize %}
+
 Hello {{user.full_name}}
 
-Welcome to DoctorsInfo.pk. We are glad you are here.
+Welcome abroad, We are glad that you've signed up to make doctorsinfo.pk a spam free health forum.<br>
 
 Use the following link to activate your account:
 
-http://localhost:800/accounts/activate/{{ activation_key }}/
+http://beta.doctorsinfo.pk/accounts/activate/{{ activation_key }}
 
-If the link doesn't work please copy and paste the link the browser.
+<br>If the link doesn't work please copy and paste the link the browser.
 
-If you have, any questions, at any point, just email us at help@doctorsinfo.pk.
+<br>If you have, any questions, at any point, just email us at support@doctorsinfo.pk.
 
 --
 
