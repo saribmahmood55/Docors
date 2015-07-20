@@ -32,9 +32,9 @@
                             {% endif %}
                             <input type="hidden" id="pract_slug" value="{{data.practitioner.slug}}">
                             <li><i class="fa fa-share-alt"></i> <a href="#" id="shareTrigger">Share</a></li>
-                            <li><i class="fa fa-save"></i> <a href="#">Total Visits : {{total_hits}}</a></li>
-                            <li><i class="fa fa-save"></i> <a href="/physican/{{data.practitioner.slug}}/update/info" id="update_info">Update Info</a></li>
-                            <li><i class="fa fa-save"></i> <a href="/physican/{{data.practitioner.slug}}/claim" id="claim_profile">Claim Profile</a></li>
+                            <li><i class="fa fa-bar-chart"></i> <a href="#">Total Visits : {{total_hits}}</a></li>
+                            <li><i class="fa fa-pencil-square-o"></i> <a href="/physican/{{data.practitioner.slug}}/update/info" id="update_info">Update Info</a></li>
+                            <li><i class="fa fa-exclamation-triangle"></i> <a href="/physican/{{data.practitioner.slug}}/claim" id="claim_profile">Claim Profile</a></li>
                         </ul>
                         <h2>{{data.practitioner.full_name}} <i class="fa fa-check-circle text-blue"></i></h2>
                         <ul class="list-inline">

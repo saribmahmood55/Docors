@@ -96,8 +96,8 @@ def advSearch(request, speciality, dist):
 
 def speciality_suggestions(request):
 	data = {}
-	if request.method == "POST":
-		form = speciality_form(request.POST)
+	if request.method == "GET":
+		form = speciality_form(request.GET)
 		if form.is_valid():
 			spec_pk = request.GET.get('spec', '')
 			speciality = Specialization.objects.get(pk=spec_pk).slug
