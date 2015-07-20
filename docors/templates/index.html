@@ -63,13 +63,13 @@
 												<div class="row">
 													<section class="col col-5">
 							                        	{{data.spec_form.spec.label}}
-							                            <label class="input">
+							                            <label class="select">
 							                            	{{data.spec_form.spec}}
 							                            </label>
 							                        </section>
 							                        <section class="col col-5">
 							                        	{{data.spec_form.area.label}}
-							                            <label class="input">
+							                            <label class="select">
 							                            	{{data.spec_form.area}}
 							                            </label>
 							                        </section>
@@ -201,10 +201,12 @@
 	<link href="{% static 'assets/css/sky-forms.css' %}" rel="stylesheet">
 	<link href="{% static 'assets/css/sky-tabs.css' %}" rel="stylesheet">
 	<link rel="stylesheet" href="{% static 'assets/css/sweetalert.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/css/select2.min.css' %}">
 	{% endblock %}
 	{% block pageSpecificJS %}
 		<script src="{% static 'assets/js/sweetalert.min.js' %}"></script>
 		<script type="text/javascript" src="{% static 'assets/js/typeahead.js' %}"></script>
+		<script type="text/javascript" src="{% static 'assets/js/select2.full.min.js' %}"></script>
 	{% endblock %}
 
 	{% block customScript %}
@@ -250,6 +252,19 @@
 		        $("#adv_search_btn").data("geo","true");
 		        $("#adv_search_btn").data('geoerror','Geolocation is not supported by this browser.');
 		    }
+
+		    $("#id_spec").select2({
+		    	placeholder: 'Select Speciality',
+		    	allowClear: true
+		    });
+
+		    $("#id_area").select2({
+		    	placeholder: 'Select Area',
+		    	allowClear: true
+		    });
+
+		    $("#id_spec").select2("val", "");
+		    $("#id_area").select2("val", "");
 
 			/********* Twitter typeahead with bloodhound *******/
 

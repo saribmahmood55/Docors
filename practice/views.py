@@ -97,7 +97,11 @@ def advSearch(request, speciality, dist):
 def speciality_suggestions(request):
 	data = {}
 	if request.method == "GET":
-		return HttpResponseRedirect(reverse('recentSearch', kwargs={'speciality': Specialization.spec_objects.spec_human_name(str(request.GET.get('spec', ''))).slug, 'area': Area.area_objects.area_name(str(request.GET.get('area', '') if request.GET.get('area','') != '' else 'Other')).slug}))
+		spec_pk = request.GET.get('spec', '')
+		speciality = Specialization.objects.get(pk=spec_pk).slug
+		area_pk = request.GET.get('area', '')
+		area = Area.objects.get(pk=area_pk).slug
+		return HttpResponseRedirect(reverse('recentSearch', kwargs={'speciality' : speciality, 'area': area}))
 
 def get_areas(request):
 	data = {}

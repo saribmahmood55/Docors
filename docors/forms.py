@@ -1,6 +1,8 @@
 # flake8: noqa
 from django import forms
 from django.forms.widgets import Input, HiddenInput
+from practitioner.models import Specialization
+from practice.models import Area, City
 
 class doctors_form(forms.Form):
 
@@ -8,8 +10,8 @@ class doctors_form(forms.Form):
 
 class speciality_form(forms.Form):
 
-	spec = forms.CharField(max_length=100, required=True, label="Specialty", widget=forms.TextInput(attrs={'placeholder': 'eg. Child SPecialist', 'class':'typeahead spec_typeahead'}))
-	area = forms.CharField(max_length=100, required=True, label="Area", widget=forms.TextInput(attrs={'placeholder': 'eg. Faisal Town', 'class':'typeahead area_typeahead'}))
+	spec = forms.ChoiceField(choices = [(r.id, r.human_name) for r in Specialization.objects.order_by('name')], label='Speciality.', required = True)
+	area = forms.ChoiceField(choices = [(r.id, r.name) for r in Area.objects.filter(city=City.objects.get(name='Lahore'))], label='Area.', required = True)
 
 class advanced_form(forms.Form):
 

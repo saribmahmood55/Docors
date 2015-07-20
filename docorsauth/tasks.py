@@ -13,7 +13,7 @@ def send_email(email_confirm):
 	d = Context({ 'user': email_confirm.user, 'activation_key': email_confirm.key })
 
 	subject = 'Welcome to Doctorsinfo. Pakistan | Account activation'
-	from_email = 'no-reply@doctorsinfo.pk'
+	from_email = 'support@doctorsinfo.pk'
 	to = email_confirm.email
 	text_content = plaintext.render(d)
 	html_content = htmly.render(d)
