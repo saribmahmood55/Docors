@@ -71,7 +71,7 @@ def advanced_search(request):
 	if request.method == "POST":
 		form = advanced_form(request.POST)
 		if form.is_valid():
-			spec = form.cleaned_data['spec']
+			spec = form.cleaned_data['spec_adv']
 			dist = form.cleaned_data['radius']
 			lat = form.cleaned_data['lat']
 			lon = form.cleaned_data['lon']
@@ -79,7 +79,7 @@ def advanced_search(request):
 			request.session['day'] = day
 			request.session['lat'] = lat
 			request.session['lon'] = lon
-			spec = Specialization.objects.get(human_name=spec)
+			spec = Specialization.objects.get(pk=spec)
 			return HttpResponseRedirect(reverse('advSearch', kwargs={'speciality':spec.slug,'dist':dist}))
 	return HttpResponseRedirect(reverse('index'))
 
