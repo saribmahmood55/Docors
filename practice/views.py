@@ -104,8 +104,7 @@ def speciality_suggestions(request):
 			area_pk = request.GET.get('area', '')
 			area = Area.objects.get(pk=area_pk).slug
 			return HttpResponseRedirect(reverse('recentSearch', kwargs={'speciality' : speciality, 'area': area}))
-		else:
-			return HttpResponseRedirect(reverse('index'))
+	return HttpResponseRedirect(reverse('index'))
 
 def get_areas(request):
 	data = {}
