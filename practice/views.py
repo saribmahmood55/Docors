@@ -11,7 +11,7 @@ from django.template import RequestContext
 import json
 
 from docors.utility import get_lat_lon
-from docors.forms import advanced_form
+from docors.forms import advanced_form, speciality_form
 
 
 def practice(request, practice_slug, practitioner_slug):
@@ -96,12 +96,16 @@ def advSearch(request, speciality, dist):
 
 def speciality_suggestions(request):
 	data = {}
-	if request.method == "GET":
-		spec_pk = request.GET.get('spec', '')
-		speciality = Specialization.objects.get(pk=spec_pk).slug
-		area_pk = request.GET.get('area', '')
-		area = Area.objects.get(pk=area_pk).slug
-		return HttpResponseRedirect(reverse('recentSearch', kwargs={'speciality' : speciality, 'area': area}))
+	if request.method == "POST":
+		form = speciality_form(request.POST)
+		if form.is_valid():
+			spec_pk = request.GET.get('spec', '')
+			speciality = Specialization.objects.get(pk=spec_pk).slug
+			area_pk = request.GET.get('area', '')
+			area = Area.objects.get(pk=area_pk).slug
+			return HttpResponseRedirect(reverse('recentSearch', kwargs={'speciality' : speciality, 'area': area}))
+		else:
+			return HttpResponseRedirect(reverse('index'))
 
 def get_areas(request):
 	data = {}

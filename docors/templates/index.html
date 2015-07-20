@@ -58,7 +58,7 @@
 								
 								<li class="sky-tab-content-2">
 									<div class="typography">
-										<form role="form" class="sky-form custom-sky-form" action="{% url 'speciality_suggestions' %}">
+										<form role="form" class="sky-form custom-sky-form" action="{% url 'speciality_suggestions' %}" method="POST">{% csrf_token %}
 											<fieldset>
 												<div class="row">
 													<section class="col col-5">
