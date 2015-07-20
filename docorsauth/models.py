@@ -123,6 +123,8 @@ class EmailConfirmation(models.Model):
 
     def confirm_activation(self):
     	data = dict()
+    	print self.key_expired()
+    	print self.user.is_active
         if not self.key_expired() and not self.user.is_active:
             user = self.user
             user.is_active = True
@@ -130,7 +132,7 @@ class EmailConfirmation(models.Model):
             self.verified = True
             self.save()
             data['success'] = True
-        elif self.key_expired:
+        elif self.key_expired():
         	data['success'] = False
         	data['error_message'] = 'Activation Key Expired'
         elif self.user.is_active:
