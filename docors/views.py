@@ -48,3 +48,9 @@ def adv(request):
 
 def policy(request):
 	return render_to_response('policy.html', {}, context_instance=RequestContext(request))
+
+def tos(request):
+	return render_to_response('tos.html', {}, context_instance=RequestContext(request))
+
+def user_agreement(request):
+	return render_to_response('user_agreement.html', {}, context_instance=RequestContext(request))

@@ -21,6 +21,8 @@ urlpatterns = patterns('',
     url(r'^password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', 'django.contrib.auth.views.password_reset_confirm', {'post_reset_redirect' : '/password/done/'}),
     url(r'^password/done/$', 'django.contrib.auth.views.password_reset_complete'),
     url(r'^policy/$', views.policy, name='privacy_policy'),
+    url(r'^tos/$', views.tos, name='tos'),
+    url(r'^user/agreement/$', views.user_agreement, name='user_agreement'),
 )
 if settings.DEBUG:
     urlpatterns += patterns('',
