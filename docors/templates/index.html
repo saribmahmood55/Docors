@@ -212,37 +212,6 @@
 
 	<script type="text/javascript">
 
-		var local_specializations = Array();
-		{% for spec in data.specialities %}
-			local_specializations.push("{{spec.human_name}}");
-		{% endfor %}
-		var local_areas = Array();
-		{% for area in sticky_data.areas %}
-			local_areas.push("{{area.name}}");
-		{% endfor %}
-		local_areas.sort();
-
-		var substringMatcher = function(strs) {
-		  return function findMatches(q, cb) {
-		    var matches, substringRegex;
-		 
-		    // an array that will be populated with substring matches
-		    matches = [];
-		 
-		    // regex used to determine if a string contains the substring `q`
-		    substrRegex = new RegExp(q, 'i');
-		 
-		    // iterate through the pool of strings and for any string that
-		    // contains the substring `q`, add it to the `matches` array
-		    $.each(strs, function(i, str) {
-		      if (substrRegex.test(str)) {
-		        matches.push(str);
-		      }
-		    });
-		 
-		    cb(matches);
-		  };
-		};
 		$(document).ready(function(){
 
 		    /*if (navigator.geolocation) {
@@ -262,33 +231,6 @@
 		    $("#id_spec").select2("val", "");$("#id_area").select2("val", "");$("#id_spec_adv").select2("val", "");$("#id_radius").select2("val", "");$("#id_day").select2("val", "");
 
 			/********* Twitter typeahead with bloodhound *******/
-
-			$(".spec_typeahead").typeahead({
-				minLength:0,
-				hint: true,
-				highlight: true
-			}, {
-				name: 'specialization',
-				source: substringMatcher(local_specializations),
-				limit:1000
-			})
-			.blur(function(){
-				if(local_specializations.indexOf($(this).typeahead('val')) === -1)
-					$(this).typeahead('val','');
-			});
-
-			$(".area_typeahead").typeahead({
-				minLength:0,
-				hint: true,
-				highlight: true
-			}, {
-				source: substringMatcher(local_areas),
-				limit:100
-			})
-			.blur(function(){
-				if(local_areas.indexOf($(this).typeahead('val')) === -1)
-					$(this).typeahead('val','');
-			});
 
 			var practitioner_engine = new Bloodhound({
 				datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),

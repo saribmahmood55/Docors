@@ -44,4 +44,7 @@ def adv(request):
 			data['cities'] = City.objects.order_by('pk')
 		except Specialization.DoesNotExist:
 			raise Http404
-	return render_to_response('practitioner/advance.html', {'data': data}, context_instance=RequestContext(request))	
+	return render_to_response('practitioner/advance.html', {'data': data}, context_instance=RequestContext(request))
+
+def policy(request):
+	return render_to_response('policy.html', {}, context_instance=RequestContext(request))

@@ -345,6 +345,14 @@ form.home-search.halfwidth input[name='locality'] {
   margin-left: 10px;
 }
 
+.about_links li a{
+  color:#fff;
+}
+
+.about_links li a:hover{
+  color:#000;
+}
+
 .ui-helper-hidden-accessible {
   border: 0;
   clip: rect(0 0 0 0);
