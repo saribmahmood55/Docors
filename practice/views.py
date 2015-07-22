@@ -88,7 +88,7 @@ def advSearch(request, speciality, dist):
 	day = request.session['day']
 	lat = request.session['lat']
 	lon = request.session['lon']
-	data['practice'] = Practice.practice_objects.adv_practice_lookup(speciality, dist, day, lon, day)
+	data['practice'] = Practice.practice_objects.adv_practice_lookup(speciality, dist, lat, lon, day)
 	data['ob'] = Specialization.objects.get(slug=speciality)
 	data['results_count'] = len(data['practice'])
 	data['results_header'] = data['ob'].human_name + " within " + str(dist) + " KM radius"

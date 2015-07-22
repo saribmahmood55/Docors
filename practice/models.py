@@ -6,6 +6,7 @@ from sorl.thumbnail import ImageField
 from django.contrib.gis.db import models as gis_models
 from django.contrib.gis import geos
 from django.contrib.gis import measure
+from django.contrib.gis.measure import D
 from django.core.urlresolvers import reverse
 
 class CityManager(models.Manager):
@@ -146,7 +147,7 @@ class PracticeManager(models.Manager):
         else:
             current_point = geos.fromstr("POINT(%s %s)" % (lon, lat))
             distance_from_point = {'km': dist}
-            query = Practice.gis.filter(practice_location__location__distance_lte=(current_point, measure.D(**distance_from_point)))
+            query = Practice.objects.filter(practice_location__location__distance_lte=(current_point, D(km=dist)))
             query = query.filter(practitioner__specialty__slug=spec, practitioner__is_active=True)
             query = query.filter(practicetiming__day=day).distinct('practitioner')
         return query
