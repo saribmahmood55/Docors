@@ -18,10 +18,10 @@
 </div><!--breadcrumb light-->
 <div class="divide60"></div>
 <div class="container">
-	<div class="row">
-		<div class="col-sm-12">
-			{% if error_occured %}
-			<div class="alert alert-danger text-center">
+    <div class="row">
+        <div class="col-sm-12">
+            {% if error_occured %}
+            <div class="alert alert-danger text-center">
                 An Error Occured during account creation process. Please try again.
             </div>
             {% endif %}
@@ -30,228 +30,238 @@
             <div class="margin40">
 
                 <form action="" method="POST" role="form" id="sky-form-doctors" class="sky-form">{% csrf_token %}
+                    {{practice_formset.management_form}}
 
                     <h3 class="text-center">Create new account with DoctorsInfo</h3>
 
                     <fieldset>
-                    	<div class="row">
-	                        <section class="col col-4">
-	                        	<label>Name</label>
-	                            <label class="input">
-	                                <i class="icon-append fa fa-user"></i>
-	                                {{form.practitioner_name}}
-	                                <b class="tooltip tooltip-bottom-right">Needed to enter the website</b>
-	                            </label>
-	                        </section>
-	                        <section class="col col-4">
-	                        	<label>Gender</label>
-	                            <label class="select">
-	                                {{form.practitioner_gender}}
-	                                <i></i>
-	                            </label>
-	                        </section>
-	                        <section class="col col-4">
-	                        	<label>Year of Birth</label>
-	                            <label class="select">
-	                                {{form.year_of_birth}}
-	                                <i></i>
-	                            </label>
-	                        </section>
-	                    </div>
-	                    <div class="row">
-	                        <section class="col col-4">
-	                        	<label>Email Address</label>
-	                            <label class="input">
-	                                <i class="icon-append fa fa-envelope-o"></i>
-	                                {{form.email}}
-	                                <b class="tooltip tooltip-bottom-right">Needed to verify your account</b>
-	                            </label>
-	                        </section>
-	                        <section class="col col-4">
-	                        	<label>Physician Type</label>
-	                            <label class="select">
-	                                {{form.physician_type}}
-	                                <i></i>
-	                            </label>
-	                        </section>
-	                        <section class="col col-4">
-	                            <div class="form-group">
-									<label>{{form.credentials.label_tag}}</label>
-									{{form.credentials}}
-									<span class="help-block with-errors"></span>
-								</div>
-	                        </section>
-	                    </div>
-	                    <div class="row">
-	                    	<section class="col col-4">
-	                        	<label>Speciality</label>
-	                            <label class="select">
-	                                {{form.specialities}}
-	                                <i></i>
-	                            </label>
-	                        </section>
-	                        <section class="col col-2">
-	                        	<label>Conditions Treated</label>
-	                            <label class="select">
-	                                <select id="id_conditions_custom" multiple="multiple" name="conditions_custom"></select>
-	                                {{form.conditions}}
-	                            </label>
-	                        </section>
-	                        <section class="col col-2">
-	                        	<label>Procedures Peformed</label>
-	                            <label class="select">
-	                                <select id="id_procedures_custom" multiple="multiple" name="procedures_custom"></select>
-	                                {{form.procedures}}
-	                            </label>
-	                        </section>
-	                        <section class="col col-4">
-	                        	<label>Experience (in Years)</label>
-	                            <label class="input">
-	                                {{form.experience}}
-	                                <b class="tooltip tooltip-bottom-right">Experience in Years</b>
-	                            </label>
-	                        </section>
-	                    </div>
-	                    <div class="row">
-	                    	<section class="col col-6">
-	                    		<label>Message for Patients</label>
-	                            <label class="input">
-	                                {{form.message}}
-	                                <b class="tooltip tooltip-bottom-right">Current Status</b>
-	                            </label>
-	                        </section>
-	                        <section class="col col-6">
-	                        	<label>Achievements</label>
-	                            <label class="textarea">
-	                                {{form.achievements}}
-	                                <b class="tooltip tooltip-bottom-right">Specify Your Achievements</b>
-	                            </label>
-	                        </section>
-	                    </div>
+                        <div class="row">
+                            <section class="col col-4">
+                                <label>Name</label>
+                                <label class="input">
+                                    <i class="icon-append fa fa-user"></i>
+                                    {{pract_form.full_name}}
+                                    <b class="tooltip tooltip-bottom-right">Needed to enter the website</b>
+                                </label>
+                            </section>
+                            <section class="col col-4">
+                                <label>Gender</label>
+                                <label class="select">
+                                    {{pract_form.gender}}
+                                    <i></i>
+                                </label>
+                            </section>
+                            <section class="col col-4">
+                                <label>Year of Birth</label>
+                                <label class="select">
+                                    {{pract_form.year_of_birth}}
+                                    <i></i>
+                                </label>
+                            </section>
+                        </div>
+                        <div class="row">
+                            <section class="col col-4">
+                                <label>Email Address</label>
+                                <label class="input">
+                                    <i class="icon-append fa fa-envelope-o"></i>
+                                    {{pract_form.email}}
+                                    <b class="tooltip tooltip-bottom-right">Needed to verify your account</b>
+                                </label>
+                            </section>
+                            <section class="col col-4">
+                                <label>Physician Type</label>
+                                <label class="select">
+                                    {{pract_form.physician_type}}
+                                    <i></i>
+                                </label>
+                            </section>
+                            <section class="col col-4">
+                                {{pract_form.degrees.label_tag}}
+                                <label class="select">
+                                    {{pract_form.degrees}}
+                                </label>
+                            </section>
+                        </div>
+                        <div class="row">
+                            <section class="col col-4">
+                                <label>Speciality</label>
+                                <label class="select">
+                                    {{pract_form.specialty}}
+                                    <i></i>
+                                </label>
+                            </section>
+                            <section class="col col-4">
+                                <label>Conditions Treated</label>
+                                <label class="select">
+                                    {{pract_form.conditions}}
+                                </label>
+                            </section>
+                            <section class="col col-4">
+                                <label>Procedures Peformed</label>
+                                <label class="select">
+                                    {{pract_form.procedures}}
+                                </label>
+                            </section>
+                        </div>
+                        <div class="row">
+                            <section class="col col-4">
+                                <label>Experience (in Years)</label>
+                                <label class="input">
+                                    {{pract_form.experience}}
+                                    <b class="tooltip tooltip-bottom-right">Experience in Years</b>
+                                </label>
+                            </section>
+                            <section class="col col-4">
+                                <label>Message for Patients</label>
+                                <label class="input">
+                                    {{pract_form.message}}
+                                    <b class="tooltip tooltip-bottom-right">Current Status</b>
+                                </label>
+                            </section>
+                            <section class="col col-4">
+                                <label>Achievements</label>
+                                <label class="textarea">
+                                    {{pract_form.achievements}}
+                                    <b class="tooltip tooltip-bottom-right">Specify Your Achievements</b>
+                                </label>
+                            </section>
+                        </div>
                     </fieldset>
 
-                    <fieldset>
+                    {% for practice_form in practice_formset %}
+                        {% if forloop.first  %}
+                        <fieldset>
+                            <h3 class="text-center">Practice Location 1</h3>
+                        {% else %}
+                        <fieldset class="practice_2">
+                            <h3 class="text-center">Practice Location 2</h3>
+                            <div class="row"><a href="#" class="close pull-right close_practice_2_button" style="color:#000;">&times; Close</a></div>
+                        {% endif %}
                         <div class="row">
+                            {{practice_form.DELETE}}
                             <section class="col col-4">
-                            	<label>Type</label>
+                                <label>Type</label>
                                 <label class="select">
-                                    {{form.practice_type}}
+                                    {{practice_form.practice_type}}
                                     <i></i>
                                 </label>
                             </section>
                             <section class="col col-4">
-                            	<label>Name</label>
+                                <label>Name</label>
                                 <label class="input">
-                                    {{form.practice_name}}
+                                    {{practice_form.practice_name}}
                                 </label>
                             </section>
                             <section class="col col-4">
-                        		<label>Address</label>
+                                <label>Address</label>
                                 <label class="textarea">
-                                    {{form.address}}
+                                    {{practice_form.address}}
                                 </label>
                             </section>
                         </div>
                         <div class="row">
                             <section class="col col-4">
-                            	<label>City</label>
+                                <label>City</label>
                                 <label class="select">
-                                    {{form.city}}
+                                    {{practice_form.city}}
                                     <i></i>
                                 </label>
                             </section>
                             <section class="col col-4">
-                            	<label>Area</label>
+                                <label>Area</label>
                                 <label class="select">
-                                	<select id="id_area_custom" name="area_custom">
-                                		<option value='' selected disabled>Please Select an Area</option>
-                                	</select>
-                                    {{form.area}}
+                                    {% if forloop.first %}
+                                    <select id="id_area_custom_0" name="area_custom_0">
+                                    {% else %}
+                                    <select id="id_area_custom_1" name="area_custom_1">
+                                    {% endif %}
+                                        <option value='' selected disabled>Please Select an Area</option>
+                                    </select>
+                                    {{practice_form.area}}
                                     <i></i>
                                 </label>
                             </section>
                             <section class="col col-4">
-                            	<label style="height:20px;"></label>
-                            	<label class="select">
-	                            	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mapModal">Show on Map</button>
-	                            </label>
-                    			{{form.lat}}{{form.lon}}
-                    		</section>
+                                <label style="height:20px;"></label>
+                                <label class="select">
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mapModal">Show on Map</button>
+                                </label>
+                                {{practice_form.lat}}{{practice_form.lon}}
+                            </section>
                         </div>
                         <div class="row">
-	                        <section class="col col-4">
-	                        	<label>Contact Number</label>
-	                            <label class="input">
-	                                <i class="icon-append fa fa-envelope-o"></i>
-	                                {{form.contact_number}}
-	                            </label>
-	                        </section>
-	                        <section class="col col-4">
-	                        	<label>Appointment</label>
-	                            <label class="select">
-	                                {{form.appointment}}
-	                                <i></i>
-	                            </label>
-	                        </section>
-	                        <section class="col col-4">
-	                        	<label>Checkup Fee</label>
-	                            <label class="select">
-	                                {{form.checkup_fee}}
-	                                <i></i>
-	                            </label>
-	                        </section>
-	                    </div>
-	                    <footer style="padding-right:0;">
-	                    	<button type="button" class="button" id="add_location">Add Another Location</button>
-	                    </footer>
-	                </fieldset>
-
-	                <fieldset>
-	                    <div class="row">
-	                    	<section class="col col-3">
-	                    		<label>Day From</label>
-	                            <label class="select">
-	                                {{form.day_from}}
-	                                <i></i>
-	                            </label>
-	                        </section>
-	                        <section class="col col-3">
-	                        	<label>Day To</label>
-	                            <label class="select">
-	                                {{form.day_to}}
-	                                <i></i>
-	                            </label>
-	                        </section>
-	                        <section class="col col-3">
-	                        	<label>Starting Time</label>
-	                            <label class="input">
-	                                {{form.start_time}}
-	                            </label>
-	                        </section>
-	                        <section class="col col-3">
-	                        	<label>Ending Time</label>
-	                            <label class="input">
-	                                {{form.end_time}}
-	                            </label>
-	                        </section>
-	                    </div>
-	                    <footer style="padding-right:0;">
-	                    	<button type="button" class="button" id="add_timing">Add Another Timing</button>
-	                    </footer>
-	                </fieldset>
-
+                            <section class="col col-4">
+                                <label>Contact Number</label>
+                                <label class="input">
+                                    <i class="icon-append fa fa-envelope-o"></i>
+                                    {{practice_form.contact_number}}
+                                </label>
+                            </section>
+                            <section class="col col-4">
+                                <label>Appointment</label>
+                                <label class="select">
+                                    {{practice_form.appointment}}
+                                    <i></i>
+                                </label>
+                            </section>
+                            <section class="col col-4">
+                                <label>Checkup Fee</label>
+                                <label class="select">
+                                    {{practice_form.checkup_fee}}
+                                    <i></i>
+                                </label>
+                            </section>
+                        </div>
+                        <div class="row">
+                            <section class="col col-4">
+                                <label>Day</label>
+                                <label class="select">
+                                    {{practice_form.day}}
+                                    <i></i>
+                                </label>
+                            </section>
+                            <section class="col col-4">
+                                <label>Starting Time</label>
+                                <label class="input">
+                                    {{practice_form.start_time}}
+                                </label>
+                            </section>
+                            <section class="col col-4">
+                                <label>Ending Time</label>
+                                <label class="input">
+                                    {{practice_form.end_time}}
+                                </label>
+                            </section>
+                        </div>
+                            {% if forloop.first %}
+                        <footer class="insert_col_0" style="padding-right:0;">
+                            <button type="button" class="button timing_btn">Add Another Timing</button>
+                            <input type="hidden" value="0">
+                            {% else %}
+                        <footer class="insert_col_1" style="padding-right:0;">
+                            <button type="button" class="button timing_btn">Add Another Timing</button>
+                            <input type="hidden" value="1">
+                            {% endif %}
+                        </footer>
+                    </fieldset>
+                    {% endfor  %}
+                    <fieldset class="practice_2_button">
+                        <footer style="padding-right:0;">
+                            <button type="button" class="button" style="float:none;margin:0 auto;" id="add_practice">Add Another Practice</button>
+                        </footer>
+                    </fieldset>
                     <fieldset>
-                    	<footer>
-                    		<div class="row recaptcha-parent">
+                        <footer>
+                            <div class="row recaptcha-parent">
 
-                    			<input type="hidden" class="hiddenRecaptcha required" name="hiddenRecaptcha" id="hiddenRecaptcha">
-                    			<div class="g-recaptcha" data-sitekey="6LcAdv4SAAAAAI2hi_VgcifchYmJFUNmxdfajJJO"></div>
-                    		</div>
-                    		<div class="clear"></div>
-                    		<div class="row">
-                        		<button type="submit" class="button">Create account</button>
-                        	</div>
-                    	</footer>
+                                <input type="hidden" class="hiddenRecaptcha required" name="hiddenRecaptcha" id="hiddenRecaptcha">
+                                <div class="g-recaptcha" data-sitekey="6LcAdv4SAAAAAI2hi_VgcifchYmJFUNmxdfajJJO"></div>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="row">
+                                <button type="submit" class="button">Create account</button>
+                            </div>
+                        </footer>
                     </fieldset>
                 </form>			
             </div><!--login form wrap end-->
@@ -260,17 +270,17 @@
     </div>
 </div>
 <div class="modal fade" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="mapModalLabel">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">Drag the marker to appropriate location and close map.</h4>
-			</div>
-			<div class="modal-body">
-				<div style="width: 560px; height: 500px;" id="myMap"></div>
-			</div>
-		</div>
-	</div>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Drag the marker to appropriate location and close map.</h4>
+            </div>
+            <div class="modal-body">
+                <div style="width: 560px; height: 500px;" id="myMap"></div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
 
@@ -294,260 +304,347 @@
 {% block customScript %}
 <script type="text/javascript">
 
-	var map;
-	var marker;
-	var myLatlng = new google.maps.LatLng(31.519191, 74.326237);
-	var geocoder = new google.maps.Geocoder();
-	var infowindow = new google.maps.InfoWindow();
+var map;
+var marker;
+var myLatlng = new google.maps.LatLng(31.519191, 74.326237);
+var geocoder = new google.maps.Geocoder();
+var infowindow = new google.maps.InfoWindow();
 
-	function initialize() {
-	    var mapOptions = {
-	        zoom: 12,
-	        center: myLatlng,
-	        mapTypeId: google.maps.MapTypeId.ROADMAP
-	    };
-	    map = new google.maps.Map(document.getElementById("myMap"), mapOptions);
-	    marker = new google.maps.Marker({
-	        map: map,
-	        position: myLatlng,
-	        draggable: true
-	    });
+function initialize() {
+    var mapOptions = {
+zoom: 12,
+      center: myLatlng,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    map = new google.maps.Map(document.getElementById("myMap"), mapOptions);
+    marker = new google.maps.Marker({
+map: map,
+position: myLatlng,
+draggable: true
+});
 
-	    geocoder.geocode({
-	        'latLng': myLatlng
-	    }, function(results, status) {
-	        if (status == google.maps.GeocoderStatus.OK) {
-	            if (results[0]) {
-	                $('#id_lon').val(marker.getPosition().lat());
-	                $('#id_lat').val(marker.getPosition().lng());
-	                infowindow.setContent(results[0].formatted_address);
-	                infowindow.open(map, marker);
-	            }
-	        }
-	    });
-	    google.maps.event.addListener(marker, 'dragend', function() {
-	        geocoder.geocode({
-	            'latLng': marker.getPosition()
-	        }, function(results, status) {
-	            if (status == google.maps.GeocoderStatus.OK) {
-	                if (results[0]) {
-	                    $('#id_lon').val(marker.getPosition().lat());
-	                    $('#id_lat').val(marker.getPosition().lng());
-	                    //console.log($('#id_lon').val()+" , "+$('#id_lat').val());
-	                    infowindow.setContent(results[0].formatted_address);
-	                    infowindow.open(map, marker);
-	                }
-	            }
-	        });
-	    });
-	}
-	google.maps.event.addDomListener(window, 'load', initialize);
-	
-	var data_source = Array();
-	{% for p in degree_list %}
-	data_source.push("{{p}}");
-	{% endfor %}
+geocoder.geocode({
+        'latLng': myLatlng
+        }, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+        if (results[0]) {
+        $('#id_form-0-lat').val(marker.getPosition().lat());
+        $('#id_form-0-lon').val(marker.getPosition().lng());
+        $('#id_form-1-lat').val(marker.getPosition().lat());
+        $('#id_form-1-lon').val(marker.getPosition().lng());
+        infowindow.setContent(results[0].formatted_address);
+        infowindow.open(map, marker);
+        }
+        }
+        });
+google.maps.event.addListener(marker, 'dragend', function() {
+        geocoder.geocode({
+            'latLng': marker.getPosition()
+            }, function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+            if (results[0]) {
+            $('#id_lon').val(marker.getPosition().lat());
+            $('#id_lat').val(marker.getPosition().lng());
+            //console.log($('#id_lon').val()+" , "+$('#id_lat').val());
+            infowindow.setContent(results[0].formatted_address);
+            infowindow.open(map, marker);
+            }
+            }
+            });
+        });
+}
+google.maps.event.addDomListener(window, 'load', initialize);
 
-	var location_count = 1;
-	var timing_count = 1;
+$(document).ready(function(){
 
-	$(document).ready(function(){
+        autosize($('textarea'));
 
-		autosize($('textarea'));
+        //set Default values
+        $("#id_area").val("");
+        $(".practice_2").hide();
+        $("#id_form-1-DELETE").prop('checked',true);
+        $("#id_form-0-DELETE,#id_form-1-DELETE").hide();
+        $('#id_degrees').select2({placeholder : "Select Credentials"});
+        $('#id_specialty').select2({placeholder:"Select Specialty"});
+        get_cp();
+        get_areas("both");
 
-		$('#id_conditions_custom,#id_procedures_custom').html("");
-		$('#id_procedures,#id_conditions').val("");
-		$("#id_area").val("");
+        //Set onclick methods
+        $("#add_practice").on("click",function(){
+            $(".practice_2").fadeIn();
+            $("#id_form-1-DELETE").prop('checked',false);
+            $(".practice_2_button").fadeOut();
+        });
+        $(".close_practice_2_button").on("click",function(){
+            $(".practice_2").fadeOut();
+            $("#id_form-1-DELETE").prop('checked',true);
+            $(".practice_2_button").fadeIn();
+        });
+        $("#id_form-0-city").on('change',function(){
+            get_areas("0");
+        });
+        $("#id_form-1-city").on('change',function(){
+            get_areas("1");
+        });
+        $("#id_specialty").on('change',function(){
+            get_cp();
+        });
 
-		$('#id_conditions_custom,#id_procedures_custom').multiselect({numberDisplayed: 0});
+        //Set validation rules and messages
+        $.validator.addMethod('time', function(value, element, param) {
+            return value == '' || value.match(/^([01][0-9]|2[0-3]):[0-5][0-9]$/);
+        }, 'Enter a valid time: hh:mm');
 
-		$.ajax({
-			type : "GET",
-			url : "{% url 'initial_reg_values' %}",
-			data : {"speciality":$("#id_specialities").val(),"city":$("#id_city").val()},
-			success : function(data){
-				for(i = 0;i<data['conditions'].length;i++){
-					$("#id_conditions_custom").append(data['conditions'][i]);
-				}
-				for(i = 0;i<data['procedures'].length;i++){
-					$("#id_procedures_custom").append(data['procedures'][i]);
-				}
-				for(i = 0;i<data['areas'].length;i++){
-					$("#id_area_custom").append(data['areas'][i]);
-				}
-				$('#id_procedures_custom,#id_conditions_custom').multiselect('rebuild');
-			}
-		});
-
-		$('#id_credentials').tagsinput({
-			typeahead: {
-				source: data_source
-			},
-			freeInput: false
-		});
-
-		$("#id_city").on('change',function(){
-			$.ajax({
-				type: "GET",
-				url: "{% url 'practice_areas' %}",
-				data: {'city':$("#id_city").val()},
-				success: function(data){
-					$('#id_area_custom').html("<option value='' selected disabled>Please Select an Area</option>");
-					for(i=0;i<data['areas'].length;i++){
-						$("#id_area_custom").append(data['areas'][i]);
-					}
-				}
-			});
-		});
-
-		$("#id_area_custom").on("change",function(){
-			$("#id_area").val($("#id_area_custom").val());
-		});
-
-		$("#id_specialities").on('change',function(){
-			$.ajax({
-				type : 'GET',
-				url : "{% url 'get_condition_procedure' %}",
-				data: {'value':$("#id_specialities").val()},
-				success : function (data) {
-					$('#id_procedures_custom,#id_conditions_custom').html("");
-					$('#id_procedures,#id_conditions').val("");
-					for(i=data['conditions'].length-1;i>=0;i--){
-						$("#id_conditions_custom").append(data['conditions'][i]);
-					}
-					for(i=data['procedures'].length-1;i>=0;i--){
-						$("#id_procedures_custom").append(data['procedures'][i]);
-					}
-					$('#id_procedures_custom,#id_conditions_custom').multiselect('rebuild');
-				}
-			});
-		});
-
-		$("body").on("click","#add_timing",function(){
-			var fieldset_tag = $(this).parent();
-			fieldset_tag.before('<fieldset><div class="row"><a href="#" class="close pull-right close-timing-extra-btn" style="color:#000;">&times;</a></div><div class="row"><section class="col col-3"><label class="select">{% spaceless %}{{form.day_from}}{% endspaceless %}</label></section><section class="col col-3"><label class="select">{% spaceless %}{{form.day_to}}{% endspaceless %}<i></i></label></section><section class="col col-3"><label class="input">{% spaceless %}{{form.start_time}}{% endspaceless %}</label></section><section class="col col-3"><label class="input">{% spaceless %}{{form.end_time}}{% endspaceless %}</label></section></div></fieldset>');
-			var rec_added = fieldset_tag.prev();
-			$(rec_added).find("#id_day_from").attr("name","customtiming_day_from_"+timing_count);
-			$(rec_added).find("#id_day_to").attr("name","customtiming_day_to_"+timing_count);
-			$(rec_added).find("#id_start_time").attr("name","customtiming_start_time_"+timing_count);
-			$(rec_added).find("#id_end_time").attr("name","customtiming_end_time_"+timing_count);
-			timing_count++;
-		});
-
-		$("body").on("click","#add_location",function(){
-			var fieldset_tag = $(this).parent();
-			fieldset_tag.before('<fieldset><div class="row"><a href="#" class="close pull-right close-loc-extra-btn" style="color:#000;">&times;</a></div><div class="row"><section class="col col-6"><label class="select">{% spaceless %}{{form.practice_type}}{% endspaceless %}<i></i></label></section><section class="col col-6"><label class="input">{% spaceless %}{{form.practice_name}}{% endspaceless %}</label></section></div><div class="row"><section class="col col-6"><label class="textarea">{% spaceless %}{{form.address}}{% endspaceless %}</label></section><section class="col col-6"><label class="select">{% spaceless %}{{form.city}}{% endspaceless %}<i></i></label></section></div><div class="row"><section class="col col-4"><label class="input"><i class="icon-append fa fa-envelope-o"></i>{% spaceless %}{{form.contact_number}}{% endspaceless %}</label></section><section class="col col-4"><label class="select">{% spaceless %}{{form.appointment}}{% endspaceless %}<i></i></label></section><section class="col col-4"><label class="input">{% spaceless %}{{form.checkup_fee}}{% endspaceless %}</label></section></div></fieldset>');
-			var rec_added = fieldset_tag.prev();
-			$(rec_added).find("#id_practice_type").attr("name","customloc_practice_type_"+location_count);
-			$(rec_added).find("#id_practice_name").attr("name","customloc_practice_name_"+location_count);
-			$(rec_added).find("#id_address").attr("name","customloc_address_"+location_count);
-			$(rec_added).find("#id_city").attr("name","customloc_city_"+location_count);
-			$(rec_added).find("#id_contact_number").attr("name","customloc_contact_number_"+location_count);
-			$(rec_added).find("#id_appointment").attr("name","customloc_appointment_"+location_count);
-			$(rec_added).find("#id_checkup_fee").attr("name","customloc_checkup_fee_"+location_count);
-			location_count++;
-		});
-
-		$("body").on("click",".close-timing-extra-btn",function(){
-			$(this).parent().parent().remove();
-			timing_count--;
-			return false;
-		});
-
-		$("body").on("click",".close-loc-extra-btn",function(){
-			$(this).parent().parent().remove();
-			location_count--;
-			return false;
-		});
-
-		$.validator.addMethod('time', function(value, element, param) {
-		    return value == '' || value.match(/^([01][0-9]|2[0-3]):[0-5][0-9]$/);
-		}, 'Enter a valid time: hh:mm');
-
-		$("#sky-form-doctors").validate({
+        $("#sky-form-doctors").validate({
             // Rules for form validation
             ignore: ".ignore",
-            rules:
-                    {
-                        practitioner_name:{required: true},
-                        practitioner_gender:{required: true},
-                        year_of_birth:{required: true},
-                        email:{required: true,email: true},
-                        physician_type:{required: true},
-                        credentials:{required: true},
-                        specialities:{required: true},
-                        conditions:{
-                        	required: function(){
-                        		if($("#id_conditions_custom").val() != null){
-                        			$("#id_conditions").val($("#id_conditions_custom").val().toString());
-                        			return false;
-                        		}else{
-                        			return true;
-                        		}
-                        	}
-                    	},
-                        procedures:{
-                        	required: function(){
-                        		if($("#id_procedures_custom").val() != null){
-                        			$("#id_procedures").val($("#id_procedures_custom").val().toString());
-                        			return false;
-                        		}else{
-                        			return true;
-                        		}
-                        	}
-                        },
-                        experience:{required: true},
-                        practice_type:{required: true},
-                        practice_name:{required: true},
-                        address:{required: true},
-                        area:{
-                        	required: function(){
-                        		if($("#id_area_custom").val()){
-                        			$("#id_area").val($("#id_area_custom").val());
-                        			return false;
-                        		}else{
-                        			return true;
-                        		}
-                        	}
-                        },
-                        contact_number:{required: true},
-                        appointment:{required: true},
-                        day_from:{required: true},
-                        day_to:{required: true},
-                        start_time:{required: true,time:true},
-                        end_time:{required: true,time:true},
-                        hiddenRecaptcha: {
-						    required: function() {
-						        if(grecaptcha.getResponse() == '') {
-						            return true;
-						        } else {
-						            return false;
-						        }
-						    }
-						}
-                    },
+            rules: {
+                "full_name":{required: true},
+                "year_of_birth":{required: true},
+                "email":{required: true,email: true},
+                "physician_type":{required: true},
+                "degrees":{required: true},
+                "specialty":{required: true},
+                "conditions":{required: true},
+                "procedures":{required: true},
+                "experience":{required: true},
+                "form-0-practice_type":{required: true},
+                "form-1-practice_type":{
+                    required: function(){
+                        if($("#id_form-1-DELETE").prop('checked')){
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
+                },
+
+                "form-0-practice_name":{required: true},
+                "form-1-practice_name":{
+                    required: function(){
+                        if($("#id_form-1-DELETE").prop('checked')==true){
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
+                },
+
+                "form-0-address":{required: true},
+                "form-1-address":{
+                    required: function(){
+                        if($("#id_form-1-DELETE").prop('checked')==true){
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
+                },
+
+                "form-0-area":{
+                    required: function(){
+                          if($("#id_area_custom_0").val()){
+                              $("#id_form-0-area").val($("#id_area_custom_0").val());
+                              return false;
+                          }else{
+                              return true;
+                          }
+                    }
+                },
+                "form-1-area":{
+                    required: function(){
+                        if($("#id_form-1-DELETE").prop('checked')==false){
+                            if($("#id_area_custom_1").val()){
+                                $("#id_form-1-area").val($("#id_area_custom_1").val());
+                                return false;
+                            }else{
+                                return true;
+                            }
+                        }else{
+                            return false;
+                        }
+                    }
+                },
+                "form-0-contact_number":{required: true},
+                "form-1-contact_number":{
+                    required: function(){
+                        if($("#id_form-1-DELETE").prop('checked')==true){
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
+                },
+
+                "form-0-appointment":{required: true},
+                "form-1-appointment":{
+                    required: function(){
+                        if($("#id_form-1-DELETE").prop('checked')==true){
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
+                },
+
+                "form-0-day":{required: true},
+                "form-1-day":{
+                    required: function(){
+                        if($("#id_form-1-DELETE").prop('checked')==true){
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
+                },
+
+                "form-0-start_time":{required: true,time:true},
+                "form-1-start_time":{
+                    required: function(){
+                        if($("#id_form-1-DELETE").prop('checked')==true){
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
+                },
+
+                "form-0-end_time":{required: true,time:true},
+                "form-1-end_time":{
+                    required: function(){
+                        if($("#id_form-1-DELETE").prop('checked')==true){
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
+                },
+                "extra_day_0":{required:true},
+                "extra_day_1":{
+                    required: function(){
+                        if($("#id_form-1-DELETE").prop('checked')==true){
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
+                },
+                "extra_start_time_0":{required:true,time:true},
+                "extra_start_time_1":{
+                    required: function(){
+                        if($("#id_form-1-DELETE").prop('checked')==true){
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
+                },
+                "extra_end_time_0":{required:true,time:true},
+                "extra_end_time_1":{
+                    required: function(){
+                        if($("#id_form-1-DELETE").prop('checked')==true){
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
+                },
+
+                "hiddenRecaptcha": {
+                    required: function() {
+                        if(grecaptcha.getResponse() == '') {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                }
+            },
             // Messages for form validation
             messages:{
-                        practitioner_name:{required: 'Please enter your Full Name'},
-                        email:{required: 'Please enter your email address',email: 'Please enter a VALID email address'},
-                        credentials:{required: 'Please mention your credentials'},
-                        conditions:{required: 'Select atleast one'},
-                        procedures:{required: 'Select atleast one'},
-                        practice_name:{required: 'Please enter location name'},
-                        address:{required: 'Please enter full address of location'},
-                        area:{required: 'Please select an area'},
-                        contact_number:{required: 'Please enter a valid contact number'},
-                        start_time:{required: 'Please mention the opening time'},
-                        end_time:{required: 'Please mention the closing time'},
-                        hiddenRecaptcha:{required: 'Recaptcha verification required'}
-                    },
-            // Do not change code below
+                "full_name":{required: 'Please enter your Full Name'},
+                "email":{required: 'Please enter your email address',email: 'Please enter a VALID email address'},
+                "degrees":{required: 'Please mention your credentials'},
+                "conditions":{required: 'Select atleast one'},
+                "procedures":{required: 'Select atleast one'},
+                "form-0-practice_name":{required: 'Please enter location name'},
+                "form-1-practice_name":{required: 'Please enter location name'},
+                "form-0-address":{required: 'Please enter full address of location'},
+                "form-1-address":{required: 'Please enter full address of location'},
+                "form-0-area":{required: 'Please select an area'},
+                "form-1-area":{required: 'Please select an area'},
+                "form-0-contact_number":{required: 'Please enter a valid contact number'},
+                "form-1-contact_number":{required: 'Please enter a valid contact number'},
+                "form-0-start_time":{required: 'Please mention the opening time'},
+                "form-1-start_time":{required: 'Please mention the opening time'},
+                "form-0-end_time":{required: 'Please mention the closing time'},
+                "form-1-end_time":{required: 'Please mention the closing time'},
+                "hiddenRecaptcha":{required: 'Recaptcha verification required'}
+            },
+         // Do not change code below
             errorPlacement: function(error, element)
             {
                 error.insertAfter(element.parent());
             }
         });
+        
+        $(".timing_btn").on("click",function(){
+            var number = $(this).next().val();
+            $(".insert_col_"+number).before("<div class='row'><section class='col col-4'><label>Day</label><label class='select'><label class='select'><select name='extra_day_"+number+"'>"+$('#id_form-0-day').html()+"</select><i></i></label></section><section class='col col-4'><label>Starting Time</label><label class='input'><input name='extra_start_time_"+number+"' type='text' placeholder='hh:mm (24h format)'/></label></section><section class='col col-4'><label>Ending Time</label><label class='input'><input name='extra_end_time_"+number+"' type='text' placeholder='hh:mm (24h format)'/></label></section>");
+        });
 
-	});
+
+    });
+    function get_cp(){
+        if($("#id_specialty").val()!=""){
+            $.ajax({
+                type : "GET",
+                url : "{% url 'get_condition_procedure' %}",
+                data : {"value":$("#id_specialty").val()},
+                success : function(data){
+                    $("#id_conditions").html("");
+                    $("#id_procedures").html("");
+                    for(i = 0;i<data['conditions'].length;i++){
+                        $("#id_conditions").append(data['conditions'][i]);
+                    }
+                    for(i = 0;i<data['procedures'].length;i++){
+                        $("#id_procedures").append(data['procedures'][i]);
+                    }
+                    $('#id_conditions').select2({placeholder:"Select Conditions"});
+                    $('#id_procedures').select2({placeholder:"Select Procedures"});
+                }
+            });
+        }else{
+             $('#id_conditions').html("").select2({placeholder:"Please select a specialty first"});
+             $('#id_procedures').html("").select2({placeholder:"Please select a specialty first"});
+        }
+    }
+    function get_areas(number){
+        var num_val = number;
+        if(number=="both"){
+            num_val="1";
+        }
+        $.ajax({
+            type : "GET",
+            url : "{% url 'practice_areas' %}",
+            data : {"city":$("#id_form-"+num_val+"-city").val()},
+            success : function(data){
+                if(number=="both"){
+                    $("#id_area_custom_0").html("<option value='' selected disabled>Please Select an Area</option>");
+                    $("#id_area_custom_1").html("<option value='' selected disabled>Please Select an Area</option>");
+                }else{
+                    $("#id_area_custom_"+number).html("<option value='' selected disabled>Please Select an Area</option>");
+                }
+                for(i = 0;i<data['areas'].length;i++){
+                    if(number=="both"){
+                        $("#id_area_custom_0").append(data['areas'][i]);
+                        $("#id_area_custom_1").append(data['areas'][i]);
+                    }else{
+                        $("#id_area_custom_"+number).append(data['areas'][i]);
+                    }
+                }
+            }
+        });
+    }
 </script>
 {% endblock %}

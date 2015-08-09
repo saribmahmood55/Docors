@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}doctorsinfo.pk - find a specialist doctor, review doctors, doctor ratings{% endblock %}
+{% block title %}doctorsinfo.pk - {{data.practitioner.full_name}}{% endblock %}
 {% load staticfiles %}
 {% load hitcount_tags %}
 {% block content %}
@@ -36,7 +36,7 @@
                             <li><i class="fa fa-pencil-square-o"></i> <a href="/physican/{{data.practitioner.slug}}/update/info" id="update_info">Update Info</a></li>
                             <li><i class="fa fa-exclamation-triangle"></i> <a href="/physican/{{data.practitioner.slug}}/claim" id="claim_profile">Claim Profile</a></li>
                         </ul>
-                        <h2>{{data.practitioner.full_name}} <i class="fa fa-check-circle text-blue"></i></h2>
+                        <h2>{{data.practitioner.full_name}} <i class="fa fa-check-circle text-blue"></i> {% if data.own_profile %}<a href="{% url 'practitioner_profile' slug=data.practitioner.slug %}" class="text-green">(edit profile)</a> {% endif %}</h2>
                         <ul class="list-inline">
                         	<li><span class="label label-default">{{data.practitioner.get_gender_display}}</span></li>
                         	<li><span class="label label-default">{{data.practitioner.experience}} years experience</span></li>

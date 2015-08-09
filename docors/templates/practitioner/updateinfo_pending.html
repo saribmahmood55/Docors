@@ -4,7 +4,7 @@
 <div class="divide80"></div>
 <div class="container">
 	<h1>Update Info Request Recieved</h1>
-	<p class="text-success">We appreciate your effort to help us make information on doctorsinfo authentic. Our team will now process the information provided by you and will check with the practitioner <a href="/physican/{{info.practitioner.slug}}">{{info.practitioner}}</a> to validate the information.</p>
+	<p class="text-success">We appreciate your effort to help us make information on doctorsinfo authentic. Our team will now process the information provided by you and will check with the practitioner <a href="{% url 'practitioner' slug=info.practitioner.slug %}">{{info.practitioner}}</a> to validate the information.</p>
 	<p class="text-primary"><a href="/">Go back to homepage</a></p>
 </div>
 <div class="divide80"></div>
