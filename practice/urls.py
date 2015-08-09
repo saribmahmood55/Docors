@@ -10,6 +10,5 @@ urlpatterns = patterns('',
     url(r'^practice_hospitals/$', views.practice_hospitals, name='practice_hospitals'),
     url(r'^speciality/suggestions/$', views.speciality_suggestions, name='speciality_suggestions'),
     url(r'^practice/areas/$', views.get_areas, name='practice_areas'),
-    url(r'^practice/initialreg/$', views.get_initial_reg, name='initial_reg_values'),
     url(r'^practice/advanced/$', views.advanced_search, name='advanced_search'),
 )

@@ -1,9 +1,8 @@
 from practice.models import *
-from django.shortcuts import render
 from patients.models import Patient
 from reviews.models import Review
 from utility import *
-from practitioner.models import Practitioner, Condition, Procedure
+from practitioner.models import Practitioner, Condition
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response
@@ -117,18 +116,6 @@ def get_areas(request):
 				data['areas'] = [a.name for a in Area.objects.filter(city=City.objects.get(slug=city))]
 			return HttpResponse(json.dumps(data),content_type="application/json")
 
-def get_initial_reg(request):
-	data = {}
-	if request.is_ajax():
-		if request.method == "GET":
-			speciality = request.GET.get('speciality','')
-			city = request.GET.get('city','')
-			data['conditions'] = ["<option value='"+str(c.id)+"'>"+str(c)+"</option>" for c in Condition.objects.filter(specialization=Specialization.objects.get(pk=speciality))]
-			data['procedures'] = ["<option value='"+str(p.id)+"'>"+str(p)+"</option>" for p in Procedure.objects.filter(specialization=Specialization.objects.get(pk=speciality))]
-			data['areas'] = ["<option value='"+str(a.id)+"'>"+str(a)+"</option>" for a in Area.objects.filter(city=City.objects.get(pk=city))]
-			return HttpResponse(json.dumps(data),content_type="application/json")
-
-
 #recent Searches
 def recentSearch(request, speciality, area):
 	data = {'area': area, 'spec': speciality}
@@ -145,7 +132,7 @@ def recentSearch(request, speciality, area):
 
 # single practitioner details
 def practitioner(request, slug):
-	data = {}
+	data = {'own_profile':True}
 	if request.method == "GET":
 		if request.user.is_authenticated():
 			try:
@@ -156,6 +143,13 @@ def practitioner(request, slug):
 				else:
 					data['favourite'] = False
 			except Patient.DoesNotExist:
+				pass
+
+			try:
+				practitioner = request.user.practitioner
+				if practitioner.slug == slug:
+					data['own_profile'] = True
+			except Practitioner.DoesNotExist:
 				pass
 		else:
 			data['patient'] = None
