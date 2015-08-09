@@ -9,4 +9,5 @@ urlpatterns = patterns('',
 	url(r'^practitioner-search/$', views.get_search_practitioner, name='get_search_practitioner'),
 	url(r'^physican/(?P<slug>[a-z-]+)/claim/$', views.claim_practitioner, name='claim_practitioner'),
 	url(r'^physican/(?P<slug>[a-z-]+)/update/info/$', views.update_info_practitioner, name='update_info_practitioner'),
+	url(r'^physican/(?P<slug>[a-z-]+)/profile/$', views.profile, name='practitioner_profile'),
 )

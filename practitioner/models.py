@@ -9,6 +9,9 @@ class SpecializationManager(models.Manager):
     def spec_slug(self, slug):
         return super(SpecializationManager, self).get(slug=slug)
 
+    def get_default_id(self):
+        return super(SpecializationManager, self).all()[0].id
+
     def spec_human_name(self, name):
         return super(SpecializationManager, self).get(human_name=name)
 
@@ -20,7 +23,7 @@ class Specialization(models.Model):
 
     objects = models.Manager()
     spec_objects = SpecializationManager()
-    
+
     def __unicode__(self):
         return self.name
 
@@ -41,7 +44,7 @@ class Fellowship(models.Model):
 
     objects = models.Manager()
     fellow_objects = FellowshipManager()
-    
+
     def __unicode__(self):
         return self.name
 
@@ -142,10 +145,10 @@ class Practitioner(docorsUser):
     physician_type = models.CharField(max_length=1, choices=PHYSICIAN_CHOICES, null=True)
     photo = ImageField(upload_to='practitioner/', blank=True, null=True)
     experience = models.PositiveIntegerField(help_text="Number of years", default=0)
-    achievements = models.TextField(null=True, blank=True)    
+    achievements = models.TextField(null=True, blank=True)
     message = models.CharField(max_length=140, null=True, blank=True)
     degrees = models.ManyToManyField(Degree)
-    
+
     # specialities
     specialty = models.ForeignKey(Specialization, null=True, blank=True)
     fellowship = models.ManyToManyField(Fellowship, blank=True)
@@ -162,7 +165,7 @@ class Practitioner(docorsUser):
     #Manager
     objects = models.Manager()
     prac_objects = PractitionerManager()
-    
+
     def __unicode__(self):
         return self.full_name
 
