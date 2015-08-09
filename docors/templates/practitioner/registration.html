@@ -357,17 +357,23 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
 $(document).ready(function(){
 
-        autosize($('textarea'));
 
         //set Default values
+        $("#id_achievements").attr('rows','1');
         $("#id_area").val("");
         $(".practice_2").hide();
         $("#id_form-1-DELETE").prop('checked',true);
         $("#id_form-0-DELETE,#id_form-1-DELETE").hide();
         $('#id_degrees').select2({placeholder : "Select Credentials"});
         $('#id_specialty').select2({placeholder:"Select Specialty"});
+        $('#id_physician_type').select2({minimumResultsForSearch:Infinity,placeholder:"Select Specialty"});
+        $("#id_full_name").attr('placeholder','Full Name');
+        $("#id_email").attr('placeholder','example@example.com');
+        $("#id_achievements").attr('placeholder','What have you achieved?');
+        $("#id_message").attr('placeholder','eg Out of Country or Available');
         get_cp();
         get_areas("both");
+        autosize($('textarea'));
 
         //Set onclick methods
         $("#add_practice").on("click",function(){
@@ -389,6 +395,10 @@ $(document).ready(function(){
         $("#id_specialty").on('change',function(){
             get_cp();
         });
+        $("fieldset").on('click','.time_remove_btn',function(){
+            $(this).parent().parent().parent().remove();
+        });
+
 
         //Set validation rules and messages
         $.validator.addMethod('time', function(value, element, param) {
@@ -590,7 +600,7 @@ $(document).ready(function(){
         
         $(".timing_btn").on("click",function(){
             var number = $(this).next().val();
-            $(".insert_col_"+number).before("<div class='row'><section class='col col-4'><label>Day</label><label class='select'><label class='select'><select name='extra_day_"+number+"'>"+$('#id_form-0-day').html()+"</select><i></i></label></section><section class='col col-4'><label>Starting Time</label><label class='input'><input name='extra_start_time_"+number+"' type='text' placeholder='hh:mm (24h format)'/></label></section><section class='col col-4'><label>Ending Time</label><label class='input'><input name='extra_end_time_"+number+"' type='text' placeholder='hh:mm (24h format)'/></label></section>");
+            $(".insert_col_"+number).before("<div class='row'><section class='col col-4'><label>Day</label><label class='select'><label class='select'><select name='extra_day_"+number+"'>"+$('#id_form-0-day').html()+"</select><i></i></label></section><section class='col col-3'><label>Starting Time</label><label class='input'><input name='extra_start_time_"+number+"' type='text' placeholder='hh:mm (24h format)'/></label></section><section class='col col-3'><label>Ending Time</label><label class='input'><input name='extra_end_time_"+number+"' type='text' placeholder='hh:mm (24h format)'/></label></section><section class='col col-2'><label style='height:20px;'></label><label class='select'><button type='button' class='btn btn-danger time_remove_btn'>Remove</button></label></section>");
         });
 
 
