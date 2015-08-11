@@ -24,9 +24,9 @@ class PracticeForm(forms.Form):
     Appointment_Option = ((u'True', u'Strictly on Appointment.'),(u'False', u'Checkup allowed on Waiting.'),)
     DAYS = (('1', 'Monday'), ('2', 'Tuesday'), ('3', 'Wednesday'), ('4', 'Thursday'), ('5', 'Friday'),('6', 'Saturday'),('7', 'Sunday'),)
 
-    practice_name = forms.CharField(max_length=50, required=True, label='Name.', widget=forms.TextInput(attrs={'data-error':'Please provide a valid name','placeholder': 'eg. Adil Hospital'}))
+    practice_name = forms.CharField(required=True, label='Name.', widget=HiddenInput())
     address = forms.CharField(max_length=500, required=True, label='Street address.', widget=forms.Textarea(attrs={'data-error':'Please provide a valid address','placeholder': 'eg. 82-XX, DHA','rows':'1'}))
-    photo = forms.ImageField(label='Photo of your clinic outer space.', required=False)
+    practice_photo = forms.ImageField(label='Photo of your clinic outer space.', required=False)
     city = forms.ChoiceField(choices = [(r.id, r) for r in City.objects.order_by('pk')], label="City.", required = True)
     area = forms.CharField(widget=HiddenInput(), required=True, label="Area.")
     lon = forms.CharField(label='Physical longitude.', widget=forms.HiddenInput(), required=False)
@@ -45,7 +45,7 @@ class PracticeForm(forms.Form):
         practice_form = self
         practice_name = practice_form.cleaned_data['practice_name']
         address = practice_form.cleaned_data['address']
-        #photo = ''form.cleaned_data['practice_photo']
+        photo = practice_form.cleaned_data['practice_photo']
         area_id = practice_form.cleaned_data['area']
         area = Area.objects.get(pk=area_id)
         lon = practice_form.cleaned_data['lon']
@@ -53,7 +53,7 @@ class PracticeForm(forms.Form):
         contact_number = practice_form.cleaned_data['contact_number']
 
         #create PracticeLocation
-        practice_location = PracticeLocation(name=practice_name, contact_number=contact_number, clinic_address=address, area=area, lon=lon, lat=lat)
+        practice_location = PracticeLocation(name=practice_name, contact_number=contact_number,photo=photo, clinic_address=address, area=area, lon=lon, lat=lat)
         practice_location.save()
 
         #Practice
@@ -83,6 +83,7 @@ class PracticeForm(forms.Form):
         email_domain = re.search("@[\w.]+", practitioner.email).group()
         if email_domain[1::] != "doctorsinfo.pk":
             email_details = {'name': practitioner.full_name, 'email': practitioner.email, 'slug': practitioner.slug}
+            #confirmation_mail.delay(email_details)
         return practice
 
 class ClaimPractitionerForm(forms.ModelForm):

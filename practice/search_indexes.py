@@ -4,6 +4,7 @@ from practice.models import Practice
 
 class PracticeIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
+    type = indexes.CharField(model_attr='practice_type')
 
     def get_model(self):
         return Practice

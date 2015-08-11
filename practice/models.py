@@ -22,10 +22,10 @@ class City(models.Model):
 
     objects = models.Manager()
     city_objects = CityManager()
-    
+
     def __unicode__(self):
         return self.name
-    
+
     class Meta:
         verbose_name_plural = "Cities"
         ordering = ('name',)
@@ -65,10 +65,10 @@ class Area(models.Model):
 
 class CheckupFee(models.Model):
     amount = models.PositiveSmallIntegerField()
-    
+
     def __unicode__(self):
         return str(self.amount)
-    
+
     class Meta:
         verbose_name_plural = "Checkup Fee"
         ordering = ('amount',)
@@ -103,11 +103,13 @@ class PracticeLocation(models.Model):
 #Custom Manager
 class PracticeManager(models.Manager):
 
+    def practice_names(self, name, p_type):
+        return super(PracticeManager, self).filter(practice_location__name__icontains=name,practice_type=p_type)
+
     def practice_detail(self, slug):
         practice = super(PracticeManager, self).filter(practitioner__slug=slug)
         return practice
 
-    
     # Search by Practitioner Name
     def practitioner_name(self, name, city):
         return super(PracticeManager, self).filter(practitioner__full_name__icontains=name, practitioner__is_active=True, practice_location__area__city__name=city).distinct('practitioner')
@@ -137,7 +139,7 @@ class PracticeManager(models.Manager):
     			query = query.distance(current_point).order_by('practitioner')
     		if wait == 1:
     			query = query.filter(appointments_only=False)
-        
+
         result['practice_list'] = query
         return result
 
@@ -170,7 +172,7 @@ class Practice(models.Model):
     appointments_only = models.BooleanField(default=True)
     modified = models.DateTimeField(auto_now=True)
     phone_ext = models.CharField("Extension no.", max_length=150, null=True, blank=True, default=None)
-    
+
     objects = models.Manager()
     gis = gis_models.GeoManager()
     practice_objects = PracticeManager()
@@ -188,7 +190,7 @@ class Practice(models.Model):
 class PracticeTimingManager(models.Manager):
     def practice_timings(self, pr_slug, p_slug):
         practice_timings = super(PracticeTimingManager, self).filter(practice__practice_location__slug=pr_slug, practice__practitioner__slug=p_slug).order_by('pk')
-        return practice_timings    
+        return practice_timings
 
     def spec_day_timing(self, spec, day):
         practice_timings = super(PracticeTimingManager, self).filter(practice__practitioner__specialty__slug=spec, day=day).order_by('pk')
@@ -196,7 +198,7 @@ class PracticeTimingManager(models.Manager):
 
 class PracticeTiming(models.Model):
     DAYS = (('1', 'Mon'), ('2', 'Tue'), ('3', 'Wed'), ('4', 'Thu'), ('5', 'Fri'),('6', 'Sat'),('7', 'Sun'),)
-    
+
     practice = models.ForeignKey(Practice)
     day = models.CharField(max_length=1, choices=DAYS, help_text="Select Day.")
     start_time = models.TimeField(help_text="Select starting Time for Clininc.", auto_now_add=False, null=True, blank=True)
@@ -216,9 +218,9 @@ class RecentSearch(models.Model):
     city = models.ForeignKey(City)
     specialty = models.ForeignKey(Specialization)
     hit_count = models.PositiveIntegerField(default=0)
-    
+
     def __unicode__(self):
         return "%s in %s" % (self.specialty.name, self.city.name)
-    
+
     class Meta:
         verbose_name_plural = "Recent Searches"

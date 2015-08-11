@@ -134,7 +134,7 @@ def login(request):
 #doctors registration view
 def registration(request):
     error_occured = False
-    PractitionerForm = modelform_factory(Practitioner, fields = ['full_name','gender','year_of_birth','email','physician_type','degrees','specialty','conditions','procedures','experience','message','achievements'])
+    PractitionerForm = modelform_factory(Practitioner, fields = ['full_name','photo','gender','year_of_birth','email','physician_type','degrees','specialty','fellowship','completion_year','conditions','procedures','experience','message','achievements'])
     PracticeFormSet = formset_factory(PracticeForm,formset=BasePracticeFormSet, extra=2, max_num=2, can_delete=True)
     if request.method == 'POST':
         pract_form = PractitionerForm(request.POST, request.FILES)
@@ -148,8 +148,9 @@ def registration(request):
             practice_formset.save(practitioner,extraPracticeTimings)
             return render_to_response('practitioner/success.html',{'email': 'test@email.com'}, context_instance=RequestContext(request))
         else:
+            print practice_formset.errors
             pract_form = PractitionerForm()
-            practice_formset = PracticeForm()
+            practice_formset = PracticeFormSet()
             error_occured = True
     else:
         pract_form = PractitionerForm()
@@ -163,6 +164,25 @@ def get_condition_procedure(request):
         value = request.GET.get('value','')
         if value == "":
             value = Specialization.spec_objects.get_default_id()
+        data['fellowship'] = ["<option value='"+str(f.id)+"'>"+str(f)+"</option>" for f in Fellowship.objects.filter(specialization=Specialization.objects.get(pk=value))]
         data['conditions'] = ["<option value='"+str(c.id)+"'>"+str(c)+"</option>" for c in Condition.objects.filter(specialization=Specialization.objects.get(pk=value))]
         data['procedures'] = ["<option value='"+str(p.id)+"'>"+str(p)+"</option>" for p in Procedure.objects.filter(specialization=Specialization.objects.get(pk=value))]
         return HttpResponse(json.dumps(data),content_type="application/json")
+
+def get_practice_names(request):
+    if request.is_ajax():
+        practice_q = request.GET.get('q','')
+        practice_type = request.GET.get('type','')
+        practice_names = Practice.practice_objects.practice_names(name=practice_q,p_type=practice_type)
+        suggestions = [{'id':result.id,'text':result.practice_location.name} for result in practice_names]
+        the_data = json.dumps(suggestions)
+        return HttpResponse(the_data, content_type='application/json')
+
+def get_practice_details(request):
+    if request.is_ajax():
+        practice_id = request.GET.get('practice_id','')
+        practice_location = Practice.objects.get(id=practice_id).practice_location
+        print practice_id
+        print practice_location
+        data = json.dumps({'address':practice_location.clinic_address,'city':practice_location.area.city.id,'area_id':practice_location.area.id,'area_name':practice_location.area.name, 'contact_number':practice_location.contact_number})
+        return HttpResponse(data, content_type='application/json')

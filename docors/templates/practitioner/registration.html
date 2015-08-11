@@ -29,7 +29,7 @@
         <div class="col-sm-12 sky-form-login-register v2">
             <div class="margin40">
 
-                <form action="" method="POST" role="form" id="sky-form-doctors" class="sky-form">{% csrf_token %}
+                <form action="" method="POST" enctype="multipart/form-data" role="form" id="sky-form-doctors" class="sky-form">{% csrf_token %}
                     {{practice_formset.management_form}}
 
                     <h3 class="text-center">Create new account with DoctorsInfo</h3>
@@ -69,10 +69,9 @@
                                 </label>
                             </section>
                             <section class="col col-4">
-                                <label>Physician Type</label>
-                                <label class="select">
-                                    {{pract_form.physician_type}}
-                                    <i></i>
+                                <label>Photo</label>
+                                <label for="file" class="input input-file">
+                                    {{pract_form.photo}}
                                 </label>
                             </section>
                             <section class="col col-4">
@@ -84,10 +83,31 @@
                         </div>
                         <div class="row">
                             <section class="col col-4">
+                                <label>Physician Type</label>
+                                <label class="select">
+                                    {{pract_form.physician_type}}
+                                    <i></i>
+                                </label>
+                            </section>
+                            <section class="col col-4">
+                                <label>Completion Year</label>
+                                <label class="input">
+                                    {{pract_form.completion_year}}
+                                </label>
+                            </section>
+                            <section class="col col-4">
                                 <label>Speciality</label>
                                 <label class="select">
                                     {{pract_form.specialty}}
                                     <i></i>
+                                </label>
+                            </section>
+                        </div>
+                        <div class="row">
+                            <section class="col col-4">
+                                <label>Fellowship</label>
+                                <label class="select">
+                                    {{pract_form.fellowship}}
                                 </label>
                             </section>
                             <section class="col col-4">
@@ -148,7 +168,13 @@
                             </section>
                             <section class="col col-4">
                                 <label>Name</label>
-                                <label class="input">
+                                <label class="select">
+                                    {% if forloop.first %}
+                                    <select id="id_practice_name_0" name="practice_name_0" multiple="multiple">
+                                    {% else %}
+                                    <select id="id_practice_name_1" name="practice_name_1" multiple="multiple">
+                                    {% endif %}
+                                    </select>
                                     {{practice_form.practice_name}}
                                 </label>
                             </section>
@@ -182,11 +208,10 @@
                                 </label>
                             </section>
                             <section class="col col-4">
-                                <label style="height:20px;"></label>
-                                <label class="select">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mapModal">Show on Map</button>
+                                <label>Location Photo</label>
+                                <label for="file" class="input input-file">
+                                    {{practice_form.practice_photo}}
                                 </label>
-                                {{practice_form.lat}}{{practice_form.lon}}
                             </section>
                         </div>
                         <div class="row">
@@ -204,12 +229,23 @@
                                     <i></i>
                                 </label>
                             </section>
-                            <section class="col col-4">
+                            <section class="col col-2">
                                 <label>Checkup Fee</label>
                                 <label class="select">
                                     {{practice_form.checkup_fee}}
                                     <i></i>
                                 </label>
+                            </section>
+                            <section class="col col-2">
+                                <label style="height:20px;"></label>
+                                <label class="select">
+                                    {% if forloop.first %}
+                                    <button type="button" class="btn btn-primary" id="map_loc1_btn" data-toggle="modal" data-target="#mapModal">Show on Map</button>
+                                    {% else %}
+                                    <button type="button" class="btn btn-primary" id="map_loc2_btn" data-toggle="modal" data-target="#mapModal">Show on Map</button>
+                                    {% endif %}
+                                </label>
+                                {{practice_form.lat}}{{practice_form.lon}}
                             </section>
                         </div>
                         <div class="row">
@@ -277,7 +313,8 @@
                 <h4 class="modal-title" id="myModalLabel">Drag the marker to appropriate location and close map.</h4>
             </div>
             <div class="modal-body">
-                <div style="width: 560px; height: 500px;" id="myMap"></div>
+                <div style="width: 560px; height: 500px;" id="myMap_loc1"></div>
+                <div style="width: 560px; height: 500px;" id="myMap_loc2"></div>
             </div>
         </div>
     </div>
@@ -304,58 +341,91 @@
 {% block customScript %}
 <script type="text/javascript">
 
-var map;
-var marker;
-var myLatlng = new google.maps.LatLng(31.519191, 74.326237);
-var geocoder = new google.maps.Geocoder();
-var infowindow = new google.maps.InfoWindow();
+    var map_loc1;
+    var marker_loc1;
+    var map_loc2;
+    var marker_loc2;
+    var myLatlng = new google.maps.LatLng(31.519191, 74.326237);
+    var geocoder = new google.maps.Geocoder();
+    var infowindow = new google.maps.InfoWindow();
 
-function initialize() {
-    var mapOptions = {
-zoom: 12,
-      center: myLatlng,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-    map = new google.maps.Map(document.getElementById("myMap"), mapOptions);
-    marker = new google.maps.Marker({
-map: map,
-position: myLatlng,
-draggable: true
-});
-
-geocoder.geocode({
-        'latLng': myLatlng
-        }, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-        if (results[0]) {
-        $('#id_form-0-lat').val(marker.getPosition().lat());
-        $('#id_form-0-lon').val(marker.getPosition().lng());
-        $('#id_form-1-lat').val(marker.getPosition().lat());
-        $('#id_form-1-lon').val(marker.getPosition().lng());
-        infowindow.setContent(results[0].formatted_address);
-        infowindow.open(map, marker);
-        }
-        }
+    function initialize() {
+        var mapOptions = {
+            zoom: 12,
+            center: myLatlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map_loc1 = new google.maps.Map(document.getElementById("myMap_loc1"), mapOptions);
+        map_loc2 = new google.maps.Map(document.getElementById("myMap_loc2"), mapOptions);
+        marker_loc1 = new google.maps.Marker({
+            map: map_loc1,
+            position: myLatlng,
+            draggable: true
         });
-google.maps.event.addListener(marker, 'dragend', function() {
-        geocoder.geocode({
-            'latLng': marker.getPosition()
-            }, function(results, status) {
-            if (status == google.maps.GeocoderStatus.OK) {
-            if (results[0]) {
-            $('#id_lon').val(marker.getPosition().lat());
-            $('#id_lat').val(marker.getPosition().lng());
-            //console.log($('#id_lon').val()+" , "+$('#id_lat').val());
-            infowindow.setContent(results[0].formatted_address);
-            infowindow.open(map, marker);
-            }
-            }
-            });
+        marker_loc2 = new google.maps.Marker({
+            map: map_loc2,
+            position: myLatlng,
+            draggable: true
         });
-}
-google.maps.event.addDomListener(window, 'load', initialize);
 
-$(document).ready(function(){
+        geocoder.geocode(
+            {
+                'latLng': myLatlng
+            },
+            function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    if (results[0]) {
+                        $('#id_form-0-lat').val(marker_loc1.getPosition().lat());
+                        $('#id_form-0-lon').val(marker_loc1.getPosition().lng());
+                        $('#id_form-1-lat').val(marker_loc2.getPosition().lat());
+                        $('#id_form-1-lon').val(marker_loc2.getPosition().lng());
+                        infowindow.setContent(results[0].formatted_address);
+                        infowindow.open(map_loc1, marker_loc1);
+                        infowindow.open(map_loc2, marker_loc2);
+                    }
+                }
+            }
+        );
+        google.maps.event.addListener(marker_loc1, 'dragend', function() {
+            geocoder.geocode(
+                {
+                    'latLng': marker_loc1.getPosition()
+                },
+                function(results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        if (results[0]) {
+                            $('#id_form-0-lon').val(marker_loc1.getPosition().lng());
+                            $('#id_form-0-lat').val(marker_loc1.getPosition().lat());
+                            //console.log($('#id_lon').val()+" , "+$('#id_lat').val());
+                            infowindow.setContent(results[0].formatted_address);
+                            infowindow.open(map_loc1, marker_loc1);
+                        }
+                    }
+                }
+            );
+        });
+        google.maps.event.addListener(marker_loc2, 'dragend', function() {
+            geocoder.geocode(
+                {
+                    'latLng': marker_loc2.getPosition()
+                },
+                function(results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        if (results[0]) {
+                            $('#id_form-1-lat').val(marker_loc2.getPosition().lat());
+                            $('#id_form-1-lon').val(marker_loc2.getPosition().lng());
+                            //console.log($('#id_lon').val()+" , "+$('#id_lat').val());
+                            infowindow.setContent(results[0].formatted_address);
+                            infowindow.open(map_loc2, marker_loc2);
+                        }
+                    }
+                }
+            );
+        });
+    }
+    google.maps.event.addDomListener(window, 'load', initialize);
+
+    $(document).ready(function(){
 
 
         //set Default values
@@ -366,12 +436,14 @@ $(document).ready(function(){
         $("#id_form-0-DELETE,#id_form-1-DELETE").hide();
         $('#id_degrees').select2({placeholder : "Select Credentials"});
         $('#id_specialty').select2({placeholder:"Select Specialty"});
-        $('#id_physician_type').select2({minimumResultsForSearch:Infinity,placeholder:"Select Specialty"});
+        $('#id_fellowship').select2({placeholder:"Select Fellowship"});
+        $('#id_physician_type').select2({minimumResultsForSearch:Infinity,placeholder:"Select Type"});
         $("#id_full_name").attr('placeholder','Full Name');
+        $("#id_completion_year").attr('min','2015');
         $("#id_email").attr('placeholder','example@example.com');
         $("#id_achievements").attr('placeholder','What have you achieved?');
         $("#id_message").attr('placeholder','eg Out of Country or Available');
-        get_cp();
+        get_fcp();
         get_areas("both");
         autosize($('textarea'));
 
@@ -393,12 +465,90 @@ $(document).ready(function(){
             get_areas("1");
         });
         $("#id_specialty").on('change',function(){
-            get_cp();
+            get_fcp();
+        });
+        $("#map_loc1_btn").on('click',function(){
+            $("#myMap_loc2").hide();
+            $("#myMap_loc1").show();
+        });
+        $("#map_loc2_btn").on('click',function(){
+            $("#myMap_loc1").hide();
+            $("#myMap_loc2").show();
         });
         $("fieldset").on('click','.time_remove_btn',function(){
             $(this).parent().parent().parent().remove();
         });
+        $("#id_practice_name_0").select2({'placeholder':'Practice Name',tags:true, tokenSeparators:[",","\t"],
+            createSearchChoice: function(term, data) {
+                if ($(data).filter(function() {
+                    return this.text.localeCompare(term) === 0;
+                }).length === 0) {
+                    return {
+                        id: term,
+                        text: term
+                    };
+                }
+            },
+            ajax: {
+                url: '{% url "get_practice_names" %}',
+                dataType: "json",
+                data: function(params) {
+                    return {
+                        q: params.term,
+                        type:$("#id_form-0-practice_type").val()
+                    };
+                },
+                processResults: function(data, page) {
+                    return {
+                        results: data
+                    };
+                },
+                cache:true
+            },
+            minimumInputLength:3,
+            maximumSelectionLength:1
+        }).on("select2:select",function(e){
+            if(e.params.data.id!=e.params.data.text)
+                 fill_practice_details("0",e.params.data.id);
+        }).on("select2:unselect",function(e){
+             clear_practice_details("0");
+        });
 
+        $("#id_practice_name_1").select2({'placeholder':'Practice Name',tags:true, tokenSeparators:[",","\t"],
+            createSearchChoice: function(term, data) {
+                if ($(data).filter(function() {
+                    return this.text.localeCompare(term) === 0;
+                }).length === 0) {
+                    return {
+                        id: term,
+                        text: term
+                    };
+                }
+            },
+            ajax: {
+                url: '{% url "get_practice_names" %}',
+                dataType: "json",
+                data: function(params) {
+                    return {
+                        q: params.term,
+                        type:$("#id_form-1-practice_type").val()
+                    };
+                },
+                processResults: function(data, page) {
+                    return {
+                        results: data
+                    };
+                },
+                cache:true
+            },
+            minimumInputLength:3,
+            maximumSelectionLength:1
+        }).on("select2:select",function(e){
+            if(e.params.data.id!=e.params.data.text)
+                 fill_practice_details("1",e.params.data.id);
+        }).on("select2:unselect",function(e){
+             clear_practice_details("1");
+        });
 
         //Set validation rules and messages
         $.validator.addMethod('time', function(value, element, param) {
@@ -429,13 +579,27 @@ $(document).ready(function(){
                     }
                 },
 
-                "form-0-practice_name":{required: true},
+                "form-0-practice_name":{
+                    required: function(){
+                          if($("#id_practice_name_0").val()){
+                              $("#id_form-0-practice_name").val($("#id_practice_name_0").val());
+                              return false;
+                          }else{
+                              return true;
+                          }
+                    }
+                },
                 "form-1-practice_name":{
                     required: function(){
-                        if($("#id_form-1-DELETE").prop('checked')==true){
+                        if($("#id_form-1-DELETE").prop('checked')==false){
+                            if($("#id_practice_name_1").val()){
+                                $("#id_form-1-practice_name").val($("#id_practice_name_1").val());
+                                return false;
+                            }else{
+                                return true;
+                            }
+                        }else{
                             return false;
-                        } else {
-                            return true;
                         }
                     }
                 },
@@ -605,13 +769,15 @@ $(document).ready(function(){
 
 
     });
-    function get_cp(){
+
+    function get_fcp(){
         if($("#id_specialty").val()!=""){
             $.ajax({
                 type : "GET",
                 url : "{% url 'get_condition_procedure' %}",
                 data : {"value":$("#id_specialty").val()},
                 success : function(data){
+                    $("#id_fellowship").html("");
                     $("#id_conditions").html("");
                     $("#id_procedures").html("");
                     for(i = 0;i<data['conditions'].length;i++){
@@ -620,11 +786,16 @@ $(document).ready(function(){
                     for(i = 0;i<data['procedures'].length;i++){
                         $("#id_procedures").append(data['procedures'][i]);
                     }
+                    for(i = 0;i<data['fellowship'].length;i++){
+                        $("#id_fellowship").append(data['fellowship'][i]);
+                    }
+                    $('#id_fellowship').select2({placeholder:"Select Fellowship"});
                     $('#id_conditions').select2({placeholder:"Select Conditions"});
                     $('#id_procedures').select2({placeholder:"Select Procedures"});
                 }
             });
         }else{
+             $('#id_fellowship').html("").select2({placeholder:"Please select a specialty first"});
              $('#id_conditions').html("").select2({placeholder:"Please select a specialty first"});
              $('#id_procedures').html("").select2({placeholder:"Please select a specialty first"});
         }
@@ -656,5 +827,42 @@ $(document).ready(function(){
             }
         });
     }
+    function fill_practice_details(number,practice_id){
+        $.ajax({
+            type : "GET",
+            url : "{% url 'get_practice_details' %}",
+            data : {"practice_id":practice_id},
+            success : function(data){
+                $("#id_form-"+number+"-practice_type").attr('disabled',true);
+                $("#id_form-"+number+"-practice_photo").attr('disabled',true);
+                $("#id_form-"+number+"-address").val(data.address);
+                $("#id_form-"+number+"-address").attr('disabled',true);
+                $("#id_form-"+number+"-contact_number").val(data.contact_number);
+                $("#id_form-"+number+"-contact_number").attr('disabled',true);
+                $("#id_form-"+number+"-city").val(data.city);
+                $("#id_form-"+number+"-city").attr('disabled',true);
+                if(0!=$("#id_area_custom_"+number+" option[value="+data.area_id+"]").length){
+                    $("#id_area_custom_"+number).val(data.area_id);
+                }else{
+                    $("#id_area_custom_"+number).append("<option value="+data.area_id+">"+data.area_name+"</option>");
+                    $("#id_area_custom_"+number).val(data.area_id);
+                }
+                $("#id_area_custom_"+number).attr('disabled',true);
+            }
+        });
+    }
+    function clear_practice_details(number){
+                $("#id_form-"+number+"-practice_type").attr('disabled',false);
+                $("#id_form-"+number+"-practice_photo").attr('disabled',false);
+                $("#id_form-"+number+"-address").val("");
+                $("#id_form-"+number+"-address").attr('disabled',false);
+                $("#id_form-"+number+"-contact_number").val("");
+                $("#id_form-"+number+"-contact_number").attr('disabled',false);
+                $("#id_form-"+number+"-city").prop("selectedIndex",0);
+                $("#id_form-"+number+"-city").attr('disabled',false);
+                $("#id_area_custom_"+number).attr('disabled',false);
+                get_areas("both");
+    }
+
 </script>
 {% endblock %}
