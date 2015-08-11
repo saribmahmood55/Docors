@@ -12,7 +12,7 @@ SECRET_KEY = 'zky%mapoo709@yv64h!ny#!7x8#&lh0o9nsfo++ny6+7gotp^r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-if socket.gethostname() == 'asad-Inspiron-N5110' or 'sarib-Inspiron-N5110':
+if socket.gethostname() == 'asad-Inspiron-N5110' or socket.gethostname() == 'sarib-Inspiron-N5110':
     DEBUG = boolean(os.environ.get('DEBUG', 1))
 else:
     DEBUG = boolean(os.environ.get('DEBUG', 0))
