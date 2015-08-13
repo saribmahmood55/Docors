@@ -88,7 +88,7 @@ class PracticeForm(forms.Form):
         email_domain = re.search("@[\w.]+", practitioner.email).group()
         if email_domain[1::] != "doctorsinfo.pk":
             email_details = {'name': practitioner.full_name, 'email': practitioner.email, 'slug': practitioner.slug}
-            #confirmation_mail.delay(email_details)
+            confirmation_mail.delay(email_details)
         return practice
 
 class ClaimPractitionerForm(forms.ModelForm):
