@@ -33,6 +33,10 @@ def practitioner_suggestions(request):
                 sqs = SearchQuerySet().filter(name=query).models(Procedure)
                 for x in sqs:
                     res.append({'value':x.object.name, 'type':type_query, 'href':x.object.slug})
+            elif type_query == "practice":
+                sqs = SearchQuerySet().filter(name=query).models(PracticeLocation)
+                for x in sqs:
+                    res.append({'value':x.object.name, 'type':type_query, 'href':x.object.slug})
             else:
                 sqs = SearchQuerySet().filter(name=query).models(Practitioner)
                 for x in sqs:
@@ -59,6 +63,13 @@ def get_search_practitioner(request):
         query = request.GET.get("q","")
         return HttpResponseRedirect(reverse('practitionerSearch', kwargs={'slug': query, 'typee': type}))
 
+#individual item click in the autocomplete list
+def get_search_practice(request):
+    if request.method == "GET":
+        type = request.GET.get("search.type","")
+        query = request.GET.get("q","")
+        return HttpResponseRedirect(reverse('practice_search', kwargs={'slug': query, 'typee': type}))
+
 #reverse match view for the "#individual item click in the autocomplete list"
 def practitionerSearch(request, slug, typee):
     data = dict()
@@ -74,6 +85,9 @@ def practitionerSearch(request, slug, typee):
     elif typee == "procedure":
         sqs = Procedure.objects.get(slug=slug)
         data['results_header'] = "Practitioner(s) who perform " + slug + " procedure"
+    elif typee == "practice":
+        sqs = PracticeLocation.objects.get(slug=slug)
+        data['results_header'] = "Practitioner(s) in " + slug
 
     data['ob'] = sqs
 
@@ -83,6 +97,25 @@ def practitionerSearch(request, slug, typee):
         for x in Practice.practice_objects.practitioner_name(name=prac.full_name,city=city):
             practice.append(x)
     data['practice'] = practice
+    data['results_count'] = len(practice)
+    return render_to_response('practitioner/results.html', {'data': data}, context_instance=RequestContext(request))
+
+#reverse match view for the "#individual item click in the autocomplete list"
+def practice_search(request, slug, typee):
+    data = dict()
+    practice = []
+    data['results_header'] = "Practitioner"
+
+    city = get_city(request)
+    print city
+
+    data['practice'] = Practice.practice_objects.get_practice_by_location(slug=slug,city=city)
+    print data['practice']
+
+    data['results_header'] = "Practitioner(s) in " + slug
+
+    data['ob'] = PracticeLocation.objects.get(slug=slug)
+
     data['results_count'] = len(practice)
     return render_to_response('practitioner/results.html', {'data': data}, context_instance=RequestContext(request))
 

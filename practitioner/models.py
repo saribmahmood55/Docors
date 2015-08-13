@@ -138,6 +138,9 @@ class PractitionerManager(models.Manager):
     def practitioner_suggest(self, name):
         return super(PractitionerManager, self).filter(full_name__icontains=name, is_active=True).values_list('name', flat=True)
 
+    def practitioner_by_practice(self, name):
+        return super(PractitionerManager, self).filter(full_name__icontains=name, is_active=True)
+
 
 class Practitioner(docorsUser):
     PHYSICIAN_CHOICES = [('0', 'General Physician'), ('1', 'Trainee'), ('2', 'Specialist'),]

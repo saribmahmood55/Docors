@@ -24,6 +24,7 @@ class PracticeForm(forms.Form):
     Appointment_Option = ((u'True', u'Strictly on Appointment.'),(u'False', u'Checkup allowed on Waiting.'),)
     DAYS = (('1', 'Monday'), ('2', 'Tuesday'), ('3', 'Wednesday'), ('4', 'Thursday'), ('5', 'Friday'),('6', 'Saturday'),('7', 'Sunday'),)
 
+    practice_exists = forms.CharField(required=True, label='Exists', widget=HiddenInput())
     practice_name = forms.CharField(required=True, label='Name.', widget=HiddenInput())
     address = forms.CharField(max_length=500, required=True, label='Street address.', widget=forms.Textarea(attrs={'data-error':'Please provide a valid address','placeholder': 'eg. 82-XX, DHA','rows':'1'}))
     practice_photo = forms.ImageField(label='Photo of your clinic outer space.', required=False)
@@ -43,18 +44,22 @@ class PracticeForm(forms.Form):
 
     def save(self,practitioner,extraTimings):
         practice_form = self
-        practice_name = practice_form.cleaned_data['practice_name']
-        address = practice_form.cleaned_data['address']
-        photo = practice_form.cleaned_data['practice_photo']
-        area_id = practice_form.cleaned_data['area']
-        area = Area.objects.get(pk=area_id)
-        lon = practice_form.cleaned_data['lon']
-        lat = practice_form.cleaned_data['lat']
-        contact_number = practice_form.cleaned_data['contact_number']
+        if practice_form.cleaned_data['practice_exists'] != "1":
+            practice_name = practice_form.cleaned_data['practice_name']
+            address = practice_form.cleaned_data['address']
+            photo = practice_form.cleaned_data['practice_photo']
+            area_id = practice_form.cleaned_data['area']
+            area = Area.objects.get(pk=area_id)
+            lon = practice_form.cleaned_data['lon']
+            lat = practice_form.cleaned_data['lat']
+            contact_number = practice_form.cleaned_data['contact_number']
 
-        #create PracticeLocation
-        practice_location = PracticeLocation(name=practice_name, contact_number=contact_number,photo=photo, clinic_address=address, area=area, lon=lon, lat=lat)
-        practice_location.save()
+            #create PracticeLocation
+            practice_location = PracticeLocation(name=practice_name, contact_number=contact_number,photo=photo, clinic_address=address, area=area, lon=lon, lat=lat)
+            practice_location.save()
+        else:
+            practice_id = practice_form.cleaned_data['practice_name']
+            practice_location = PracticeLocation.objects.get(id=practice_id)
 
         #Practice
         practice_type = practice_form.cleaned_data['practice_type']

@@ -45,7 +45,7 @@ def get_city(request):
 	if city_info is not None:
 		return city_info['city']
 	else:
-		return 'Lahore'
+		return 'lahore'
 
 def get_lat_lon(request):
     user_ip = get_ip(request)

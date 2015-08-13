@@ -1,1 +1,0 @@
-{{ object.practice_location.name }}

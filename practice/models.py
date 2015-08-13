@@ -110,6 +110,9 @@ class PracticeManager(models.Manager):
         practice = super(PracticeManager, self).filter(practitioner__slug=slug)
         return practice
 
+    def get_practice_by_location(self, slug, city):
+        return super(PracticeManager, self).filter(practice_location__slug=slug,practice_location__area__city__slug=city)
+
     # Search by Practitioner Name
     def practitioner_name(self, name, city):
         return super(PracticeManager, self).filter(practitioner__full_name__icontains=name, practitioner__is_active=True, practice_location__area__city__name=city).distinct('practitioner')

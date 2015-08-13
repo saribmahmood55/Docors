@@ -175,6 +175,7 @@
                                     <select id="id_practice_name_1" name="practice_name_1" multiple="multiple">
                                     {% endif %}
                                     </select>
+                                    {{practice_form.practice_exists}}
                                     {{practice_form.practice_name}}
                                 </label>
                             </section>
@@ -434,12 +435,14 @@
         $(".practice_2").hide();
         $("#id_form-1-DELETE").prop('checked',true);
         $("#id_form-0-DELETE,#id_form-1-DELETE").hide();
+        $("#id_form-0-practice_exists,#id_form-1-practice_exists").val("0");
         $('#id_degrees').select2({placeholder : "Select Credentials"});
         $('#id_specialty').select2({placeholder:"Select Specialty"});
         $('#id_fellowship').select2({placeholder:"Select Fellowship"});
         $('#id_physician_type').select2({minimumResultsForSearch:Infinity,placeholder:"Select Type"});
         $("#id_full_name").attr('placeholder','Full Name');
         $("#id_completion_year").attr('min','2015');
+        $("#id_completion_year").val('2015');
         $("#id_email").attr('placeholder','example@example.com');
         $("#id_achievements").attr('placeholder','What have you achieved?');
         $("#id_message").attr('placeholder','eg Out of Country or Available');
@@ -447,7 +450,7 @@
         get_areas("both");
         autosize($('textarea'));
 
-        //Set onclick methods
+        //Set onclick and onchange methods
         $("#add_practice").on("click",function(){
             $(".practice_2").fadeIn();
             $("#id_form-1-DELETE").prop('checked',false);
@@ -457,6 +460,15 @@
             $(".practice_2").fadeOut();
             $("#id_form-1-DELETE").prop('checked',true);
             $(".practice_2_button").fadeIn();
+        });
+        $("#id_physician_type").on('change',function(){
+            if($(this).val()==="1"){
+                $("#id_completion_year").attr('readonly',false);
+                $(".type_tooltip").remove();
+            }else{
+                $("#id_completion_year").attr('readonly',true);
+                $("#id_completion_year").after('<b class="type_tooltip tooltip tooltip-bottom-right">This field doesn\'t apply to you.</b>');
+            }
         });
         $("#id_form-0-city").on('change',function(){
             get_areas("0");
@@ -833,34 +845,36 @@
             url : "{% url 'get_practice_details' %}",
             data : {"practice_id":practice_id},
             success : function(data){
-                $("#id_form-"+number+"-practice_type").attr('disabled',true);
-                $("#id_form-"+number+"-practice_photo").attr('disabled',true);
+                $("#id_form-"+number+"-practice_exists").val("1");
+                $("#id_form-"+number+"-practice_type").attr('readonly',true);
+                $("#id_form-"+number+"-practice_photo").attr('readonly',true);
                 $("#id_form-"+number+"-address").val(data.address);
-                $("#id_form-"+number+"-address").attr('disabled',true);
+                $("#id_form-"+number+"-address").attr('readonly',true);
                 $("#id_form-"+number+"-contact_number").val(data.contact_number);
-                $("#id_form-"+number+"-contact_number").attr('disabled',true);
+                $("#id_form-"+number+"-contact_number").attr('readonly',true);
                 $("#id_form-"+number+"-city").val(data.city);
-                $("#id_form-"+number+"-city").attr('disabled',true);
+                $("#id_form-"+number+"-city").attr('readonly',true);
                 if(0!=$("#id_area_custom_"+number+" option[value="+data.area_id+"]").length){
                     $("#id_area_custom_"+number).val(data.area_id);
                 }else{
                     $("#id_area_custom_"+number).append("<option value="+data.area_id+">"+data.area_name+"</option>");
                     $("#id_area_custom_"+number).val(data.area_id);
                 }
-                $("#id_area_custom_"+number).attr('disabled',true);
+                $("#id_area_custom_"+number).attr('readonly',true);
             }
         });
     }
     function clear_practice_details(number){
-                $("#id_form-"+number+"-practice_type").attr('disabled',false);
-                $("#id_form-"+number+"-practice_photo").attr('disabled',false);
+                $("#id_form-"+number+"-practice_exists").val("0");
+                $("#id_form-"+number+"-practice_type").attr('readonly',false);
+                $("#id_form-"+number+"-practice_photo").attr('readonly',false);
                 $("#id_form-"+number+"-address").val("");
-                $("#id_form-"+number+"-address").attr('disabled',false);
+                $("#id_form-"+number+"-address").attr('readonly',false);
                 $("#id_form-"+number+"-contact_number").val("");
-                $("#id_form-"+number+"-contact_number").attr('disabled',false);
+                $("#id_form-"+number+"-contact_number").attr('readonly',false);
                 $("#id_form-"+number+"-city").prop("selectedIndex",0);
-                $("#id_form-"+number+"-city").attr('disabled',false);
-                $("#id_area_custom_"+number).attr('disabled',false);
+                $("#id_form-"+number+"-city").attr('readonly',false);
+                $("#id_area_custom_"+number).attr('readonly',false);
                 get_areas("both");
     }
 

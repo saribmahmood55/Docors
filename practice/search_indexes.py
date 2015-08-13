@@ -1,14 +1,14 @@
 from haystack import indexes
-from practice.models import Practice
+from practice.models import PracticeLocation
 
 
-class PracticeIndex(indexes.SearchIndex, indexes.Indexable):
+class PracticeLocationIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
-    type = indexes.CharField(model_attr='practice_type')
+    name = indexes.EdgeNgramField(model_attr='name')
 
     def get_model(self):
-        return Practice
+        return PracticeLocation
 
     def index_queryset(self, using=None):
         """Used when the entire index for model is updated."""
-        return self.get_model().objects.filter(practitioner__is_active=True)
+        return self.get_model().objects.all()

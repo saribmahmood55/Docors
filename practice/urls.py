@@ -2,7 +2,7 @@ from django.conf.urls import patterns, url
 from practice import views
 
 urlpatterns = patterns('',
-    url(r'^physican/(?P<slug>[a-z-]+)$', views.practitioner, name='practitioner'),
+    url(r'^physican/(?P<slug>[\w-]+)/$', views.practitioner, name='practitioner'),
     url(r'^physicans/(?P<speciality>[0-9A-Za-z-]+)-in-(?P<area>[0-9A-Za-z-]+)$', views.recentSearch, name='recentSearch'),
     url(r'^physicans/(?P<speciality>.+)-within-(?P<dist>.+)KM$', views.advSearch, name='advSearch'),
     url(r'^physicans', views.practitoners, name='practitoners'),
