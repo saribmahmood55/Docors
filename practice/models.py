@@ -124,10 +124,10 @@ class PracticeManager(models.Manager):
         return super(PracticeManager, self).filter(practitioner__specialty=specialty,practice_location__area__city__slug=city).distinct('practitioner')
 
     def get_practice_by_condition(self, condition, city):
-        return super(PracticeManager, self).filter(practitioner__condition=condition,practice_location__area__city__slug=city).distinct('practitioner')
+        return super(PracticeManager, self).filter(practitioner__conditions=condition,practice_location__area__city__slug=city).distinct('practitioner')
 
     def get_practice_by_procedure(self, procedure, city):
-        return super(PracticeManager, self).filter(practitioner__procedure=procedure,practice_location__area__city__slug=city).distinct('practitioner')
+        return super(PracticeManager, self).filter(practitioner__procedures=procedure,practice_location__area__city__slug=city).distinct('practitioner')
 
     # Search by Practitioner Name
     def practitioner_name(self, name, city):
