@@ -174,7 +174,7 @@ class Practitioner(docorsUser):
 
     class Meta:
         verbose_name_plural = "Practitioners"
-        ordering = ('full_name',)
+        ordering = ('-modified',)
 
 class ClaimManager(models.Manager):
     def get_claim(self, email):
