@@ -202,7 +202,7 @@ def registration(request):
             practitioner = pract_form.save(commit=False)
             practitioner.set_password('12341234')
             practitioner.save()
-            practitioner.save_m2m()
+            pract_form.save_m2m()
             extraPracticeTimings = list()
             for i in range(2):
                 extraPracticeTimings.append({'day':request.POST.getlist("extra_day_"+str(i)),'start_time':request.POST.getlist("extra_start_time_"+str(i)),'end_time':request.POST.getlist("extra_end_time_"+str(i))})
