@@ -199,7 +199,10 @@ def registration(request):
         pract_form = PractitionerForm(request.POST, request.FILES)
         practice_formset = PracticeFormSet(request.POST, request.FILES)
         if pract_form.is_valid() and practice_formset.is_valid():
-            practitioner = pract_form.save()
+            practitioner = pract_form.save(commit=False)
+            practitioner.set_password('12341234')
+            practitioner.save()
+            practitioner.save_m2m()
             extraPracticeTimings = list()
             for i in range(2):
                 extraPracticeTimings.append({'day':request.POST.getlist("extra_day_"+str(i)),'start_time':request.POST.getlist("extra_start_time_"+str(i)),'end_time':request.POST.getlist("extra_end_time_"+str(i))})

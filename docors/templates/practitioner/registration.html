@@ -405,6 +405,11 @@
                 }
             );
         });
+        google.maps.event.addListener(map_loc1, 'click', function(event) {
+                console.log(event.latLng);
+                marker_loc1.setPosition(event.latLng);
+                google.maps.event.trigger(marker_loc1,'dragend');
+        });
         google.maps.event.addListener(marker_loc2, 'dragend', function() {
             geocoder.geocode(
                 {
@@ -415,13 +420,17 @@
                         if (results[0]) {
                             $('#id_form-1-lat').val(marker_loc2.getPosition().lat());
                             $('#id_form-1-lon').val(marker_loc2.getPosition().lng());
-                            //console.log($('#id_lon').val()+" , "+$('#id_lat').val());
                             infowindow.setContent(results[0].formatted_address);
                             infowindow.open(map_loc2, marker_loc2);
                         }
                     }
                 }
             );
+        });
+        google.maps.event.addListener(map_loc2, 'click', function(event) {
+                console.log(event.latLng);
+                marker_loc2.setPosition(event.latLng);
+                google.maps.event.trigger(marker_loc2,'dragend');
         });
     }
     google.maps.event.addDomListener(window, 'load', initialize);
@@ -577,8 +586,6 @@
                 "physician_type":{required: true},
                 "degrees":{required: true},
                 "specialty":{required: true},
-                "conditions":{required: true},
-                "procedures":{required: true},
                 "experience":{required: true},
                 "form-0-practice_type":{required: true},
                 "form-1-practice_type":{
@@ -751,8 +758,6 @@
                 "full_name":{required: 'Please enter your Full Name'},
                 "email":{required: 'Please enter your email address',email: 'Please enter a VALID email address'},
                 "degrees":{required: 'Please mention your credentials'},
-                "conditions":{required: 'Select atleast one'},
-                "procedures":{required: 'Select atleast one'},
                 "form-0-practice_name":{required: 'Please enter location name'},
                 "form-1-practice_name":{required: 'Please enter location name'},
                 "form-0-address":{required: 'Please enter full address of location'},
