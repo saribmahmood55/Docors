@@ -209,15 +209,10 @@ def registration(request):
             print extraPracticeTimings
             practice_formset.save(practitioner,extraPracticeTimings)
             return render_to_response('practitioner/success.html',{'email': 'test@email.com'}, context_instance=RequestContext(request))
-        else:
-            print practice_formset.errors
-            pract_form = PractitionerForm()
-            practice_formset = PracticeFormSet()
-            error_occured = True
     else:
         pract_form = PractitionerForm()
         practice_formset = PracticeFormSet()
-    return render_to_response('practitioner/registration.html', {'error_occured':error_occured, 'pract_form': pract_form,'practice_formset': practice_formset}, context_instance=RequestContext(request))
+    return render_to_response('practitioner/registration.html', {'pract_form': pract_form,'practice_formset': practice_formset}, context_instance=RequestContext(request))
 
 #to populate the condition procedure field in the doctor registration page
 def get_condition_procedure(request):
