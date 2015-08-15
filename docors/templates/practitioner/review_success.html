@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Review Submitted| Doctors Info. Pakistan{% endblock %}
+{% block content %}
+<div class="divide80"></div>
+<div class="container">
+	<h1>Review Submitted Successfully</h1>
+    <p class="text-success">You have recently reviewd <a href="{% url 'practitioner' slug=new_review.practitioner.slug%}">{{new_review.practitioner.full_name}}</a>. If you have written some comment then it will be checked by our team for approval.</p>
+	<p class="text-success">You will also be informed through the email address once your comment gets approved.</p>
+	<p class="text-primary"><a href="/">Go back to homepage</a></p>
+</div>
+<div class="divide80"></div>
+{% endblock %}

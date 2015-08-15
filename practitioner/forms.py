@@ -1,10 +1,11 @@
 # flake8: noqa
 from django import forms
-from django.forms.widgets import Input, HiddenInput
+from django.forms.widgets import Input, HiddenInput, NumberInput
 from django.forms.formsets import BaseFormSet
 from practitioner.tasks import confirmation_mail
 from practitioner.models import Practitioner,Claim, UpdateInfo
 from practice.models import City,CheckupFee,Area,Practice,PracticeLocation,PracticeTiming
+from reviews.models import Answer, Comment
 import re
 
 class Html5EmailInput(Input):
@@ -121,3 +122,25 @@ class EditProfileForm(forms.ModelForm):
     class Meta:
         model = Practitioner
         fields = ['conditions','procedures','message','achievements']
+
+class AnswerForm(forms.ModelForm):
+
+    class Meta:
+        model = Answer
+        exclude = ()
+        widgets = {
+            'answer1':forms.HiddenInput(),
+            'answer2':forms.HiddenInput(),
+            'answer3':forms.HiddenInput(),
+            'answer4':forms.HiddenInput(),
+            'answer5':forms.HiddenInput(),
+        }
+
+class CommentForm(forms.ModelForm):
+
+    class Meta:
+        model = Comment
+        fields = ['text']
+        widgets = {
+            'text':forms.Textarea(attrs={'rows':3}),
+        }

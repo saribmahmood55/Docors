@@ -2,12 +2,15 @@
 from django.forms.models import modelform_factory
 from practitioner.models import *
 from practice.models import *
+from patients.models import Patient
+from reviews.models import Question, Review
 from practitioner.forms import *
 from utility import *
 from django.forms.formsets import formset_factory
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from django.contrib.auth.decorators import login_required
 from haystack.query import SearchQuerySet
 import json
 
@@ -75,48 +78,39 @@ def practitionerSearch(request, slug, typee):
     data = dict()
     practice = []
     data['results_header'] = "Practitioner"
+    city = get_city(request)
 
     if typee == "specialization":
         sqs = Specialization.objects.get(slug=slug)
-        data['results_header'] = "Practitioner(s) who Specialize in " + slug
+        data['results_header'] = "Practitioner(s) who Specialize in " + sqs.name
+        data['practice'] = Practice.practice_objects.get_practice_by_specialty(specialty=sqs,city=city)
     elif typee == "condition":
         sqs = Condition.objects.get(slug=slug)
-        data['results_header'] = "Practitioner(s) who treat " + slug + " condition"
+        data['results_header'] = "Practitioner(s) who treat " + sqs.name + " condition"
+        data['practice'] = Practice.practice_objects.get_practice_by_condition(condition=sqs,city=city)
     elif typee == "procedure":
         sqs = Procedure.objects.get(slug=slug)
-        data['results_header'] = "Practitioner(s) who perform " + slug + " procedure"
-    elif typee == "practice":
-        sqs = PracticeLocation.objects.get(slug=slug)
-        data['results_header'] = "Practitioner(s) in " + slug
+        data['results_header'] = "Practitioner(s) who perform " + sqs.name + " procedure"
+        data['practice'] = Practice.practice_objects.get_practice_by_procedure(procedure=sqs,city=city)
 
     data['ob'] = sqs
 
-    city = get_city(request)
-
-    for prac in sqs.practitioner_set.all():
-        for x in Practice.practice_objects.practitioner_name(name=prac.full_name,city=city):
-            practice.append(x)
-    data['practice'] = practice
-    data['results_count'] = len(practice)
+    data['results_count'] = len(data['practice'])
     return render_to_response('practitioner/results.html', {'data': data}, context_instance=RequestContext(request))
 
 #reverse match view for the "#individual item click in the autocomplete list"
 def practice_search(request, slug, typee):
     data = dict()
-    practice = []
-    data['results_header'] = "Practitioner"
 
     city = get_city(request)
-    print city
 
     data['practice'] = Practice.practice_objects.get_practice_by_location(slug=slug,city=city)
-    print data['practice']
-
-    data['results_header'] = "Practitioner(s) in " + slug
 
     data['ob'] = PracticeLocation.objects.get(slug=slug)
 
-    data['results_count'] = len(practice)
+    data['results_header'] = "Practitioner(s) in " + data['ob'].name
+
+    data['results_count'] = len(data['practice'])
     return render_to_response('practitioner/results.html', {'data': data}, context_instance=RequestContext(request))
 
 def claim_practitioner(request, slug):
@@ -155,6 +149,38 @@ def profile(request, slug):
         data['practice'] = Practice.practice_objects.practice_detail(slug)
         form = EditProfileForm(instance=data['practitioner'])
         return render_to_response('practitioner/edit.html', {'data':data,'form':form}, context_instance=RequestContext(request))
+
+@login_required(login_url='/accounts/login/')
+def new_review(request,slug):
+    data = dict()
+    try:
+        patient = request.user.patient
+        data['practitioner'] = Practitioner.objects.get(slug=slug)
+    except Patient.DoesNotExist:
+        raise Http404
+
+    if Review.review_objects.review_exists(patient,data['practitioner']):
+        return HttpResponseRedirect(reverse('practitioner', kwargs={'slug': slug}))
+    else:
+        questions = Question.objects.all()[0]
+        if request.method == "POST":
+            answerForm = AnswerForm(request.POST)
+            commentForm = CommentForm(request.POST)
+            if answerForm.is_valid():
+                answers = answerForm.save()
+                if commentForm.is_valid():
+                    comments = commentForm.save()
+                    review = Review(patient=patient, practitioner=data['practitioner'], answers=answers, comments=comments)
+                    review.save()
+                    return render_to_response('practitioner/review_success.html', {'new_review':review}, context_instance=RequestContext(request))
+                else:
+                    review = Review(patient=patient, practitioner=data['practitioner'], answers=answers)
+                    review.save()
+                    return render_to_response('practitioner/review_success.html', {'new_review':review}, context_instance=RequestContext(request))
+        elif request.method == "GET":
+            answerForm = AnswerForm()
+            commentForm = CommentForm()
+        return render_to_response('practitioner/review.html', {'data':data,'answerForm':answerForm, 'commentForm':commentForm, 'questions':questions}, context_instance=RequestContext(request))
 
 #custom login function to redirect if already logged in
 def login(request):

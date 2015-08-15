@@ -1,6 +1,5 @@
 # flake8: noqa
 from django.db import models
-from django.conf import settings
 from practitioner.models import Specialization, Practitioner
 from practice.models import City
 from docorsauth.models import docorsUser
@@ -50,7 +49,7 @@ class PatientManager(models.Manager):
 
 
 class Patient(docorsUser):
-    
+
     cell_number = models.BigIntegerField(
         unique=True, null=True, blank=True,
         validators=[

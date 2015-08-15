@@ -14,4 +14,5 @@ urlpatterns = patterns('',
                        url(r'^physican/(?P<slug>[\w-]+)/claim/$', views.claim_practitioner, name='claim_practitioner'),
                        url(r'^physican/(?P<slug>[\w-]+)/update/info/$', views.update_info_practitioner, name='update_info_practitioner'),
                        url(r'^physican/(?P<slug>[\w-]+)/profile/$', views.profile, name='practitioner_profile'),
+                       url(r'^physican/(?P<slug>[\w-]+)/review/$', views.new_review, name='practitioner_review'),
                        )

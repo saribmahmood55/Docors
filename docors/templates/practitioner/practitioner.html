@@ -114,6 +114,7 @@
 			</div>
 		</div>
 		{% endfor %}
+        {% load practitioner_reviews %}
 		<div class="col-md-4 col-sm-6 margin40 item">
 			<div class="price-wrap">
 				<div class="price-price prac-loc-name">Patients Feedback</div>
@@ -121,13 +122,7 @@
 					<ul class="list-unstyled">
 						<li>
 							<ul class="list-inline custom-list-feedback">
-								{% for i in n %}
-									{% if i < data.pract_avg_review.total %}
-										<li><i class="fa fa-star text-yellow"></i></li>
-									{% else %}
-										<li><i class="fa fa-star text-gray"></i></li>
-									{% endif %}
-								{% endfor %}
+								{{ data.pract_avg_review.total|get_rating_by_count }}
 								<li>{{data.pract_avg_review.total}} ({{data.pract_avg_review.num_of_reviews}} reviews)</li>
 							</ul>
 						</li>
@@ -150,20 +145,21 @@
 													<span><strong>{{review.patient.user.first_name}}</strong></span>
 													{% endif %}
 												</li>
-												{{review.answers}}
-												{% for i in n %}
-													{% if i < review.answers %}
-														<li><i class="fa fa-star text-yellow"></i></li>
-													{% else %}
-														<li><i class="fa fa-star text-gray"></i></li>
-													{% endif %}
-												{% endfor %}
+												{{review.answers|get_rating_by_model}}
 											</ul>
+                                            {% if review.comments %}
 											<p>{{review.comments}}</p>
 											<ul class="list-inline text-right custom-list-feedback">
 												<li><i class="fa fa-thumbs-o-up text-blue"></i> {{review.comments.agree}} </li>
 												<li><i class="fa fa-thumbs-o-down text-red"></i> {{review.comments.disagree}}</li>
 											</ul>
+                                            {% else %}
+											<p></p>
+											<ul class="list-inline text-right custom-list-feedback">
+												<li></li>
+												<li></li>
+											</ul>
+                                            {% endif %}
 										</div>
 									</div>
 									{% endfor %}
@@ -171,7 +167,7 @@
 							</div>
 						</li>
 						<li>
-							<a href="#"><span class="h3 text-blue">How was your experience?</span></a>
+                        <a href="{% url 'practitioner_review' slug=data.practitioner.slug %}"><span class="h3 text-blue">How was your experience?</span></a>
 						</li>
 					</ul>
 				</div>
@@ -256,108 +252,6 @@
 		</div>
 </div>
 <div class="divide40"></div>
-<div class="container review-form" style="display:none;">
-	<form action="" class="sky-form">
-		<header>Review form</header>
-		
-		<fieldset>
-			
-			<section>
-				<div class="rating">
-					<input type="radio" name="listen" id="listen-5">
-					<label for="listen-5"><i class="icon-star"></i></label>
-					<input type="radio" name="listen" id="listen-4">
-					<label for="listen-4"><i class="icon-star"></i></label>
-					<input type="radio" name="listen" id="listen-3">
-					<label for="listen-3"><i class="icon-star"></i></label>
-					<input type="radio" name="listen" id="listen-2">
-					<label for="listen-2"><i class="icon-star"></i></label>
-					<input type="radio" name="listen" id="listen-1">
-					<label for="listen-1"><i class="icon-star"></i></label>
-					He listens to the problems carefully and spends appropriate time with patients?
-				</div>						
-				
-				<div class="rating">
-					<input type="radio" name="comfortable" id="comfortable-5">
-					<label for="comfortable-5"><i class="icon-star"></i></label>
-					<input type="radio" name="comfortable" id="comfortable-4">
-					<label for="comfortable-4"><i class="icon-star"></i></label>
-					<input type="radio" name="comfortable" id="comfortable-3">
-					<label for="comfortable-3"><i class="icon-star"></i></label>
-					<input type="radio" name="comfortable" id="comfortable-2">
-					<label for="comfortable-2"><i class="icon-star"></i></label>
-					<input type="radio" name="comfortable" id="comfortable-1">
-					<label for="comfortable-1"><i class="icon-star"></i></label>
-					How comfortable you are with the doctor's staff?
-				</div>				
-				
-				<div class="rating">
-					<input type="radio" name="differentiate" id="differentiate-5">
-					<label for="differentiate-5"><i class="icon-star"></i></label>
-					<input type="radio" name="differentiate" id="differentiate-4">
-					<label for="differentiate-4"><i class="icon-star"></i></label>
-					<input type="radio" name="differentiate" id="differentiate-3">
-					<label for="differentiate-3"><i class="icon-star"></i></label>
-					<input type="radio" name="differentiate" id="differentiate-2">
-					<label for="differentiate-2"><i class="icon-star"></i></label>
-					<input type="radio" name="differentiate" id="differentiate-1">
-					<label for="differentiate-1"><i class="icon-star"></i></label>
-					He does not differentiate between the patients of government hospitals and private practice?
-				</div>
-
-				<div class="rating">
-					<input type="radio" name="differentiate" id="differentiate-5">
-					<label for="differentiate-5"><i class="icon-star"></i></label>
-					<input type="radio" name="differentiate" id="differentiate-4">
-					<label for="differentiate-4"><i class="icon-star"></i></label>
-					<input type="radio" name="differentiate" id="differentiate-3">
-					<label for="differentiate-3"><i class="icon-star"></i></label>
-					<input type="radio" name="differentiate" id="differentiate-2">
-					<label for="differentiate-2"><i class="icon-star"></i></label>
-					<input type="radio" name="differentiate" id="differentiate-1">
-					<label for="differentiate-1"><i class="icon-star"></i></label>
-					He does not differentiate between the patients of government hospitals and private practice?
-				</div><div class="rating">
-					<input type="radio" name="respect" id="respect-5">
-					<label for="respect-5"><i class="icon-star"></i></label>
-					<input type="radio" name="respect" id="respect-4">
-					<label for="respect-4"><i class="icon-star"></i></label>
-					<input type="radio" name="respect" id="respect-3">
-					<label for="respect-3"><i class="icon-star"></i></label>
-					<input type="radio" name="respect" id="respect-2">
-					<label for="respect-2"><i class="icon-star"></i></label>
-					<input type="radio" name="respect" id="respect-1">
-					<label for="respect-1"><i class="icon-star"></i></label>
-					He treats all patients with equal respect and does not differentiate between the rich and the poor one?
-				</div>
-
-				<div class="rating">
-					<input type="radio" name="reasoning" id="reasoning-5">
-					<label for="reasoning-5"><i class="icon-star"></i></label>
-					<input type="radio" name="reasoning" id="reasoning-4">
-					<label for="reasoning-4"><i class="icon-star"></i></label>
-					<input type="radio" name="reasoning" id="reasoning-3">
-					<label for="reasoning-3"><i class="icon-star"></i></label>
-					<input type="radio" name="reasoning" id="reasoning-2">
-					<label for="reasoning-2"><i class="icon-star"></i></label>
-					<input type="radio" name="reasoning" id="reasoning-1">
-					<label for="reasoning-1"><i class="icon-star"></i></label>
-					Does he order unnecessary tests or does not explain the reasons of his tests well enough?
-				</div>
-			</section>
-			<section>
-				<label class="label"></label>
-				<label class="textarea">
-					<i class="icon-append icon-comment"></i>
-					<textarea rows="3" placeholder="Comments (Optional)"></textarea>
-				</label>
-			</section>
-		</fieldset>
-		<footer>
-			<button type="submit" class="button">Submit review</button>
-		</footer>
-	</form>
-</div>
 <div id="shareContainer" style="display:none;"><div id="share"></div></div>
 {% endblock %}
 

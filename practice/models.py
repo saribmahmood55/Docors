@@ -73,6 +73,10 @@ class CheckupFee(models.Model):
         verbose_name_plural = "Checkup Fee"
         ordering = ('amount',)
 
+class PracticeLocationManager(models.Manager):
+    def get_name_by_slug(self,slug):
+        return super(PracticeLocationManager, self).get(slug=slug).name
+
 class PracticeLocation(models.Model):
     name = models.CharField(max_length=50)
     slug = AutoSlugField(populate_from='name', unique = True)
@@ -83,6 +87,9 @@ class PracticeLocation(models.Model):
     lon = models.FloatField(null=True, blank=True)
     lat = models.FloatField(null=True, blank=True)
     location = gis_models.PointField(geography=True, blank=True, null=True)
+
+    objects = models.Manager()
+    location_manager = PracticeLocationManager()
 
     def get_location(self):
         # Remember, longitude FIRST!
@@ -112,6 +119,15 @@ class PracticeManager(models.Manager):
 
     def get_practice_by_location(self, slug, city):
         return super(PracticeManager, self).filter(practice_location__slug=slug,practice_location__area__city__slug=city)
+
+    def get_practice_by_specialty(self, specialty, city):
+        return super(PracticeManager, self).filter(practitioner__specialty=specialty,practice_location__area__city__slug=city).distinct('practitioner')
+
+    def get_practice_by_condition(self, condition, city):
+        return super(PracticeManager, self).filter(practitioner__condition=condition,practice_location__area__city__slug=city).distinct('practitioner')
+
+    def get_practice_by_procedure(self, procedure, city):
+        return super(PracticeManager, self).filter(practitioner__procedure=procedure,practice_location__area__city__slug=city).distinct('practitioner')
 
     # Search by Practitioner Name
     def practitioner_name(self, name, city):

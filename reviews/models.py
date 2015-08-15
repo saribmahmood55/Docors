@@ -21,6 +21,9 @@ class Answer(models.Model):
     objects = models.Manager()
     answer_objects = AnswerManager()
 
+    def get_count(self):
+        return (self.answer1+self.answer2+self.answer3+self.answer4+self.answer5)/5
+
     def __unicode__(self):
         return "%d" % ((self.answer1+self.answer2+self.answer3+self.answer4+self.answer5)/5)
 
@@ -49,7 +52,7 @@ class ReviewManager(models.Manager):
 
     def review(self, review_ID):
         return super(ReviewManager, self).get(pk=review_ID)
-    
+
     def practitioner_reviews(self, slug):
         return super(ReviewManager, self).filter(practitioner__slug=slug).order_by('timestamp')
 
@@ -58,6 +61,9 @@ class ReviewManager(models.Manager):
 
     def single_review(self, user, slug):
         return super(ReviewManager, self).filter(patient__user=user, practitioner__slug=slug)
+
+    def review_exists(self, patient, practitioner):
+        return super(ReviewManager, self).filter(patient=patient, practitioner=practitioner).exists()
 
 class Review(models.Model):
     patient = models.ForeignKey(Patient)
