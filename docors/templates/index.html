@@ -43,13 +43,8 @@
 									<div class="typography">
 										<form class="sky-form custom-sky-form" role="form" action="{% url 'doctor_suggestions' %}" method="GET">
 			                            	<fieldset>
-			                        			<label class="input input-file">
-			                        				<div class="button">
-			                        					<input type="submit">
-			                        					<i class="fa fa-search"></i>
-			                        				</div>
-			                        				{{data.doc_form.q}}
-			                        				<img class="typeahead-spinner" src="{% static 'assets/img/spinner.gif' %}" style="display: none;">
+			                        			<label class="select">
+                                                    <select id="id_search_main" name="q"></select>
 			                        			</label>
 			                        		</fieldset>
 			                            </form>
@@ -212,13 +207,6 @@
 
 		$(document).ready(function(){
 
-		    /*if (navigator.geolocation) {
-		        navigator.geolocation.getCurrentPosition(showPosition,showError);
-		    } else {
-		        $("#adv_search_btn").data("geo","true");
-		        $("#adv_search_btn").data('geoerror','Geolocation is not supported by this browser.');
-		    }*/
-
 		    $("#id_spec").select2({placeholder: 'Select Speciality'});
 		    $("#id_area").select2({placeholder: 'Select Area'});
 		    $("#id_spec_adv").select2({placeholder: 'Select Speciality'});
@@ -228,121 +216,27 @@
 
 		    $("#id_spec").select2("val", "");$("#id_area").select2("val", "");$("#id_spec_adv").select2("val", "");$("#id_radius").select2("val", "");$("#id_day").select2("val", "");
 
-			/********* Twitter typeahead with bloodhound *******/
-
-			var practitioner_engine = new Bloodhound({
-				datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-				queryTokenizer: Bloodhound.tokenizers.whitespace,
-				remote: {
-					url: "{% url 'doctor_suggestions' %}?q=%QUERY&type=practitioner",
-					wildcard: '%QUERY'
-				}
-			});
-
-			var specialization_engine = new Bloodhound({
-				datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-				queryTokenizer: Bloodhound.tokenizers.whitespace,
-				remote: {
-					url: "{% url 'doctor_suggestions' %}?q=%QUERY&type=specialization",
-					wildcard: '%QUERY'
-				}
-			});
-
-			var condition_engine = new Bloodhound({
-				datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-				queryTokenizer: Bloodhound.tokenizers.whitespace,
-				remote: {
-					url: "{% url 'doctor_suggestions' %}?q=%QUERY&type=condition",
-					wildcard: '%QUERY'
-				}
-			});
-
-			var procedure_engine = new Bloodhound({
-				datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-				queryTokenizer: Bloodhound.tokenizers.whitespace,
-				remote: {
-					url: "{% url 'doctor_suggestions' %}?q=%QUERY&type=procedure",
-					wildcard: '%QUERY'
-				}
-			});
-
-			var practice_engine = new Bloodhound({
-				datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-				queryTokenizer: Bloodhound.tokenizers.whitespace,
-				remote: {
-					url: "{% url 'doctor_suggestions' %}?q=%QUERY&type=practice",
-					wildcard: '%QUERY'
-				}
-			});
-
-			$(".doc-typeahead").typeahead({
-				hint:true,
-				highlight:true,
-				minLength:1
-			},{
-				name: 'practitioner',
-				display: 'value',
-				source: practitioner_engine,
-				limit:5,
-				templates: {
-					header: '<h4 class="league-name">Practitioner</h4>',
-					suggestion : function(data){
-						return '<div><a href="/physican/'+data.href+'"><div class="suggestion-link">' + data.value + '</div></a></div>';
-					}
-				}
-			},{
-				name: 'specialization',
-				display: 'value',
-				source: specialization_engine,
-				limit:5,
-				templates: {
-					header: '<h4 class="league-name">Practitioner Specialities</h4>',
-					suggestion : function(data){
-						return '<div><a href="/practitioner-search/?q='+data.href+'&search.type=specialization&loc="'+$("#curr_city").data("cityslug")+'><div class="suggestion-link">' + data.value + '</div></a></div>';
-					}
-				}
-			},{
-				name: 'condition',
-				display: 'value',
-				source: condition_engine,
-				limit:5,
-				templates: {
-					header: '<h4 class="league-name">Condition they treat</h4>',
-					suggestion : function(data){
-						return '<div><a href="/practitioner-search?q='+data.href+'&search.type=condition&loc="'+$("#curr_city").data("cityslug")+'><div class="suggestion-link">' + data.value + '</div></a></div>';
-					}
-				}
-			},{
-				name: 'procedure',
-				display: 'value',
-				source: procedure_engine,
-				limit:5,
-				templates: {
-					header: '<h4 class="league-name">Procedures they perform</h4>',
-					suggestion : function(data){
-						return '<div><a href="/practitioner-search?q='+data.href+'&search.type=procedure&loc="'+$("#curr_city").data("cityslug")+'><div class="suggestion-link">' + data.value + '</div></a></div>';
-					}
-				}
-			},{
-				name: 'practice',
-				display: 'value',
-				source: practice_engine,
-				limit:5,
-				templates: {
-					header: '<h4 class="league-name">Hospitals/Clinics</h4>',
-					suggestion : function(data){
-						return '<div><a href="/practice-search?q='+data.href+'&search.type=practice&loc="'+$("#curr_city").data("cityslug")+'><div class="suggestion-link">' + data.value + '</div></a></div>';
-					}
-				}
-			})
-			.on('typeahead:asyncrequest', function() {
-			    $('.typeahead-spinner').show();
-			    $("input[name='q']").css('color','rgba(0,0,0,0.3)');
-			})
-			.on('typeahead:asynccancel typeahead:asyncreceive', function() {
-				$('.typeahead-spinner').hide();
-				$("input[name='q']").css('color','inherit');
-			});
+            $("#id_search_main").select2({'placeholder':'Doctor, Condition, Procedure',
+                ajax: {
+                    url: '{% url "doctor_suggestions" %}',
+                    dataType: "json",
+                    data: function(params) {
+                        return {
+                            q: params.term,
+                        };
+                    },
+                    processResults: function(data, page) {
+                        return {
+                            results: data
+                        };
+                    },
+                    cache:true
+                },
+                minimumInputLength:3
+            }).on("select2:select",function(e){
+                console.log(e.params.data);
+                serch_selection(e.params.data);
+            });
 
 		});
 
@@ -414,6 +308,17 @@
 				}
 			});
 		});
+
+        function serch_selection(data){
+            console.log("coming to change");
+            if(data.type == 'Practitioner'){
+                window.location = '/physican/'+data.slug;
+            }else if(data.type == 'PracticeLocation'){
+                window.location = '/practice-search?q='+data.slug+'&search.type='+data.type+'&loc='+$("#curr_city").data('cityslug');
+            }else{
+                window.location = '/practitioner-search?q='+data.slug+'&search.type='+data.type+'&loc='+$("#curr_city").data('cityslug');
+            }
+        }
 	</script>
 
 	{% endblock %}

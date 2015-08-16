@@ -20,32 +20,15 @@ from docors.utility import get_city, get_ip
 def practitioner_suggestions(request):
     if request.method == "GET":
         query = request.GET.get('q', '')
-        type_query = request.GET.get('type', 'practitioner')
         if request.is_ajax():
-            res = []
-            #results = Practitioner.prac_objects.practitioner_suggest(query)
-            if type_query == "specialization":
-                sqs = SearchQuerySet().filter(name=query).models(Specialization)
-                for x in sqs:
-                    res.append({'value':x.object.human_name, 'type':type_query, 'href':x.object.slug})
-            elif type_query == "condition":
-                sqs = SearchQuerySet().filter(name=query).models(Condition)
-                for x in sqs:
-                    res.append({'value':x.object.name, 'type':type_query, 'href':x.object.slug})
-            elif type_query == "procedure":
-                sqs = SearchQuerySet().filter(name=query).models(Procedure)
-                for x in sqs:
-                    res.append({'value':x.object.name, 'type':type_query, 'href':x.object.slug})
-            elif type_query == "practice":
-                sqs = SearchQuerySet().filter(name=query).models(PracticeLocation)
-                for x in sqs:
-                    res.append({'value':x.object.name, 'type':type_query, 'href':x.object.slug})
-            else:
-                sqs = SearchQuerySet().filter(name=query).models(Practitioner)
-                for x in sqs:
-                    res.append({'value':x.object.full_name, 'type':type_query, 'href':x.object.slug})
-
-            res = [dict(t) for t in set([tuple(d.items()) for d in res])]
+            results = {'Specialization':{'text':'Specialization','children':[]},'Condition':{'text':'Conditions Treated','children':[]},'Procedure':{'text':'Procedures Performed','children':[]},'PracticeLocation':{'text':'Hospitals/Clinics','children':[]},'Practitioner':{'text':'Practitioner','children':[]}}
+            sqs = SearchQuerySet().autocomplete(name=query)
+            for x in sqs:
+                if x.object.__class__.__name__ == "Practitioner":
+                    results[x.object.__class__.__name__]['children'].append({'id':x.object.pk,'text':x.object.full_name,'type':x.object.__class__.__name__,'slug':x.object.slug})
+                else:
+                    results[x.object.__class__.__name__]['children'].append({'id':x.object.pk,'text':x.object.name,'type':x.object.__class__.__name__,'slug':x.object.slug})
+            res = [value for key,value in results.iteritems() if value['children']]
             return HttpResponse(json.dumps(res),content_type="application/json")
         else:
             data = {}
@@ -62,33 +45,32 @@ def practitioner_suggestions(request):
 #individual item click in the autocomplete list
 def get_search_practitioner(request):
     if request.method == "GET":
-        type = request.GET.get("search.type","")
+        searchType = request.GET.get("search.type","")
         query = request.GET.get("q","")
-        return HttpResponseRedirect(reverse('practitionerSearch', kwargs={'slug': query, 'typee': type}))
+        return HttpResponseRedirect(reverse('practitionerSearch', kwargs={'slug': query, 'typee': searchType}))
 
 #individual item click in the autocomplete list
 def get_search_practice(request):
     if request.method == "GET":
-        type = request.GET.get("search.type","")
+        searchType = request.GET.get("search.type","")
         query = request.GET.get("q","")
-        return HttpResponseRedirect(reverse('practice_search', kwargs={'slug': query, 'typee': type}))
+        return HttpResponseRedirect(reverse('practice_search', kwargs={'slug': query, 'typee': searchType}))
 
 #reverse match view for the "#individual item click in the autocomplete list"
 def practitionerSearch(request, slug, typee):
     data = dict()
-    practice = []
     data['results_header'] = "Practitioner"
     city = get_city(request)
 
-    if typee == "specialization":
+    if typee == "Specialization":
         sqs = Specialization.objects.get(slug=slug)
         data['results_header'] = "Practitioner(s) who Specialize in " + sqs.name
         data['practice'] = Practice.practice_objects.get_practice_by_specialty(specialty=sqs,city=city)
-    elif typee == "condition":
+    elif typee == "Condition":
         sqs = Condition.objects.get(slug=slug)
         data['results_header'] = "Practitioner(s) who treat " + sqs.name + " condition"
         data['practice'] = Practice.practice_objects.get_practice_by_condition(condition=sqs,city=city)
-    elif typee == "procedure":
+    elif typee == "Procedure":
         sqs = Procedure.objects.get(slug=slug)
         data['results_header'] = "Practitioner(s) who perform " + sqs.name + " procedure"
         data['practice'] = Practice.practice_objects.get_practice_by_procedure(procedure=sqs,city=city)
@@ -192,7 +174,6 @@ def login(request):
 
 #doctors registration view
 def registration(request):
-    error_occured = False
     PractitionerForm = modelform_factory(Practitioner, fields = ['full_name','photo','gender','year_of_birth','email','physician_type','degrees','specialty','fellowship','completion_year','conditions','procedures','experience','message','achievements'])
     PracticeFormSet = formset_factory(PracticeForm,formset=BasePracticeFormSet, extra=2, max_num=2, can_delete=True)
     if request.method == 'POST':

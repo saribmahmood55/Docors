@@ -2,8 +2,8 @@ from django.conf.urls import patterns, url
 from practitioner import views
 
 urlpatterns = patterns('',
-                       url(r'^physicans-directory/(?P<slug>[a-z-]+)-in-(?P<typee>[a-z-]+)$', views.practitionerSearch, name='practitionerSearch'),
-                       url(r'^practice-search/(?P<slug>[a-z-]+)-in-(?P<typee>[a-z-]+)$', views.practice_search, name='practice_search'),
+                       url(r'^physicans-directory/(?P<slug>[a-z-]+)-in-(?P<typee>[A-Za-z-]+)$', views.practitionerSearch, name='practitionerSearch'),
+                       url(r'^practice-search/(?P<slug>[a-z-]+)-in-(?P<typee>[A-Za-z-]+)$', views.practice_search, name='practice_search'),
                        url(r'^practitioner/registration', views.registration, name='registration'),
                        url(r'^practitioner/suggestions/$', views.practitioner_suggestions, name='doctor_suggestions'),
                        url(r'^practitioner/getCondProc/$', views.get_condition_procedure, name='get_condition_procedure'),
