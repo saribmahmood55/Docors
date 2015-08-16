@@ -13,7 +13,7 @@ class PractitionerAdmin(admin.ModelAdmin):
 		'specialty', 'fellowship', 'conditions', 'procedures'),
 	}
 
-	list_display = ['full_name','slug','gender','Degrees_list','specialty','Fellowship_in','Condtions_Treated','Procedures_Performed']
+	list_display = ['full_name', 'is_active', 'slug','gender','Degrees_list','specialty','Fellowship_in','Condtions_Treated','Procedures_Performed']
 	search_fields = ['full_name']
 	list_filter = ['full_name']
 	inlines = [PracticeInline]

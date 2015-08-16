@@ -104,7 +104,7 @@
 						<li><button class="btn btn-primary btn-{{practice.practice_location.slug}}-timing">Timings</button></li>
 						<li><button class="btn btn-success" disabled>Open Now</button></li>
 						{% if practice.practice_location %}
-							<li><a href="https://www.google.com/maps?q={{ practice.practice_location.lon }},{{ practice.practice_location.lat }}" target="_blank">
+							<li><a href="https://www.google.com/maps?q={{ practice.practice_location.lat }},{{ practice.practice_location.lon }}" target="_blank">
 									<i class="fa fa-map-marker text-navy"></i>
 								</a>
 							</li>
