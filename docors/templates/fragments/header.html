@@ -11,13 +11,13 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="/">
-            	<img src="{% static 'assets/img/logo.png' %}" alt="DoctorsInfo">
+                <img src="{% static 'assets/img/logo.png' %}" alt="DoctorsInfo">
             </a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-            	{% if sticky_data.user.is_authenticated %}
-            	<li class="dropdown">
+                {% if sticky_data.user.is_authenticated %}
+                <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% block header_name %}{{sticky_data.user.full_name}}{% endblock %} <i class="fa fa-angle-down"></i></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="/">Home</a></li>
@@ -35,16 +35,15 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Doctor <i class="fa fa-angle-down"></i></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="/accounts/login"><strong>Update</strong> Your Info</a></li>
-                        <li><a href="{% url 'registration' %}">Get listed as <strong>Doctor</strong></a></li>
+                        <li><a href="{% url 'practitioner_registration' %}">Get listed as <strong>Doctor</strong></a></li>
                     </ul>
                 </li>
                 <!--menu blog li end here-->
                 <li class="dropdown">
                     <a href="#" class=" dropdown-toggle" data-toggle="dropdown">Patient <i class="fa fa-angle-down"></i></a>
                     <div class="dropdown-menu dropdown-menu-right dropdown-login-box animated fadeInUp">
-                        
-                    	{% load socialaccount %}
-                    	<div class="row social-login">
+                        {% load socialaccount %}
+                        <div class="row social-login">
                             <div class="col-sm-12">
                                 <a href="{% provider_login_url 'facebook' method='oauth2' %}"><button class="btn btn-lg btn-facebook"><i class="fa fa-facebook"></i> Login with facebook</button></a>
                             </div>

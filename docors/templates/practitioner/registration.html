@@ -822,7 +822,7 @@
         }
         $.ajax({
             type : "GET",
-            url : "{% url 'practice_areas' %}",
+            url : "{% url 'get_areas' %}",
             data : {"city":$("#id_form-"+num_val+"-city").val()},
             success : function(data){
                 if(number=="both"){

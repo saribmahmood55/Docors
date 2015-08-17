@@ -111,7 +111,7 @@ class PracticeLocation(models.Model):
 class PracticeManager(models.Manager):
 
     def practice_names(self, name, p_type):
-        return super(PracticeManager, self).filter(practice_location__name__icontains=name,practice_type=p_type)
+        return super(PracticeManager, self).filter(practice_location__name__icontains=name,practice_type=p_type).distinct('practice_location')
 
     def practice_detail(self, slug):
         practice = super(PracticeManager, self).filter(practitioner__slug=slug)

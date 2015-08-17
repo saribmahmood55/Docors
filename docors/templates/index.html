@@ -40,8 +40,8 @@
 							
 							<ul class="custom-sky-tabs-content">
 								<li class="sky-tab-content-1">					
-									<div class="typography">
-										<form class="sky-form custom-sky-form" role="form" action="{% url 'doctor_suggestions' %}" method="GET">
+									<div class="typography1">
+										<form class="sky-form custom-sky-form" role="form" action="{% url 'physican_suggestions' %}" method="GET">
 			                            	<fieldset>
 			                        			<label class="select">
                                                     <select id="id_search_main" name="q"></select>
@@ -52,7 +52,7 @@
 								</li>
 								<li class="sky-tab-content-2">
 									<div class="typography">
-										<form role="form" class="sky-form custom-sky-form" action="{% url 'speciality_suggestions' %}" >
+										<form role="form" class="sky-form custom-sky-form" action="{% url 'search_speciality' %}" >
 											<fieldset>
 												<div class="row">
 													<section class="col col-5">
@@ -78,7 +78,7 @@
 								
 								<li class="sky-tab-content-3">
 									<div class="typography">
-										<form role="form" class="sky-form custom-sky-form" action="{% url 'advanced_search' %}" method="POST">{% csrf_token %}
+										<form role="form" class="sky-form custom-sky-form" action="{% url 'search_advanced' %}" method="POST">{% csrf_token %}
 											<fieldset>
 												<div class="row">
 													<section class="col col-4">
@@ -216,9 +216,9 @@
 
 		    $("#id_spec").select2("val", "");$("#id_area").select2("val", "");$("#id_spec_adv").select2("val", "");$("#id_radius").select2("val", "");$("#id_day").select2("val", "");
 
-            $("#id_search_main").select2({'placeholder':'Doctor, Condition, Procedure',
+            $("#id_search_main").select2({'placeholder':'Doctor, Condition, Procedure',multiple:true,
                 ajax: {
-                    url: '{% url "doctor_suggestions" %}',
+                    url: '{% url "physican_suggestions" %}',
                     dataType: "json",
                     data: function(params) {
                         return {
@@ -232,7 +232,8 @@
                     },
                     cache:true
                 },
-                minimumInputLength:3
+                minimumInputLength:3,
+                maximumSelectionLength:1
             }).on("select2:select",function(e){
                 console.log(e.params.data);
                 serch_selection(e.params.data);
@@ -282,7 +283,7 @@
 			var city_slug = $(this).data("cityslug");
 			$.ajax({
 				type: "GET",
-				url: "{% url 'practice_areas' %}",
+				url: "{% url 'get_areas' %}",
 				data: {'city':city_slug,'header_city':true},
 				success: function(data){
 					$("#curr_city").text(city_slug);
@@ -313,10 +314,8 @@
             console.log("coming to change");
             if(data.type == 'Practitioner'){
                 window.location = '/physican/'+data.slug;
-            }else if(data.type == 'PracticeLocation'){
-                window.location = '/practice-search?q='+data.slug+'&search.type='+data.type+'&loc='+$("#curr_city").data('cityslug');
             }else{
-                window.location = '/practitioner-search?q='+data.slug+'&search.type='+data.type+'&loc='+$("#curr_city").data('cityslug');
+                window.location = '{% url "physican_search" %}?q='+data.slug+'&search.type='+data.type+'&loc='+$("#curr_city").data('cityslug');
             }
         }
 	</script>

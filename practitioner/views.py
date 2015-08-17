@@ -17,7 +17,7 @@ import json
 from docors.utility import get_city, get_ip
 
 #to populate the typeahead input field
-def practitioner_suggestions(request):
+def suggestions_practitioner(request):
     if request.method == "GET":
         query = request.GET.get('q', '')
         if request.is_ajax():
@@ -43,21 +43,14 @@ def practitioner_suggestions(request):
             return render_to_response('practitioner/results.html', {'data': data}, context_instance=RequestContext(request))
 
 #individual item click in the autocomplete list
-def get_search_practitioner(request):
+def search_practitioner(request):
     if request.method == "GET":
         searchType = request.GET.get("search.type","")
         query = request.GET.get("q","")
-        return HttpResponseRedirect(reverse('practitionerSearch', kwargs={'slug': query, 'typee': searchType}))
-
-#individual item click in the autocomplete list
-def get_search_practice(request):
-    if request.method == "GET":
-        searchType = request.GET.get("search.type","")
-        query = request.GET.get("q","")
-        return HttpResponseRedirect(reverse('practice_search', kwargs={'slug': query, 'typee': searchType}))
+        return HttpResponseRedirect(reverse('physican_results', kwargs={'slug': query, 'typee': searchType}))
 
 #reverse match view for the "#individual item click in the autocomplete list"
-def practitionerSearch(request, slug, typee):
+def results_practitioner(request, slug, typee):
     data = dict()
     data['results_header'] = "Practitioner"
     city = get_city(request)
@@ -74,23 +67,13 @@ def practitionerSearch(request, slug, typee):
         sqs = Procedure.objects.get(slug=slug)
         data['results_header'] = "Practitioner(s) who perform " + sqs.name + " procedure"
         data['practice'] = Practice.practice_objects.get_practice_by_procedure(procedure=sqs,city=city)
+    elif typee == "PracticeLocation":
+        sqs = PracticeLocation.objects.get(slug=slug)
+        data['practice'] = Practice.practice_objects.get_practice_by_location(slug=slug,city=city)
+        data['results_header'] = "Practitioner(s) in " + sqs.name
+
 
     data['ob'] = sqs
-
-    data['results_count'] = len(data['practice'])
-    return render_to_response('practitioner/results.html', {'data': data}, context_instance=RequestContext(request))
-
-#reverse match view for the "#individual item click in the autocomplete list"
-def practice_search(request, slug, typee):
-    data = dict()
-
-    city = get_city(request)
-
-    data['practice'] = Practice.practice_objects.get_practice_by_location(slug=slug,city=city)
-
-    data['ob'] = PracticeLocation.objects.get(slug=slug)
-
-    data['results_header'] = "Practitioner(s) in " + data['ob'].name
 
     data['results_count'] = len(data['practice'])
     return render_to_response('practitioner/results.html', {'data': data}, context_instance=RequestContext(request))
@@ -124,7 +107,7 @@ def update_info_practitioner(request, slug):
     practitioner = Practitioner.objects.get(slug=slug)
     return render_to_response('practitioner/updateinfo.html', {'practitioner':practitioner,'form': form}, context_instance=RequestContext(request))
 
-def profile(request, slug):
+def profile_practitioner(request, slug):
     data = dict()
     if request.method == "GET":
         data['practitioner'] = Practitioner.objects.get(slug=slug)
@@ -133,7 +116,7 @@ def profile(request, slug):
         return render_to_response('practitioner/edit.html', {'data':data,'form':form}, context_instance=RequestContext(request))
 
 @login_required(login_url='/accounts/login/')
-def new_review(request,slug):
+def review_practitioner(request,slug):
     data = dict()
     try:
         patient = request.user.patient
@@ -173,7 +156,7 @@ def login(request):
     return render_to_response('practitioner/advance.html', {'login_form': login_form}, context_instance=RequestContext(request))
 
 #doctors registration view
-def registration(request):
+def registration_practitioner(request):
     PractitionerForm = modelform_factory(Practitioner, fields = ['full_name','photo','gender','year_of_birth','email','physician_type','degrees','specialty','fellowship','completion_year','conditions','procedures','experience','message','achievements'])
     PracticeFormSet = formset_factory(PracticeForm,formset=BasePracticeFormSet, extra=2, max_num=2, can_delete=True)
     if request.method == 'POST':
@@ -196,7 +179,7 @@ def registration(request):
     return render_to_response('practitioner/registration.html', {'pract_form': pract_form,'practice_formset': practice_formset}, context_instance=RequestContext(request))
 
 #to populate the condition procedure field in the doctor registration page
-def get_condition_procedure(request):
+def get_cond_proc_ajax(request):
     if request.is_ajax():
         data = {}
         value = request.GET.get('value','')
@@ -207,7 +190,7 @@ def get_condition_procedure(request):
         data['procedures'] = ["<option value='"+str(p.id)+"'>"+str(p)+"</option>" for p in Procedure.objects.filter(specialization=Specialization.objects.get(pk=value))]
         return HttpResponse(json.dumps(data),content_type="application/json")
 
-def get_practice_names(request):
+def get_practice_names_ajax(request):
     if request.is_ajax():
         practice_q = request.GET.get('q','')
         practice_type = request.GET.get('type','')
@@ -216,7 +199,7 @@ def get_practice_names(request):
         the_data = json.dumps(suggestions)
         return HttpResponse(the_data, content_type='application/json')
 
-def get_practice_details(request):
+def get_practice_details_ajax(request):
     if request.is_ajax():
         practice_id = request.GET.get('practice_id','')
         practice_location = Practice.objects.get(id=practice_id).practice_location
