@@ -1,15 +1,4 @@
-{% extends "base.html" %} {% block seoTags %}
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="description" content="specialist doctors clinic information, practicing across pakistan" />
-<meta content="best doctors, medics, doctors directory, health, pakistan, doctors in pakistan, lahore,specialist doctors in lahore, pediatrics, child specialist, gyne, gynecologist, psychiatrist, neurologist" name="keywords" />
-<meta name="google-site-verification" content="4eQap4DygfxsfuocwBZAZxmS3eXhMVhwlo2KQ47S7-Q" />
-<meta property="og:description" content="specialist doctors clinic information, practicing across pakistan" />
-<meta property="fb:app_id" content="753672898036503" />
-<meta property="og:image" content="http://www.doctorsinfo.pk/static/icons/stethoscope.png" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="http://www.doctorsinfo.pk/" />
-<meta property="og:site_name" content="doctorsinfo.pk" />
-<link href="http://www.doctorsinfo.pk/" rel="canonical" /> {% endblock %}
+{% extends "base.html" %}
 {% block title %}doctorsinfo.pk - find specialist doctors, review doctors and doctor ratings{% endblock %}
 {% block home_active %}active{% endblock %}
 {% load staticfiles %}
@@ -33,7 +22,7 @@
 							<label for="find-doctors"><span><span><i class="fa fa-user-md"></i>Find Doctors</span></span></label>
 							
 							<input type="radio" name="sky-tabs" id="find-speciality" class="sky-tab-content-2">
-							<label for="find-speciality"><span><span><i class="fa fa-stethoscope"></i>Speciality</span></span></label>
+							<label for="find-speciality"><span><span><i class="fa fa-stethoscope"></i>Specialty</span></span></label>
 							
 							<input type="radio" name="sky-tabs" id="find-adv" class="sky-tab-content-3">
 							<label for="find-adv" class="find-advanced"><span><span><i class="fa fa-cogs"></i>Advanced</span></span></label>
@@ -207,16 +196,16 @@
 
 		$(document).ready(function(){
 
-		    $("#id_spec").select2({placeholder: 'Select Speciality'});
+		    $("#id_spec").select2({placeholder: 'Select Specialty'});
 		    $("#id_area").select2({placeholder: 'Select Area'});
-		    $("#id_spec_adv").select2({placeholder: 'Select Speciality'});
+		    $("#id_spec_adv").select2({placeholder: 'Select Specialty'});
 		    $("#id_radius").select2({placeholder: 'Select Radius'});
 		    $("#id_day").select2({placeholder: 'Select Day'});
 
 
 		    $("#id_spec").select2("val", "");$("#id_area").select2("val", "");$("#id_spec_adv").select2("val", "");$("#id_radius").select2("val", "");$("#id_day").select2("val", "");
 
-            $("#id_search_main").select2({'placeholder':'Doctor, Condition, Procedure',multiple:true,
+            $("#id_search_main").select2({'placeholder': 'Doctor name, Specialty, Condition, Procedure or Hospital/Clinic Name', multiple:true,
                 ajax: {
                     url: '{% url "physican_suggestions" %}',
                     dataType: "json",

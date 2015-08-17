@@ -1,5 +1,16 @@
 {% extends "base.html" %}
-{% block title %}doctorsinfo.pk - {{data.practitioner.full_name}}{% endblock %}
+{% block title %}doctorsinfo.pk - {{ data.practitioner.full_name }}{% endblock %}
+{% block fbTags %}
+<meta property="og:title" content="{{ data.practitioner.full_name }} - doctorsinfo.pk"/>
+{% if data.practitioner.achievements %}<meta property="og:description" content="{{data.practitioner.achievements}}" />
+{% else %}<meta property="og:description" content="Pakistan's first health information online portal. Find specialist doctors in your area by thier name, specialty, conditions, procedures or clinic name." />         
+{% endif %}
+<meta property="og:url" content="http://doctorsinfo.pk/{{ data.practitioner.slug }}/" />
+<link rel="canonical" href="http://doctorsinfo.pk/{{ data.practitioner.slug }}/" />
+{% if data.practitioner.photo %}
+<meta property="og:image" content="http://doctorsinfo.pk{{ data.practitioner.photo.url }}" />{% else %}
+<meta property="og:image" content="http://doctorsinfo.pk/static/assets/img/doctor_placeholder.jpg" />{% endif %}
+{% endblock %}
 {% load staticfiles %}
 {% load hitcount_tags %}
 {% block content %}
@@ -11,7 +22,11 @@
                 <div class="row">
                     <div class="col-md-3 margin20 text-center">
                         <div class="person-v2">
+                        {% if data.practitioner.photo %}
+                            <img src="{{ data.practitioner.photo.url }}" class="img-responsive" alt="profile-pic">
+                        {% else %}
                             <img src="{% static 'assets/img/doctor_placeholder.jpg' %}" class="img-responsive" alt="profile-pic">
+                        {% endif %}
                         </div> 
                     </div>
                     {% insert_hit_count_js_variables for data.practitioner %}
