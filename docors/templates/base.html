@@ -10,8 +10,8 @@
 	    <!-- ///  page title  /// -->
 	    <title>{% block title %}Doctorsinfo.pk | Find a Doctor, Review Doctor, Doctor Ratings{% endblock %}</title>
 	    <link rel="shortcut icon" href="{{STATIC_URL}}assets/img/doctorsinfo.ico">
-	    <meta name="description" content="">
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     	<!-- Bootstrap CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 		<!-- Font Awesome CDN -->
@@ -25,18 +25,29 @@
 		<!-- Custom Style -->
 		<link rel="stylesheet" href="{% static 'assets/css/custom.css' %}">
         <!-- Component Style -->
-        
         <!-- yamm Style -->
         <link rel="stylesheet" href="{% static 'assets/css/yamm.css' %}">
         <link rel="stylesheet" href="{% static 'assets/css/select2.min.css' %}">
 		<!-- Font Style -->
 		<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 		{% block pageSpecificCSS %}{% endblock %}
-		{% block seoTags %}{% endblock %}
+		{% block fbTags %}
+		<meta property="og:title" content="Doctors info. Pakistan - health care informatics."/>
+		<meta property="og:description" content="Pakistan's first health information online portal. Find specialist doctors in your area by thier name, specialty, conditions, procedures or clinic name." />
+		<meta property="og:url" content="http://www.doctorsinfo.pk" />
+		<meta property="og:image" content="http://www.doctorsinfo.pk/static/icons/logo.png" />{% endblock %}
+		{% block seoTags %}
+		<meta name="description" content="Pakistan's first health information online portal. Find specialist doctors in your area by thier name, specialty, conditions, procedures or clinic name." />
+		<meta content="specialst doctors in lahore, pediatrics, child specialist, gyne, gynecologist, psychiatrist, neurologist, radiologists, urologist, dermatologist, nephrologist" name="keywords" />
+		<meta property="og:site_name" content="Doctors Listing Website" />
+		<meta property="fb:app_id" content="753672898036503" />
+		<meta property="og:type" content="website" />
+		<meta name="google-site-verification" content="4eQap4DygfxsfuocwBZAZxmS3eXhMVhwlo2KQ47S7-Q" />
+		<meta property="og:locale" content="en_US" />
+		<link href="http://www.doctorsinfo.pk/" rel="canonical" />{% endblock %}
 		{% block reCaptcha %}{% endblock %}
 		{% block customStylesheet %}{% endblock %}
 		<!-- End CSS SECTION -->
-
 		<!-- JS FILES -->
 		<!-- JQUERY JS -->
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -54,23 +65,14 @@
 		<script type="text/javascript" src="{% static 'assets/js/jquery.validate.min.js' %}"></script>
 		{% block pageSpecificJS %}{% endblock %}
 		<!-- End JS FILES -->
-
 	</head>
-
 	<body class="remove-scroll {% block extraBodyClass %}{% endblock %}">
-
     	{% include "fragments/header.html" %}
-
 		<div itemscope itemtype="{% block seoItemTags %}{% endblock %}" role="main" class="{% block containerClass %}{% endblock %} page-wrap">
         	{% block content %}{% endblock %}
     	</div>
-
     	{% include "fragments/footer.html" %}
-
 	</body>
-
 	{% block customScript %}{% endblock %}
-
     {% include "fragments/google-analytics.html" %}
-
 </html>
