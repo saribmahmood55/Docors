@@ -4,10 +4,12 @@
 <div class="col-sm-12">
     <h3 class="heading">Favourite Doctors</h3>
 </div>
-{% for parct in data.favt_practitioner.all%}
+<div class="col-md-12 main-doctor-holder">
+{% for pract in favt_practitioner.all%}
 <div class="col-md-4 margin40">
     <div class="product-col">
-        <span class="sale-label">Remove</span>
+        <span class="sale-label doctor-tab-remove">Remove</span>
+        <input type="hidden" value="{{pract.slug}}">
         <img src="{% static 'assets/img/doctor_placeholder.jpg' %}" class="img-responsive" alt="">
         <div class="product-desc-sh">
             <h4>{{pract.full_name}}</h4>
@@ -22,4 +24,28 @@
     <h2>Opps, your favourite doctors list is empty.</h2>
 </div>
 {% endfor %}
+</div>
+{% endblock %}
+
+{% block customScript %}
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".doctor-tab-remove").css('cursor','pointer');
+        $(".doctor-tab-remove").on('click',function(){
+            var doc_slug = $(this).next().val();
+            var doctor_tab = $(this).parent().parent();
+            $.ajax({
+                url : "{% url 'patient_physican' %}",
+                data : {'slug': doc_slug,'type':'delete'},
+                type: 'GET',
+                success : function(data){
+                    doctor_tab.remove();
+                    if($(".product-col").length === 0){
+                        $(".main-doctor-holder").html('<div class="col-md-12 text-center error-text"><h1 class="error-digit"><i class="fa fa-user-md"></i></h1><h2>Opps, your favourite doctors list is empty.</h2></div>');
+                    };
+                }
+            });
+        });
+    });
+</script>
 {% endblock %}

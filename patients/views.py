@@ -1,4 +1,5 @@
 from patients.models import Patient
+from practitioner.models import Practitioner
 from reviews.models import *
 from utility import *
 from django.http import Http404, HttpResponse, HttpResponseRedirect
@@ -7,8 +8,6 @@ from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.dispatch import receiver
 from allauth.account.signals import user_signed_up
-from django.contrib.auth.views import login
-from django.conf import settings
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 import json
@@ -16,8 +15,18 @@ import json
 
 @login_required(login_url='/accounts/login/')
 def physican_patient(request):
-    data = Patient.objects.get(email=request.user.email)
-    return render_to_response('patients/favt_pract.html', {'data': data}, context_instance=RequestContext(request))
+    if request.is_ajax():
+        data = dict()
+        if request.method == "GET":
+            slug = request.GET.get('slug','')
+            request_type = request.GET.get('type','delete')
+            if request_type == "delete":
+                data['response'] = Patient.patient_objects.remove_physican(request.user.email,Practitioner.objects.get(slug=slug))
+            return HttpResponse(json.dumps(data), content_type="application/json")
+    elif request.method == "GET":
+        favt_practitioner = Patient.objects.get(email=request.user.email).favt_practitioner
+        print favt_practitioner.all()
+        return render_to_response('patients/favt_pract.html', {'favt_practitioner': favt_practitioner}, context_instance=RequestContext(request))
 
 @login_required(login_url='/accounts/login/')
 def profile_patient(request):

@@ -47,6 +47,11 @@ class PatientManager(models.Manager):
     def get_city(self, email):
         return super(PatientManager, self).get(email=email).city
 
+    def remove_physican(self, email, practitioner):
+        patient = super(PatientManager, self).get(email=email)
+        patient.favt_practitioner.remove(practitioner)
+        return True
+
 
 class Patient(docorsUser):
 
