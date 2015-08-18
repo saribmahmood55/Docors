@@ -39,10 +39,12 @@
                 data : {'slug': doc_slug,'type':'delete'},
                 type: 'GET',
                 success : function(data){
-                    doctor_tab.remove();
-                    if($(".product-col").length === 0){
-                        $(".main-doctor-holder").html('<div class="col-md-12 text-center error-text"><h1 class="error-digit"><i class="fa fa-user-md"></i></h1><h2>Opps, your favourite doctors list is empty.</h2></div>');
-                    };
+                    doctor_tab.fadeOut(300,function(){
+                        $(this).remove();
+                        if($(".product-col").length === 0){
+                            $(".main-doctor-holder").html('<div class="col-md-12 text-center error-text"><h1 class="error-digit"><i class="fa fa-user-md"></i></h1><h2>Opps, your favourite doctors list is empty.</h2></div>');
+                        };
+                    });
                 }
             });
         });

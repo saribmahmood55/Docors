@@ -104,8 +104,50 @@ border-left-color: #111111;
   list-style-type: none;
   padding-left: 0;
 }
-.custom-footer{
-	background-color: rgb(20,100,100);
+#footer{
+	background: #2da5da !important;
+}
+
+#footer h3{
+    text-transform: none !important;
+}
+
+.footer-btm{
+     background-color: #fff !important;
+}
+
+#social-1 li a i.fa-twitter{
+    background-color: #0084b4 !important;
+}
+
+.footer-col.footer-3 h3{
+     text-transform: none !important;
+}
+
+.nav-tabs > li > a {
+    text-transform:none !important;
+}
+
+.intro-text-1{
+    background: #75E1E4 !important;
+}
+
+.social-login .btn-google{
+     background-color: #C63D2D !important;
+     color: #fff !important;
+}
+
+.additional-amenities span{
+    padding: 4px 8px;
+    background-color: #f8f8f8;
+    margin: 4px;
+    color: #555;
+    display: inline-block;
+
+}
+
+.additional-amenities span.available{
+     color: #82b440;
 }
 
 .clear{

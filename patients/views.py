@@ -101,7 +101,7 @@ def preferences_patient(request):
 	return render_to_response('patients/acc_preferences.html', {'data': data}, context_instance=RequestContext(request))
 
 @login_required(login_url='/accounts/login/')
-def dashboard_specialities(request):
+def specialities_patient(request):
 	data = {}
 	user = request.user
 	if request.method == "GET":
