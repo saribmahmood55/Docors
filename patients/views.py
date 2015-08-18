@@ -1,4 +1,6 @@
 from patients.models import Patient
+from patients.forms import InterestedSpecForm
+from django.forms.models import modelform_factory
 from practitioner.models import Practitioner
 from reviews.models import *
 from utility import *
@@ -102,53 +104,42 @@ def preferences_patient(request):
 
 @login_required(login_url='/accounts/login/')
 def specialities_patient(request):
-	data = {}
-	user = request.user
-	if request.method == "GET":
-		patient = Patient.patient_objects.patient_details(user)
-		data['int_specialities'] = patient.interested_specialities.all()
-		data['ex_specialities'] = excludedSpecialities(patient)
-	elif request.method == "POST":
-		type_ = request.POST.get('type_', None)
+    data = {}
+    user = request.user
+    if request.method == "GET":
+        interestedSpecform = InterestedSpecForm(instance=request.user.patient)
+    elif request.method == "POST":
+        interestedSpecform = InterestedSpecForm(request.POST, instance=request.user.patient)
+        if interestedSpecform.is_valid():
+            interestedSpecform.save()
+    patient = Patient.patient_objects.patient_details(user)
+    data['int_specialities'] = patient.interested_specialities.all()
 
-		if type_ == "remove":
-			spec_list = request.POST.getlist('int_selector', None)
-			for spec_slug in spec_list:
-				interestedSpecRemove(user, spec_slug)
-		elif type_ == "add":
-			spec_list = request.POST.getlist('ex_selector', None)
-			for spec_slug in spec_list:
-				interestedSpecAdd(user, spec_slug)
-
-		patient = Patient.patient_objects.patient_details(user)
-		data['int_specialities'] = patient.interested_specialities.all()
-		data['ex_specialities'] = excludedSpecialities(patient)
-
-	return render_to_response('patients/interested_specialities.html', {'data': data}, context_instance=RequestContext(request))
+    return render_to_response('patients/interested_specialities.html', {'data': data, 'form':interestedSpecform}, context_instance=RequestContext(request))
 
 def favt_pract(request):
-	slug = request.GET.get('slug','')
-	resp = favourite(request.user,slug)
-	return HttpResponse(json.dumps(resp), content_type="application/json")
+    slug = request.GET.get('slug','')
+    resp = favourite(request.user,slug)
+    return HttpResponse(json.dumps(resp), content_type="application/json")
 
 @receiver(user_signed_up)
 def set_patient(sender, **kwargs):
-	user = kwargs.pop('user')
-	facebook_extra_data = user.socialaccount_set.filter(provider='facebook')
-	google_extra_data = user.socialaccount_set.filter(provider='google')
+    user = kwargs.pop('user')
+    facebook_extra_data = user.socialaccount_set.filter(provider='facebook')
+    google_extra_data = user.socialaccount_set.filter(provider='google')
 
-	p = Patient()
-	p.user = user
+    p = Patient()
+    p.user = user
 
-	if facebook_extra_data:
-		facebook_data = facebook_extra_data[0].extra_data
-		if facebook_data['gender']:
-			gender = facebook_data['gender'][0].capitalize()
-			p.gender = gender
-	elif google_extra_data:
-		google_data = google_extra_data[0].extra_data
-		if google_data['gender']:
-			gender = google_data['gender'][0].capitalize()
-			p.gender = gender
+    if facebook_extra_data:
+        facebook_data = facebook_extra_data[0].extra_data
+        if facebook_data['gender']:
+            gender = facebook_data['gender'][0].capitalize()
+            p.gender = gender
+    elif google_extra_data:
+        google_data = google_extra_data[0].extra_data
+        if google_data['gender']:
+            gender = google_data['gender'][0].capitalize()
+            p.gender = gender
 
-	p.save()
+    p.save()
