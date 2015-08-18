@@ -5,11 +5,11 @@
     <h3 class="heading">Interested Specialities</h3>
 </div>
 <div class="col-md-12 main-doctor-holder">
+    <div class="additional-amenities">
     {% for spec in data.int_specialities %}
-    <div class="addition-amenities">
-        <span class="available"><i class="fa fa-check-square"></i>{{spec.human_name}}</span>
-    </div>
+        <span class="available"><i class="fa fa-check-square"></i> {{spec.human_name}}</span>
     {% empty %}
+    </div>
     <div class="col-md-12 text-center error-text">
         <h1 class="error-digit"><i class="fa fa-heartbeat"></i></h1>
         <h2>Opps, your speciality list is empty.</h2>
