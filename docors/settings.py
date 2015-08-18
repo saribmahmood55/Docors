@@ -56,12 +56,12 @@ SITE_ID = 2
 #BASE URL
 BASE_URL = "http://localhost:8000/"
 
-#GMAIL
+#Support Email SMPTP
+EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.zoho.com'
+EMAIL_PORT = 587
 EMAIL_HOST_USER = 'support@doctorsinfo.pk'
 EMAIL_HOST_PASSWORD = 'g3zcehxgx3cb'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
 
 #haystack
 HAYSTACK_CONNECTIONS = {
@@ -188,9 +188,6 @@ USE_TZ = True
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-# Allow all host headers
-ALLOWED_HOSTS = ['*']
-
 #Static asset configuration
 #BASE_DIR = os.path.dirname(os.path.abspath(__file__))   # <-- docors/docors/...
 #BASE_DIR = os.path.dirname(os.path.dirname(__file__))   # <-- docors/...
@@ -213,5 +210,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 if DEBUG:
     STATIC_ROOT = os.path.join(BASE_DIR, "venv/static/")
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
     STATIC_ROOT = os.path.join(BASE_DIR, "venv/static/")
+    ALLOWED_HOSTS = ['doctorsinfo.pk']
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
