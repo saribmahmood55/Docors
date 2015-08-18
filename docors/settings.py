@@ -213,6 +213,6 @@ if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
     STATIC_ROOT = os.path.join(BASE_DIR, "venv/static/")
-    ALLOWED_HOSTS = ['doctorsinfo.pk']
+    ALLOWED_HOSTS = ['beta.doctorsinfo.pk']
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
     DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
