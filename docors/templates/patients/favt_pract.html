@@ -1,0 +1,25 @@
+{% extends 'patients/dashboard_base.html' %}
+{% load staticfiles %}
+{% block dashboard_content %}
+<div class="col-sm-12">
+    <h3 class="heading">Favourite Doctors</h3>
+</div>
+{% for parct in data.favt_practitioner.all%}
+<div class="col-md-4 margin40">
+    <div class="product-col">
+        <span class="sale-label">Remove</span>
+        <img src="{% static 'assets/img/doctor_placeholder.jpg' %}" class="img-responsive" alt="">
+        <div class="product-desc-sh">
+            <h4>{{pract.full_name}}</h4>
+            <span>{{pract.specialty.name}}</span>
+            <a href="{% url 'practitioner' slug=pract.slug %}" class="btn btn-default">Visit Profile</a>
+        </div>
+    </div>
+</div>
+{% empty %}
+<div class="col-md-12 text-center error-text">
+    <h1 class="error-digit"><i class="fa fa-user-md"></i></h1>
+    <h2>Opps, your favourite doctors list is empty.</h2>
+</div>
+{% endfor %}
+{% endblock %}

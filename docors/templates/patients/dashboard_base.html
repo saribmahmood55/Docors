@@ -3,37 +3,30 @@
 {% block title %}{{sticky_data.user.full_name}} | Profile{% endblock %}
 {% block dashboard_profile_link %}#{% endblock %}
 {% block content %}
+<div class="divide80"></div>
 <div class="container">
-  <div class="divide30"></div>
-  <div class="row">
-    <div class="col-md-3">
-      <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-        <div class="panel panel-default">
-          <div class="panel-heading" role="tab" id="headingOne">
-            DASHBOARD
-          </div>
-          <ul class="list-group">
-            <li class="list-group-item"><a href="/dashboard/doctors">Doctors</a></li>
-            <li class="list-group-item"><a href="/dashboard/specialities">Interested Specialities</a></li>
-            <li class="list-group-item"><a href="/dashboard/reviews">Reviews</a></li>
-          </ul>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="sidebar-box margin40">
+                <h4>Dashboard</h4>
+                <ul class="list-unstyled cat-list">
+                    <li><a href="{% url 'patient_physican' %}">Doctors</a><i class="fa fa-angle-right"></i></li>
+                    <li><a href="#">Interested Specialities</a><i class="fa fa-angle-right"></i></li>
+                    <li><a href="#">Reviews</a><i class="fa fa-angle-right"></i></li>
+                </ul>
+            </div>
+            <div class="sidebar-box margin40">
+                <h4>Account Settings</h4>
+                <ul class="list-unstyled cat-list">
+                    <li><a href="{% url 'patient_profile' %}">Profile</a><i class="fa fa-angle-right"></i></li>
+                    <li><a href="{% url 'patient_preferences' %}">Preferences</a><i class="fa fa-angle-right"></i></li>
+                    <li><a href="/accounts/logout">Logout</a><i class="fa fa-angle-right"></i></li>
+                </ul>
+            </div>
         </div>
-        <div class="panel panel-default">
-          <div class="panel-heading" role="tab" id="headingTwo">
-            ACCOUNT SETTINGS
-          </div>
-          <ul class="list-group">
-            <li class="list-group-item"><a href="/dashboard/profile">Profile</a></li>
-            <li class="list-group-item"><a href="/dashboard/account">Account & Preferences</a></li>
-            <li class="list-group-item"><a href="/accounts/logout">Logout</a></li>
-          </ul>
+        <div class="col-md-9">
+            {% block dashboard_content %}{% endblock %}
         </div>
-      </div>
     </div>
-    <div class="col-md-9">
-      {% block dashboard_content %}{% endblock %}
-    </div>
-  </div>
-  <div class="divide30"></div>
 </div>
 {% endblock %}
