@@ -1,5 +1,5 @@
 from patients.models import Patient
-from patients.forms import InterestedSpecForm
+from patients.forms import InterestedSpecForm, PatientProfileForm
 from practitioner.models import Practitioner
 from reviews.models import *
 from utility import *
@@ -26,7 +26,6 @@ def physican_patient(request):
             return HttpResponse(json.dumps(data), content_type="application/json")
     elif request.method == "GET":
         favt_practitioner = Patient.objects.get(email=request.user.email).favt_practitioner
-        print favt_practitioner.all()
         return render_to_response('patients/favt_pract.html', {'favt_practitioner': favt_practitioner}, context_instance=RequestContext(request))
 
 @login_required(login_url='/accounts/login/')
@@ -53,26 +52,11 @@ def reviews_patient(request):
 
 @login_required(login_url='/accounts/login/')
 def profile_patient(request):
-    data = {}
-    user = request.user
-    if request.method == 'GET':
-        try:
-            data['patient'] = Patient.patient_objects.patient_details(user)
-        except Patient.DoesNotExist:
-            raise Http404
-
-    elif request.method == 'POST':
-        patientDetails = {}
-        patientDetails['user'] = user
-        patientDetails['fname'] = request.POST.get('firstname', None)
-        patientDetails['lname'] = request.POST.get('lastname', None)
-        patientDetails['number'] = request.POST.get('cell_number', None)
-        patientDetails['age'] = request.POST.get('age_group', None)
-        patientDetails['gender'] = request.POST.get('gender', None)
-        updatePatientDetails(patientDetails)
-        data['patient'] = Patient.patient_objects.patient_details(user)
-
-    return render_to_response('patients/profile.html', {'data': data}, context_instance=RequestContext(request))
+    profile_form = PatientProfileForm(request.POST or None, instance=request.user.patient)
+    if request.method == 'POST':
+        if profile_form.is_valid():
+            profile_form.save()
+    return render_to_response('patients/profile.html', {'profile_form': profile_form}, context_instance=RequestContext(request))
 
 def subscribe_patient(request):
     slug = None

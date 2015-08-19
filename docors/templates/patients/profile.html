@@ -1,94 +1,71 @@
 {% extends 'patients/dashboard_base.html' %}
 {% block dashboard_content %}
-      <form role="form" data-toggle="validator" action="" method="POST">{% csrf_token %}
-        <h2 class="h-without-top-margin">My Profile</h2>
-        <hr/>
-        <div class="row">
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="#id_firstname">First Name</label>
-              <input name="firstname" data-error="First name field cannot be empty" value="{{data.patient.user.first_name}}" type="text" class="form-control" id="id_firstname" placeholder="First Name" required>
-              <span class="help-block with-errors"></span>
+<div class="col-sm-12">
+    <h3 class="heading">Profile</h3>
+</div>
+<div class="col-md-12 sky-form-login-register v2">
+    {% if profile_form.errors %}
+    <div class="alert alert-danger">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        {{ profile_form.errors.as_ul}}
+    </div>
+    {% endif %}
+    <form action="" method="POST" class="sky-form">
+        {% csrf_token %}
+        <fieldset>
+            <div class="row">
+                <section>
+                    <label class="label">Full Name</label>
+                    <label class="input">
+                        {{profile_form.full_name}}
+                    </label>
+                </section>
             </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="#id_lastname">Last Name</label>
-              <input name="lastname" data-error="Last name field cannot be empty" value="{{data.patient.user.last_name}}" type="text" class="form-control" id="id_lastname" placeholder="Last Name" required>
-              <span class="help-block with-errors"></span>
+            <div class="row">
+                <section>
+                    <label class="label">Year of Birth</label>
+                    <label class="select">
+                        {{profile_form.year_of_birth}}
+                    </label>
+                </section>
             </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="#id_age">Age</label>
-              <select name="age_group" class="form-control" id="id_age">
-                <option selected disabled value="">Please Select age group</option>
-                <option value="10">10-14</option>
-                <option value="15">15-19</option>
-                <option value="20">20-24</option>
-                <option value="25">25-29</option>
-                <option value="30">30-34</option>
-                <option value="35">35-39</option>
-                <option value="40">40-44</option>
-                <option value="45">45-49</option>
-                <option value="50">50-54</option>
-                <option value="55">55-59</option>
-                <option value="60">60-64</option>
-                <option value="65">65-69</option>
-                <option value="70">70-74</option>
-                <option value="75">75-79</option>
-                <option value="80">80-84</option>
-                <option value="85">85-85+</option>
-              </select>
+            <div class="row">
+                <section>
+                    <label class="label">Cell Number</label>
+                    <label class="input">
+                        {{profile_form.cell_number}}
+                    </label>
+                </section>
             </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="#id_gender">Gender</label>
-              <select name="gender" class="form-control" id="id_gender">
-                <option selected disabled value="">Please Select a gender</option>
-                <option value="M">Male</option>
-                <option value="F">Female</option>
-                <option value="N">Prefer not to disclose</option>
-              </select>
+            <div class="row">
+                <section>
+                    <label class="label">City</label>
+                    <label class="select">
+                        {{profile_form.city}}
+                    </label>
+                </section>
             </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="#id_number">Mobile Number</label>
-              <input id="id_number" name="cell_number" data-error="Please enter a correct phone number" pattern="^03\d{9}" maxlength="11" type="tel" value="{{data.patient.cell_number}}" class="form-control" placeholder="03231225569">
-              <span class="help-block with-errors"></span>
-            </div>
-          </div>
-        </div>
-        <hr/>
-        <div class="row">
-          <div class="col-md-12">
-            <button type="submit" class="btn btn-primary">Save</button>
-            <button onclick="reset_values();" type="button" class="btn">Cancel</button>
-          </div>
-          <div class="col-md-1">
-          </div>
-        </div>
-      </form>
-    {% endblock %}
+        </fieldset>
+        <fieldset>
+            <footer>
+                <div class="row">
+                    <button type="submit" class="button">Update</button>
+                </div>
+            </footer>
+        </fieldset>
+    </form>
+</div>
+{% endblock %}
+
+{% load staticfiles %}
+{% block pageSpecificCSS %}
+<link href="{% static 'assets/css/sky-forms.css' %}" rel="stylesheet">
+{% endblock %}
 
 {% block customScript %}
-  <script type="text/javascript">
-    {% if data.patient.age_group or data.patient.gender %}
-    $(document).ready(function(){
-      {% if data.patient.age_group %}
-        $('#id_age option[value="{{data.patient.age_group}}"]').prop('selected', true);
-      {% endif %}
-      {% if data.patient.gender %}
-        $('#id_gender option[value="{{data.patient.gender}}"]').prop('selected', true);
-      {% endif %}
-    });
-    {% endif %}
+<script type="text/javascript">
+    $("#id_year_of_birth").select2({'placeholder':'Select birth Year'});
+    $("#id_city").select2({'placeholder':'Select City'});
 
     function reset_values(){
       $("#id_firstname").val("{{data.patient.user.first_name}}");
@@ -97,5 +74,5 @@
       $("#id_gender option[value='{{data.patient.gender}}']").prop('selected',true);
       $("#id_number").val("{{data.patient.cell_number}}")
     }
-  </script>
+</script>
 {% endblock %}

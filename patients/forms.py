@@ -45,3 +45,9 @@ class InterestedSpecForm(forms.ModelForm):
     class Meta:
         model = Patient
         fields = ['interested_specialities']
+
+class PatientProfileForm(forms.ModelForm):
+
+    class Meta:
+        model = Patient
+        fields = ['full_name','year_of_birth','cell_number','city']

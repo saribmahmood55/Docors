@@ -84,8 +84,6 @@ def claim_practitioner(request, slug):
         if form.is_valid():
             new_claim = form.save(slug)
             return render_to_response("practitioner/claim_pending.html", {'claim': new_claim}, context_instance=RequestContext(request))
-        else:
-            print form.errors
     else:
         form = ClaimPractitionerForm()
     practitioner = Practitioner.objects.get(slug=slug)
@@ -100,8 +98,6 @@ def update_info_practitioner(request, slug):
             else:
                 new_info = form.save(get_ip(request), slug)
             return render_to_response("practitioner/updateinfo_pending.html", {'info': new_info}, context_instance=RequestContext(request))
-        else:
-            print form.errors
     else:
         form = UpdateInfoForm()
     practitioner = Practitioner.objects.get(slug=slug)
@@ -170,7 +166,6 @@ def registration_practitioner(request):
             extraPracticeTimings = list()
             for i in range(2):
                 extraPracticeTimings.append({'day':request.POST.getlist("extra_day_"+str(i)),'start_time':request.POST.getlist("extra_start_time_"+str(i)),'end_time':request.POST.getlist("extra_end_time_"+str(i))})
-            print extraPracticeTimings
             practice_formset.save(practitioner,extraPracticeTimings)
             return render_to_response('practitioner/success.html',{'email': 'test@email.com'}, context_instance=RequestContext(request))
     else:
@@ -203,7 +198,5 @@ def get_practice_details_ajax(request):
     if request.is_ajax():
         practice_id = request.GET.get('practice_id','')
         practice_location = Practice.objects.get(id=practice_id).practice_location
-        print practice_id
-        print practice_location
         data = json.dumps({'address':practice_location.clinic_address,'city':practice_location.area.city.id,'area_id':practice_location.area.id,'area_name':practice_location.area.name, 'contact_number':practice_location.contact_number})
         return HttpResponse(data, content_type='application/json')
