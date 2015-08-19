@@ -31,7 +31,7 @@ class PractitionerAdmin(admin.ModelAdmin):
 		return " , ".join([d.name for d in obj.procedures.all()])
 
 class SpecializationAdmin(admin.ModelAdmin):
-	list_display = ['name','human_name','SEO_name','slug']
+	list_display = ['name','human_name','SEO_name', 'description', 'slug']
 	list_filter = ['name']
 	search_fields = ['name']
 
@@ -52,7 +52,7 @@ class ProcedureAdmin(admin.ModelAdmin):
 
 
 class FellowshipAdmin(admin.ModelAdmin):
-	list_display = ['name','specialization','slug']
+	list_display = ['name','specialization', 'description', 'slug']
 	list_filter = ['specialization']
 	search_fields = ['name']
 

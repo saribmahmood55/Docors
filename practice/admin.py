@@ -7,7 +7,7 @@ class PracticeTimingsInline(admin.TabularInline):
 	extra = 1
 
 class CityAdmin(admin.ModelAdmin):
-	list_display = ['name','slug']
+	list_display = ['pk', 'name','slug']
 	list_filter = ['name']
 	search_fields = ['name']
 
