@@ -25,6 +25,9 @@ bin
 lib
 include
 
+# all fixtures
+fixtures
+
 # Distribution / packaging
 .Python
 venv
