@@ -104,4 +104,4 @@ def get_areas_ajax(request):
                 data['areas'] = ["<option value='"+str(a.id)+"'>"+str(a)+"</option>" for a in Area.objects.filter(city=City.objects.get(pk=city))]
             else:
                 data['areas'] = [a.name for a in Area.objects.filter(city=City.objects.get(slug=city))]
-                return HttpResponse(json.dumps(data),content_type="application/json")
+            return HttpResponse(json.dumps(data),content_type="application/json")
