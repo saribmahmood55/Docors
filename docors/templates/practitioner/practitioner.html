@@ -68,6 +68,13 @@
                             {% endfor %}
                         </ul>
                         {% endif %}
+                        <p></p>
+                        <ul class="list-inline">
+                            <li><span class="label label-primary" data-toggle="tooltip" data-placement="top" data-original-title="{{data.practitioner.specialty.description}}">{{data.practitioner.specialty}}</span></li>
+                            {% for fellowship in data.practitioner.fellowship.all %}
+                            <li><span class="label label-primary" data-toggle="tooltip" data-placement="top" data-original-title="{{fellowship.description}}">{{fellowship}}</span></li>
+                            {% endfor %}
+                        </ul>
                     </div>
                 </div>
             </div>
