@@ -1,0 +1,69 @@
+{% extends 'patients/dashboard_base.html' %}
+{% block dashboard_content %}
+<div class="container">
+    <div class="row">
+        {% load practitioner_reviews %}
+        {% for review in data.reviews %}
+        <div class="col-md-8">
+            <form action="" method="post" class="sky-form" id="review-form">
+                {% csrf_token %}
+                <header>
+                    Review to <a href="{% url 'practitioner' slug=review.practitioner.slug %}">{{review.practitioner.full_name}}</a>
+                </header>
+
+                <fieldset>
+
+                    <section>
+                        <div class="rating">
+                            {{review.answers.answer1|get_patient_rating_by_count}}
+                            {{questions.question1}}
+                        </div>
+
+                        <div class="rating">
+                            {{review.answers.answer2|get_patient_rating_by_count}}
+                            {{questions.question2}}
+                        </div>
+
+                        <div class="rating">
+                            {{review.answers.answer3|get_patient_rating_by_count}}
+                            {{questions.question3}}
+                        </div>
+
+                        <div class="rating">
+                            {{review.answers.answer4|get_patient_rating_by_count}}
+                            {{questions.question4}}
+                        </div>
+
+                        <div class="rating">
+                            {{review.answers.answer5|get_patient_rating_by_count}}
+                            {{questions.question5}}
+                        </div>
+                    </section>
+                    <section>
+                        <label class="label"></label>
+                        <label class="textarea">
+                            <i class="icon-append icon-comment"></i>
+                            <textarea type="text" readonly="true">{{review.comments.text}}</textarea>
+                        </label>
+                    </section>
+                    <section>
+                        Review given : {{review.timestamp}}
+                    </section>
+                    {% if not review.status %}
+                    <section>
+                        This Review has not been approved yet
+                    </section>
+                    {% endif %}
+                </fieldset>
+            </form>
+        </div>
+        <div class="divide40 clear"></div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% load staticfiles %}
+{% block pageSpecificCSS %}
+<link rel="stylesheet" href="{% static 'assets/css/sky-form-review.css' %}">
+{% endblock %}

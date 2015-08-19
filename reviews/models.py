@@ -56,8 +56,8 @@ class ReviewManager(models.Manager):
     def practitioner_reviews(self, slug):
         return super(ReviewManager, self).filter(practitioner__slug=slug).order_by('timestamp')
 
-    def patient_reviews(self, user):
-        return super(ReviewManager, self).filter(patient__user=user).order_by('timestamp')
+    def patient_reviews(self, patient):
+        return super(ReviewManager, self).filter(patient=patient).order_by('timestamp')
 
     def single_review(self, user, slug):
         return super(ReviewManager, self).filter(patient__user=user, practitioner__slug=slug)
@@ -72,6 +72,7 @@ class Review(models.Model):
     comments = models.ForeignKey(Comment, null=True)
     anonymous = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now=True, null=True)
+    status = models.BooleanField(default=False)
 
     objects = models.Manager()
     review_objects = ReviewManager()

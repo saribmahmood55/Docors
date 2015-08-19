@@ -1,6 +1,5 @@
 from patients.models import Patient
 from patients.forms import InterestedSpecForm
-from django.forms.models import modelform_factory
 from practitioner.models import Practitioner
 from reviews.models import *
 from utility import *
@@ -29,6 +28,28 @@ def physican_patient(request):
         favt_practitioner = Patient.objects.get(email=request.user.email).favt_practitioner
         print favt_practitioner.all()
         return render_to_response('patients/favt_pract.html', {'favt_practitioner': favt_practitioner}, context_instance=RequestContext(request))
+
+@login_required(login_url='/accounts/login/')
+def specialities_patient(request):
+    data = {}
+    user = request.user
+    if request.method == "GET":
+        interestedSpecform = InterestedSpecForm(instance=request.user.patient)
+    elif request.method == "POST":
+        interestedSpecform = InterestedSpecForm(request.POST, instance=request.user.patient)
+        if interestedSpecform.is_valid():
+            interestedSpecform.save()
+    patient = Patient.patient_objects.patient_details(user)
+    data['int_specialities'] = patient.interested_specialities.all()
+
+    return render_to_response('patients/interested_specialities.html', {'data': data, 'form':interestedSpecform}, context_instance=RequestContext(request))
+
+@login_required(login_url='/accounts/login/')
+def reviews_patient(request):
+    data = dict()
+    data['reviews'] = Review.review_objects.patient_reviews(request.user.patient)
+    questions = Question.objects.all()[0]
+    return render_to_response('patients/patient_reviews.html', {'data':data, 'questions':questions}, context_instance=RequestContext(request))
 
 @login_required(login_url='/accounts/login/')
 def profile_patient(request):
@@ -101,21 +122,6 @@ def preferences_patient(request):
 			pass
 
 	return render_to_response('patients/acc_preferences.html', {'data': data}, context_instance=RequestContext(request))
-
-@login_required(login_url='/accounts/login/')
-def specialities_patient(request):
-    data = {}
-    user = request.user
-    if request.method == "GET":
-        interestedSpecform = InterestedSpecForm(instance=request.user.patient)
-    elif request.method == "POST":
-        interestedSpecform = InterestedSpecForm(request.POST, instance=request.user.patient)
-        if interestedSpecform.is_valid():
-            interestedSpecform.save()
-    patient = Patient.patient_objects.patient_details(user)
-    data['int_specialities'] = patient.interested_specialities.all()
-
-    return render_to_response('patients/interested_specialities.html', {'data': data, 'form':interestedSpecform}, context_instance=RequestContext(request))
 
 def favt_pract(request):
     slug = request.GET.get('slug','')
