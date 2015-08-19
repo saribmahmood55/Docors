@@ -62,6 +62,7 @@ EMAIL_HOST = 'smtp.zoho.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'support@doctorsinfo.pk'
 EMAIL_HOST_PASSWORD = 'g3zcehxgx3cb'
+EMAIL_HOST_USER = 'support@doctorsinfo.pk'
 
 #haystack
 HAYSTACK_CONNECTIONS = {
@@ -215,4 +216,3 @@ else:
     STATIC_ROOT = os.path.join(BASE_DIR, "venv/static/")
     ALLOWED_HOSTS = ['beta.doctorsinfo.pk']
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
