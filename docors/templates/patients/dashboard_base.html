@@ -3,6 +3,21 @@
 {% block title %}{{sticky_data.user.full_name}} | Profile{% endblock %}
 {% block dashboard_profile_link %}#{% endblock %}
 {% block content %}
+<div class="breadcrumb-wrap breadcrumb-light" style="background-color:#000;">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <h4>{{ profile_form.full_name.value }}</h4>
+            </div>
+            <div class="col-sm-6 hidden-xs text-right">
+                <ol class="breadcrumb">
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li>Profile</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div><!--breadcrumb light-->
 <div class="divide80"></div>
 <div class="container">
     <div class="row">

@@ -23,7 +23,7 @@
         <div class="col-sm-6 margin30">
             <h3 class="heading">Welcome to DoctorsInfo</h3>
             <p>
-                Kindly register and help us making DoctorsInfo, A spam free health forum for you, You'll never recieve spam advertisment in your email, you'll only get what you have subscribed on user dashboard.
+                Kindly register and help us making DoctorsInfo, A Spam free health forum for you, You'll never receive Spam advertisement in your email, you'll only get what you have subscribed on user dashboard.
             </p>
             <div class="divide50"></div>
             <h3 class="heading">Follow us</h3>
@@ -82,72 +82,69 @@
                     </footer>
                 </form>         
             </div><!--login form wrap end-->
-
         </div>
     </div>
 </div>
 {% endblock %}
-
 {% block pageSpecificJS %}
 <script type="text/javascript">
     $(document).ready(function(){
         // Validation
-
         $("#sky-form").validate({
             // Rules for form validation
             rules:
-                    {
-                        email:
-                                {
-                                    required: true,
-                                    email: true
-                                },
-                        password1:
-                                {
-                                    required: true,
-                                    minlength: 3,
-                                    maxlength: 20
-                                },
-                        password2:
-                                {
-                                    required: true,
-                                    minlength: 3,
-                                    maxlength: 20,
-                                    equalTo: '#id_password1'
-                                },
-                        full_name:
-                                {
-                                    required: true
-                                }
-                    },
+            {
+                email:
+                {
+                    required: true,
+                    email: true
+                },
+                password1:
+                {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 20
+                },
+                password2:
+                {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 20,
+                    equalTo: '#id_password1'
+                },
+                full_name:
+                {
+                    required: true
+                }
+            },
             // Messages for form validation
             messages:
-                    {
-                        email:
-                                {
-                                    required: 'Please enter your email address',
-                                    email: 'Please enter a VALID email address'
-                                },
-                        password1:
-                                {
-                                    required: 'Please enter your password'
-                                },
-                        password2:
-                                {
-                                    required: 'Please enter your password one more time',
-                                    equalTo: 'Please enter the same password as above'
-                                },
-                        full_name:
-                                {
-                                    required: 'Please select your first name'
-                                }
-                    },
+            {
+                email:
+                {
+                    required: 'Please enter your email address',
+                    email: 'Please enter a VALID email address'
+                },
+                password1:
+                {
+                    required: 'Please enter your password'
+                },
+                password2:
+                {
+                    required: 'Please enter your password one more time',
+                    equalTo: 'Please enter the same password as above'
+                },
+                full_name:
+                {
+                    required: 'Please select your first name'
+                }
+            },
             // Do not change code below
             errorPlacement: function(error, element)
             {
                 error.insertAfter(element.parent());
             }
         });
-    });
+});
 </script>
 {% endblock %}

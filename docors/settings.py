@@ -84,6 +84,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'django.contrib.gis',
+    'django.contrib.sitemaps',
     'docorsauth',
     'haystack',
     #'registration',

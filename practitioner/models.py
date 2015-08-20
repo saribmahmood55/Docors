@@ -3,6 +3,7 @@ from django.db import models
 from autoslug import AutoSlugField
 from sorl.thumbnail import ImageField
 from docorsauth.models import docorsUser
+from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 
 class SpecializationManager(models.Manager):
@@ -70,6 +71,7 @@ class ConditionManager(models.Manager):
 class Condition(models.Model):
     name = models.CharField(max_length=100)
     specialization = models.ForeignKey(Specialization)
+    Fellowship = models.ForeignKey(Fellowship, null=True, blank=True)
     slug = AutoSlugField(populate_from='name', unique=True)
 
     objects = models.Manager()
@@ -98,6 +100,7 @@ class ProcedureManager(models.Manager):
 class Procedure(models.Model):
     name = models.CharField(max_length=100)
     specialization = models.ForeignKey(Specialization)
+    Fellowship = models.ForeignKey(Fellowship, null=True, blank=True)
     slug = AutoSlugField(populate_from='name', unique=True)
 
     objects = models.Manager()
@@ -177,6 +180,9 @@ class Practitioner(docorsUser):
     class Meta:
         verbose_name_plural = "Practitioners"
         ordering = ('-modified',)
+
+    def get_absolute_url(self):
+        return reverse('practitioner', kwargs={'slug': self.slug})
 
 class ClaimManager(models.Manager):
     def get_claim(self, email):

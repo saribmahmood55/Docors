@@ -2,8 +2,16 @@
 from django.conf.urls import patterns, url, include
 from django.contrib import admin
 from django.conf import settings
-from django.contrib.auth.views import login, password_reset, password_reset_confirm, password_reset_done, password_reset_complete
+from django.contrib.sitemaps.views import sitemap
+from django.contrib.auth.views import login, password_reset
+from django.contrib.auth.views import password_reset_confirm, password_reset_done
+from django.contrib.auth.views import password_reset_complete
 from docors import views
+from practitioner.sitemap import PractitionerSitemap
+
+sitemaps = {
+    'practitioners': PractitionerSitemap,
+}
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
@@ -24,6 +32,7 @@ urlpatterns = patterns('',
     url(r'^privacy-policy/$', views.policy, name='privacy_policy'),
     url(r'^terms-service/$', views.tos, name='tos'),
     url(r'^user-agreement/$', views.user_agreement, name='user_agreement'),
+    url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}),
 )
 if settings.DEBUG:
     urlpatterns += patterns('',
