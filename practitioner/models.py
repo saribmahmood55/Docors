@@ -71,7 +71,7 @@ class ConditionManager(models.Manager):
 class Condition(models.Model):
     name = models.CharField(max_length=100)
     specialization = models.ForeignKey(Specialization)
-    Fellowship = models.ForeignKey(Fellowship, null=True, blank=True)
+    fellowship = models.ForeignKey(Fellowship, null=True, blank=True)
     slug = AutoSlugField(populate_from='name', unique=True)
 
     objects = models.Manager()
@@ -100,7 +100,7 @@ class ProcedureManager(models.Manager):
 class Procedure(models.Model):
     name = models.CharField(max_length=100)
     specialization = models.ForeignKey(Specialization)
-    Fellowship = models.ForeignKey(Fellowship, null=True, blank=True)
+    fellowship = models.ForeignKey(Fellowship, null=True, blank=True)
     slug = AutoSlugField(populate_from='name', unique=True)
 
     objects = models.Manager()
