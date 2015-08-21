@@ -1,131 +1,107 @@
 {% extends 'patients/dashboard_base.html' %}
-{% block header_name %}{{data.user.first_name}} {{data.user.last_name}}{% endblock %}
-{% block title %}{{data.user.first_name}} {{data.user.last_name}} | Profile{% endblock %}
 {% block dashboard_content %}
-<h2 class="h-without-top-margin">Account & Preferences</h2>
-<hr/>
-<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-	<div id="email_pass_panel" class="panel panel-default">
-		<div class="panel-heading" role="tab" id="headingOne">EMAIL and PASSWORD</div>
-		<div class="panel-body">
-			{% if data.alert %}
-			<div class="alert alert-danger alert-dismissible fade in" role="alert">
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-				<p>{{data.alert}}</p>
-			</div>
-			{% endif %}
-			<p>Currently logged in as : {{sticky_data.user.email}}</p>
-			<p>Password : ********</p>
-			<!--<button type="button" class="change_email_btn btn btn-primary">Change Email</button>-->
-			<button type="button" class="change_password_btn btn btn-primary">Change Password</button>
-		</div>
-	</div>
-	<div class="panel panel-default" id="email_change_panel">
-		<div class="panel-body">
-			<form role="form" data-toggle="validator" action="" method="POST">
-				<input type="hidden" name="type_" value="change_email">
-				<h3 class="h-without-top-margin">Change Email</h3>
-				<hr/>
+<div class="col-sm-12">
+    <h3 class="heading">Preferences and Settings</h3>
+</div>
+<div id="email_password_panel" class="col-md-12 sky-form-login-register v2">
+    <form action="" method="" class="sky-form">
+        <h3 class="text-center">Email and Password</h3>
+        <fieldset>
+            <section>
+                <label class="label">Currently logged in as : {{sticky_data.user.email}}</label>
+            </section>
+            <section>
+                <label class="label">Password : ********</label>
+            </section>
+		</fieldset>
+        <fieldset>
+            <footer>
+                <div class="row">
+                    <button id="change_password_btn" type="button" class="button">Change Password</button>
+                </div>
+            </footer>
+        </fieldset>
+	</form>
+</div>
+<div id="change_password_panel" class="col-md-12 sky-form-login-register v2">
+    <form action="" method="POST" class="sky-form">
+        {% csrf_token %}
+        <h3 class="text-center">Change Password</h3>
+		<input type="hidden" name="type_" value="change_password">
+        <fieldset>
+            <section>
+                <label class="label">Current Password</label>
+                <label class="input">
+					<input type="password" id="id_currentpassword" name="currentpassword">
+                </label>
+            </section>
+            <section>
+                <label class="label">New Password</label>
+                <label class="input">
+					<input type="password" id="id_password1" name="password1">
+                </label>
+            </section>
+            <section>
+                <label class="label">Confirm Password</label>
+                <label class="input">
+					<input type="password" id="id_password2" name="password2">
+                </label>
+            </section>
+        </fieldset>
+        <fieldset>
+            <footer>
 				<div class="row">
-					<div class="col-md-4">
-						<div class="form-group">
-							<label for="#id_newemail">New Email Address</label>
-							<input type="email" id="id_newemail" data-error="Email address not valid" name="new_email" class="form-control" placeholder="new@gmail.com" required>
-							<span class="help-block with-errors"></span>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-4">
-						<div class="form-group">
-							<label for="#id_password">Current Password</label>
-							<input type="password" id="id_password" name="password" class="form-control" placeholder="Current Password" data-error="Password field cannot be empty" required>
-							<span class="help-block with-errors"></span>
-						</div>
-					</div>
-				</div>
-				<button type="button" class="btn btn-primary">Save Changes</button>
-				<button type="button" class="email_change_cancel btn">Cancel</button>
-			</form>
-		</div>
-	</div>
-	<div class="panel panel-default" id="password_change_panel">
-		<div class="panel-body">
-			<form role="form" data-toggle="validator" action="" method="POST">{% csrf_token %}
-				<input type="hidden" name="type_" value="change_password">
-				<h3 class="h-without-top-margin">Change Password</h3>
-				<hr/>
-				<div class="row">
-					<div class="col-md-4">
-						<div class="form-group">
-							<label for="#id_currentpassword">Current Password</label>
-							<input type="password" id="id_currentpassword" name="currentpassword" class="form-control" data-error="Current Password field cannot be empty" required>
-							<span class="help-block with-errors"></span>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-4">
-						<div class="form-group">
-							<label for="#id_password1">New Password</label>
-							<input type="password" id="id_password1" name="password1" class="form-control" data-error="New Password field cannot be empty" required>
-							<span class="help-block with-errors"></span>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-4">
-						<div class="form-group">
-							<label for="#id_password2">Confirm New Password</label>
-							<input type="password" id="id_password2" name="password2" class="form-control" data-match="#id_password1" data-match-error="Whoops, these don't match" required>
-							<span class="help-block with-errors"></span>
-						</div>
-					</div>
-				</div>
-				<button type="submit" class="btn btn-primary">Save Changes</button>
-				<button type="button" class="password_change_cancel btn">Cancel</button>
-			</form>
-		</div>
-	</div>
-	<div class="panel panel-default">
-		<div class="panel-heading" role="tab" id="headingOne">EMAIL PREFERENCES</div>
-		<div class="panel-body">
-			<form role="form" action="" method="POST">
-				<input type="hidden" name="type_" value="change_preferences">
-				<div class="form-group">
+				    <button type="submit" class="button">Save Changes</button>
+    				<button id="change_password_cancel" type="button" class="button">Cancel</button>
+                </div>
+            </footer>
+        </fieldset>
+	</form>
+</div>
+<div class="divide40 clear"></div>
+<div class="col-md-12 sky-form-login-register v2">
+    <form action="" method="POST" class="sky-form">
+        {% csrf_token %}
+		<input type="hidden" name="type_" value="change_preferences">
+        <h3 class="text-center">EMAIL PREFERENCES</h3>
+        <fieldset>
+            <section>
+                <label class="checkbox">
 					<input type="checkbox" name="preference_checkbox form-control" id="id_preferences" selected>
-					<label for="#id_preferences">Send me relevent, personalized information to help me make better healthcare desicions.</label>
-				</div>
-				<div class="form-group">
-					<button type="button" class="btn btn-primary">Update Email Settings</button>
-				</div>
-			</form>
-		</div>
-	</div>
+                    <i></i>
+                    Send me relevent, personalized information to help me make better healthcare desicions.
+				</label>
+            </section>
+        </fieldset>
+        <fieldset>
+            <footer>
+                <div class="row">
+                    <button type="submit" class="button">Update Preference</button>
+                </div>
+            </footer>
+        </fieldset>
+	</form>
 </div>
 {% endblock %}
+
+{% load staticfiles %}
+{% block pageSpecificCSS %}
+<link href="{% static 'assets/css/sky-forms.css' %}" rel="stylesheet">
+{% endblock %}
+
 
 {% block customScript %}
 	<script type="text/javascript">
 		$(document).ready(function(){
-			$("#email_change_panel").hide();
-			$("#password_change_panel").hide();
+			$("#change_password_panel").hide();
 		});
-		$(".change_email_btn").click(function(){
-			$("#email_change_panel").fadeIn();
-			$("#email_pass_panel").hide();
+		$("#change_password_btn").click(function(){
+			$("#change_password_panel").fadeIn();
+			$("#email_password_panel").hide();
 		});
-		$(".change_password_btn").click(function(){
-			$("#password_change_panel").fadeIn();
-			$("#email_pass_panel").hide();
-		});
-		$(".email_change_cancel").click(function(){
-			$("#email_change_panel").hide();
-			$("#email_pass_panel").show();
-		});
-		$(".password_change_cancel").click(function(){
-			$("#password_change_panel").hide();
-			$("#email_pass_panel").show();
+		$("#change_password_cancel").click(function(){
+			$("#change_password_panel").hide();
+			$("#email_password_panel").show();
 		});
 	</script>
 {% endblock %}
