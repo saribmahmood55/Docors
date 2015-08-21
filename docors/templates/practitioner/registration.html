@@ -50,15 +50,6 @@
                                 </label>
                             </section>
                             <section class="col col-4">
-                                <label>Year of Birth</label>
-                                <label class="select">
-                                    {{pract_form.year_of_birth}}
-                                    <i></i>
-                                </label>
-                            </section>
-                        </div>
-                        <div class="row">
-                            <section class="col col-4">
                                 <label>Email Address</label>
                                 <label class="input">
                                     <i class="icon-append fa fa-envelope-o"></i>
@@ -66,13 +57,15 @@
                                     <b class="tooltip tooltip-bottom-right">Needed to verify your account</b>
                                 </label>
                             </section>
+                        </div>
+                        <div class="row">
                             <section class="col col-4">
                                 <label>Photo</label>
                                 <label for="file" class="input input-file">
                                     {{pract_form.photo}}
                                 </label>
                             </section>
-                            <section class="col col-4">
+                            <section class="col col-8">
                                 {{pract_form.degrees.label_tag}}
                                 <label class="select">
                                     {{pract_form.degrees}}
@@ -118,29 +111,6 @@
                                 <label>Procedures Peformed</label>
                                 <label class="select">
                                     {{pract_form.procedures}}
-                                </label>
-                            </section>
-                        </div>
-                        <div class="row">
-                            <section class="col col-4">
-                                <label>Experience (in Years)</label>
-                                <label class="input">
-                                    {{pract_form.experience}}
-                                    <b class="tooltip tooltip-bottom-right">Experience in Years</b>
-                                </label>
-                            </section>
-                            <section class="col col-4">
-                                <label>Message for Patients</label>
-                                <label class="input">
-                                    {{pract_form.message}}
-                                    <b class="tooltip tooltip-bottom-right">Current Status</b>
-                                </label>
-                            </section>
-                            <section class="col col-4">
-                                <label>Achievements</label>
-                                <label class="textarea">
-                                    {{pract_form.achievements}}
-                                    <b class="tooltip tooltip-bottom-right">Specify Your Achievements</b>
                                 </label>
                             </section>
                         </div>

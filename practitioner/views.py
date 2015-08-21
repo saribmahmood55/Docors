@@ -40,6 +40,7 @@ def suggestions_practitioner(request):
         if request.is_ajax():
             results = {
                 'Specialization': {'text': 'Specialization', 'children': []},
+                'Fellowship': {'text': 'Fellowship', 'children': []},
                 'Condition': {'text': 'Conditions Treated', 'children': []},
                 'Procedure': {'text': 'Procedures Performed', 'children': []},
                 'PracticeLocation': {'text': 'Hospital/Clinic', 'children': []},
@@ -119,6 +120,13 @@ def results_practitioner(request, slug, typee):
         data['results_header'] = "Practitioner(s) who Specialize in " + sqs.name
         data['practice'] = Practice.practice_objects.get_practice_by_specialty(
             specialty=sqs,
+            city=city
+        )
+    elif typee == "Fellowship":
+        sqs = Fellowship.objects.get(slug=slug)
+        data['results_header'] = "Practitioner(s) with Fellowship " + sqs.name
+        data['practice'] = Practice.practice_objects.get_practice_by_specialty(
+            fellowship=sqs,
             city=city
         )
     elif typee == "Condition":
@@ -279,7 +287,6 @@ def registration_practitioner(request):
             'full_name',
             'photo',
             'gender',
-            'year_of_birth',
             'email',
             'physician_type',
             'degrees',
@@ -287,10 +294,7 @@ def registration_practitioner(request):
             'fellowship',
             'completion_year',
             'conditions',
-            'procedures',
-            'experience',
-            'message',
-            'achievements'
+            'procedures'
         ]
     )
     PracticeFormSet = formset_factory(
