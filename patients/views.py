@@ -93,13 +93,13 @@ def preferences_patient(request):
 			curr_email = request.user.email
 			curr_password = request.POST.get('currentpassword', None)
 			new_password = request.POST.get('password1', None)
-			u = authenticate(username=user.username, password=curr_password)
+			u = authenticate(username=curr_email, password=curr_password)
 			if u is not None:
 				data['alert'] = 'Password successfully changed.'
 				if u.is_active:
 					u.set_password(new_password)
 					u.save()
-					return HttpResponseRedirect(reverse('auth_login'))
+					return HttpResponseRedirect('/accounts/login')
 			else:
 				data['alert'] = 'Unable to change password. Please check your credentials'
 		elif type_ == "change_preferences":

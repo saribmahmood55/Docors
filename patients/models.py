@@ -71,6 +71,7 @@ class Patient(docorsUser):
     interested_specialities = models.ManyToManyField(Specialization, blank=True)
     favt_practitioner = models.ManyToManyField(Practitioner, blank=True)
     city = models.ForeignKey(City, default=1)
+    email_alerts = models.BooleanField(default=True)
 
     objects = models.Manager()
     patient_objects = PatientManager()
