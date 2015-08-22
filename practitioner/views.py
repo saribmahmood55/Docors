@@ -125,7 +125,7 @@ def results_practitioner(request, slug, typee):
     elif typee == "Fellowship":
         sqs = Fellowship.objects.get(slug=slug)
         data['results_header'] = "Practitioner(s) with Fellowship " + sqs.name
-        data['practice'] = Practice.practice_objects.get_practice_by_specialty(
+        data['practice'] = Practice.practice_objects.get_practice_by_fellowship(
             fellowship=sqs,
             city=city
         )
