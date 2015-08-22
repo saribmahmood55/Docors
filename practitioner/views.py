@@ -151,6 +151,7 @@ def results_practitioner(request, slug, typee):
         data['results_header'] = "Practitioner(s) in " + sqs.name
 
     data['ob'] = sqs
+    print data['ob']
 
     data['results_count'] = len(data['practice'])
     return render_to_response(

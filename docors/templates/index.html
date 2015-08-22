@@ -143,12 +143,10 @@
 									<hr align="center" width="50%">
 								</div>
 								<div class="bottom-section-left-paragraph text-center">
-									<ul class="no-list-style">
-										<br><li><a href="#">Ammar Medical Complex</a></li>
-										<li><a href="#">Farooq Hospital</a></li>
-										<li><a href="#">Shifa Clinic</a></li>
-										<li><a href="#">Maryam Child Clinic</a></li>
-										<li><a href="#">Al-Razi Healthcare</a></li>
+									<ul class="list-unstyled margintop15">
+										{% for practice in data.popular_practice %}
+										<li><a href="/{{practice.slug}}-in-PracticeLocation">{{practice}}</a></li>
+										{% endfor %}
 									</ul>
 								</div>
 							</div>
@@ -168,7 +166,7 @@
 								<div class="bottom-section-right-paragraph text-center">
 									<ul class="list-unstyled margintop15">
 										{% for proc in data.popular_proc %}
-										<li><a href="/physicans-directory/{{proc.slug}}-in-procedure">{{proc}}</a></li>
+										<li><a href="/{{proc.slug}}-in-Procedure">{{proc}}</a></li>
 										{% endfor %}
 									</ul>
 								</div>

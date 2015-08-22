@@ -1,8 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% load hitcount_tags %}
-{% block pageSpecificCSS %}<link rel="stylesheet" href="{% static 'assets/css/components.css' %}">{% endblock %}
-{% block pageSpecificJS %}<script src="{% static 'assets/js/hitcount-jquery.js' %}"></script>{% endblock %}
 
 {% load humanize %}
 {% block seoItemTags %}http://schema.org/Physician{% endblock %}
@@ -16,6 +14,7 @@
             </div>
     </div>
 </div>
+{% insert_hit_count_js_variables for data.ob%}
 <div class="container">
     <div class="divide20"></div>
     <div class="row no-margin-sides margin-bottom">
@@ -96,6 +95,10 @@
     </div>
   </div>
 {% endblock %}
+{% block pageSpecificCSS %}<link rel="stylesheet" href="{% static 'assets/css/components.css' %}">{% endblock %}
+k
+{% block pageSpecificJS %}<script src="{% static 'assets/js/hitcount-jquery.js' %}"></script>{% endblock %}
+
 {% block customScript %}
 <script type="text/javascript">
             $("#id_search_main").select2({'placeholder':'Doctor, Condition, Procedure',multiple:true,
