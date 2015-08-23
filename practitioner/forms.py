@@ -56,7 +56,14 @@ class PracticeForm(forms.Form):
             contact_number = practice_form.cleaned_data['contact_number']
 
             #create PracticeLocation
-            practice_location = PracticeLocation(name=practice_name, contact_number=contact_number,photo=photo, clinic_address=address, area=area, lon=lon, lat=lat)
+            practice_location = PracticeLocation(
+                name=practice_name,
+                contact_number=contact_number,
+                photo=photo,
+                clinic_address=address,
+                area=area,
+                lon=lon,
+                lat=lat)
             practice_location.save()
         else:
             practice_id = practice_form.cleaned_data['practice_name']
