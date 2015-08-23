@@ -18,7 +18,7 @@ class PractitionerIndex(indexes.SearchIndex, indexes.Indexable):
 class FellowshipIndex(indexes.SearchIndex, indexes.Indexable):
 	text = indexes.CharField(document=True, use_template=True)
 	name = indexes.EdgeNgramField(model_attr='name')
-	
+
 	def get_model(self):
 		return Fellowship
 
@@ -28,7 +28,7 @@ class FellowshipIndex(indexes.SearchIndex, indexes.Indexable):
 
 class SpecializationIndex(indexes.SearchIndex, indexes.Indexable):
 	text = indexes.CharField(document=True, use_template=True)
-	name = indexes.EdgeNgramField(model_attr='human_name')
+	name = indexes.EdgeNgramField(model_attr='name')
 
 	def get_model(self):
 		return Specialization
