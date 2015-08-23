@@ -23,17 +23,20 @@
         </div>
      </div>
 </div>
+{% if data.searchType == "practice" %}
 <div class="container">
     <div class="col-md-8">
         <div class="event-box" style="overflow:hidden;">
-            <h3 class="colored-text">National Hospital </h3>
+            <h3 class="colored-text">{{data.ob.name}}</h3>
             <img src="{% static 'assets/img/hospital.jpg' %}" class="img-responsive" width="120" height="150" style="float:left;margin-right:10px;" alt>
-            <p>132/3 L-Block, Sports Stadium, Dha Phase 1, Lahore</p>
-            <p>Contact # 04235896541</p>
-            <span class="label label-primary">share</span>
+            <p style="margin:0;">{{data.ob.clinic_address}}</p>
+            <p style="margin:0;">{{data.ob.area}}</p>
+            <p style="margin:0;">{{data.ob.contact_number}}</p>
+            <span class="label label-primary" style="float:left;">share</span>
         </div>
     </div>
 </div>
+{% endif %}
 <div class="search-area">
     <div class="container">
       <div class="col-md-12">
@@ -85,8 +88,6 @@
             <ul class="list-inline clear text-right" style="margin-top:10px; padding:10px; background-color:#e5e5e5;border-radius:3px;">
                 <li class="text-blue"><a href="#">Save</a></li>
                 <li>|</li>
-                <li class="text-blue"><a href="#">Share</a></li>
-                <li>|</li>
                 <li class="text-blue"><a href="{% url 'practitioner' slug=onePractitioner.practitioner.slug %}">Visit Profile</a></li>
             </ul>
         </div>
@@ -123,5 +124,12 @@ k
                 console.log(e.params.data);
                 serch_selection(e.params.data);
             });
+        function serch_selection(data){
+            if(data.type == 'Practitioner'){
+                window.location = '/physican/'+data.slug;
+            }else{
+                window.location = '{% url "physican_search" %}?q='+data.slug+'&search.type='+data.type+'&loc='+$("#curr_city").data('cityslug');
+            }
+        }
 </script>
 {% endblock %}

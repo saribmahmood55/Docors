@@ -98,61 +98,140 @@ def search_practitioner(request):
     if request.method == "GET":
         searchType = request.GET.get("search.type", "")
         query = request.GET.get("q", "")
-        return HttpResponseRedirect(
-            reverse(
-                'physican_results',
-                kwargs={
-                    'slug': query,
-                    'typee': searchType
-                }
+        loc = request.GET.get("loc", "lahore")
+        print searchType
+        print query
+        print loc
+        if searchType == "Specialization" or searchType == "Fellowship":
+            return HttpResponseRedirect(
+                reverse(
+                    'specialty_fellowship_results',
+                    kwargs={
+                        'specialty_fellowship': query,
+                        'location': loc
+                    }
+                )
             )
-        )
+        elif searchType == "Condition":
+            print "coming to check"
+            return HttpResponseRedirect(
+                reverse(
+                    'condition_results',
+                    kwargs={
+                        'condition': query,
+                        'location': loc
+                    }
+                )
+            )
+        elif searchType == "Procedure":
+            return HttpResponseRedirect(
+                reverse(
+                    'procedure_results',
+                    kwargs={
+                        'procedure': query,
+                        'location': loc
+                    }
+                )
+            )
+        elif searchType == "PracticeLocation":
+            return HttpResponseRedirect(
+                reverse(
+                    'practice_results',
+                    kwargs={
+                        'practice': query,
+                        'location': loc
+                    }
+                )
+            )
+        else:
+            raise Http404
 
 
 # reverse match view for the "#individual item click in the autocomplete list"
-def results_practitioner(request, slug, typee):
+def results_specialty_fellowship(request, specialty_fellowship, location):
     data = dict()
     data['results_header'] = "Practitioner"
-    city = get_city(request)
-
-    if typee == "Specialization":
-        sqs = Specialization.objects.get(slug=slug)
-        data['results_header'] = "Practitioner(s) who Specialize in " + sqs.name
+    try:
+        sqs = Specialization.objects.get(slug=specialty_fellowship)
         data['practice'] = Practice.practice_objects.get_practice_by_specialty(
             specialty=sqs,
-            city=city
+            city=location
         )
-    elif typee == "Fellowship":
-        sqs = Fellowship.objects.get(slug=slug)
-        data['results_header'] = "Practitioner(s) with Fellowship " + sqs.name
+        data['results_header'] = "Practitioner(s) who Specialize in " + sqs.name
+        data['type'] = "specialty"
+    except Specialization.DoesNotExist:
+        sqs = Fellowship.objects.get(slug=specialty_fellowship)
         data['practice'] = Practice.practice_objects.get_practice_by_fellowship(
             fellowship=sqs,
-            city=city
+            city=location
         )
-    elif typee == "Condition":
-        sqs = Condition.objects.get(slug=slug)
-        data['results_header'] = "Practitioner(s) who treat \
-            " + sqs.name + " condition"
-        data['practice'] = Practice.practice_objects.get_practice_by_condition(
-            condition=sqs, city=city
-        )
-    elif typee == "Procedure":
-        sqs = Procedure.objects.get(slug=slug)
-        data['results_header'] = "Practitioner(s) who perform \
-            " + sqs.name + " procedure"
-        data['practice'] = Practice.practice_objects.get_practice_by_procedure(
-            procedure=sqs, city=city
-        )
-    elif typee == "PracticeLocation":
-        sqs = PracticeLocation.objects.get(slug=slug)
-        data['practice'] = Practice.practice_objects.get_practice_by_location(
-            slug=slug, city=city
-        )
-        data['results_header'] = "Practitioner(s) in " + sqs.name
+        data['results_header'] = "Practitioner(s) with Fellowship " + sqs.name
+        data['type'] = "fellowship"
 
     data['ob'] = sqs
-    print data['ob']
+    data['results_count'] = len(data['practice'])
+    return render_to_response(
+        'practitioner/results.html',
+        {'data': data},
+        context_instance=RequestContext(request)
+    )
 
+
+# reverse match view for the "#individual item click in the autocomplete list"
+def results_condition(request, condition, location):
+    print "coming to condition"
+    data = dict()
+    data['results_header'] = "Practitioner"
+    sqs = Condition.objects.get(slug=condition)
+    data['results_header'] = "Practitioner(s) who treat \
+        " + sqs.name + " condition"
+    data['practice'] = Practice.practice_objects.get_practice_by_condition(
+        condition=sqs, city=location
+    )
+    data['type'] = "condition"
+
+    data['ob'] = sqs
+    data['results_count'] = len(data['practice'])
+    return render_to_response(
+        'practitioner/results.html',
+        {'data': data},
+        context_instance=RequestContext(request)
+    )
+
+
+# reverse match view for the "#individual item click in the autocomplete list"
+def results_procedure(request, procedure, location):
+    data = dict()
+    data['results_header'] = "Practitioner"
+    sqs = Procedure.objects.get(slug=procedure)
+    data['results_header'] = "Practitioner(s) who perform \
+        " + sqs.name + " procedure"
+    data['practice'] = Practice.practice_objects.get_practice_by_procedure(
+        procedure=sqs, city=location
+    )
+    data['type'] = "procedure"
+
+    data['ob'] = sqs
+    data['results_count'] = len(data['practice'])
+    return render_to_response(
+        'practitioner/results.html',
+        {'data': data},
+        context_instance=RequestContext(request)
+    )
+
+
+# reverse match view for the "#individual item click in the autocomplete list"
+def results_practice(request, practice, location):
+    data = dict()
+    data['results_header'] = "Practitioner"
+    sqs = PracticeLocation.objects.get(slug=practice)
+    data['practice'] = Practice.practice_objects.get_practice_by_location(
+        slug=practice, city=location
+    )
+    data['results_header'] = "Practitioner(s) in " + sqs.name
+    data['searchType'] = "practice"
+
+    data['ob'] = sqs
     data['results_count'] = len(data['practice'])
     return render_to_response(
         'practitioner/results.html',
