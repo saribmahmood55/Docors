@@ -219,12 +219,32 @@ class PracticeTimingManager(models.Manager):
         return practice_timings
 
 class PracticeTiming(models.Model):
-    DAYS = (('1', 'Mon'), ('2', 'Tue'), ('3', 'Wed'), ('4', 'Thu'), ('5', 'Fri'),('6', 'Sat'),('7', 'Sun'),)
+    
+    DAYS = (
+        (0, u'Monday'),
+        (1, u'Tuesday'),
+        (2, u'Wednesday'),
+        (3, u'Thursday'),
+        (4, u'Friday'),
+        (5, u'Saturday'),
+        (6, u'Sunday'),
+    )
 
     practice = models.ForeignKey(Practice)
-    day = models.CharField(max_length=1, choices=DAYS, help_text="Select Day.")
-    start_time = models.TimeField(help_text="Select starting Time for Clininc.", auto_now_add=False, null=True, blank=True)
-    end_time = models.TimeField(help_text="Select ending Time for Clininc.", auto_now_add=False, null=True, blank=True)
+    day = models.PositiveSmallIntegerField(
+        help_text="Select Day.",
+        choices=DAYS,
+        default=0)
+    start_time = models.TimeField(
+        help_text="Select starting Time for Clinic.",
+        auto_now_add=False,
+        null=True,
+        blank=True)
+    end_time = models.TimeField(
+        help_text="Select ending Time for Clinic.",
+        auto_now_add=False,
+        null=True,
+        blank=True)
 
     #Custom Managers
     objects = models.Manager()
