@@ -124,7 +124,9 @@
 								<div class="bottom-section-left-paragraph text-center">
 									<ul class="list-unstyled margintop15">
 										{% for pract in data.popular_pract %}
+                                        {% if pract %}
 										<li><a href="/physican/{{pract.slug}}">{{pract}}</a></li>
+                                        {% endif %}
 										{% endfor %}
 									</ul>
 								</div>
@@ -145,7 +147,9 @@
 								<div class="bottom-section-left-paragraph text-center">
 									<ul class="list-unstyled margintop15">
 										{% for practice in data.popular_practice %}
+                                        {% if pract %}
 										<li><a href="/{{practice.slug}}-in-PracticeLocation">{{practice}}</a></li>
+                                        {% endif %}
 										{% endfor %}
 									</ul>
 								</div>
@@ -166,7 +170,9 @@
 								<div class="bottom-section-right-paragraph text-center">
 									<ul class="list-unstyled margintop15">
 										{% for proc in data.popular_proc %}
+                                        {% if pract %}
 										<li><a href="/{{proc.slug}}-in-Procedure">{{proc}}</a></li>
+                                        {% endif %}
 										{% endfor %}
 									</ul>
 								</div>

@@ -96,7 +96,30 @@
 </div>
 <div class="divide40"></div>
 <div class="container">
-    <div class="row masonry-container">
+    {% for practice in data.practice %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-sm-3">
+                    <img src="{% static 'assets/img/service-1.jpg' %}" class="img-responsive" alt="Clinic Picture">
+                </div>
+                <div class="col-sm-6">
+                    <h3>{{practice.practice_location.name}}</h3>
+                    <p><i class="fa fa-home text-blue"></i> {{practice.practice_location.clinic_address}} ,{{practice.practice_location.area}}</p>
+                    <p><i class="fa fa-phone text-blue"></i> <a href="tel:{{ practice.practice_location.contact_number }}">{{ practice.practice_location.contact_number }}</a></p>
+                    <p><i title="Checkup fee" class="fa fa-money text-blue"></i> {{practice.fee}}</p>
+                </div>
+                <div class="col-sm-3">
+                    <p class="clearfix"><button class="btn btn-primary"><i class="fa fa-map red"></i> Show on Map</button></p>
+                    <p class="clearfix"><button class="btn btn-primary btn-{{practice.practice_location.slug}}-timing"><i class="fa fa-clock"></i> Timings</button></p>
+                    <p class="clearfix"><button class="btn btn-primary">Open Now</button></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    {% endfor %}
+    <!--<div class="row masonry-container">
         {% for practice in data.practice %}
         <div class="col-md-4 col-sm-6 margin40 item">
             <div class="price-wrap">
@@ -109,15 +132,6 @@
                         <li><i class="fa fa-home text-blue"></i> {{practice.practice_location.clinic_address}} ,{{practice.practice_location.area}}</li>
                         <li><i class="fa fa-phone text-blue"></i> <a href="tel:{{ practice.practice_location.contact_number }}">{{ practice.practice_location.contact_number }}</a></li>
                         <li><i title="Checkup fee" class="fa fa-money text-blue"></i> {{practice.fee}}</li>
-                        <!--<li><button type="button" class="contact_btn" class="btn btn-primary"><i title="Checkup fee" class="fa fa-phone"></i> Show Contact</button></li>
-                        <li class="contact-list">
-                            <input type="hidden" id="contact_exists" value="0">
-                            <ul class="list-unstyled">
-                                <li><a href="tel:03236910600">0323691xxxx</a></li>
-                                <li><a href="tel:03236910600">0323691xxxx</a></li>
-                                <li><a href="tel:03236910600">0323691xxxx</a></li>
-                            </ul>
-                        </li>-->
                     </ul>
                 </div>
                 <div class="price-action">
@@ -239,9 +253,8 @@
             </div>
         </div>
         {% endif %}
-    </div>
+    </div>-->
 </div>
-<hr>
 <div class="container">
     <div class="tabs">
         <ul class="nav nav-tabs">
@@ -274,7 +287,6 @@
     </div>
 </div>
 <div class="divide40"></div>
-{% if practice_count > 1 %}
 <div class="container">
     <div class="row">
         {% if not user.is_authenticated %}
@@ -319,7 +331,6 @@
                 </div>
             </div>
         </div>
-        {% endif %}
     </div>
 </div>
 <div class="divide40"></div>
