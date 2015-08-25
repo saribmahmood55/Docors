@@ -29,9 +29,7 @@
                 {% endif %}
                 <form action="" method="POST" enctype="multipart/form-data" role="form" id="sky-form-doctors" class="sky-form">{% csrf_token %}
                     {{practice_formset.management_form}}
-
                     <h3 class="text-center">Create new account with DoctorsInfo</h3>
-
                     <fieldset>
                         <div class="row">
                             <section class="col col-4">
@@ -303,7 +301,8 @@
 <script type="text/javascript" src="{% static 'assets/js/bootstrap3-typeahead.js' %}"></script>
 <script type="text/javascript" src="{% static 'assets/js/bootstrap-multiselect.js' %}"></script>
 <script src="https://www.google.com/recaptcha/api.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+<!-- <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script> -->
+<script src="https://maps.googleapis.com/maps/api/js"></script>
 {% endblock %}
 
 

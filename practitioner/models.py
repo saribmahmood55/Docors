@@ -17,10 +17,13 @@ class SpecializationManager(models.Manager):
         return super(SpecializationManager, self).get(human_name=name)
 
 class Specialization(models.Model):
+    REGION = [('All', 'All'), ('Pak', 'Pakistan'), ('Eur', 'Europe/UK'), ('USA', 'United States'),]
+
     name = models.CharField(max_length=100)
     human_name = models.CharField(max_length=100, null=True)
     SEO_name = models.CharField(max_length=100, null=True)
     description = models.TextField(null=True, blank=True)
+    training_region = models.CharField(max_length=3, null=True, choices=REGION)
     slug = AutoSlugField(populate_from='name', unique = True)
 
     objects = models.Manager()
@@ -30,7 +33,7 @@ class Specialization(models.Model):
         return self.name
 
     class Meta:
-        verbose_name_plural = "Specialities"
+        verbose_name_plural = "Specialties"
         ordering = ('name',)
 
 
@@ -41,6 +44,7 @@ class FellowshipManager(models.Manager):
 
 class Fellowship(models.Model):
     name = models.CharField(max_length=100)
+    human_name = models.CharField(max_length=100, null=True)
     specialization = models.ForeignKey(Specialization)
     description = models.TextField(null=True, blank=True)
     slug = AutoSlugField(populate_from='name', unique = True)

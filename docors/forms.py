@@ -6,7 +6,15 @@ from practice.models import Area, City
 
 class doctors_form(forms.Form):
 
-	q = forms.CharField(max_length=100, required=False, label="Doctor", widget=forms.TextInput(attrs={'placeholder': 'Doctor Name, Specialty, Condition or Procedure', 'class':'doc-typeahead'}))
+	q = forms.CharField(
+		max_length=100,
+		required=False,
+		label="Doctor",
+		widget=forms.TextInput(
+			attrs={
+			'placeholder': 'Doctor Name, Specialty, Condition or Procedure',
+			'class':'doc-typeahead'
+		}))
 
 class speciality_form(forms.Form):
 
