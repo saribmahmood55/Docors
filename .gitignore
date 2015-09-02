@@ -82,3 +82,7 @@ docs/_build/
 
 # PyBuilder
 target/
+
+#Vim related ignore
+*.swp
+.ropeproject
