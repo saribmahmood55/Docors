@@ -1,5 +1,6 @@
 # flake8: noqa
 from django.db import models
+from django.db.models import Q
 from autoslug import AutoSlugField
 from sorl.thumbnail import ImageField
 from docorsauth.models import docorsUser
@@ -16,8 +17,11 @@ class SpecializationManager(models.Manager):
     def spec_human_name(self, name):
         return super(SpecializationManager, self).get(human_name=name)
 
+    def get_spec_by_region(self, region):
+        return super(SpecializationManager, self).filter(Q(training_region=region) | Q(training_region='all')).values('id','name')
+
 class Specialization(models.Model):
-    REGION = [('All', 'All'), ('Pak', 'Pakistan'), ('Eur', 'Europe/UK'), ('USA', 'United States'),]
+    REGION = [('all', 'All'), ('pak', 'Pakistan'), ('eur', 'Europe/UK'), ('usa', 'United States'),]
 
     name = models.CharField(max_length=100)
     human_name = models.CharField(max_length=100, null=True)

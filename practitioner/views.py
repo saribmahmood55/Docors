@@ -471,3 +471,14 @@ def get_practice_details_ajax(request):
             }
         )
         return HttpResponse(data, content_type='application/json')
+
+
+def get_region_details_ajax(request):
+    if request.is_ajax():
+        region = request.GET.get('region', '')
+        region_details = Specialization.spec_objects.get_spec_by_region(
+            region=region
+        )
+        print region_details
+        data = json.dumps(list(region_details))
+        return HttpResponse(data, content_type='application/json')

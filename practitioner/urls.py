@@ -75,4 +75,9 @@ urlpatterns = patterns('',
                            views.get_practice_details_ajax,
                            name='get_practice_details'
                        ),
+                       url(
+                           r'^physican/get-region-details-ajax/$',
+                           views.get_region_details_ajax,
+                           name='get_region_details'
+                       ),
                        )

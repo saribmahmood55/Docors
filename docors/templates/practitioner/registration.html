@@ -63,10 +63,21 @@
                                     {{pract_form.photo}}
                                 </label>
                             </section>
-                            <section class="col col-8">
+                            <section class="col col-4">
                                 {{pract_form.degrees.label_tag}}
                                 <label class="select">
                                     {{pract_form.degrees}}
+                                </label>
+                            </section>
+                            <section class="col col-4">
+                                <label>Region</label>
+                                <label class="select">
+                                    <select id="id_region">
+                                        <option value="" selected disabled>Select Region</option>
+                                        <option value="pak">Pakistan</option>
+                                        <option value="eur">Europe/UK</option>
+                                        <option value="usa">United States</option>
+                                    </select>
                                 </label>
                             </section>
                         </div>
@@ -427,6 +438,9 @@
         autosize($('textarea'));
 
         //Set onclick and onchange methods
+        $("#id_region").on('change',function(){
+            get_region_details();
+        });
         $("#add_practice").on("click",function(){
             $(".practice_2").fadeIn();
             $("#id_form-1-DELETE").prop('checked',false);
@@ -754,6 +768,20 @@
 
     });
 
+    function get_region_details(){
+        $.ajax({
+            type : "GET",
+            url : "{% url 'get_region_details' %}",
+            data : {"region":$("#id_region").val()},
+            success : function(data){
+                $("#id_specialty").html("<option value='' selected disabled>Select Specialty</option>");
+                for(i = 0;i<data.length;i++){
+                    $("#id_specialty").append("<option value="+data[i].id+">"+data[i].name+"</option>");
+                }
+                $('#id_specialty').select2({placeholder:"Select Specialty"});
+            }
+        });
+    }
     function get_fcp(){
         if($("#id_specialty").val()!=""){
             $.ajax({

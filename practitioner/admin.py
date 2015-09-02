@@ -9,7 +9,7 @@ class PracticeInline(admin.TabularInline):
 
 class PractitionerAdmin(admin.ModelAdmin):
 	{
-	'fields': (('full_name', 'gender', 'email'), 'physician_type', 'degrees', 'year_of_birth', 
+	'fields': (('full_name', 'gender', 'email'), 'physician_type', 'degrees', 'year_of_birth',
 		'specialty', 'fellowship', 'conditions', 'procedures'),
 	}
 
@@ -17,7 +17,7 @@ class PractitionerAdmin(admin.ModelAdmin):
 	search_fields = ['full_name']
 	list_filter = ['full_name']
 	inlines = [PracticeInline]
-	
+
 	def Fellowship_in(self, obj):
 		return " , ".join([s.name for s in obj.fellowship.all()])
 
@@ -31,7 +31,7 @@ class PractitionerAdmin(admin.ModelAdmin):
 		return " , ".join([d.name for d in obj.procedures.all()])
 
 class SpecializationAdmin(admin.ModelAdmin):
-	list_display = ['name','human_name','SEO_name', 'description', 'slug']
+	list_display = ['name','training_region','human_name','SEO_name', 'description', 'slug']
 	list_filter = ['name']
 	search_fields = ['name']
 
