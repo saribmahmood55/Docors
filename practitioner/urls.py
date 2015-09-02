@@ -45,7 +45,7 @@ urlpatterns = patterns('',
                            name='update_info_practitioner'
                        ),
                        url(
-                           r'^physican/(?P<slug>[\w-]+)/profile/$',
+                           r'^physican/profile/$',
                            views.profile_practitioner,
                            name='practitioner_profile'
                        ),

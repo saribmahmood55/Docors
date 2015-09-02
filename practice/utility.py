@@ -26,5 +26,4 @@ def get_review_details(reviews):
 			answers_avg['anw'+str(i)] = answers_avg['anw'+str(i)] / len(reviews)
 			total = total + answers_avg['anw'+str(i)]
 	answers_avg['total'] = total/5
-	print answers_avg
 	return answers_avg

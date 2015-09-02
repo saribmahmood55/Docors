@@ -4,7 +4,7 @@ from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from haystack.query import SearchQuerySet
 import json
 
@@ -29,6 +29,8 @@ from practitioner.forms import UpdateInfoForm
 from practitioner.forms import EditProfileForm
 from practitioner.forms import AnswerForm
 from practitioner.forms import CommentForm
+
+from practitioner.utility import is_practitioner
 
 from docors.utility import get_city, get_ip
 
@@ -99,9 +101,6 @@ def search_practitioner(request):
         searchType = request.GET.get("search.type", "")
         query = request.GET.get("q", "")
         loc = request.GET.get("loc", "lahore")
-        print searchType
-        print query
-        print loc
         if searchType == "Specialization" or searchType == "Fellowship":
             return HttpResponseRedirect(
                 reverse(
@@ -113,7 +112,6 @@ def search_practitioner(request):
                 )
             )
         elif searchType == "Condition":
-            print "coming to check"
             return HttpResponseRedirect(
                 reverse(
                     'condition_results',
@@ -179,7 +177,6 @@ def results_specialty_fellowship(request, specialty_fellowship, location):
 
 # reverse match view for the "#individual item click in the autocomplete list"
 def results_condition(request, condition, location):
-    print "coming to condition"
     data = dict()
     data['results_header'] = "Practitioner"
     sqs = Condition.objects.get(slug=condition)
@@ -283,11 +280,13 @@ def update_info_practitioner(request, slug):
     )
 
 
-def profile_practitioner(request, slug):
+@login_required(login_url='/accounts/login/')
+@user_passes_test(is_practitioner, login_url='/accounts/login/')
+def profile_practitioner(request):
     data = dict()
     if request.method == "GET":
-        data['practitioner'] = Practitioner.objects.get(slug=slug)
-        data['practice'] = Practice.practice_objects.practice_detail(slug)
+        data['practitioner'] = request.user.practitioner
+        data['practice'] = Practice.practice_objects.practice_detail(data['practitioner'].slug)
         form = EditProfileForm(instance=data['practitioner'])
         return render_to_response(
             'practitioner/edit.html',
@@ -479,6 +478,5 @@ def get_region_details_ajax(request):
         region_details = Specialization.spec_objects.get_spec_by_region(
             region=region
         )
-        print region_details
         data = json.dumps(list(region_details))
         return HttpResponse(data, content_type='application/json')
