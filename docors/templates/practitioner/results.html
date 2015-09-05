@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% load hitcount_tags %}
+{% load practitioner_reviews %}
 
 {% load humanize %}
 {% block seoItemTags %}http://schema.org/Physician{% endblock %}
@@ -56,40 +57,29 @@
 <div class="divide40"></div>
 <div class="container">
     <div class="row no-margin-sides margin-bottom">
-      <div class="col-md-8">
+      <div class="col-md-12">
         {% for onePractitioner in data.practice %}
-        <div class="results-box clear" style="border-bottom:1px solid #e5e5e5; overflow:hidden; padding-bottom:30px;">
-            <p>{{onePractitioner.practitioner.specialty}}</p>
-            <h3><a href="{% url 'practitioner' slug=onePractitioner.practitioner.slug %}">{{onePractitioner.practitioner.full_name}} <i class="fa fa-check-circle text-blue" title="Specialist"></i></a></h3>
-            <p>{{onePractitioner.practice_location.clinic_address}}</p>
-            <p>{{onePractitioner.practice_location.area}}</p>
-            <img src="{% static 'assets/img/doctor_placeholder.jpg' %}" width="120" height="150" style="margin-bottom:10px;float:left;margin-right:10px;" alt="">
-            <ul class="list-inline">
-                {% for degree in onePractitioner.practitioner.degrees.all %}
-                <li><span class="label label-primary" data-toggle="tooltip" data-placement="top" data-original-title="{{degree.description}}">{{degree}}</span></li>
-                {% endfor %}
-            </ul>
-            <ul class="list-inline">
-                <li><span class="label label-default">{{onePractitioner.practitioner.get_gender_display}}</span></li>
-                <li><span class="label label-default">{{onePractitioner.practitioner.experience}} years of Experience</span></li>
-            </ul>
-            <ul class="list-inline">
-                <li><i class="fa fa-star text-yellow"></i></li>
-                <li><i class="fa fa-star text-yellow"></i></li>
-                <li><i class="fa fa-star text-yellow"></i></li>
-                <li><i class="fa fa-star text-yellow"></i></li>
-                <li><i class="fa fa-star text-gray"></i></li>
-                <li><span class="label label-default">Patient Satifaction</span></li>
-            </ul>
-            <ul class="list-inline">
-                <li><i class="fa fa-thumbs-up text-green"></i></li>
-                <li><span class="label label-default">0 Recommendations</span></li>
-            </ul>
-            <ul class="list-inline clear text-right" style="margin-top:10px; padding:10px; background-color:#e5e5e5;border-radius:3px;">
-                <li class="text-blue"><a href="#">Save</a></li>
-                <li>|</li>
-                <li class="text-blue"><a href="{% url 'practitioner' slug=onePractitioner.practitioner.slug %}">Visit Profile</a></li>
-            </ul>
+        <div class="box box-primary">
+            <div class="box-header">
+                <h3 class="box-title col-md-4" style="padding-top:18px;"><a href="{% url 'practitioner' slug=onePractitioner.practitioner.slug %}">{{onePractitioner.practitioner.full_name}}</a></h3>
+                <div class="col-md-4 speciality-label"><span class="label label-primary" style="margin-left:15px;">{{onePractitioner.practitioner.specialty.name}}</span></div>
+                <div class="box-tools col-md-4">
+                    <ul class="list-inline custom-list-feedback pull-right" style="padding-top:18px;">
+                        {{ onePractitioner.practitioner.review_rating|get_rating_by_count }} 
+                    </ul>
+                </div>
+            </div>
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-hover">
+                    <tbody>
+                        <tr><th><i class="fa fa-mars text-blue"></i> Gender</th><th><i class="fa fa-heart text-red"></i> Experience</th><th><i class="fa fa-map-marker text-blue"></i> Location</th><th><i class="fa fa-money text-green"></i> Checkup Fee</th><th><i class="fa fa-mobile text-navy"></i> Contact</th></tr>
+                        <tr><td>{{onePractitioner.practitioner.get_gender_display}}</td><td>{{onePractitioner.practitioner.experience}} Years</td><td>{{onePractitioner.practice_location.clinic_address}}, {{onePractitioner.practice_location.city.name}}</td><td>{{onePractitioner.fee.amount}} pkr/-</td><td>{{onePractitioner.practice_location.contact_number}}</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="box-footer">
+                <a href="{% url 'practitioner' slug=onePractitioner.practitioner.slug %}"><span class="btn btn-flat bg-navy pull-right">Visit Profile >> </span></a>
+            </div>
         </div>
         {% endfor %}
       </div>

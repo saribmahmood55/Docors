@@ -286,7 +286,9 @@ def profile_practitioner(request):
     data = dict()
     if request.method == "GET":
         data['practitioner'] = request.user.practitioner
-        data['practice'] = Practice.practice_objects.practice_detail(data['practitioner'].slug)
+        data['practice'] = Practice.practice_objects.practice_detail(
+            data['practitioner'].slug
+        )
         form = EditProfileForm(instance=data['practitioner'])
         return render_to_response(
             'practitioner/edit.html',

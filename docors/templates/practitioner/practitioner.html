@@ -101,7 +101,11 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-sm-3">
+                    {% if practice.practice_location.photo %}
+                    <img src="{{ practice.practice_location.photo.url }}" class="img-responsive" alt="Clinic Picture">
+                    {% else %}
                     <img src="{% static 'assets/img/service-1.jpg' %}" class="img-responsive" alt="Clinic Picture">
+                    {% endif %}
                 </div>
                 <div class="col-sm-6">
                     <h3>{{practice.practice_location.name}}</h3>
