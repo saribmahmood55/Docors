@@ -13,6 +13,7 @@
 {% endblock %}
 {% load staticfiles %}
 {% load hitcount_tags %}
+{% load practitioner_reviews %}
 {% block content %}
 <div class="divide40"></div>
 <div class="container">
@@ -110,13 +111,20 @@
                 <div class="col-sm-6">
                     <h3>{{practice.practice_location.name}}</h3>
                     <p><i class="fa fa-home text-blue"></i> {{practice.practice_location.clinic_address}} ,{{practice.practice_location.area}}</p>
-                    <p><i class="fa fa-phone text-blue"></i> <a href="tel:{{ practice.practice_location.contact_number }}">{{ practice.practice_location.contact_number }}</a></p>
-                    <p><i title="Checkup fee" class="fa fa-money text-blue"></i> {{practice.fee}}</p>
+                    <p><i class="fa fa-phone text-blue"></i> {{ practice.practice_location.contact_number|get_tel_numbers }}</p>
+                    <p><i title="Checkup fee" class="fa fa-money text-blue"></i> {{practice.fee}} pkr/-</p>
                 </div>
                 <div class="col-sm-3">
-                    <p class="clearfix"><button class="btn btn-primary"><i class="fa fa-map red"></i> Show on Map</button></p>
-                    <p class="clearfix"><button class="btn btn-primary btn-{{practice.practice_location.slug}}-timing"><i class="fa fa-clock"></i> Timings</button></p>
-                    <p class="clearfix"><button class="btn btn-primary">Open Now</button></p>
+                    {% if practice.practice_location %}
+                    <p class="clearfix">
+                        <a href="https://www.google.com/maps?q={{ practice.practice_location.lat }},{{ practice.practice_location.lon }}" target="_blank">
+                            <i class="fa fa-map-marker text-navy"></i>
+                            <span> View on Map </span>
+                        </a>
+                    </p>
+                    {% endif %}
+                    <p class="clearfix"><i class="fa fa-calendar"></i> <span style="cursor:pointer;" class="btn-{{practice.practice_location.slug}}-timing"> Timings</span></p>
+                    <p class="clearfix"><i class="fa fa-clock-o text-blue"></i> Open Now</button></p>
                 </div>
             </div>
         </div>
@@ -154,7 +162,6 @@
             </div>
         </div>
         {% endfor %}
-        {% load practitioner_reviews %}
         <div class="col-md-4 col-sm-6 margin40 item">
             <div class="price-wrap">
                 <div class="price-price prac-loc-name">Patients Feedback</div>

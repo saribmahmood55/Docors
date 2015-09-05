@@ -31,3 +31,10 @@ def get_patient_rating_by_count(value, autoescape=True):
         else:
             final_str = '<label><i class="fa fa-star text-gray"></i></label>' + final_str
     return mark_safe(final_str)
+@register.filter(needs_autoescape=True)
+def get_tel_numbers(value, autoescape=True):
+    final_str = ''
+    numbers = value.split()
+    for number in numbers:
+        final_str = final_str + '<a href="tel:'+number+'">'+number+'</a>'
+    return mark_safe(final_str)

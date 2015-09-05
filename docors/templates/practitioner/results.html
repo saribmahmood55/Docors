@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% load hitcount_tags %}
-{% load practitioner_reviews %}
 
 {% load humanize %}
 {% block seoItemTags %}http://schema.org/Physician{% endblock %}
@@ -64,9 +63,9 @@
                 <h3 class="box-title col-md-4" style="padding-top:18px;"><a href="{% url 'practitioner' slug=onePractitioner.practitioner.slug %}">{{onePractitioner.practitioner.full_name}}</a></h3>
                 <div class="col-md-4 speciality-label"><span class="label label-primary" style="margin-left:15px;">{{onePractitioner.practitioner.specialty.name}}</span></div>
                 <div class="box-tools col-md-4">
-                    <ul class="list-inline custom-list-feedback pull-right" style="padding-top:18px;">
-                        {{ onePractitioner.practitioner.review_rating|get_rating_by_count }} 
-                    </ul>
+                    <button class="btn btn-flat margin pull-right" style="border-radius:1.2em">
+                        {{ onePractitioner.practitioner.review_rating}} <i class="fa fa-star text-yellow"></i> 
+                    </button>
                 </div>
             </div>
             <div class="box-body table-responsive no-padding">
