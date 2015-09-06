@@ -14,9 +14,9 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> u.set_password('abcd1234')
 >>> u.save()
 >>> p = u.password
->>> print check_password('abcd1234', p)
+>>> check_password('abcd1234', p)
 True
->>> print u.is_authenticated()
+>>> u.is_authenticated()
 True
 >>>
 =========================================================================

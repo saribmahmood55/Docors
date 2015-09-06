@@ -181,11 +181,15 @@ border-left-color: #111111;
 .h-without-top-margin{
 	margin-top:0px;
 }
-
+/* Doctor recommendation bar background color options PSD -> #BA1919, Twitter -> 55acee, bootstrap-info --> 5bc0de */
 .prac-page{
-  background: #BA1919 !important;
+  background: #5bc0de !important;
   padding: 0 !important;
   padding-top: 20px !important;
+}
+
+.recommend-doc-info{
+  text-transform: none !important;
 }
 
 .custom-blog{

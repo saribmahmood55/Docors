@@ -3,13 +3,11 @@
 {% block fbTags %}
 <meta property="og:title" content="{{ data.practitioner.full_name }} - doctorsinfo.pk"/>
 {% if data.practitioner.achievements %}<meta property="og:description" content="{{data.practitioner.achievements}}" />
-{% else %}<meta property="og:description" content="Pakistan's first health information online portal. Find specialist doctors in your area by thier name, specialty, conditions, procedures or clinic name." />         
+{% else %}<meta property="og:description" content="Pakistan's first online health and medical information portal. Find specialist doctors in your area by thier name, medical specialty, conditions, procedures or clinic name." />         
 {% endif %}
 <meta property="og:url" content="http://doctorsinfo.pk/{{ data.practitioner.slug }}/" />
 <link rel="canonical" href="http://doctorsinfo.pk/{{ data.practitioner.slug }}/" />
-{% if data.practitioner.photo %}
-<meta property="og:image" content="http://doctorsinfo.pk{{ data.practitioner.photo.url }}" />{% else %}
-<meta property="og:image" content="http://doctorsinfo.pk/static/assets/img/doctor_placeholder.jpg" />{% endif %}
+{% if data.practitioner.photo %}<meta property="og:image" content="http://beta.doctorsinfo.pk{{ data.practitioner.photo.url }}" />{% else %}<meta property="og:image" content="http://doctorsinfo.pk/static/assets/img/doctor_placeholder.jpg" />{% endif %}
 {% endblock %}
 {% load staticfiles %}
 {% load hitcount_tags %}
@@ -87,9 +85,9 @@
         <div class="row">
             <div class="col-md-12 text-center">
                 <ul class="list-inline">
-                    <li><h4>Do you recommend this doctor?</h4></li>
-                    <li><button class="btn btn-default">Yes</button></li>
-                    <li><button class="btn btn-default">No</button></li>
+                    <li><h4 class="recommend-doc-info">Would you like to recommend <i>{{data.practitioner.full_name}}</i> to your family or friends?</h4></li>
+                    <li><button class="btn btn-default recommend-doc-info">Yes</button></li>
+                    <li><button class="btn btn-default recommend-doc-info">No</button></li>
                 </ul>
             </div>
         </div>
@@ -110,161 +108,28 @@
                 </div>
                 <div class="col-sm-6">
                     <h3>{{practice.practice_location.name}}</h3>
-                    <p><i class="fa fa-home text-blue"></i> {{practice.practice_location.clinic_address}} ,{{practice.practice_location.area}}</p>
-                    <p><i class="fa fa-phone text-blue"></i> {{ practice.practice_location.contact_number|get_tel_numbers }}</p>
-                    <p><i title="Checkup fee" class="fa fa-money text-blue"></i> {{practice.fee}} pkr/-</p>
+                    <p><i class="fa fa-home text-blue"></i>&nbsp;{{practice.practice_location.clinic_address}} {{practice.practice_location.area.city.name}}</p>
+                    <p><i class="fa fa-phone text-blue"></i>&nbsp;{{practice.practice_location.contact_number|get_tel_numbers}}</p>
+                    <p><i title="Checkup fee" class="fa fa-money text-blue"></i>&nbsp;<small>Rs</small>&nbsp;<b>{{practice.fee}}</b></p>
                 </div>
                 <div class="col-sm-3">
                     {% if practice.practice_location %}
                     <p class="clearfix">
-                        <a href="https://www.google.com/maps?q={{ practice.practice_location.lat }},{{ practice.practice_location.lon }}" target="_blank">
+                        <a href="https://www.google.com/maps?q={{ practice.practice_location.lon }},{{ practice.practice_location.lat }}" target="_blank">
                             <i class="fa fa-map-marker text-navy"></i>
-                            <span> View on Map </span>
+                            <span>&nbsp;Show on Map</span>
                         </a>
                     </p>
                     {% endif %}
-                    <p class="clearfix"><i class="fa fa-calendar"></i> <span style="cursor:pointer;" class="btn-{{practice.practice_location.slug}}-timing"> Timings</span></p>
-                    <p class="clearfix"><i class="fa fa-clock-o text-blue"></i> Open Now</button></p>
+                    <p class="clearfix"><i class="fa fa-calendar"></i> <span style="cursor:pointer;" class="btn-{{practice.practice_location.slug}}-timing">&nbsp;Timings</span></p>
+                    <p class="clearfix"><i class="fa fa-clock-o text-blue"></i>&nbsp;Open Now</button></p>
                 </div>
             </div>
         </div>
     </div>
     <hr>
     {% endfor %}
-    <!--<div class="row masonry-container">
-        {% for practice in data.practice %}
-        <div class="col-md-4 col-sm-6 margin40 item">
-            <div class="price-wrap">
-                <div class="price-title price-title-custom">
-                    <img src="{% static 'assets/img/service-1.jpg' %}" class="img-responsive" alt="">
-                </div>
-                <div class="price-price prac-loc-name">{{practice.practice_location.name}}</div>
-                <div class="price-features">
-                    <ul class="list-unstyled">
-                        <li><i class="fa fa-home text-blue"></i> {{practice.practice_location.clinic_address}} ,{{practice.practice_location.area}}</li>
-                        <li><i class="fa fa-phone text-blue"></i> <a href="tel:{{ practice.practice_location.contact_number }}">{{ practice.practice_location.contact_number }}</a></li>
-                        <li><i title="Checkup fee" class="fa fa-money text-blue"></i> {{practice.fee}}</li>
-                    </ul>
-                </div>
-                <div class="price-action">
-                    <ul class="list-inline last-loc-line">
-                        <li><i title="Last updated on: {{ practice.modified }}" class="fa fa-clock-o text-blue"></i></li>
-                        <li><button class="btn btn-primary btn-{{practice.practice_location.slug}}-timing">Timings</button></li>
-                        <li><button class="btn btn-success" disabled>Open Now</button></li>
-                        {% if practice.practice_location %}
-                        <li><a href="https://www.google.com/maps?q={{ practice.practice_location.lat }},{{ practice.practice_location.lon }}" target="_blank">
-                            <i class="fa fa-map-marker text-navy"></i>
-                        </a>
-                        </li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-        <div class="col-md-4 col-sm-6 margin40 item">
-            <div class="price-wrap">
-                <div class="price-price prac-loc-name">Patients Feedback</div>
-                <div class="price-features">
-                    <ul class="list-unstyled">
-                        <li>
-                        <ul class="list-inline custom-list-feedback">
-                            {{ data.pract_avg_review.total|get_rating_by_count }}
-                            <li>{{data.pract_avg_review.total}} ({{data.pract_avg_review.num_of_reviews}} reviews)</li>
-                        </ul>
-                        </li>
-                        <li><span class="h3">Patients Satisfaction</span></li>
-                        <li style="border-top:0;">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">Read what other patients have to say:</h4>
-                            </div>
-                            <div class="panel-body comments-panel-body">
-                                {% for review in data.reviews %}
-                                <div class="review-box margin10">
-                                    <img src="{% static 'assets/img/team-1.jpg' %}" alt="" class="img-responsive">
-                                    <div class="review-content text-left">
-                                        <ul class="list-inline rating-list custom-list-feedback text-left">
-                                            <li class="admin-detail">
-                                            {% if review.anonymous %}
-                                            <span><strong>Anonymous</strong></span>
-                                            {% else %}
-                                            <span><strong>{{review.patient.user.first_name}}</strong></span>
-                                            {% endif %}
-                                            </li>
-                                            {{review.answers|get_rating_by_model}}
-                                        </ul>
-                                        {% if review.comments %}
-                                        <p>{{review.comments}}</p>
-                                        <ul class="list-inline text-right custom-list-feedback">
-                                            <li><i class="fa fa-thumbs-o-up text-blue"></i> {{review.comments.agree}} </li>
-                                            <li><i class="fa fa-thumbs-o-down text-red"></i> {{review.comments.disagree}}</li>
-                                        </ul>
-                                        {% else %}
-                                        <p></p>
-                                        <ul class="list-inline text-right custom-list-feedback">
-                                            <li></li>
-                                            <li></li>
-                                        </ul>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                        </li>
-                        <li>
-                        <a href="{% url 'practitioner_review' slug=data.practitioner.slug %}"><span class="h3 text-blue">How was your experience?</span></a>
-                        </li>
-                    </ul>
-                </div>
-
-            </div>
-        </div>
-        {% if not user.is_authenticated and practice_count < 2%}
-        <div class="col-md-4 col-sm-6 margin40 item">
-            <div class="price-wrap">
-                <div class="price-price prac-loc-name">Subscription</div>
-                <div class="price-features">
-                    <ul class="list-unstyled custom-list-feedback">
-                        <li>Would you like to recieve updates about {{data.practitioner.name}}? (i.e Change in practice timings, Special offers etc.)</li>
-                        <li></li>
-                        <form id="subscription-form" class="sky-form custom-sky-form" method="post" action="{% url 'subscribe' %}">{% csrf_token %}
-                            <fieldset>
-                                <div class="row">
-                                    <section>
-                                        <label class="input">
-                                            <i class="icon-append fa fa-envelope-o"></i>
-                                            <input id="email" type="email" name="email" placeholder="Email Address">
-                                        </label>
-                                    </section>
-                                </div>
-                                <div class="row">
-                                    <div class="border-rits"><span>or</span></div>
-                                </div>
-                                <div class="row">
-                                    <section>
-                                        <label class="input">
-                                            <i class="icon-append fa fa-phone"></i>
-                                            <input id="phone" type="text" name="phone" placeholder="Contact Number">
-                                        </label>
-                                    </section>
-                                </div>
-                                <div class="row">
-                                    <input type="hidden" name="slug" value="{{data.practitioner.slug}}">
-                                    <button class="btn btn-primary full-width">Subscribe</button>
-                                </div>
-                            </fieldset>
-                        </form>
-                        <li>
-                        <span><i class="fa fa-shield text-green"></i> Rest assure that we won't be sharing your personal information with anyone without your consent and we won't spam you either.</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        {% endif %}
-    </div>-->
+    <!-- Comment goes down from here -->
 </div>
 <div class="container">
     <div class="tabs">
@@ -306,7 +171,7 @@
                 <div class="price-price prac-loc-name">Subscription</div>
                 <div class="price-features">
                     <ul class="list-unstyled custom-list-feedback">
-                        <li>Would you like to recieve updates about {{data.practitioner.name}}? (i.e Change in practice timings, Special offers etc.)</li>
+                        <li>Would you like to receive updates about {{data.practitioner.name}}? (i.e Change in practice timings, Special offers etc.)</li>
                         <li></li>
                         <form id="subscription-form" class="sky-form custom-sky-form" method="post" action="{% url 'subscribe' %}">{% csrf_token %}
                             <fieldset>
@@ -336,7 +201,7 @@
                             </fieldset>
                         </form>
                         <li>
-                        <span><i class="fa fa-shield text-green"></i> Rest assure that we won't be sharing your personal information with anyone without your consent and we won't spam you either.</span>
+                        <span><i class="fa fa-shield text-green"></i> Rest assure that we won't be sharing your personal information with anyone without your consent and we won't Spam you either.</span>
                         </li>
                     </ul>
                 </div>
@@ -512,3 +377,137 @@
     });
 </script>
 {% endblock %}
+<!--<div class="row masonry-container">
+        {% for practice in data.practice %}
+        <div class="col-md-4 col-sm-6 margin40 item">
+            <div class="price-wrap">
+                <div class="price-title price-title-custom">
+                    <img src="{% static 'assets/img/service-1.jpg' %}" class="img-responsive" alt="">
+                </div>
+                <div class="price-price prac-loc-name">{{practice.practice_location.name}}</div>
+                <div class="price-features">
+                    <ul class="list-unstyled">
+                        <li><i class="fa fa-home text-blue"></i> {{practice.practice_location.clinic_address}} ,{{practice.practice_location.area}}</li>
+                        <li><i class="fa fa-phone text-blue"></i> <a href="tel:{{ practice.practice_location.contact_number }}">{{ practice.practice_location.contact_number }}</a></li>
+                        <li><i title="Checkup fee" class="fa fa-money text-blue"></i> {{practice.fee}}</li>
+                    </ul>
+                </div>
+                <div class="price-action">
+                    <ul class="list-inline last-loc-line">
+                        <li><i title="Last updated on: {{ practice.modified }}" class="fa fa-clock-o text-blue"></i></li>
+                        <li><button class="btn btn-primary btn-{{practice.practice_location.slug}}-timing">Timings</button></li>
+                        <li><button class="btn btn-success" disabled>Open Now</button></li>
+                        {% if practice.practice_location %}
+                        <li><a href="https://www.google.com/maps?q={{ practice.practice_location.lat }},{{ practice.practice_location.lon }}" target="_blank">
+                            <i class="fa fa-map-marker text-navy"></i>
+                        </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        <div class="col-md-4 col-sm-6 margin40 item">
+            <div class="price-wrap">
+                <div class="price-price prac-loc-name">Patients Feedback</div>
+                <div class="price-features">
+                    <ul class="list-unstyled">
+                        <li>
+                        <ul class="list-inline custom-list-feedback">
+                            {{ data.pract_avg_review.total|get_rating_by_count }}
+                            <li>{{data.pract_avg_review.total}} ({{data.pract_avg_review.num_of_reviews}} reviews)</li>
+                        </ul>
+                        </li>
+                        <li><span class="h3">Patients Satisfaction</span></li>
+                        <li style="border-top:0;">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">Read what other patients have to say:</h4>
+                            </div>
+                            <div class="panel-body comments-panel-body">
+                                {% for review in data.reviews %}
+                                <div class="review-box margin10">
+                                    <img src="{% static 'assets/img/team-1.jpg' %}" alt="" class="img-responsive">
+                                    <div class="review-content text-left">
+                                        <ul class="list-inline rating-list custom-list-feedback text-left">
+                                            <li class="admin-detail">
+                                            {% if review.anonymous %}
+                                            <span><strong>Anonymous</strong></span>
+                                            {% else %}
+                                            <span><strong>{{review.patient.user.first_name}}</strong></span>
+                                            {% endif %}
+                                            </li>
+                                            {{review.answers|get_rating_by_model}}
+                                        </ul>
+                                        {% if review.comments %}
+                                        <p>{{review.comments}}</p>
+                                        <ul class="list-inline text-right custom-list-feedback">
+                                            <li><i class="fa fa-thumbs-o-up text-blue"></i> {{review.comments.agree}} </li>
+                                            <li><i class="fa fa-thumbs-o-down text-red"></i> {{review.comments.disagree}}</li>
+                                        </ul>
+                                        {% else %}
+                                        <p></p>
+                                        <ul class="list-inline text-right custom-list-feedback">
+                                            <li></li>
+                                            <li></li>
+                                        </ul>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        </li>
+                        <li>
+                        <a href="{% url 'practitioner_review' slug=data.practitioner.slug %}"><span class="h3 text-blue">How was your experience?</span></a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+        {% if not user.is_authenticated and practice_count < 2%}
+        <div class="col-md-4 col-sm-6 margin40 item">
+            <div class="price-wrap">
+                <div class="price-price prac-loc-name">Subscription</div>
+                <div class="price-features">
+                    <ul class="list-unstyled custom-list-feedback">
+                        <li>Would you like to recieve updates about {{data.practitioner.name}}? (i.e Change in practice timings, Special offers etc.)</li>
+                        <li></li>
+                        <form id="subscription-form" class="sky-form custom-sky-form" method="post" action="{% url 'subscribe' %}">{% csrf_token %}
+                            <fieldset>
+                                <div class="row">
+                                    <section>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-envelope-o"></i>
+                                            <input id="email" type="email" name="email" placeholder="Email Address">
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <div class="border-rits"><span>or</span></div>
+                                </div>
+                                <div class="row">
+                                    <section>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-phone"></i>
+                                            <input id="phone" type="text" name="phone" placeholder="Contact Number">
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <input type="hidden" name="slug" value="{{data.practitioner.slug}}">
+                                    <button class="btn btn-primary full-width">Subscribe</button>
+                                </div>
+                            </fieldset>
+                        </form>
+                        <li>
+                        <span><i class="fa fa-shield text-green"></i> Rest assure that we won't be sharing your personal information with anyone without your consent and we won't spam you either.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>-->

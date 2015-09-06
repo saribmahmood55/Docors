@@ -1,3 +1,4 @@
+# flake8: noqa
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -24,14 +25,10 @@ def index(request):
     for hc in HitCount.objects.filter(content_type=ContentType.objects.get_for_model(PracticeLocation)).order_by('-hits')[:5]:
         data['popular_practice'].append(hc.content_object)
 
-    print data
-
     try:
         patient_data = Patient.patient_objects.patient_details(lambda: request.user if request.user.is_authenticated() else None)
     except Patient.DoesNotExist:
         pass
-
-    print get_lat_lon(request)
 
     data['doc_form'],data['spec_form'],data['adv_form'] = doctors_form(),speciality_form(),advanced_form()
 

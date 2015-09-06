@@ -72,7 +72,7 @@
                 <table class="table table-hover">
                     <tbody>
                         <tr><th><i class="fa fa-mars text-blue"></i> Gender</th><th><i class="fa fa-heart text-red"></i> Experience</th><th><i class="fa fa-map-marker text-blue"></i> Location</th><th><i class="fa fa-money text-green"></i> Checkup Fee</th><th><i class="fa fa-mobile text-navy"></i> Contact</th></tr>
-                        <tr><td>{{onePractitioner.practitioner.get_gender_display}}</td><td>{{onePractitioner.practitioner.experience}} Years</td><td>{{onePractitioner.practice_location.clinic_address}}, {{onePractitioner.practice_location.city.name}}</td><td>{{onePractitioner.fee.amount}} pkr/-</td><td>{{onePractitioner.practice_location.contact_number}}</td></tr>
+                        <tr><td>{{onePractitioner.practitioner.get_gender_display}}</td><td>{{onePractitioner.practitioner.experience}} Years</td><td>{{onePractitioner.practice_location.area.name}}, {{onePractitioner.practice_location.area.city.name}}</td><td><small>Rs</small> <b>{{onePractitioner.fee.amount}}</b></td><td>{{onePractitioner.practice_location.contact_number}}</td></tr>
                     </tbody>
                 </table>
             </div>

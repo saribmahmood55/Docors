@@ -18,8 +18,6 @@ class BasePracticeFormSet(BaseFormSet):
         for idx, form in enumerate(self.forms):
             if form not in self.deleted_forms:
                 form.save(practitioner, extraPracticeTimings[idx])
-            else:
-                print "form is deleted"
 
 
 class PracticeForm(forms.Form):

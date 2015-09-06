@@ -1,3 +1,4 @@
+# flake8: noqa
 from reviews.views import *
 from patients.models import Patient
 from practice.models import Practice
@@ -9,7 +10,6 @@ from badwordsfilter import *
 
 def newReview(user, slug, review_text):
 	clean_text = badWordFilter(review_text)
-	print clean_text
 	patient = Patient.patient_objects.patient_details(user=user)
 	practitioner = Practitioner.prac_objects.practitioner_slug(slug)
 	pr = Review.objects.filter(patient=patient, practitioner=practitioner)

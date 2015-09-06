@@ -23,9 +23,7 @@ def register(request):
 	return render(request, "registration/registration_form.html", {'form': form})
 
 def activate(request, token):
-	print token
 	email_confirm = EmailConfirmation.objects.get(key=token)
-	print email_confirm
 	data = email_confirm.confirm_activation()
 	return render(request, "registration/activate.html", {'data':data})
 
