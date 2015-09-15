@@ -22,23 +22,29 @@ class SpecializationManager(models.Manager):
             SpecializationManager,
             self
         ).filter(
-            Q(training_region=region) | Q(training_region='all')
+            Q(training_region__icontains=region) | Q(training_region='all')
         ).values('id', 'name')
 
 
 class Specialization(models.Model):
     REGION = [
         ('all', 'All'),
-        ('pak', 'Pakistan'),
+        ('pak', 'Asia'),
         ('eur', 'Europe/UK'),
         ('usa', 'United States'),
+        ('pak_eur', 'Pakistan/Europe'),
+        ('pak_usa', 'Pakistan/USA'),
+        ('eur_usa', 'Europe/USA'),
     ]
 
     name = models.CharField(max_length=100)
     human_name = models.CharField(max_length=100, null=True)
     SEO_name = models.CharField(max_length=100, null=True)
     description = models.TextField(null=True, blank=True)
-    training_region = models.CharField(max_length=3, null=True, choices=REGION)
+    training_region = models.CharField(
+        max_length=10,
+        null=True,
+        choices=REGION)
     slug = AutoSlugField(populate_from='name', unique=True)
 
     objects = models.Manager()
@@ -80,7 +86,8 @@ class ConditionManager(models.Manager):
         return super(ConditionManager, self).get(name=name)
 
     def get_conditions(self, specialization):
-        return super(ConditionManager, self).filter(specialization=specialization)
+        return super(ConditionManager, self).filter(
+            specialization=specialization)
 
     def get_specialization(self, condition):
         return super(ConditionManager, self).get(name=condition)
@@ -111,7 +118,8 @@ class ProcedureManager(models.Manager):
         return super(ProcedureManager, self).get(name=name)
 
     def get_procedures(self, specialization):
-        return super(ProcedureManager, self).filter(specialization=specialization)
+        return super(ProcedureManager, self).filter(
+            specialization=specialization)
 
     def get_specialization(self, procedure):
         return super(ProcedureManager, self).get(name=procedure)
@@ -247,9 +255,24 @@ class ClaimManager(models.Manager):
 
 class Claim(models.Model):
     practitioner = models.ForeignKey(Practitioner)
-    email = models.EmailField(verbose_name="email address", max_length=255, help_text=_("Verification email will be sent at this address. So please ensure you enter correct email"))
+    email = models.EmailField(
+        verbose_name="email address",
+        max_length=255,
+        help_text=_("Verification email will be sent at this address. So please \
+            ensure you enter correct email"))
     pmdc_no = models.CharField(max_length=20)
-    photo = ImageField(upload_to='practitioner/', blank=True, null=True, help_text=_("Please provide a passport size photograph of yours to help in the verification process."))
+    photo = ImageField(
+        upload_to='practitioner/claim/photo/',
+        blank=True,
+        null=True,
+        help_text=_("Please provide a passport size photograph of yours to help \
+            in the verification process."))
+    prescription_photo = ImageField(
+        upload_to='practitioner/claim/prescription_photo/',
+        blank=True,
+        null=True,
+        help_text=_("Please provide a passport size photograph of yours to help \
+            in the verification process."))
     current_status = models.BooleanField(default=False)
 
     objects = models.Manager()

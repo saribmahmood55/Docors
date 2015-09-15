@@ -9,12 +9,14 @@ from django.contrib.gis import measure
 from django.contrib.gis.measure import D
 from django.core.urlresolvers import reverse
 
+
 class CityManager(models.Manager):
     def city_name(self, name):
         return super(CityManager, self).get(name=name)
 
     def get_default(self):
         return super(CityManager, self).get(name='Lahore')
+
 
 class City(models.Model):
     name = models.CharField(max_length=50)
@@ -29,6 +31,7 @@ class City(models.Model):
     class Meta:
         verbose_name_plural = "Cities"
         ordering = ('name',)
+
 
 class AreaManager(models.Manager):
     def get_slug(self, key, value):
@@ -46,6 +49,7 @@ class AreaManager(models.Manager):
 
     def area_name(self, name):
         return super(AreaManager, self).get(name=name)
+
 
 class Area(models.Model):
     name = models.CharField(max_length=50)
@@ -73,9 +77,11 @@ class CheckupFee(models.Model):
         verbose_name_plural = "Checkup Fee"
         ordering = ('amount',)
 
+
 class PracticeLocationManager(models.Manager):
     def get_name_by_slug(self,slug):
         return super(PracticeLocationManager, self).get(slug=slug).name
+
 
 class PracticeLocation(models.Model):
     name = models.CharField(max_length=50)
@@ -107,7 +113,7 @@ class PracticeLocation(models.Model):
         super(PracticeLocation, self).save()
 
 
-#Custom Manager
+# Custom Manager
 class PracticeManager(models.Manager):
 
     def practice_names(self, name, p_type):
@@ -145,22 +151,22 @@ class PracticeManager(models.Manager):
                 query = query.filter(practitioner__full_name__icontains=name)
             if day != '':
                 query = query.filter(practicetiming__day=day).distinct('practitioner')
-    		if wait == 1:
-    			query = query.filter(appointments_only=False)
+            if wait == 1:
+                query = query.filter(appointments_only=False)
         else:
-        	current_point = geos.fromstr("POINT(%s %s)" % (lon, lat))
-    		distance_from_point = {'km': dist}
-    		query = Practice.gis.filter(location__distance_lte=(current_point, measure.D(**distance_from_point)))
-    		query = query.distance(current_point).order_by('distance')
-    		query = query.filter(practitioner__specialty__slug=spec, practitioner__is_active=True)
-    		#spatial name search
-    		if name != '':
-    			query = query.filter(practitioner__full_name__icontains=name)
-    		if day != '':
-    			query = query.filter(practicetiming__day=day).distinct('practitioner')
-    			query = query.distance(current_point).order_by('practitioner')
-    		if wait == 1:
-    			query = query.filter(appointments_only=False)
+            current_point = geos.fromstr("POINT(%s %s)" % (lon, lat))
+            distance_from_point = {'km': dist}
+            query = Practice.gis.filter(location__distance_lte=(current_point, measure.D(**distance_from_point)))
+            query = query.distance(current_point).order_by('distance')
+            query = query.filter(practitioner__specialty__slug=spec, practitioner__is_active=True)
+            # spatial name search
+            if name != '':
+                query = query.filter(practitioner__full_name__icontains=name)
+            if day != '':
+                query = query.filter(practicetiming__day=day).distinct('practitioner')
+                query = query.distance(current_point).order_by('practitioner')
+            if wait == 1:
+                query = query.filter(appointments_only=False)
 
         result['practice_list'] = query
         return result
@@ -208,7 +214,8 @@ class Practice(models.Model):
     def get_absolute_url(self):
         return reverse('practitioner', args=[self.practitioner.slug])
 
-#Custom Manager
+
+# Custom Manager
 class PracticeTimingManager(models.Manager):
     def practice_timings(self, pr_slug, p_slug):
         practice_timings = super(PracticeTimingManager, self).filter(practice__practice_location__slug=pr_slug, practice__practitioner__slug=p_slug).order_by('pk')
@@ -217,6 +224,7 @@ class PracticeTimingManager(models.Manager):
     def spec_day_timing(self, spec, day):
         practice_timings = super(PracticeTimingManager, self).filter(practice__practitioner__specialty__slug=spec, day=day).order_by('pk')
         return practice_timings
+
 
 class PracticeTiming(models.Model):
     
@@ -255,6 +263,7 @@ class PracticeTiming(models.Model):
 
     class Meta:
         verbose_name_plural = "Practice Timings"
+
 
 class RecentSearch(models.Model):
     city = models.ForeignKey(City)

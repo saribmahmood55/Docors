@@ -1,3 +1,4 @@
+# flake8: noqa
 from django.forms.formsets import formset_factory
 from django.forms.models import modelform_factory
 from django.http import Http404, HttpResponse, HttpResponseRedirect
