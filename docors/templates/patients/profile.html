@@ -1,188 +1,78 @@
- <!DOCTYPE html> 
-  <html>
-  <head>
-    {% load staticfiles %}
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="{% static "icons/stethoscope.ico" %}" />
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.js"></script>
-    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.css" />
-    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{% static "style/style.css" %}"rel="stylesheet" type="text/css" />
-  </head>
-  <body>
-  <div data-role="page" id="userProfile" data-title="{{data.patient.user.username}} | doctorsinfo.pk">
-  <div data-role="header" class="header1">
-    <div class="menu">
-      <div class="icon-close"><img src="{% static "icons/close.png" %}"></div>
-      <ul>
-        {% if not data.user.is_authenticated %}
-        <li><a class="login" href="{% url 'auth_login' %}">Login</a>
-        <a class="signUp" href="{% url 'registration_register' %}">Register</a></li>
-        {% endif %}
-        <li><a href="{% url 'registration' %}"><i class="fa fa-list-alt fa-1x"></i>get listed as a Doctor!</a></li>
-        <li><a href="#"><i class="fa fa-lightbulb-o fa-1x"></i>educate yourself.</a></li>
-        <li><a target="_top" href="mailto:doctorsinfo.pk@gmail.com"><i class="fa fa-envelope fa-1x"></i>Contact Doctors Info.</a></li>
-        <li><a href="https://www.facebook.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook fa-1x"></i>facebook</a></li>
-        <li><a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i>twitter</a></li>
-        <li><a href="https://plus.google.com/+DoctorsinfoPk" rel="publisher" target="_blank"><i class="fa fa-google-plus fa-1x"></i>google+</a></li>
-        <li class="extraLinks"><a class="mezino" href="http://mezino.com"><img src="{% static "icons/mezino.png" %}"></a>
-      </ul>
-    </div>
-    <div class="icon-menu"><i class="fa fa-bars"></i></div>
-    <span id="logo" data-role="none"><a href="/"><img height="35" src="{% static "icons/doctors.png" %}" alt="logo"/></a></span>
-              <div id="head">
-                {% if data.user.is_authenticated %}
-                <a href="{% url 'auth_logout' %}" style: id="user" >Log Out.</a>
-                {% endif %}
-              </div>
-  </div>
-    <div role="main" class="ui-content container">
-     {% if data.user.is_authenticated %}
-     <h2 class="textCentre">User Profile</h2>
-     <!--Patient Profile -->
-     <div class="profile">
-       <ul>
-         <li>
-           <span>username: <strong>{{data.patient.user.username}}</strong></span>
-           <span>email: <strong>{{data.patient.user.email}}</strong></span>
-           {% if data.patient.user.get_full_name and data.patient.cell_number %}
-           <span>First name: <strong>{{data.patient.user.first_name}}</strong></span>
-           <span>Last Name: <strong>{{data.patient.user.last_name}}</strong></span>
-           <span>Cell Number: {{data.patient.cell_number}}</span>
-           <span>Gender: {{data.patient.get_gender_display}}</span>
-           <span>Age-Group: {{data.patient.get_age_group_display}}</span>
-           {% else %}
-           <form action="{% url 'patient' %}" class="updateP" method="POST">{% csrf_token %}
-            <input type="hidden" name="type_" value="updatePatient" />
-            <span><strong>First Name: <input type="text" name="fname" required /></strong></span>
-            <span><strong>Last Name: <input type="text" name="lname" required /></strong></span>
-            <span><strong>Cell Number: <input type="text" name="number" /></strong></span>
-            <span><strong>Gender: </strong><select name="gender">
-             <option value="-">Prefer not to answer</option>
-             <option value="M">Male</option><option value="F">Female</option>
-           </select></span>
-           <span><strong>Age Group: </strong><select name="age" required><option value="">-Select Age Group-</option>
-             <option value="10">10-14</option><option value="15">15-19</option><option value="20">20-24</option>
-             <option value="25">25-29</option><option value="30">30-34</option><option value="35">35-39</option>
-             <option value="40">40-44</option><option value="45">45-49</option><option value="50">50-54</option>
-             <option value="55">55-59</option><option value="60">60-64</option><option value="65">65-69</option>
-             <option value="80">80-84</option><option value="85">85+</option>
-           </select></span>
-           <button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Update</button>
-         </form>
-         {% endif %}
-       </li>
-     </ul>
-   </div> 
-
-   <!--patient reviews-->
-   <div class="grid-name">
-     <h2 style="background-color: #4b555d;">Reviews</h2>
-     <div class="patient-reviews">
-       <ul>
-         {% for pr in data.reviews.iterator %}
-         <li class="marg-l">
-           <span class="comment" contenteditable="true">{{ pr.review_text }}</span>
-           <i class="fa fa-trash fa-1x review" id="{{pr.pk}}"></i>
-           <i class="fa fa-check updatereview" id="{{pr.pk}}"></i>
-         </li>
-         {% empty %}
-         <li class="marg-l"><span>* No Reviews from you about any Practitioner.</span></li>
-         {% endfor %}
-       </ul>
-       <p>* Tap on review text to update and then click Check Button to Save.</p>
-     </div>
-   </div>
-   <!--favourite Practitioner List -->
-   <div class="grid-name">
-     <h2 style="background-color: #4b555d;">Favourite Practitioners</h2>
-     <div class="favourite-pracs">
-      <ul>
-       {% for practitioner in data.patient.favt_practitioner.all.iterator %}
-       <li><a href="{% url 'practitioner' practitioner.slug %}" class="anchor-link Pracname" >* {{practitioner.name}}</a><i class="fa fa-times fa-1x deletePrac" id="{{practitioner.slug}}"></i></li>
-       {% empty %}
-       <li class="marg-l"><span>* No favourite Practitioner. *</span></li>
-       {% endfor %}
-     </ul>
-   </div>
- </div>
- {% endif %}
-  </div>
-<script type="application/javascript">
-/* remove Review */
-$(document).on("pageshow", "#userProfile", function () {
-  $('.review').click(function() {
-    var warning = window.confirm("Are you sure you want to remove that Review ?");
-    if (warning){
-      $.ajax({
-        type: "POST",
-        url: "{% url 'patient' %}",
-        context: this,
-        data: {
-          type_: "deleteReview",
-          id: $(this).attr('id'),
-          csrfmiddlewaretoken: '{{ csrf_token }}'
-        },
-        success: function(data) {
-          if (data.status_){  
-            var cmnt = $(this).next('.updatereview');
-            var check = $(this).prev('.comment');
-            cmnt.remove();
-            check.remove();
-            $(this).remove();
-          }
-        },
-        dataType: 'json'
-      });
-    }
-  });
-/* updatereview */
-  $('.updatereview').click(function() {
-    $.ajax({
-      type: "POST",
-      url: "{% url 'patient' %}",
-      context: this,
-      data: {
-        type_: "updatereview",
-        id: $(this).attr('id'),
-        csrfmiddlewaretoken: '{{ csrf_token }}'
-      },
-      success: function(data) {
-        if (data.status_){
-          $(this).hide();
-        }
-      },
-      dataType: 'json'
-    });
-  });
-/* remove Prac */
-  $('.deletePrac').click(function() {
-    var warning = window.confirm("Are you sure you want to remove that Practitioner from your favourite List ?");
-    if (warning){
-      $.ajax({
-        type: "POST",
-        context: this,
-        url: "{% url 'patient' %}",
-        context: this,
-        data: {
-          type_: "deletePrac",
-          prac_slug: $(this).attr('id'),
-          csrfmiddlewaretoken: '{{ csrf_token }}'
-        },
-        success: function(data) {
-          if (data.status_){
-            var name = $(this).prev('.Pracname');
-            name.remove();
-            $(this).remove();
-          }
-        },
-      });
-    }
-  });
-});
-</script>
-<script async language="JavaScript" src="{% static "js/menu.js" %}"></script>
+{% extends 'patients/dashboard_base.html' %}
+{% block dashboard_content %}
+<div class="col-sm-12">
+    <h3 class="heading">Profile</h3>
 </div>
-</body>
-</html>
+<div class="col-md-12 sky-form-login-register v2">
+    {% if profile_form.errors %}
+    <div class="alert alert-danger">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        {{ profile_form.errors.as_ul}}
+    </div>
+    {% endif %}
+    <form action="" method="POST" class="sky-form">
+        {% csrf_token %}
+        <fieldset>
+            <div class="row">
+                <section>
+                    <label class="label">Full Name</label>
+                    <label class="input">
+                        {{profile_form.full_name}}
+                    </label>
+                </section>
+            </div>
+            <div class="row">
+                <section>
+                    <label class="label">Year of Birth</label>
+                    <label class="select">
+                        {{profile_form.year_of_birth}}
+                    </label>
+                </section>
+            </div>
+            <div class="row">
+                <section>
+                    <label class="label">Cell Number</label>
+                    <label class="input">
+                        {{profile_form.cell_number}}
+                    </label>
+                </section>
+            </div>
+            <div class="row">
+                <section>
+                    <label class="label">City</label>
+                    <label class="select">
+                        {{profile_form.city}}
+                    </label>
+                </section>
+            </div>
+        </fieldset>
+        <fieldset>
+            <footer>
+                <div class="row">
+                    <button type="submit" class="button">Update</button>
+                </div>
+            </footer>
+        </fieldset>
+    </form>
+</div>
+{% endblock %}
+
+{% load staticfiles %}
+{% block pageSpecificCSS %}
+<link href="{% static 'assets/css/sky-forms.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block customScript %}
+<script type="text/javascript">
+    $("#id_year_of_birth").select2({'placeholder':'Select birth Year'});
+    $("#id_city").select2({'placeholder':'Select City'});
+
+    function reset_values(){
+      $("#id_firstname").val("{{data.patient.user.first_name}}");
+      $("#id_lastname").val("{{data.patient.user.last_name}}");
+      $("#id_age option[value='{{data.patient.age_group}}']").prop('selected',true);
+      $("#id_gender option[value='{{data.patient.gender}}']").prop('selected',true);
+      $("#id_number").val("{{data.patient.cell_number}}")
+    }
+</script>
+{% endblock %}

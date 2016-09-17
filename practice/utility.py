@@ -11,3 +11,19 @@ def updateRecentSearches(city, spec):
 			obj.save()
 		except:
 			obj = RecentSearch.objects.create(city=citi, speciality=speciality, hit_count=1)
+
+def get_review_details(reviews):
+	answers_avg = {'anw1':0,'anw2':0,'anw3':0,'anw4':0,'anw5':0, 'num_of_reviews':len(reviews)}
+	total = 0
+	for review in reviews:
+		answers_avg['anw1'] = answers_avg['anw1'] + review.answers.answer1
+		answers_avg['anw2'] = answers_avg['anw2'] + review.answers.answer2
+		answers_avg['anw3'] = answers_avg['anw3'] + review.answers.answer3
+		answers_avg['anw4'] = answers_avg['anw4'] + review.answers.answer4
+		answers_avg['anw5'] = answers_avg['anw5'] + review.answers.answer5
+	for i in range(1,6):
+		if len(reviews):
+			answers_avg['anw'+str(i)] = answers_avg['anw'+str(i)] / len(reviews)
+			total = total + answers_avg['anw'+str(i)]
+	answers_avg['total'] = total/5
+	return answers_avg

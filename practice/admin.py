@@ -1,14 +1,28 @@
+# flake8: noqa
 from django.contrib import admin
 from practice.models import *
 
+class PracticeTimingsInline(admin.TabularInline):
+	model = PracticeTiming
+	extra = 1
+
 class CityAdmin(admin.ModelAdmin):
-	list_display = ['name','slug']
+	list_display = ['pk', 'name','slug']
 	list_filter = ['name']
 	search_fields = ['name']
 
+class AreaAdmin(admin.ModelAdmin):
+	list_display = ['name', 'city', 'slug']
+	list_filter = ['city']
+	search_fields = ['name']
+
+class CheckupFeeAdmin(admin.ModelAdmin):
+	list_display = ['amount']
+	list_filter = ['amount']
+
 
 class PracticeLocationAdmin(admin.ModelAdmin):
-	list_display = ['pk','name','slug','clinic_address','lon','lat']
+	list_display = ['name','slug','area','contact_number','clinic_address','lon','lat']
 	search_fields = ['name']
 
 
@@ -17,27 +31,28 @@ class PracticeAdmin(admin.ModelAdmin):
 		(None, {'fields': ['practitioner']}),
 		(None, {'fields': ['practice_location']}),
 		(None, {'fields': ['practice_type']}),
-		(None, {'fields': ['practice_photo']}),
-        (None, {'fields': ['contact_number']}),
-        (None, {'fields': ['checkup_fee']}),
-        (None, {'fields': ['services']}),
+        (None, {'fields': ['fee']}),
+        (None, {'fields': ['phone_ext']}),
         (None, {'fields': ['appointments_only']}),
 	]
-	list_display = ['practitioner','pk','practice_location','contact_number','checkup_fee','appointments_only','modified','location']
+	list_display = ['practice_location', 'practitioner', 'fee', 'phone_ext', 'appointments_only','modified']
 	search_fields = ['practitioner__name']
+	inlines = [PracticeTimingsInline]
 
 
 class PracticeTimingAdmin(admin.ModelAdmin):
-	list_display = ['practitioner','practice','day', 'start_time','end_time']
-	list_filter = ['day']
-	search_fields = ['practitioner__name','practice__practice_location__name','day']
+	list_display = ['practice','day', 'start_time','end_time']
+	list_filter = ['practice__practice_location__name']
+	search_fields = ['practice__practice_location__name']
 
 class RecentSearchAdmin(admin.ModelAdmin):
-	list_display = ['speciality','city','hit_count']
+	list_display = ['specialty','city','hit_count']
 
 
 admin.site.register(City, CityAdmin)
+admin.site.register(CheckupFee, CheckupFeeAdmin)
 admin.site.register(PracticeLocation, PracticeLocationAdmin)
 admin.site.register(Practice, PracticeAdmin)
 admin.site.register(PracticeTiming, PracticeTimingAdmin)
 admin.site.register(RecentSearch, RecentSearchAdmin)
+admin.site.register(Area, AreaAdmin)

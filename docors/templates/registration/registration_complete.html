@@ -1,6 +1,12 @@
-{% extends "registration/base.html" %}
+{% extends "base.html" %}
 {% block title %}Registration Complete | Doctors Info. Pakistan{% endblock %}
 {% block content %}
-<center><h1><a href="/" class="anchor-link" ><i class="fa fa-stethoscope fa-1x marg-r"></i>www.doctorsinfo.pk</a></h1></center>
-<center><h2> Registration Successful !</h2><center>
+<div class="divide80"></div>
+<div class="container">
+	<h1>Welcome to DoctorsInfo, {{registered_user.full_name}}</h1>
+	<p class="text-success">An Email containing the activation link has been sent to your email address ({{registered_user.email}}). Please activate your account by clicking on the activation link.</p>
+	<p class="text-success">You can start using <span class="h3">DoctorsInfo</span> once you have successfully activated your account.</p>
+	<p class="text-primary"><a href="/">Go back to homepage</a></p>
+</div>
+<div class="divide80"></div>
 {% endblock %}

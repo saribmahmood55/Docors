@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block pageSpecificCSS %}<link href="{% static 'assets/css/sky-forms.css' %}" rel="stylesheet">{% endblock %}
+{% block content %}
+<div class="divide60"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3 sky-form-login-register">
+            <div class="margin40">
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        <a href="#" class="close" data-dismiss="alert">&times;</a>
+                        {{ form.non_field_errors.as_ul }}   
+                    </div>
+                {% endif %}
+            	<form class="sky-form" role="form" action="" method="POST" data-toggle="validator">{% csrf_token %}
+                    <h3 class="text-center"><a href="{% url 'practitioner' slug=practitioner.slug %}">{{practitioner}}</a></h3>
+                    <h3 class="text-center">We highly appreciate your contibution.</h3>
+
+                    <fieldset>					
+                        <section>
+                            <div class="row">
+                                <label class="label col col-4">{{form.incorrect_info.label}}</label>
+                                <div class="col col-8">
+                                    <label class="select">
+                                        {{form.incorrect_info}}
+                                        <i></i>
+                                    </label>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section>
+                            <div class="row">
+                                <label class="label col col-4">{{form.correct_info.label}}</label>
+                                <div class="col col-8">
+                                    <label class="input">
+                                        {{form.correct_info}}
+                                    </label>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section>
+                            <div class="row">
+                                <label class="label col col-4">{{form.comments.label}}</label>
+                                <div class="col col-8">
+                                    <label class="input">
+                                        {{form.comments}}
+                                    </label>
+                                </div>
+                            </div>
+                        </section>
+                    </fieldset>
+                    <footer class="text-right">
+                        <button type="submit" class="btn btn-theme-bg btn-lg">Submit</button>
+                    </footer>
+                </form>			
+            </div><!--login form wrap end-->
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,9 +1,0 @@
-{% extends "registration/base.html" %}
-{% block title %}Logged out | doctorsinfo.pk{% endblock %}
-{% block extrahead %}{{ block.super }}
-    <script type="text/javascript">
-        setTimeout(function() {
-            window.location.href = "/";
-        }, 2000);
-    </script>
-{% endblock %}

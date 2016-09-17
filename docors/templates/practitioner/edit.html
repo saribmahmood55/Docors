@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block title %}doctorsinfo.pk - {{data.practitioner.full_name}}{% endblock %}
+{% block content %}
+<div class="divide60"></div>
+<div class="container">
+	<div class="row">
+		<div class="col-sm-12">
+			{% if error_occured %}
+			<div class="alert alert-danger text-center">
+                An Error Occured during account creation process. Please try again.
+            </div>
+            {% endif %}
+        </div>
+        <div class="col-sm-12 sky-form-login-register v2">
+            <div class="margin40">
+
+                <form action="" method="POST" role="form" id="sky-form-doctors" class="sky-form">{% csrf_token %}
+
+                	<h3 class="text-center"><a href="{% url 'practitioner' slug=data.practitioner.slug %}">{{data.practitioner.full_name}}</a></h3>
+
+                    <h3 class="text-center">Edit Your Profile</h3>
+
+                    <fieldset>
+                    	<div class="row">
+	                        <section class="col col-6">
+	                        	<label>Condtions</label>
+	                            <label class="select">
+	                                {{form.conditions}}
+	                                <i></i>
+	                            </label>
+	                        </section>
+	                        <section class="col col-6">
+	                        	<label>Procedures</label>
+	                            <label class="select">
+	                                {{form.procedures}}
+	                                <i></i>
+	                            </label>
+	                        </section>
+	                    </div>
+	                    <div class="row">
+	                        <section class="col col-6">
+	                        	<label>Achivements</label>
+	                            <label class="textarea">
+	                                {{form.achievements}}
+	                            </label>
+	                        </section>
+	                        <section class="col col-6">
+	                        	<label>Message</label>
+	                            <label class="input">
+	                                <i class="icon-append fa fa-envelope-o"></i>
+	                                {{form.message}}
+	                                <b class="tooltip tooltip-bottom-right">Message for your patients</b>
+	                            </label>
+	                        </section>
+	                    </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% load staticfiles %}
+{% block pageSpecificCSS %}
+<link href="{% static 'assets/css/sky-forms.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block pageSpecificJS %}
+<script type="text/javascript" src="{% static 'assets/js/autosize.min.js' %}"></script>
+{% endblock %}
+
+{% block customScript %}
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		$("#id_conditions,#id_procedures").select2();
+		autosize($('textarea'));
+	});
+
+</script>
+{% endblock %}

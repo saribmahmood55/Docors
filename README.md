@@ -3,24 +3,26 @@
 ### Installation Instrutions:
 
 1. Installing Data Base, Postgresql 9.3:
-```sh
-$	sudo apt-get install postgresql-9.3
+```
+$   sudo apt-get install postgresql-9.3
+$   sudo apt-get install python-psycopg2
+$   sudo apt-get install libpq-dev
 ```
 
-2. Create database with name 'geodjango':
-```sh
-$	sudo -su postgres
-$	createdb geodjango
+2. Create database with name 'Rana_Gujjar':
 ```
-3. Creating postgis extension inside a standard database, we just created i.e 'geodjango', adding a new user and granting privileges to new user:
+$	sudo -su postgres
+$	createdb Rana_Gujjar
+```
+3. Creating postgis extension inside a standard database, we just created i.e 'Rana_Gujjar', adding a new user and granting privileges to new user:
 ```sh
-$	sudo -u postgres psql geodjango
+$	sudo -u postgres psql Rana_Gujjar
 ```
 psql commands:
 ```sh
 CREATE EXTENSION postgis;
 CREATE USER asadrana WITH PASSWORD 'asad0321';
-GRANT ALL PRIVILEGES ON DATABASE "geodjango" to asadrana;
+GRANT ALL PRIVILEGES ON DATABASE "Rana_Gujjar" to asadrana;
 \q
 ```
 

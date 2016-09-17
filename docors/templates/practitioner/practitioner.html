@@ -1,350 +1,513 @@
-<!DOCTYPE html>
-<html>
-<head>
+{% extends "base.html" %}
+{% block title %}doctorsinfo.pk - {{ data.practitioner.full_name }}{% endblock %}
+{% block fbTags %}
+<meta property="og:title" content="{{ data.practitioner.full_name }} - doctorsinfo.pk"/>
+{% if data.practitioner.achievements %}<meta property="og:description" content="{{data.practitioner.achievements}}" />
+{% else %}<meta property="og:description" content="Pakistan's first online health and medical information portal. Find specialist doctors in your area by thier name, medical specialty, conditions, procedures or clinic name." />         
+{% endif %}
+<meta property="og:url" content="http://doctorsinfo.pk/{{ data.practitioner.slug }}/" />
+<link rel="canonical" href="http://doctorsinfo.pk/{{ data.practitioner.slug }}/" />
+{% if data.practitioner.photo %}<meta property="og:image" content="http://beta.doctorsinfo.pk{{ data.practitioner.photo.url }}" />{% else %}<meta property="og:image" content="http://doctorsinfo.pk/static/assets/img/doctor_placeholder.jpg" />{% endif %}
+{% endblock %}
 {% load staticfiles %}
-{% load humanize %}
-{% load thumbnail %}
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="shortcut icon" href="{% static "icons/stethoscope.ico" %}" />
-<script language="JavaScript" src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-<script>
-  $(document).bind("mobileinit", function(){
-    $.mobile.ajaxEnabled = false;
-    $.mobile.pushStateEnabled = false;
-  });
-</script>
-<script async language="JavaScript" src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.js"></script>
-<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.css" />
-<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-<link rel="stylesheet" href="{% static "style/style.css" %}"rel="stylesheet" type="text/css" />
-</head>
-
-<body>
-<div data-role="page" id="practitionerPage" data-title="{{data.practitioner.name}} Doctors Info. Pakistan">
-  <div data-role="header" class="header1">
-    <div class="menu">
-      <div class="icon-close"><img src="{% static "icons/close.png" %}"></div>
-      <ul>
-        {% if not data.user.is_authenticated %}
-        <li><a class="login" href="{% url 'auth_login' %}">Login</a>
-        <a class="signUp" href="{% url 'registration_register' %}">Register</a></li>
-        {% endif %}
-        <li><a href="{% url 'registration' %}"><i class="fa fa-list-alt fa-1x"></i>get listed as a Doctor!</a></li>
-        <li><a href="#"><i class="fa fa-lightbulb-o fa-1x"></i>educate yourself.</a></li>
-        <li><a target="_top" href="mailto:doctorsinfo.pk@gmail.com"><i class="fa fa-envelope fa-1x"></i>Contact Doctors Info.</a></li>
-        <li><a href="https://www.facebook.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook fa-1x"></i>facebook</a></li>
-        <li><a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i>twitter</a></li>
-        <li><a href="https://plus.google.com/+DoctorsinfoPk" rel="publisher" target="_blank"><i class="fa fa-google-plus fa-1x"></i>google+</a></li>
-        <li class="extraLinks"><a class="mezino" href="http://mezino.com"><img src="{% static "icons/mezino.png" %}"></a>
-      </ul>
-    </div>
-    <div class="icon-menu"><i class="fa fa-bars"></i></div>
-    <span id="logo" data-role="none"><a href="/"><img height="35" src="{% static "icons/doctors.png" %}" alt="logo"/></a></span>
-    <div id="head">
-      {% if data.user.is_authenticated %}
-      <a href="{% url 'patient' %}" class="anchor-link"><i class="fa fa-user fa-1x marg-r"></i>{{data.user.username}}</a>
-      {% endif %}
-    </div>
-  </div>
-
-  <div itemscope itemtype="http://schema.org/Physician" role="main" class="ui-content container">
-    <!-- Practitioner Details -->
-    <div id="practitionerDetails">
-      {% if not data.favourite %}
-      <span id="bookmark" class="silver-img"><i class="fa fa-star-o fa-2x favourite" title="add to favourite list"></i></span>
-      {% else %}
-      <span class="silver-img"><i class="fa fa-star fa-2x" title="Already on Favourite List"></i></span>
-      {% endif %}
-      <h1 itemprop="name"><i class="fa fa-user-md fa-1x marg-r"></i>{{data.practitioner.name}}</h1>
-      <span class="credentials">{{data.practitioner.credentials}}</span>
-      Specialized in: {% for speciality in data.practitioner.specialities.all.iterator %}
-      <span class="specialities" itemprop="medicalSpecialty">{{speciality.name}}</span>
-      {% endfor %}
-      {% if data.practitioner.experience %}
-      <span class="exp">Experience: <strong>{{data.practitioner.experience}} years.</strong></span>
-      {% endif %}
-      {% if data.practitioner.achievements %}
-      <span class="achievements"><strong>Achievements: </strong>{{data.practitioner.achievements}}</span>
-      {% endif %}
-    </div>
-
-    <div id="contant">
-      <!-- Practice-Location Details -->
-      {% for pract in data.practice.iterator %}
-      <div class="grid-name">
-        {% ifequal pract.practice_type "P" %}
-        <h2 style="background-color: #4b555d;"><span itemprop="name">{{pract.practitioner.name}}</span></h2>
-        {% else %}
-        <h2 style="background-color: #4b555d;"><span itemprop="hospitalAffiliation">{{pract.practice_location.name}}</span></h2>
-        {% endifequal %}
-        <div class="clinic">
-          <ul>
-            <!-- Load Clinic Timings start -->
-            <div class="timings" id="/practice/{{pract.practice_location.slug}}/{{pract.practitioner.slug}}/">
-              {% include "practitioner/clinictimings.html" %}
-              <li>
-                <button type="submit" class="ui-btn ui-shadow ui-corner-all loadbtn">Practice Timings.</button>
-              </li>
+{% load hitcount_tags %}
+{% load practitioner_reviews %}
+{% block content %}
+<div class="divide40"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="blog-post custom-blog">
+                <div class="row">
+                    <div class="col-md-3 margin20 text-center">
+                        <div class="person-v2">
+                        {% if data.practitioner.photo %}
+                            <img src="{{ data.practitioner.photo.url }}" class="img-responsive" alt="profile-pic">
+                        {% else %}
+                            <img src="{% static 'assets/img/doctor_placeholder.jpg' %}" class="img-responsive" alt="profile-pic">
+                        {% endif %}
+                        </div> 
+                    </div>
+                    {% insert_hit_count_js_variables for data.practitioner %}
+                    {% get_hit_count for data.practitioner as total_hits %}
+                    <div class="col-md-9 margin20">
+                        <ul class="list-inline post-detail" style="margin-top:0;">
+                            {% if data.favourite %}
+                            <li><i class="fa fa-save"></i> <a href="#" id="save_pract">Saved</a></li>
+                            <input type="hidden" id="favt_pract" value="1">
+                            {% else %}
+                            <li><i class="fa fa-save"></i> <a href="#" id="save_pract">Save</a></li>
+                            <input type="hidden" id="favt_pract" value="0">
+                            {% endif %}
+                            {% if user.is_authenticated %}
+                            <input type="hidden" value="1" id="user_authenticated">
+                            {% else %}
+                            <input type="hidden" value="0" id="user_authenticated">
+                            {% endif %}
+                            <input type="hidden" id="pract_slug" value="{{data.practitioner.slug}}">
+                            <li><i class="fa fa-share-alt"></i> <a href="#" id="shareTrigger">Share</a></li>
+                            <li><i class="fa fa-bar-chart"></i> <a href="#">Total Visits : {{total_hits}}</a></li>
+                            <li><i class="fa fa-pencil-square-o"></i> <a href="/physican/{{data.practitioner.slug}}/update/info" id="update_info">Update Info</a></li>
+                            <li><i class="fa fa-exclamation-triangle"></i> <a href="/physican/{{data.practitioner.slug}}/claim" id="claim_profile">Claim Profile</a></li>
+                        </ul>
+                        <h2>{{data.practitioner.full_name}} <i class="fa fa-check-circle text-blue"></i></h2>
+                        <ul class="list-inline">
+                            <li><span class="label label-default">{{data.practitioner.get_gender_display}}</span></li>
+                            <li><span class="label label-default">{{data.practitioner.experience}} years experience</span></li>
+                        </ul>
+                        {% if data.practitioner.achievements %}
+                        <p>
+                        {{data.practitioner.achievements}}
+                        </p>
+                        {% endif %}
+                        {% if data.practitioner.degrees.all %}
+                        <ul class="list-inline">
+                            {% for deg in data.practitioner.degrees.all %}
+                            <li><span class="label label-primary" data-toggle="tooltip" data-placement="top" data-original-title="{{deg.description}}">{{deg}}</span></li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                        <p></p>
+                        <ul class="list-inline">
+                            <li><span class="label label-primary" data-toggle="tooltip" data-placement="top" data-original-title="{{data.practitioner.specialty.description}}">{{data.practitioner.specialty}}</span></li>
+                            {% for fellowship in data.practitioner.fellowship.all %}
+                            <li><span class="label label-primary" data-toggle="tooltip" data-placement="top" data-original-title="{{fellowship.description}}">{{fellowship}}</span></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <!-- Load Clinic Timings end -->
-            <br>
-        <!-- Load practice_photo start -->
-          {% if pract.practice_photo %}
-          <li>
-          {% thumbnail pract.practice_photo "300x200" crop="smart" as im %}
-          <a href="#practicePic" data-rel="popup" data-position-to="window" data-transition="fade">
-          <img class="popphoto" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" title="{{pract.practice_location.name}}"></a>
-          <div data-role="popup" id="practicePic" data-overlay-theme="b" data-theme="b" data-corners="false">
-          <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-          <img class="popphoto" src="{{ im.url }}" title="{{pract.practice_location.name}}" >
-          </div>
-          {% endthumbnail %}
-          </li>
-          {% endif %}
-        <!-- Load practice_photo end -->
-            <li><i class="fa fa-money" title="Checkup Fee."></i><span itemprop="priceRange"><strong>{{pract.checkup_fee}}/- PKR</strong></span></li>
-            <li><i class="fa fa-phone"></i><span itemprop="telephone"><u>{{pract.contact_number}}</u></span></li>
-            <li><i class="fa fa-calendar" title="Appointment Only or Waiting"></i>{% if pract.appointments_only %}<span>Appointment Required: <b>Yes.</b></span>{% else %}<span>Checkup on Waiting: <b>Yes.</b></span>{% endif %}</li>
-            <li><i class="fa fa-location-arrow"></i>
-              <span class="address" itemprop="location">{{pract.practice_location.clinic_address}}, {{pract.practice_location.city.name}}.</span>
-            </li>
-            {% if data.pract.services %}
-            <li><i class="fa fa-medkit fa-1x" title="Services Offered."></i>
-              <span class="services" itemprop="availableService">{{pract.services}}</span>
-            </li>
-            {% endif %}
-          </ul>
-          <div class="modified"><img src="{% static "icons/mod.png" %}" height="18" width="18" title="Last Updated" />
-            <span>{{pract.modified|naturaltime}}</span></div>
-            <!-- Lat Long -->
-            {% if pract.practice_location.lat and pract.practice_location.lon %}
-            <a itemprop="hasMap" href="http://maps.google.com/maps?q={{pract.practice_location.lon}},{{pract.practice_location.lat}}" target="_blank" class="anchor-link-right map-marker" ><i style="padding: 0px 0px 10px 0px;" class="fa fa-map-marker fa-3x"></i></a>
-            {% endif %}
-          </div>
+        </div>
+    </div>
+</div>
+<div class="intro-text-1 prac-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <ul class="list-inline">
+                    <li><h4 class="recommend-doc-info">Would you like to recommend <i>{{data.practitioner.full_name}}</i> to your family or friends?</h4></li>
+                    <li><button class="btn btn-default recommend-doc-info">Yes</button></li>
+                    <li><button class="btn btn-default recommend-doc-info">No</button></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="divide40"></div>
+<div class="container">
+    {% for practice in data.practice %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-sm-3">
+                    {% if practice.practice_location.photo %}
+                    <img src="{{ practice.practice_location.photo.url }}" class="img-responsive" alt="Clinic Picture">
+                    {% else %}
+                    <img src="{% static 'assets/img/service-1.jpg' %}" class="img-responsive" alt="Clinic Picture">
+                    {% endif %}
+                </div>
+                <div class="col-sm-6">
+                    <h3>{{practice.practice_location.name}}</h3>
+                    <p><i class="fa fa-home text-blue"></i>&nbsp;{{practice.practice_location.clinic_address}} {{practice.practice_location.area.city.name}}</p>
+                    <p><i class="fa fa-phone text-blue"></i>&nbsp;{{practice.practice_location.contact_number|get_tel_numbers}}</p>
+                    <p><i title="Checkup fee" class="fa fa-money text-blue"></i>&nbsp;<small>Rs</small>&nbsp;<b>{{practice.fee}}</b></p>
+                </div>
+                <div class="col-sm-3">
+                    {% if practice.practice_location %}
+                    <p class="clearfix">
+                        <a href="https://www.google.com/maps?q={{ practice.practice_location.lon }},{{ practice.practice_location.lat }}" target="_blank">
+                            <i class="fa fa-map-marker text-navy"></i>
+                            <span>&nbsp;Show on Map</span>
+                        </a>
+                    </p>
+                    {% endif %}
+                    <p class="clearfix"><i class="fa fa-calendar"></i> <span style="cursor:pointer;" class="btn-{{practice.practice_location.slug}}-timing">&nbsp;Timings</span></p>
+                    <p class="clearfix"><i class="fa fa-clock-o text-blue"></i>&nbsp;Open Now</button></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    {% endfor %}
+    <!-- Comment goes down from here -->
+</div>
+<div class="container">
+    <div class="tabs">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#services_tab" data-toggle="tab" style="text-transform:none;">Services</a></li>
+        </ul>
+        <div class="tab-content" style="margin:0;">
+            <div class="tab-pane active" id="services_tab">
+                <div class="tab-desc">
+                    {% if data.practitioner.conditions.all %}
+                    <h4>Conditions</h4>
+                    <ul>
+                        {% for cond in data.practitioner.conditions.all %}
+                        <li class="col-md-4"><i class="fa fa-angle-right"></i> {{cond}}</li>
+                        {% endfor %}
+                    </ul>
+                    <div class="clear"></div>
+                    <hr>
+                    {% endif %}
+                    {% if data.practitioner.procedures.all %}
+                    <h4>Procedures</h4>
+                    <ul>
+                        {% for proc in data.practitioner.procedures.all %}
+                        <li class="col-md-4"><i class="fa fa-angle-right"></i> {{proc}}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="divide40"></div>
+<div class="container">
+    <div class="row">
+        {% if not user.is_authenticated %}
+        <div class="col-md-12 col-sm-12 margin40 item">
+            <div class="price-wrap">
+                <div class="price-price prac-loc-name">Subscription</div>
+                <div class="price-features">
+                    <ul class="list-unstyled custom-list-feedback">
+                        <li>Would you like to receive updates about {{data.practitioner.name}}? (i.e Change in practice timings, Special offers etc.)</li>
+                        <li></li>
+                        <form id="subscription-form" class="sky-form custom-sky-form" method="post" action="{% url 'subscribe' %}">{% csrf_token %}
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col col-4">
+                                        <label class="input">
+                                            <i class="icon-append fa fa-envelope-o"></i>
+                                            <input id="email" type="email" name="email" placeholder="Email Address">
+                                        </label>
+                                    </section>
+                                    <section class="col col-2">
+                                        <div class="border-rits"><span style="margin:10px 0;">or</span></div>
+                                    </section>
+                                    <section class="col col-4">
+                                        <label class="input">
+                                            <i class="icon-append fa fa-phone"></i>
+                                            <input id="phone" type="text" name="phone" placeholder="Contact Number">
+                                        </label>
+                                    </section>
+                                    <section class="col col-2">
+                                        <label class="select">
+                                            <input type="hidden" name="slug" value="{{data.practitioner.slug}}">
+                                            <button type="button" class="btn btn-primary" style="padding:8px 12px;">Subscribe</button>
+                                        </label>
+                                    </section>
+                                </div>
+                            </fieldset>
+                        </form>
+                        <li>
+                        <span><i class="fa fa-shield text-green"></i> Rest assure that we won't be sharing your personal information with anyone without your consent and we won't Spam you either.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="divide40"></div>
+{% endif %}
+<div id="shareContainer" style="display:none;"><div id="share"></div></div>
+{% endblock %}
+
+{% block pageSpecificCSS %}
+<link rel="stylesheet" href="{% static 'assets/css/sweetalert.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/jssocials.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/jssocials-theme-flat.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/sky-form-review.css' %}">
+{% endblock %}
+
+{% block pageSpecificJS %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/2.2.0/isotope.pkgd.min.js"></script>
+<script src="{% static 'assets/js/hitcount-jquery.js' %}"></script>
+<script src="{% static 'assets/js/sweetalert.min.js' %}"></script>
+<script src="{% static 'assets/js/jssocials.min.js' %}"></script>
+{% endblock %}
+
+
+{% block customScript %}
+<script type="text/javascript">
+	var $grid = $('.masonry-container').isotope({
+	// init Isotope after all images have loaded
+		//$grid.isotope({
+			// set itemSelector so .grid-sizer is not used in layout
+			itemSelector: '.item',
+			masonry: {
+				// use element for option
+				columnWidth: '.item'
+			}
+		//});
+	});
+
+	$(document).ready(function(){
+
+		var options = {
+
+		    twitter: {
+		        text: 'Doctor Profile Page! ',
+		        via: 'DoctorsInfo.pk'
+		    },
+
+		    facebook : true,
+		    googlePlus : true
+		};
+
+		jsSocials.shares.whatsapp = {
+			label: "Whatsapp",
+			logo: "fa fa-whatsapp",
+			shareUrl: "whatsapp://send?text={url}"
+		}
+
+		$("#share").jsSocials({
+		    shares: ["email", "twitter", "facebook", "googleplus", "whatsapp"],
+		    text: "{{data.practitioner.name}}",
+		    showLabel: false,
+		    showCount: false
+		});
+
+		$("#shareTrigger").click(function(){
+			$("#shareContainer").slideToggle(300);
+			return false;
+		});
+
+		$(".contact_btn").click(function(){
+			$(".contact-list").slideToggle(300);
+		});
+
+		var timings = Array();
+
+		{% for practice in data.practice %}
+			timings['{{practice.practice_location.slug}}'] = '<table class="table table-striped table-bordered"><thead><tr><th>Day</th><th>Opeining Time</th><th>Closing Time</th></tr></thead><tbody>';
+			{% for timing in practice.practicetiming_set.all %}
+				timings['{{practice.practice_location.slug}}'] = timings['{{practice.practice_location.slug}}'] + '<tr><td>{{timing.get_day_display}}</td><td>{{timing.start_time}}</td><td>{{timing.end_time}}</td></tr>';
+	        {% endfor %}
+	        timings['{{practice.practice_location.slug}}'] = timings['{{practice.practice_location.slug}}'] + '</tbody></table>'
+			$(".btn-{{practice.practice_location.slug}}-timing").click(function(){
+				swal({
+	                title: "{{practice.practice_location.name}} Timings",
+	                text: timings['{{practice.practice_location.slug}}'],
+	                html:true
+	            });
+			});
+		{% endfor %}
+
+		$("#save_pract").on("click",function(){
+			var slug = $("#pract_slug").val();
+			if($("#user_authenticated").val() == "0"){
+				swal({
+					title: "Login Required!",
+					text: "You need to log in to save this practitioner in your profile.",
+					type: "warning",
+					showCancelButton: true,
+					confirmButtonColor: "#DD6B55",
+					confirmButtonText: "Login Now!",
+					closeOnConfirm: false },
+					function(){
+						window.location = "/accounts/login/?next=/physican/" + slug;
+					});
+			}else{
+				if($("#favt_pract").val() == "0"){
+					$.ajax({
+						url:"{% url 'add_favt_pract' %}",
+						method:"GET",
+						data:{'slug':slug},
+						success:function(data){
+							if(data){
+								$("#favt_pract").val("1");
+								$("#save_pract").html("Saved");
+								swal({
+									title: "Saved!",
+									text: "Practitioner saved successfully, now you can access this practitioner from your profile.",
+									type:"success", 
+									html: true 
+								});
+							}
+						}
+					});
+				}
+			}
+            return false;
+        });
+
+        $("#subscription-form").validate({
+            // Rules for form validation
+            rules:{
+                    email:{
+                        required: function(element){
+                            return (!$("#phone").hasClass('valid'));
+                        },
+                        email: true
+                    },
+                    phone:{
+                        required: function(element){
+                            return (!$("#email").hasClass('valid'));
+                        }
+                    }
+            },
+            // Messages for form validation
+            messages:{
+                    email:{
+                        required: 'Please enter either email or contact number',
+                        email: 'Please enter a VALID email address'
+                    },
+                    phone:{
+                        required: 'Please enter either email or contact number'
+                    }
+            },
+            // Do not change code below
+            errorPlacement: function(error, element){
+                error.insertAfter(element.parent());
+            },
+
+            submitHandler: function(form) {
+                $.ajax({
+                    url: form.action,
+                    type: form.method,
+                    data: $(form).serialize(),
+                    success: function(response) {
+                        swal({title: "Subscribed!", text: response.msg, type:"success", html: true });
+                    }
+                });
+            }
+        });
+    });
+</script>
+{% endblock %}
+<!--<div class="row masonry-container">
+        {% for practice in data.practice %}
+        <div class="col-md-4 col-sm-6 margin40 item">
+            <div class="price-wrap">
+                <div class="price-title price-title-custom">
+                    <img src="{% static 'assets/img/service-1.jpg' %}" class="img-responsive" alt="">
+                </div>
+                <div class="price-price prac-loc-name">{{practice.practice_location.name}}</div>
+                <div class="price-features">
+                    <ul class="list-unstyled">
+                        <li><i class="fa fa-home text-blue"></i> {{practice.practice_location.clinic_address}} ,{{practice.practice_location.area}}</li>
+                        <li><i class="fa fa-phone text-blue"></i> <a href="tel:{{ practice.practice_location.contact_number }}">{{ practice.practice_location.contact_number }}</a></li>
+                        <li><i title="Checkup fee" class="fa fa-money text-blue"></i> {{practice.fee}}</li>
+                    </ul>
+                </div>
+                <div class="price-action">
+                    <ul class="list-inline last-loc-line">
+                        <li><i title="Last updated on: {{ practice.modified }}" class="fa fa-clock-o text-blue"></i></li>
+                        <li><button class="btn btn-primary btn-{{practice.practice_location.slug}}-timing">Timings</button></li>
+                        <li><button class="btn btn-success" disabled>Open Now</button></li>
+                        {% if practice.practice_location %}
+                        <li><a href="https://www.google.com/maps?q={{ practice.practice_location.lat }},{{ practice.practice_location.lon }}" target="_blank">
+                            <i class="fa fa-map-marker text-navy"></i>
+                        </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
         </div>
         {% endfor %}
+        <div class="col-md-4 col-sm-6 margin40 item">
+            <div class="price-wrap">
+                <div class="price-price prac-loc-name">Patients Feedback</div>
+                <div class="price-features">
+                    <ul class="list-unstyled">
+                        <li>
+                        <ul class="list-inline custom-list-feedback">
+                            {{ data.pract_avg_review.total|get_rating_by_count }}
+                            <li>{{data.pract_avg_review.total}} ({{data.pract_avg_review.num_of_reviews}} reviews)</li>
+                        </ul>
+                        </li>
+                        <li><span class="h3">Patients Satisfaction</span></li>
+                        <li style="border-top:0;">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">Read what other patients have to say:</h4>
+                            </div>
+                            <div class="panel-body comments-panel-body">
+                                {% for review in data.reviews %}
+                                <div class="review-box margin10">
+                                    <img src="{% static 'assets/img/team-1.jpg' %}" alt="" class="img-responsive">
+                                    <div class="review-content text-left">
+                                        <ul class="list-inline rating-list custom-list-feedback text-left">
+                                            <li class="admin-detail">
+                                            {% if review.anonymous %}
+                                            <span><strong>Anonymous</strong></span>
+                                            {% else %}
+                                            <span><strong>{{review.patient.user.first_name}}</strong></span>
+                                            {% endif %}
+                                            </li>
+                                            {{review.answers|get_rating_by_model}}
+                                        </ul>
+                                        {% if review.comments %}
+                                        <p>{{review.comments}}</p>
+                                        <ul class="list-inline text-right custom-list-feedback">
+                                            <li><i class="fa fa-thumbs-o-up text-blue"></i> {{review.comments.agree}} </li>
+                                            <li><i class="fa fa-thumbs-o-down text-red"></i> {{review.comments.disagree}}</li>
+                                        </ul>
+                                        {% else %}
+                                        <p></p>
+                                        <ul class="list-inline text-right custom-list-feedback">
+                                            <li></li>
+                                            <li></li>
+                                        </ul>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        </li>
+                        <li>
+                        <a href="{% url 'practitioner_review' slug=data.practitioner.slug %}"><span class="h3 text-blue">How was your experience?</span></a>
+                        </li>
+                    </ul>
+                </div>
 
-        <!-- Practitioner Reviews Details -->
-        <div class="grid-name">
-          <h2 style="background-color: #4b555d;">Practice Reviews</h2>
-          <div class="reviews">
-            {% if data.reviews.exists %} 
-            <!-- Post new Reviews, user loged in & Reviews exists -->
-            {% if data.user.is_authenticated %}
-            <form class="reviewBox" action="{% url 'addReview' %}" method="POST" class="inline_">{% csrf_token %}
-              <textarea cols="8" rows="8" name="review_text" required></textarea>
-              <button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Post</button>
-            </form>
-            {% endif %}
-            {% for pr in data.reviews.iterator %}
-            <!-- Load Reviews, user loged in, Reviews exists-->
-            {% if data.user.is_authenticated %}
-            <!--Load Reviews with up-down votes -->
-            <div class="oneComment">
-              <span class="patientName inlineB">{% if pr.patient.user.get_full_name %}
-                {{pr.patient.user.get_full_name}}{% else %}{{pr.patient}}{% endif %}</span>
-                <span class="commentDate float-right inlineB"><i class="fa fa-clock-o marg-r"></i>{{pr.review_date|naturaltime}}</span>
-                <span itemprop="review" class="comment break marg-l">{{pr.review_text}}</span>
-                <!-- review upVote-->
-                <i class="fa fa-thumbs-o-up up" id="/review/{{pr.pk}}/"></i>
-                <span class="up_votes marg-r">{{pr.up_votes}}</span>-
-                <span class="down_votes marg-l">{{pr.down_votes}}</span>
-                <!-- review downVote-->
-                <i class="fa fa-thumbs-o-down marg-l down" id="/review/{{pr.pk}}/"></i>
-              </div>
-              <!-- No user login and reviews exists-->
-              {% else %}
-              <div class="oneComment">
-                <span class="patientName inlineB">{% if pr.patient.user.get_full_name %}
-                  {{pr.patient.user.get_full_name}}{% else %}{{pr.patient}}{% endif %}</span>
-                  <span class="float-right inlineB commentDate"><i class="fa fa-clock-o marg-r"></i>{{pr.review_date|naturaltime}}</span>
-                  <span itemprop="review" class="comment break marg-l">{{pr.review_text}}</span>
-                  <span class="up_votes inlineB">agree. {{pr.up_votes}} - </span>
-                  <span class="down_votes inlineB">{{pr.down_votes}}  diagree.</span>
-                </div>
-                {% endif %}
-                {% endfor %}
-                {% if not data.user.is_authenticated %}
-                <!-- No user login and reviews exists-->
-                <a href="#popupMenu" data-rel="popup" data-transition="slideup" class="anchor-link-right marg-t" >add review..</a>
-                <div data-role="popup" id="popupMenu" data-theme="b">
-                  <ul data-role="listview" data-inset="true" style="min-width:210px;">
-                    <li><a href="/login/" >Login</a></li>
-                    <li><a href="/register/" >Sign Up</a></li>
-                  </ul>
-                </div>
-                {% endif %}
-                <!-- No user login and reviews exists-->
-                {% else %}
-                {% if data.user.is_authenticated %}
-                <!-- user login and no review exists-->
-                <span class="no_review_msg">No reviews yet, Make One.</span>
-                <form class="reviewBox" action="{% url 'addReview' %}" method="POST" class="inline_">{% csrf_token %}
-                  <textarea cols="8" rows="8" name="review_text" required></textarea>
-                  <button type="submit" id="post-review-btn" class="ui-btn ui-corner-all ui-btn-a">Post</button>
-                </form>
-                {% else %}
-                <!-- Post new Review / no user login-->
-                <span class="marg-l break"><strong>No reviews yet.</strong></span>
-                <a href="#popupMenu" data-rel="popup" data-transition="slideup" class="anchor-link-right marg-t" >add review..</a>
-                <div data-role="popup" id="popupMenu" data-theme="b">
-                  <ul data-role="listview" data-inset="true" style="min-width:210px;">
-                    <li><a href="/login/" >Login</a></li>
-                    <li><a href="/register/" >Sign Up</a></li>
-                  </ul>
-                </div>
-                {% endif %}
-                {% endif %}
-              </div>
             </div>
-
-            <!-- News Letter -->
-            {% if not data.user.is_authenticated %}
-            <div class="grid-name">
-              <h2 style="background-color: #4285F4;">Subscribe</h2>
-              <div class="subscribe">
-                <ul>
-                  <li class="subDesc">Get important updates about<br><strong>{{data.practitioner.name}}</strong></li>
-                  <form class="subscription" action="{% url 'subscribe' %}" method="POST" >{% csrf_token %}
-                    <li><input type="hidden" name="slug" value="{{data.practitioner.slug}}"></li>
-                    <li><i class="fa fa-envelope"></i><span><input type="email" name="email" autocomplete="on" placeholder="your email" /></span></li>
-                    <li class="textCentre break">OR</li>
-                    <li><i class="fa fa-mobile fa-2x"></i><span><input type="tel" id="tel" name="mobile" minlength="10" placeholder="03001234567" /></span></li>
-                    <button type="submit" class="ui-btn ui-corner-all ui-btn-a">Subscribe</button>
-                  </form>
-                  <li class="privacy">100% Privacy. We don't spam.</li>
-                </ul>
-              </div>
-            </div>
-            {% endif %}
-          </div>
         </div>
-        <!-- Footer Details >
-        <div class="foot" data-role="footer">
-          <h4>
-            <a class="get-listed" href="{% url 'registration' %}">get listed!</a>
-            <a href="https://www.facebook.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook fa-1x"></i></a>
-            <a href="mailto:doctorsinfo.pk@gmail.com" target="_blank"><i class="fa fa-envelope fa-1x"></i></a>
-            <a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i></a>
-            <a href="https://plus.google.com/+DoctorsinfoPk" rel="publisher" target="_blank"><i class="fa fa-google-plus fa-1x"></i></a>
-            <a class="educate" href="#">educate</a>
-          </h4>
-        </div-->
-        <script type="text/javascript">
-          /*google analytics */
-          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-          ga('create', 'UA-57178431-1', 'auto');
-          ga('require', 'displayfeatures');
-          ga('send', 'pageview');
-          /* subscription */
-          $(document).on("pageshow", "#practitionerPage", function () {
-            $('.subscription').submit(function(ev) {
-              $.ajax({
-                type: "POST",
-                url: $(this).attr('action'),
-                context: this,
-                data: { slug: '{{data.practitioner.slug}}', email: $('input[name="email"]').val(), mobile: $('input[name="mobile"]').val(), 
-                csrfmiddlewaretoken: '{{ csrf_token }}'},
-                success: function(data){
-                  alert(data.msg);
-                },
-                dataType: 'json',
-              });
-              ev.preventDefault();
-            });
-            /* new Review */
-            $('.reviewBox').submit(function(ev) {
-              $.ajax({
-                type: "POST",
-                url: $(this).attr('action'),
-                context: this,
-                data: { slug: '{{data.practitioner.slug}}', review_text: $('textarea[name="review_text"]').val(), csrfmiddlewaretoken: '{{ csrf_token }}'},
-                success: function(data){
-                  if (data.msg != 1){ alert(data.msg);} else { location.reload();} 
-                },
-                dataType: 'json',
-              });
-              ev.preventDefault();
-            });
-            /*  Load timings */
-            $('.timings').click(function() {
-              $.ajax({
-                type: "GET",
-                url: $(this).attr('id'),
-                context: this,
-                success: function(data) {
-                  $(this).append(data);
-                  $(this).unbind('click');
-                },
-                dataType: 'html'
-              });
-            });
-            /* favt	*/
-            $('.favourite').click(function() {
-              var doc = "{{data.favourite}}";
-              if (doc == "False")
-                $.ajax({
-                  type: "POST",
-                  url: '/patient/',
-                  context: this,
-                  data: { type_: "favourite", favt_slug: '{{data.practitioner.slug}}',csrfmiddlewaretoken: '{{ csrf_token }}'},
-                  success: function(data) {
-                    if (data.status_) {
-                      $(this).hide();
-                      $('#bookmark').append('<i class="fa fa-star fa-2x" title="added to Favourite List"></i>');
-                    }
-                  },
-                  dataType: 'json',
-                });
-            });
-            /* up vote */
-            $('.up').click(function() {
-              $.ajax({
-                type: "POST",
-                url: $(this).attr('id'),
-                context: this,
-                data: {
-                  up: "up",
-                  prac_slug: "{{data.practitioner.slug}}",
-                  csrfmiddlewaretoken: '{{ csrf_token }}'
-                },
-                success: function(data) {
-                  var up = $(this).next('.up_votes').text(data.up);
-                  down = up.next('.down_votes');
-                  up.text(data.up);
-                  down.text(data.down);
-                  $(this).unbind('click');
-                },
-                dataType: 'json',
-              });
-            });
-            /* down vote */
-            $('.down').click(function() {
-              $.ajax({
-                type: "POST",
-                url: $(this).attr('id'),
-                context: this,
-                data: {
-                  down: "down",
-                  prac_slug: "{{data.practitioner.slug}}",
-                  csrfmiddlewaretoken: '{{ csrf_token }}'
-                },
-                success: function(data) {
-                  var down = $(this).prev('.down_votes');
-                  var up = down.prev('.up_votes');
-                  down.text(data.down);
-                  up.text(data.up);
-                  $(this).unbind('click');
-                },
-                dataType: 'json'
-              });
-            });
-          });
-</script>
-<script async language="JavaScript" src="{% static "js/menu.js" %}"></script>
-</div>
-</body>
-</html>
+        {% if not user.is_authenticated and practice_count < 2%}
+        <div class="col-md-4 col-sm-6 margin40 item">
+            <div class="price-wrap">
+                <div class="price-price prac-loc-name">Subscription</div>
+                <div class="price-features">
+                    <ul class="list-unstyled custom-list-feedback">
+                        <li>Would you like to recieve updates about {{data.practitioner.name}}? (i.e Change in practice timings, Special offers etc.)</li>
+                        <li></li>
+                        <form id="subscription-form" class="sky-form custom-sky-form" method="post" action="{% url 'subscribe' %}">{% csrf_token %}
+                            <fieldset>
+                                <div class="row">
+                                    <section>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-envelope-o"></i>
+                                            <input id="email" type="email" name="email" placeholder="Email Address">
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <div class="border-rits"><span>or</span></div>
+                                </div>
+                                <div class="row">
+                                    <section>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-phone"></i>
+                                            <input id="phone" type="text" name="phone" placeholder="Contact Number">
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <input type="hidden" name="slug" value="{{data.practitioner.slug}}">
+                                    <button class="btn btn-primary full-width">Subscribe</button>
+                                </div>
+                            </fieldset>
+                        </form>
+                        <li>
+                        <span><i class="fa fa-shield text-green"></i> Rest assure that we won't be sharing your personal information with anyone without your consent and we won't spam you either.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>-->

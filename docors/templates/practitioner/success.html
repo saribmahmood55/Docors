@@ -1,6 +1,12 @@
-{% extends "registration/base.html" %}
-{% block title %}Registration successful | Doctors Info. Pakistan{% endblock %}
+{% extends "base.html" %}
+{% block title %}Registration Complete | Doctors Info. Pakistan{% endblock %}
 {% block content %}
-<p style="font-family: Ubuntu; margin: auto;"><strong>Your request has been recieved Sucessfully, Once your provided info. is reviewed and updated on our site, we will inform you at your provided email:<br> {{email}}<br><br>Thanks.</strong></p>
+<div class="divide80"></div>
+<div class="container">
+	<h1>Registration Successfull</h1>
+	<p class="text-success">Account Status : <strong>Pending</strong>.</p>
+	<p class="text-success">Your request has been recieved Sucessfully, Once your provided info. is reviewed and updated on our site, we will inform you at your provided email:<br> {{email}}<br><br>Thanks.</strong></p>
+	<p class="text-primary"><a href="/">Go back to homepage</a></p>
+</div>
+<div class="divide80"></div>
 {% endblock %}
-

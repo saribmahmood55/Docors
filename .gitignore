@@ -10,6 +10,12 @@ __pycache__/
 #Celery
 celerybeat-schedule
 
+#logs
+logs/
+
+#haystack
+whoosh_index
+
 #robots
 robots.txt
 
@@ -19,12 +25,17 @@ bin
 lib
 include
 
+# all fixtures
+fixtures
+
 # Distribution / packaging
 .Python
 venv
+media
 sentryvenv
 build/
 media/
+static/
 develop-eggs/
 dist/
 downloads/
@@ -71,3 +82,7 @@ docs/_build/
 
 # PyBuilder
 target/
+
+#Vim related ignore
+*.swp
+.ropeproject

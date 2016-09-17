@@ -1,89 +1,124 @@
-  <!DOCTYPE html> 
-  <html>
-  <head>
-    {% load staticfiles %}
-    {% load humanize %}
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="{% static "icons/stethoscope.ico" %}" />
-    <script language="JavaScript" src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-    <script>
-      $(document).bind("mobileinit", function(){
-        $.mobile.ajaxEnabled = false;
-        $.mobile.pushStateEnabled = false;
-      });
-    </script>
-    <script async language="JavaScript" src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.js"></script>
-    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.css" />
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{% static "style/style.css" %}"rel="stylesheet" type="text/css" />
-  </head>
-  <body>
-    <div data-role="page" data-title="Doctors Info. Pakistan">
-      <div data-role="header" class="header1">
-        <div class="menu">
-          <div class="icon-close"><img src="{% static "icons/close.png" %}"></div>
-          <ul>
-            {% if not data.user.is_authenticated %}
-            <li>
-              <a class="login" href="{% url 'auth_login' %}">Login</a>
-              <a class="signUp" href="{% url 'registration_register' %}">Register</a>
-            </li>
-            {% endif %}
-              <li><a href="{% url 'registration' %}"><i class="fa fa-list-alt fa-1x"></i>get listed as a Doctor!</a></li>
-              <li><a href="#"><i class="fa fa-lightbulb-o fa-1x"></i>educate yourself.</a></li>
-              <li><a target="_top" href="mailto:doctorsinfo.pk@gmail.com"><i class="fa fa-envelope fa-1x"></i>Contact Doctors Info.</a></li>
-              <li><a href="https://www.facebook.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook fa-1x"></i>facebook</a></li>
-              <li><a href="http://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter fa-1x"></i>twitter</a></li>
-              <li><a href="https://plus.google.com/+DoctorsinfoPk" rel="publisher" target="_blank"><i class="fa fa-google-plus fa-1x"></i>google+</a></li>
-              <li class="extraLinks"><a class="mezino" href="http://mezino.com"><img src="{% static "icons/mezino.png" %}"></a>
-              </ul>
-            </div>
-            <div class="icon-menu"><i class="fa fa-bars"></i></div>
-            <span id="logo" data-role="none"><a href="/"><img height="35" src="{% static "icons/doctors.png" %}" alt="logo"/></a></span>
-            <div id="head">
-              {% if data.user.is_authenticated %}
-              <a href="{% url 'patient' %}" class="anchor-link"><i class="fa fa-user fa-1x marg-r"></i>{{data.user.username}}</a>
-              {% endif %}
-            </div>
-          </div>
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load hitcount_tags %}
 
-          <div itemscope itemtype="http://schema.org/Physician" role="main" class="ui-content result">
-          {% if data.spec and data.city %}
-          <h1 class="textCentre">{{data.spec|title}} in {{data.city|title}}</h1>
-          {% else %}
-          <h1 class="textCentre">Search Results</h1>
-          {% endif %}
-           {% for onePractitioner in data.practice.practice_list.iterator %}
-           <ul class="results" data-role="listview" data-inset="true">
-            <li>
-              <a href="{% url 'practitioner' onePractitioner.practitioner.slug %}" class="anchor-link" >
-                <h2 itemprop="name">{{onePractitioner.practitioner.name}}</h2>
-                <p ><strong>{{onePractitioner.practitioner.credentials}}</strong></p>
-                <p>Specialized in: 
-                 {% for speciality in onePractitioner.practitioner.specialities.all.iterator %}
-                 <span itemprop="medicalSpecialty">{{speciality.name}}</span>
-                 {% endfor %}
-               </p>
-               {% if onePractitioner.distance.m > 0 %}
-               {% if onePractitioner.distance.m > 1000 %}
-               <p class="ui-li-aside"><strong>{{onePractitioner.distance.km|floatformat:2}}</strong> KM.</p>
-               {% else %}
-               <p class="ui-li-aside"><strong>{{onePractitioner.distance.m|intword}}</strong> m.</p>
-               {% endif %}
-               {% else %}
-               <p class="ui-li-aside">Fees: <span itemprop="priceRange"><strong>{{onePractitioner.checkup_fee}}/-</strong></span>
-                 <span itemprop="currenciesAccepted" class="currency">PKR</span>
-               </p>
-               {% endif %}
-             </a>
-           </li>
-           {% empty %}
-           <li><p class="textCentre"><strong>Sorry, No results found. Search again.</strong></p></li>
-         </ul>
-         {% endfor %}
-       </div>
+{% load humanize %}
+{% block seoItemTags %}http://schema.org/Physician{% endblock %}
+{% block content %}
+
+<div class="search-area">
+    <div class="container">
+            <div class="col-sm-5">
+                <h5>Search Again : </h5>
+                <select id="id_search_main" class="full-width" name="search_main" multiple="multiple"></select>
+            </div>
+    </div>
+</div>
+{% insert_hit_count_js_variables for data.ob%}
+<div class="container">
+    <div class="divide20"></div>
+    <div class="row no-margin-sides margin-bottom">
+        <div class="col-md-12">
+            <span class="h2">We have found {{data.results_count}} <span class="text-blue">{{data.results_header}}</span></span>
+        </div>
      </div>
-     <script async language="JavaScript" src="{% static "js/menu.js" %}"></script>
-   </div>
- </body>
- </html>
+</div>
+{% if data.searchType == "practice" %}
+<div class="container">
+    <div class="col-md-8">
+        <div class="event-box" style="overflow:hidden;">
+            <h3 class="colored-text">{{data.ob.name}}</h3>
+            <img src="{% static 'assets/img/hospital.jpg' %}" class="img-responsive" width="120" height="150" style="float:left;margin-right:10px;" alt>
+            <p style="margin:0;">{{data.ob.clinic_address}}</p>
+            <p style="margin:0;">{{data.ob.area}}</p>
+            <p style="margin:0;">{{data.ob.contact_number}}</p>
+            <span class="label label-primary" style="float:left;">share</span>
+        </div>
+    </div>
+</div>
+{% endif %}
+<div class="search-area">
+    <div class="container">
+      <div class="col-md-12">
+          <ul class="list-inline">
+            <li>Sort By >> </li>
+            <li><strong>Best Match</strong></li>
+            <li>|</li>
+            <li>CheckUp Fee</li>
+            <li>|</li>
+            <li>Practitioner Type</li>
+            <li>|</li>
+            <li>Distance</li>
+          </ul>
+      </div>
+    </div>
+</div>
+<div class="divide40"></div>
+<div class="container">
+    <div class="row no-margin-sides margin-bottom">
+      <div class="col-md-12">
+        {% for onePractitioner in data.practice %}
+        <div class="box box-primary">
+            <div class="box-header">
+                <h3 class="box-title col-md-4" style="padding-top:18px;"><a href="{% url 'practitioner' slug=onePractitioner.practitioner.slug %}">{{onePractitioner.practitioner.full_name}}</a></h3>
+                <div class="col-md-4 speciality-label"><span class="label label-primary" style="margin-left:15px;">{{onePractitioner.practitioner.specialty.name}}</span></div>
+                <div class="box-tools col-md-4">
+                    <button class="btn btn-flat margin pull-right" style="border-radius:1.2em">
+                        {{ onePractitioner.practitioner.review_rating}} <i class="fa fa-star text-yellow"></i> 
+                    </button>
+                </div>
+            </div>
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-hover">
+                    <tbody>
+                        <tr><th><i class="fa fa-mars text-blue"></i> Gender</th><th><i class="fa fa-heart text-red"></i> Experience</th><th><i class="fa fa-map-marker text-blue"></i> Location</th><th><i class="fa fa-money text-green"></i> Checkup Fee</th><th><i class="fa fa-mobile text-navy"></i> Contact</th></tr>
+                        <tr><td>{{onePractitioner.practitioner.get_gender_display}}</td><td>{{onePractitioner.practitioner.experience}} Years</td><td>{{onePractitioner.practice_location.area.name}}, {{onePractitioner.practice_location.area.city.name}}</td><td><small>Rs</small> <b>{{onePractitioner.fee.amount}}</b></td><td>{{onePractitioner.practice_location.contact_number}}</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="box-footer">
+                <a href="{% url 'practitioner' slug=onePractitioner.practitioner.slug %}"><span class="btn btn-flat bg-navy pull-right">Visit Profile >> </span></a>
+            </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block pageSpecificCSS %}<link rel="stylesheet" href="{% static 'assets/css/components.css' %}">{% endblock %}
+k
+{% block pageSpecificJS %}<script src="{% static 'assets/js/hitcount-jquery.js' %}"></script>{% endblock %}
+
+{% block customScript %}
+<script type="text/javascript">
+            $("#id_search_main").select2({'placeholder':'Doctor, Condition, Procedure',multiple:true,
+                ajax: {
+                    url: '{% url "physican_suggestions" %}',
+                    dataType: "json",
+                    data: function(params) {
+                        return {
+                            q: params.term,
+                        };
+                    },
+                    processResults: function(data, page) {
+                        return {
+                            results: data
+                        };
+                    },
+                    cache:true
+                },
+                minimumInputLength:3,
+                maximumSelectionLength:1
+            }).on("select2:select",function(e){
+                console.log(e.params.data);
+                serch_selection(e.params.data);
+            });
+        function serch_selection(data){
+            if(data.type == 'Practitioner'){
+                window.location = '/physican/'+data.slug;
+            }else{
+                window.location = '{% url "physican_search" %}?q='+data.slug+'&search.type='+data.type+'&loc='+$("#curr_city").data('cityslug');
+            }
+        }
+</script>
+{% endblock %}

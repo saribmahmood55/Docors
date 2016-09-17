@@ -1,5 +1,6 @@
+# flake8: noqa
 from django.conf import global_settings
-import os
+import os, socket, sys
 
 boolean = lambda value: bool(int(value))
 
@@ -10,12 +11,23 @@ boolean = lambda value: bool(int(value))
 SECRET_KEY = 'zky%mapoo709@yv64h!ny#!7x8#&lh0o9nsfo++ny6+7gotp^r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = boolean(os.environ.get('DEBUG', 0))
+
+if socket.gethostname() == 'asad-Inspiron-N5110' or socket.gethostname() == 'sarib-Inspiron-N5110':
+    DEBUG = boolean(os.environ.get('DEBUG', 1))
+else:
+    DEBUG = boolean(os.environ.get('DEBUG', 0))
+    SEND_BROKEN_LINK_EMAILS = True
+
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    ('Asad Naeem', 'anrana744@gmail.com'),
+    ('Asad Naeem', 'doctorsinfo.pk@gmail.com'),
 )
+
+MANAGERS = (
+    ('Sarib Mehmood', 'saribmahmood55@gmail.com'),
+)
+MANAGERS = ADMINS
 #Celery configuration
 
 # using serializer name
@@ -31,26 +43,35 @@ RECAPTCHA_PUBLIC_KEY = '6LcAdv4SAAAAAI2hi_VgcifchYmJFUNmxdfajJJO'
 RECAPTCHA_PRIVATE_KEY = '6LcAdv4SAAAAADhfTOFq09BVM8Kmi_15Go9v2caw'
 RECAPTCHA_USE_SSL = False
 
+#Security params
+#SESSION_COOKIE_SECURE = True
+#CSRF_COOKIE_SECURE = True
+
+#CUSTOM AUTH Backend
+AUTH_USER_MODEL = 'docorsauth.docorsUser'
+
 #Sites
-SITE_ID = 1
+SITE_ID = 2
 
-#Registration
-ACCOUNT_ACTIVATION_DAYS = 7
-REGISTRATION_OPEN = True
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
+#BASE URL
+BASE_URL = "http://localhost:8000/"
 
-#GMAIL
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'doctorsinfo.pk@gmail.com'
-EMAIL_HOST_PASSWORD = 'qtmtzmguforqkfkt'
-EMAIL_PORT = 587
+#Support Email SMPTP
 EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.zoho.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'support@doctorsinfo.pk'
+EMAIL_HOST_PASSWORD = 'g3zcehxgx3cb'
+EMAIL_HOST_USER = 'support@doctorsinfo.pk'
 
-#Water Marker
-WATERMARKING_QUALITY = 50
-WATERMARK_OBSCURE_ORIGINAL = False
-WATERMARK_RANDOM_POSITION_ONCE = False
+#haystack
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': os.path.join(os.path.dirname(__file__), 'whoosh_index'),
+    },
+}
+
 
 # Application definition
 INSTALLED_APPS = (
@@ -63,14 +84,49 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'django.contrib.gis',
-    'raven.contrib.django.raven_compat',
-    'registration',
+    'django.contrib.sitemaps',
+    'docorsauth',
+    'haystack',
+    #'registration',
     'sorl.thumbnail',
     'practitioner',
     'patients',
     'practice',
     'reviews',
+    'hitcount',
+    # The Django sites framework is required
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    # ... include the providers you want to enable:
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.twitter',
+    #django REST Api
+    #'rest_framework',
+    #'rest_framework.authtoken',
+    #django REST AUTH
+    #'rest_auth'
 )
+
+#hitcount settings
+SESSION_SAVE_EVERY_REQUEST = True
+
+#Registration
+ACCOUNT_ACTIVATION_DAYS = 7
+REGISTRATION_OPEN = True
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+LOGIN_PAGE = BASE_URL + 'accounts/login'
+
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -82,8 +138,27 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
-    'django.core.context_processors.static',
+    # This is required by allauth template tags
+    'django.core.context_processors.request',
+    # These are allauth specific context processors
+    'allauth.account.context_processors.account',
+    'allauth.socialaccount.context_processors.socialaccount',
+    'docors.customProcessor.customProcessor',
 )
+
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+LOGIN_REDIRECT_URL = '/'
+SOCIALACCOUNT_QUERY_EMAIL = True
+SOCIALACCOUNT_PROVIDERS = {
+    'facebook': {
+        'SCOPE': ['email', 'user_birthday'],
+        'METHOD': 'oauth2',
+        'VERIFIED_EMAIL': True
+    }
+}
 
 ROOT_URLCONF = 'docors.urls'
 
@@ -95,57 +170,11 @@ WSGI_APPLICATION = 'docors.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'geodjango',
+        'NAME': 'Rana_Gujjar',
         'USER': 'asadrana',
         'PASSWORD': 'asad0321',
         'HOST': 'localhost',
     }
-}
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': True,
-    'root': {
-        'level': 'WARNING',
-        'handlers': ['sentry'],
-    },
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        }
-    },
-    'formatters': {
-        'verbose': {
-            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
-        },
-    },
-    'handlers': {
-        'sentry': {
-            'level': 'ERROR',
-            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
-        },
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'verbose'
-        }
-    },
-    'loggers': {
-        'django.db.backends': {
-            'level': 'ERROR',
-            'handlers': ['console'],
-            'propagate': False,
-        },
-        'raven': {
-            'level': 'DEBUG',
-            'handlers': ['console'],
-            'propagate': False,
-        },
-        'sentry.errors': {
-            'level': 'DEBUG',
-            'handlers': ['console'],
-            'propagate': False,
-        },
-    },
 }
 
 # Internationalization
@@ -160,9 +189,6 @@ USE_TZ = True
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-# Allow all host headers
-ALLOWED_HOSTS = ['*']
 
 #Static asset configuration
 #BASE_DIR = os.path.dirname(os.path.abspath(__file__))   # <-- docors/docors/...
@@ -179,16 +205,15 @@ TEMPLATE_DIRS = (
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-STATICFILES_DIRS = [
-    '/home/asad/docors/project_static'
-]
+GEOIP_PATH = os.path.join(BASE_DIR, "GeoIP/")
+
+STATICFILES_DIRS = [ os.path.join(BASE_DIR, "project_static") ]
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 if DEBUG:
-    STATIC_ROOT = '/home/asad/docors/static/'
-    MEDIA_ROOT = '/home/asad/docors/media/'
-    RAVEN_CONFIG = {
-    'dsn': 'http://c7fc802b8e3d4fbeac0fe47e9f9d0569:3a6d3bac8f8d4136945877a2b7c3ebe1@sentry.localhost/2',
-    }
+    STATIC_ROOT = os.path.join(BASE_DIR, "venv/static/")
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
-    STATIC_ROOT = '/home/asad/docors/static/'
-    MEDIA_ROOT = '/home/asad/docors/media/'
+    STATIC_ROOT = os.path.join(BASE_DIR, "venv/static/")
+    ALLOWED_HOSTS = ['beta.doctorsinfo.pk']
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

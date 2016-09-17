@@ -1,44 +1,150 @@
-{% extends "registration/base.html" %}
-{% block title %}Register User | Doctos Info. Pakistan{% endblock %}
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block pageSpecificCSS %}<link href="{% static 'assets/css/sky-forms.css' %}" rel="stylesheet">{% endblock %}
 {% block content %}
-  <center>
-  {% if form.errors %}
-  <p class="errors form_p">Please correct the errors below: {{ form.non_field_errors }}</p>
-  {% endif %}
-
-  <h1>New to Doctos Info. Pakistan? Sign up</h1>
-  
-  <form method="post" action="" class="wide">
-	{% csrf_token %}
-    <p class="form_p">
-      <label for="id_username">Username<span style="color: red;"> *</span></label>
-      {% if form.username.errors %}
-        <p class="errors form_p">{{ form.username.errors.as_text }}</p>
-      {% endif %}
-      {{ form.username }}
-    </p>
-    <p class="form_p">
-      <label for="id_email">Email<span style="color: red;"> *</span></label>
-      {% if form.email.errors %}
-        <p class="errors form_p">{{ form.email.errors.as_text }}</p>
-      {% endif %}
-      {{ form.email }}
-    </p>
-    <p class="form_p">
-      <label for="id_password1">Password<span style="color: red;"> *</span></label>
-      {% if form.password1.errors %}
-        <p class="errors form_p">{{ form.password1.errors.as_text }}</p>
-      {% endif %}
-      {{ form.password1 }}
-    </p>
-    <p class="form_p">
-      <label for="id_password2">Re-type Password:<span style="color: red;"> *</span></label>
-      {% if form.password2.errors %}
-        <p class="errors form_p">{{ form.password2.errors.as_text }}</p>
-      {% endif %}
-      {{ form.password2 }}
-    </p>
-    <p class="submit form_p"><input type="submit" value="Register &rarr;"></p>
-  </form>
-  </center>
+<div class="breadcrumb-wrap breadcrumb-light" style="background-color:#000;">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <h4>Create new Account</h4>
+            </div>
+            <div class="col-sm-6 hidden-xs text-right">
+                <ol class="breadcrumb">
+                    <li><a href="/">Home</a></li>
+                    <li>Register</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div><!--breadcrumb light-->
+<div class="divide60"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 margin30">
+            <h3 class="heading">Welcome to DoctorsInfo</h3>
+            <p>
+                Kindly register and help us making DoctorsInfo, A Spam free health forum for you, You'll never receive Spam advertisement in your email, you'll only get what you have subscribed on user dashboard.
+            </p>
+            <div class="divide50"></div>
+            <h3 class="heading">Follow us</h3>
+            <ul class="list-inline social-1 reg-social">
+                <li><a href="https://fb.com/doctorsinfo.pk" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                <li><a href="https://twitter.com/doctorsinfo_pk" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                <li><a href="https://plus.google.com/+DoctorsinfoPk" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+            </ul>
+        </div>
+        <div class="col-sm-6 sky-form-login-register v2">
+            <div class="margin40">
+                {% if form.errors %}
+                    <div class="alert alert-danger">
+                        <a href="#" class="close" data-dismiss="alert">&times;</a>
+                        {% for key, value in form.errors.items %}
+                            {{ value }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <form id="sky-form" class="sky-form" method="post" action="{% url 'registration_register' %}">{% csrf_token %}
+                    <h3 class="text-center">Create new account with DoctorsInfo</h3>
+                    <fieldset>
+                        <section>
+                            <label>{{form.full_name.label}}</label>
+                            <label class="input">
+                                {{form.full_name}}
+                            </label>
+                        </section>
+                        <section>
+                        <label>{{form.email.label}}</label>
+                            <label class="input">
+                                <i class="icon-append fa fa-envelope-o"></i>
+                                {{form.email}}
+                                <b class="tooltip tooltip-bottom-right">You'll be sent an activation email</b>
+                            </label>
+                        </section>
+                        <section>
+                        <label>{{form.password1.label}}</label>
+                            <label class="input">
+                                <i class="icon-append fa fa-lock"></i>
+                                {{form.password1}}
+                                <b class="tooltip tooltip-bottom-right">aplha-numeric is good.</b>
+                            </label>
+                        </section>
+                        <section>
+                        <label>{{form.password2.label}}</label>
+                            <label class="input">
+                                <i class="icon-append fa fa-lock"></i>
+                                {{form.password2}}{{form.is_active}}
+                                <b class="tooltip tooltip-bottom-right">{{form.password2.help_text}}</b>
+                            </label>
+                        </section>
+                    </fieldset>
+                    <footer>
+                        <button type="submit" class="button">Create account</button>
+                    </footer>
+                </form>         
+            </div><!--login form wrap end-->
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block pageSpecificJS %}
+<script type="text/javascript">
+    $(document).ready(function(){
+        // Validation
+        $("#sky-form").validate({
+            // Rules for form validation
+            rules:
+            {
+                email:
+                {
+                    required: true,
+                    email: true
+                },
+                password1:
+                {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 20
+                },
+                password2:
+                {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 20,
+                    equalTo: '#id_password1'
+                },
+                full_name:
+                {
+                    required: true
+                }
+            },
+            // Messages for form validation
+            messages:
+            {
+                email:
+                {
+                    required: 'Please enter your email address',
+                    email: 'Please enter a VALID email address'
+                },
+                password1:
+                {
+                    required: 'Please enter your password'
+                },
+                password2:
+                {
+                    required: 'Please enter your password one more time',
+                    equalTo: 'Please enter the same password as above'
+                },
+                full_name:
+                {
+                    required: 'Please select your first name'
+                }
+            },
+            // Do not change code below
+            errorPlacement: function(error, element)
+            {
+                error.insertAfter(element.parent());
+            }
+        });
+});
+</script>
 {% endblock %}

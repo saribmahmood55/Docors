@@ -1,0 +1,260 @@
+{% extends "base.html" %}
+{% block title %}doctorsinfo.pk - {{data.practitioner.full_name}}{% endblock %}
+{% load staticfiles %}
+{% load hitcount_tags %}
+{% block content %}
+<div class="divide40"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="blog-post custom-blog">
+                <div class="row">
+                    <div class="col-md-3 margin20 text-center">
+                        <div class="person-v2">
+                            <img src="{% static 'assets/img/doctor_placeholder.jpg' %}" class="img-responsive" alt="profile-pic">
+                        </div>
+                    </div>
+                    {% get_hit_count for data.practitioner as total_hits %}
+                    <div class="col-md-9 margin20">
+                        <ul class="list-inline post-detail" style="margin-top:0;">
+                            {% if data.favourite %}
+                                <li><i class="fa fa-save"></i> <a href="#" id="save_pract">Saved</a></li>
+                                <input type="hidden" id="favt_pract" value="1">
+                            {% else %}
+                                <li><i class="fa fa-save"></i> <a href="#" id="save_pract">Save</a></li>
+                                <input type="hidden" id="favt_pract" value="0">
+                            {% endif %}
+                            {% if user.is_authenticated %}
+                                <input type="hidden" value="1" id="user_authenticated">
+                            {% else %}
+                                <input type="hidden" value="0" id="user_authenticated">
+                            {% endif %}
+                            <input type="hidden" id="pract_slug" value="{{data.practitioner.slug}}">
+                            <li><i class="fa fa-share-alt"></i> <a href="#" id="shareTrigger">Share</a></li>
+                            <li><i class="fa fa-bar-chart"></i> <a href="#">Total Visits : {{total_hits}}</a></li>
+                            <li><i class="fa fa-pencil-square-o"></i> <a href="/physican/{{data.practitioner.slug}}/update/info" id="update_info">Update Info</a></li>
+                            <li><i class="fa fa-exclamation-triangle"></i> <a href="/physican/{{data.practitioner.slug}}/claim" id="claim_profile">Claim Profile</a></li>
+                        </ul>
+                        <h2>{{data.practitioner.full_name}} <i class="fa fa-check-circle text-blue"></i> {% if data.own_profile %}<a href="{% url 'practitioner_profile' slug=data.practitioner.slug %}" class="text-green">(edit profile)</a> {% endif %}</h2>
+                        <ul class="list-inline">
+                            <li><span class="label label-default">{{data.practitioner.get_gender_display}}</span></li>
+                            <li><span class="label label-default">{{data.practitioner.experience}} years experience</span></li>
+                        </ul>
+                        {% if data.practitioner.achievements %}
+                        <p>
+                            {{data.practitioner.achievements}}
+                        </p>
+                        {% endif %}
+                        {% if data.practitioner.degrees.all %}
+                        <ul class="list-inline">
+                            {% for deg in data.practitioner.degrees.all %}
+                            <li><span class="label label-primary" data-toggle="tooltip" data-placement="top" data-original-title="{{deg.description}}">{{deg}}</span></li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="intro-text-1 prac-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <ul class="list-inline">
+                    <li><h4>Do you recommend this doctor?</h4></li>
+                    <li><button class="btn btn-default">Yes</button></li>
+                    <li><button class="btn btn-default">No</button></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="divide40"></div>
+<div class="container review-form">
+	<form action="" method="post" class="sky-form" id="review-form">
+        {% csrf_token %}
+        <header>Review {{data.practitioner.full_name}}</header>
+		
+		<fieldset>
+			
+			<section>
+				<div class="rating">
+					<input type="radio" name="listen" id="listen-5" value="5">
+					<label for="listen-5"><i class="icon-star"></i></label>
+					<input type="radio" name="listen" id="listen-4" value="4">
+					<label for="listen-4"><i class="icon-star"></i></label>
+					<input type="radio" name="listen" id="listen-3" value="3">
+					<label for="listen-3"><i class="icon-star"></i></label>
+					<input type="radio" name="listen" id="listen-2" value="2">
+					<label for="listen-2"><i class="icon-star"></i></label>
+					<input type="radio" name="listen" id="listen-1" value="1">
+					<label for="listen-1"><i class="icon-star"></i></label>
+                    {{questions.question1}}
+                    {{answerForm.answer1}}
+				</div>
+				
+				<div class="rating">
+					<input type="radio" name="comfortable" id="comfortable-5" value="5">
+					<label for="comfortable-5"><i class="icon-star"></i></label>
+					<input type="radio" name="comfortable" id="comfortable-4" value="4">
+					<label for="comfortable-4"><i class="icon-star"></i></label>
+					<input type="radio" name="comfortable" id="comfortable-3" value="3">
+					<label for="comfortable-3"><i class="icon-star"></i></label>
+					<input type="radio" name="comfortable" id="comfortable-2" value="2">
+					<label for="comfortable-2"><i class="icon-star"></i></label>
+					<input type="radio" name="comfortable" id="comfortable-1" value="1">
+					<label for="comfortable-1"><i class="icon-star"></i></label>
+                    {{questions.question2}}
+                    {{answerForm.answer2}}
+				</div>
+
+				<div class="rating">
+					<input type="radio" name="differentiate" id="differentiate-5" value="5">
+					<label for="differentiate-5"><i class="icon-star"></i></label>
+					<input type="radio" name="differentiate" id="differentiate-4" value="4">
+					<label for="differentiate-4"><i class="icon-star"></i></label>
+					<input type="radio" name="differentiate" id="differentiate-3" value="3">
+					<label for="differentiate-3"><i class="icon-star"></i></label>
+					<input type="radio" name="differentiate" id="differentiate-2" value="2">
+					<label for="differentiate-2"><i class="icon-star"></i></label>
+					<input type="radio" name="differentiate" id="differentiate-1" value="1">
+					<label for="differentiate-1"><i class="icon-star"></i></label>
+                    {{questions.question3}}
+                    {{answerForm.answer3}}
+				</div>
+
+                <div class="rating">
+					<input type="radio" name="respect" id="respect-5" value="5">
+					<label for="respect-5"><i class="icon-star"></i></label>
+					<input type="radio" name="respect" id="respect-4" value="4">
+					<label for="respect-4"><i class="icon-star"></i></label>
+					<input type="radio" name="respect" id="respect-3" value="3">
+					<label for="respect-3"><i class="icon-star"></i></label>
+					<input type="radio" name="respect" id="respect-2" value="2">
+					<label for="respect-2"><i class="icon-star"></i></label>
+					<input type="radio" name="respect" id="respect-1" value="1">
+					<label for="respect-1"><i class="icon-star"></i></label>
+                    {{questions.question4}}
+                    {{answerForm.answer4}}
+				</div>
+
+				<div class="rating">
+					<input type="radio" name="reasoning" id="reasoning-5" value="5">
+					<label for="reasoning-5"><i class="icon-star"></i></label>
+					<input type="radio" name="reasoning" id="reasoning-4" value="4">
+					<label for="reasoning-4"><i class="icon-star"></i></label>
+					<input type="radio" name="reasoning" id="reasoning-3" value="3">
+					<label for="reasoning-3"><i class="icon-star"></i></label>
+					<input type="radio" name="reasoning" id="reasoning-2" value="2">
+					<label for="reasoning-2"><i class="icon-star"></i></label>
+					<input type="radio" name="reasoning" id="reasoning-1" value="1">
+					<label for="reasoning-1"><i class="icon-star"></i></label>
+                    {{questions.question5}}
+                    {{answerForm.answer5}}
+				</div>
+			</section>
+			<section>
+				<label class="label"></label>
+				<label class="textarea">
+					<i class="icon-append icon-comment"></i>
+                    {{commentForm.text}}
+				</label>
+			</section>
+		</fieldset>
+		<footer>
+			<button type="submit" class="button">Submit review</button>
+		</footer>
+	</form>
+</div>
+<div class="divide40"></div>
+{% endblock %}
+
+{% block pageSpecificCSS %}
+<link rel="stylesheet" href="{% static 'assets/css/sky-form-review.css' %}">
+{% endblock %}
+
+{% block customScript %}
+<script type="text/javascript">
+$(document).ready(function(){
+        $("#review-form").validate({
+            // Rules for form validation
+            rules:{
+                listen:{
+                    required: function(){
+                        if($('input[name=listen]:checked','#review-form').val()){
+                            $("#id_answer1").val($('input[name=listen]:checked','#review-form').val());
+                            return false;
+                        }else{
+                            return true;
+                        }
+                    }
+                },
+                comfortable:{
+                    required: function(){
+                        if($('input[name=listen]:checked','#review-form').val()){
+                            $("#id_answer2").val($('input[name=comfortable]:checked','#review-form').val());
+                            return false;
+                        }else{
+                            return true;
+                        }
+                    }
+                },
+                differentiate:{
+                    required: function(){
+                        if($('input[name=listen]:checked','#review-form').val()){
+                            $("#id_answer3").val($('input[name=differentiate]:checked','#review-form').val());
+                            return false;
+                        }else{
+                            return true;
+                        }
+                    }
+                },
+                respect:{
+                    required: function(){
+                        if($('input[name=listen]:checked','#review-form').val()){
+                            $("#id_answer4").val($('input[name=respect]:checked','#review-form').val());
+                            return false;
+                        }else{
+                            return true;
+                        }
+                    }
+                },
+                reasoning:{
+                    required: function(){
+                        if($('input[name=listen]:checked','#review-form').val()){
+                            $("#id_answer5").val($('input[name=reasoning]:checked','#review-form').val());
+                            return false;
+                        }else{
+                            return true;
+                        }
+                    }
+                }
+            },
+            // Messages for form validation
+            messages:{
+                    listen:{
+                        required: 'Please provide valid rating.'
+                    },
+                    comfortable:{
+                        required: 'Please provide valid rating.'
+                    },
+                    differentiate:{
+                        required: 'Please provide valid rating.'
+                    },
+                    respect:{
+                        required: 'Please provide valid rating.'
+                    },
+                    reasoning:{
+                        required: 'Please provide valid rating.'
+                    }
+            },
+            // Do not change code below
+            errorPlacement: function(error, element){
+                error.insertAfter(element.parent());
+            }
+        });
+});
+</script>
+{% endblock %}

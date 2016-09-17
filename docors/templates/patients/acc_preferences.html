@@ -1,0 +1,107 @@
+{% extends 'patients/dashboard_base.html' %}
+{% block dashboard_content %}
+<div class="col-sm-12">
+    <h3 class="heading">Preferences and Settings</h3>
+</div>
+<div id="email_password_panel" class="col-md-12 sky-form-login-register v2">
+    <form action="" method="" class="sky-form">
+        <h3 class="text-center">Email and Password</h3>
+        <fieldset>
+            <section>
+                <label class="label">Currently logged in as : {{sticky_data.user.email}}</label>
+            </section>
+            <section>
+                <label class="label">Password : ********</label>
+            </section>
+		</fieldset>
+        <fieldset>
+            <footer>
+                <div class="row">
+                    <button id="change_password_btn" type="button" class="button">Change Password</button>
+                </div>
+            </footer>
+        </fieldset>
+	</form>
+</div>
+<div id="change_password_panel" class="col-md-12 sky-form-login-register v2">
+    <form action="" method="POST" class="sky-form">
+        {% csrf_token %}
+        <h3 class="text-center">Change Password</h3>
+		<input type="hidden" name="type_" value="change_password">
+        <fieldset>
+            <section>
+                <label class="label">Current Password</label>
+                <label class="input">
+					<input type="password" id="id_currentpassword" name="currentpassword">
+                </label>
+            </section>
+            <section>
+                <label class="label">New Password</label>
+                <label class="input">
+					<input type="password" id="id_password1" name="password1">
+                </label>
+            </section>
+            <section>
+                <label class="label">Confirm Password</label>
+                <label class="input">
+					<input type="password" id="id_password2" name="password2">
+                </label>
+            </section>
+        </fieldset>
+        <fieldset>
+            <footer>
+				<div class="row">
+				    <button type="submit" class="button">Save Changes</button>
+    				<button id="change_password_cancel" type="button" class="button">Cancel</button>
+                </div>
+            </footer>
+        </fieldset>
+	</form>
+</div>
+<div class="divide40 clear"></div>
+<div class="col-md-12 sky-form-login-register v2">
+    <form action="" method="POST" class="sky-form">
+        {% csrf_token %}
+		<input type="hidden" name="type_" value="change_preferences">
+        <h3 class="text-center">EMAIL PREFERENCES</h3>
+        <fieldset>
+            <section>
+                <label class="checkbox">
+					<input type="checkbox" name="preference_checkbox form-control" id="id_preferences" selected>
+                    <i></i>
+                    Send me relevent, personalized information to help me make better healthcare desicions.
+				</label>
+            </section>
+        </fieldset>
+        <fieldset>
+            <footer>
+                <div class="row">
+                    <button type="submit" class="button">Update Preference</button>
+                </div>
+            </footer>
+        </fieldset>
+	</form>
+</div>
+{% endblock %}
+
+{% load staticfiles %}
+{% block pageSpecificCSS %}
+<link href="{% static 'assets/css/sky-forms.css' %}" rel="stylesheet">
+{% endblock %}
+
+
+{% block customScript %}
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#change_password_panel").hide();
+		});
+		$("#change_password_btn").click(function(){
+			$("#change_password_panel").fadeIn();
+			$("#email_password_panel").hide();
+		});
+		$("#change_password_cancel").click(function(){
+			$("#change_password_panel").hide();
+			$("#email_password_panel").show();
+		});
+	</script>
+{% endblock %}

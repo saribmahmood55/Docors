@@ -1,6 +1,5 @@
+# flake8: noqa
 from django.contrib import admin
-from django.contrib.auth.models import User
-from practitioner.models import Practitioner, Specialization
 from patients.models import *
 
 class SubscriptionAdmin(admin.ModelAdmin):
@@ -9,23 +8,23 @@ class SubscriptionAdmin(admin.ModelAdmin):
 
 
 class PatientAdmin(admin.ModelAdmin):
-	list_display = ['patient_name','patient_user_name','email','cell_number','gender','age_group','Interested_Specialities','Favourite_Practitioners']
+	list_display = ['full_name','email','cell_number','gender','year_of_birth','city','Interested_Specialities','Favourite_Practitioners']
 	search_fields = ['email']
 
 	def patient_user_name(self, obj):
-		return obj.user.username
-	
+		return obj.email
+
 	def patient_name(self, obj):
-		return "%s %s" % (obj.user.first_name, obj.user.last_name)
-	
+		return "%s" % (obj.full_name)
+
 	def email(self, obj):
-		return obj.user.email
+		return obj.email
 
 	def Interested_Specialities(self, obj):
 		return "\n".join([specialities.name for specialities in obj.interested_specialities.all()])
 
 	def Favourite_Practitioners(self, obj):
-		return "\n".join([practitioner.name for practitioner in obj.favt_practitioner.all()])
+		return "\n".join([practitioner.full_name for practitioner in obj.favt_practitioner.all()])
 
 admin.site.register(Subscription, SubscriptionAdmin)
 admin.site.register(Patient, PatientAdmin)

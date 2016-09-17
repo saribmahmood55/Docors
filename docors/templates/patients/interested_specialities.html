@@ -1,0 +1,53 @@
+{% extends 'patients/dashboard_base.html' %}
+{% load staticfiles %}
+{% block dashboard_content %}
+<div class="col-sm-12">
+    <h3 class="heading">Interested Specialities</h3>
+</div>
+<div class="col-md-12 main-doctor-holder">
+    <div class="additional-amenities">
+    {% for spec in data.int_specialities %}
+        <span class="available"><i class="fa fa-check-square"></i> {{spec.human_name}}</span>
+    {% empty %}
+    </div>
+    <div class="col-md-12 text-center error-text">
+        <h1 class="error-digit"><i class="fa fa-heartbeat"></i></h1>
+        <h2>Opps, your speciality list is empty.</h2>
+    </div>
+    {% endfor %}
+    <div class="divide40"></div>
+    <div class="col-md-12 text-center error-text">
+        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#specModal">Update Specialities</button>
+    </div>
+</div>
+<div class="modal fade" id="specModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="" method="POST" class="sky-form">
+                {% csrf_token %}
+            <div class="modal-header">
+                <h4 class="modal-title">Change Interested Specialities</h4>
+            </div>
+            <div class="modal-body text-center">
+                        <label>Interested Specialities</label>
+                            {{form.interested_specialities}}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block customScript %}
+<script type="text/javascript">
+    $(document).ready(function(){
+            $("#id_interested_specialities").css("width","100%");
+            $("#id_interested_specialities").select2({
+                'placeholder':'Select Specialities'
+            });
+    });
+</script>
+{% endblock %}

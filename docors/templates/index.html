@@ -1,0 +1,316 @@
+{% extends "base.html" %}
+{% block title %}doctorsinfo.pk - find specialist doctors, review doctors and doctor ratings{% endblock %}
+{% block home_active %}active{% endblock %}
+{% load staticfiles %}
+		{% block content %}
+		<!-- Start Middle Content -->
+		<section class="main-section">
+			<div class="color-correction"></div>
+			<div class="container">
+				<div class="row row-space-75-0">
+					<div class="text-center">
+						<h2 style="color: #fafafa">Find specialist doctors in your area.</h2>
+					</div>
+					<div class="text-center" style="color: #fafafa;">
+						<span>Know your doctor, better.</span>
+					</div>
+				</div>
+				<div class="row row-space-75-0">
+					<div class="col-md-8 col-md-offset-2">
+						<div class="sky-tabs sky-tabs-amount-3 sky-tabs-pos-top-justify sky-tabs-anim-slide-up sky-tabs-response-to-icons">
+							<input type="radio" name="sky-tabs" checked="" id="find-doctors" class="sky-tab-content-1">
+							<label for="find-doctors"><span><span><i class="fa fa-user-md"></i>Find Doctors</span></span></label>
+							
+							<input type="radio" name="sky-tabs" id="find-speciality" class="sky-tab-content-2">
+							<label for="find-speciality"><span><span><i class="fa fa-stethoscope"></i>Specialty</span></span></label>
+							
+							<input type="radio" name="sky-tabs" id="find-adv" class="sky-tab-content-3">
+							<label for="find-adv" class="find-advanced"><span><span><i class="fa fa-cogs"></i>Advanced</span></span></label>
+							
+							<ul class="custom-sky-tabs-content">
+								<li class="sky-tab-content-1">					
+									<div class="typography1">
+										<form class="sky-form custom-sky-form" role="form" action="{% url 'physican_suggestions' %}" method="GET">
+			                            	<fieldset>
+			                        			<label class="select">
+                                                    <select id="id_search_main" name="q"></select>
+			                        			</label>
+			                        		</fieldset>
+			                            </form>
+									</div>
+								</li>
+								<li class="sky-tab-content-2">
+									<div class="typography">
+										<form role="form" class="sky-form custom-sky-form" action="{% url 'search_speciality' %}" >
+											<fieldset>
+												<div class="row">
+													<section class="col col-5">
+							                        	{{data.spec_form.spec.label}}
+							                            <label class="select">
+							                            	{{ data.spec_form.spec }}
+							                            </label>
+							                        </section>
+							                        <section class="col col-5">
+							                        	{{data.spec_form.area.label}}
+							                            <label class="select">
+							                            	{{data.spec_form.area}}
+							                            </label>
+							                        </section>
+							                        <section class="col col-2">
+								                        	<button type="submit" class="button custom-submit-button"><i class="fa fa-search"></i></button>
+							                        </section>
+												</div>
+											</fieldset>
+		                                </form>
+									</div>
+								</li>
+								
+								<li class="sky-tab-content-3">
+									<div class="typography">
+										<form role="form" class="sky-form custom-sky-form" action="{% url 'search_advanced' %}" method="POST">{% csrf_token %}
+											<fieldset>
+												<div class="row">
+													<section class="col col-4">
+							                        	{{data.adv_form.spec_adv.label}}
+							                            <label class="select">
+							                            	{{data.adv_form.spec_adv}}
+							                            </label>
+							                        </section>
+							                        <section class="col col-3">
+							                        	{{data.adv_form.radius.label}}
+							                        	<label class="select">
+							                        		{{data.adv_form.radius}}
+							                        		<i></i>
+							                        	</label>
+							                        </section>
+							                        <section class="col col-3">
+							                        	{{data.adv_form.day.label}}
+							                        	<label class="select">
+							                        		{{data.adv_form.day}}
+							                        		<i></i>
+							                        	</label>
+							                        	{{data.adv_form.lat}}{{data.adv_form.lon}}
+							                        </section>
+							                        <section class="col col-2">
+								                        	<button type="submit" class="button custom-submit-button" data-geo="true" data-geoerror="Not possible to get location at the moment. Please try again later" id="adv_search_btn"><i class="fa fa-search"></i></button>
+							                        </section>
+							                    </div>
+							                </fieldset>
+							            </form>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="bottom-section">
+			<div class="container">
+				<div class="col-md-12">
+					<div class="row">
+						<div class="col-md-4 bottom-section-left">
+							<div class="row">
+								<div class="bottom-section-left-img text-center margin20">
+									<img src="{% static 'assets/img/doctor.png' %}" alt="Doctor"/>
+								</div>
+								<div class="bottom-section-left-heading text-center">
+									<h3>Doctors for you</h3>
+								</div>
+								<div class="bottom-section-left-hr">
+									<hr align="center" width="50%">
+									<hr align="center" width="50%">
+								</div>
+								<div class="bottom-section-left-paragraph text-center">
+									<ul class="list-unstyled margintop15">
+										{% for pract in data.popular_pract %}
+                                        {% if pract %}
+										<li><a href="/physican/{{pract.slug}}">{{pract}}</a></li>
+                                        {% endif %}
+										{% endfor %}
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4 bottom-section-left">
+							<div class="row">
+								<div class="bottom-section-left-img text-center margin20">
+									<img src="{% static 'assets/img/hospital.png' %}" alt="Doctor"/>
+								</div>
+								<div class="bottom-section-left-heading text-center">
+									<h3>Hospital/Clinics For You</h3>
+								</div>
+								<div class="bottom-section-left-hr">
+									<hr align="center" width="50%">
+									<hr align="center" width="50%">
+								</div>
+								<div class="bottom-section-left-paragraph text-center">
+									<ul class="list-unstyled margintop15">
+										{% for practice in data.popular_practice %}
+                                        {% if pract %}
+										<li><a href="/{{practice.slug}}-in-PracticeLocation">{{practice}}</a></li>
+                                        {% endif %}
+										{% endfor %}
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4 bottom-section-right">
+							<div class="row">
+								<div class="bottom-section-right-img text-center margin20">
+									<img src="{% static 'assets/img/kit.png' %}" alt="Doctor"/>
+								</div>
+								<div class="bottom-section-right-heading text-center">
+									<h3>Medical Treatments For You</h3>
+								</div>
+								<div class="bottom-section-right-hr">
+									<hr align="center" width="50%">
+									<hr align="center" width="50%">
+								</div>
+								<div class="bottom-section-right-paragraph text-center">
+									<ul class="list-unstyled margintop15">
+										{% for proc in data.popular_proc %}
+                                        {% if pract %}
+										<li><a href="/{{proc.slug}}-in-Procedure">{{proc}}</a></li>
+                                        {% endif %}
+										{% endfor %}
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<div class="divide80"></div>
+	{% endblock %}
+	{% block pageSpecificCSS %}
+	<link href="{% static 'assets/css/sky-forms.css' %}" rel="stylesheet">
+	<link href="{% static 'assets/css/sky-tabs.css' %}" rel="stylesheet">
+	<link rel="stylesheet" href="{% static 'assets/css/sweetalert.css' %}">
+	{% endblock %}
+	{% block pageSpecificJS %}
+		<script src="{% static 'assets/js/sweetalert.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'assets/js/typeahead.js' %}"></script>
+	{% endblock %}
+
+	{% block customScript %}
+
+	<script type="text/javascript">
+
+		$(document).ready(function(){
+
+		    $("#id_spec").select2({placeholder: 'Select Specialty'});
+		    $("#id_area").select2({placeholder: 'Select Area'});
+		    $("#id_spec_adv").select2({placeholder: 'Select Specialty'});
+		    $("#id_radius").select2({placeholder: 'Select Radius'});
+		    $("#id_day").select2({placeholder: 'Select Day'});
+
+
+		    $("#id_spec").select2("val", "");$("#id_area").select2("val", "");$("#id_spec_adv").select2("val", "");$("#id_radius").select2("val", "");$("#id_day").select2("val", "");
+
+            $("#id_search_main").select2({'placeholder': 'Doctor name, Specialty, Condition, Procedure or Hospital/Clinic Name', multiple:true,
+                ajax: {
+                    url: '{% url "physican_suggestions" %}',
+                    dataType: "json",
+                    data: function(params) {
+                        return {
+                            q: params.term,
+                        };
+                    },
+                    processResults: function(data, page) {
+                        return {
+                            results: data
+                        };
+                    },
+                    cache:true
+                },
+                minimumInputLength:3,
+                maximumSelectionLength:1
+            }).on("select2:select",function(e){
+                console.log(e.params.data);
+                serch_selection(e.params.data);
+            });
+
+		});
+
+		function showPosition(position) {
+			$("#adv_search_btn").data('geo','false');
+		    $("#id_lat").val(position.coords.latitude);
+		    $("#id_lon").val(position.coords.longitude);
+		}
+
+		function showError(error) {
+		    switch(error.code) {
+		        case error.PERMISSION_DENIED:
+		        	$("#adv_search_btn").data('geoerror','User denied the request for Geolocation.');
+		            break;
+		        case error.POSITION_UNAVAILABLE:
+		        	$("#adv_search_btn").data('geoerror','User Position unavailable');
+		            break;
+		        case error.TIMEOUT:
+		        	$("#adv_search_btn").data('geoerror','Not possible to get location at the moment. Please try again later');
+		            break;
+		        case error.UNKNOWN_ERROR:
+		            $("#adv_search_btn").data('geoerror','Not possible to get location at the moment. Please try again later');
+		            break;
+		    }
+		}
+
+		$(".find-advanced").click(function(e){
+			if (navigator.geolocation) {
+		        navigator.geolocation.getCurrentPosition(showPosition,showError);
+		    } else {
+		        $("#adv_search_btn").data('geoerror','Geolocation is not supported by this browser.');
+		    }
+		});
+
+		$("#adv_search_btn").click(function(e){
+			if($("#adv_search_btn").data('geo') == true){
+				e.preventDefault();
+				swal({title: "GeoLocation Error!",text: $("#adv_search_btn").data('geoerror'),type: "warning"});
+			}
+		});
+
+		$(".city_name").on("click",function(){
+			var city_slug = $(this).data("cityslug");
+			$.ajax({
+				type: "GET",
+				url: "{% url 'get_areas' %}",
+				data: {'city':city_slug,'header_city':true},
+				success: function(data){
+					$("#curr_city").text(city_slug);
+					$("#curr_city").data("cityslug",city_slug);
+					local_areas = Array();
+					for(i=0;i<data['areas'].length;i++){
+						local_areas.push(data['areas'][i]);
+					}
+					$(".area_typeahead").typeahead('destroy');
+					$(".area_typeahead").typeahead('destroy');
+					$(".area_typeahead").typeahead({
+						minLength:0,
+						hint: true,
+						highlight: true
+					}, {
+						source: substringMatcher(local_areas),
+						limit:100
+					})
+					.blur(function(){
+						if(local_areas.indexOf($(this).typeahead('val')) === -1)
+							$(this).typeahead('val','');
+					});
+				}
+			});
+		});
+
+        function serch_selection(data){
+            console.log("coming to change");
+            if(data.type == 'Practitioner'){
+                window.location = '/physican/'+data.slug;
+            }else{
+                window.location = '{% url "physican_search" %}?q='+data.slug+'&search.type='+data.type+'&loc='+$("#curr_city").data('cityslug');
+            }
+        }
+	</script>
+
+	{% endblock %}
